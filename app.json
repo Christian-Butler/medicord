@@ -1,15 +1,19 @@
 {
   "expo": {
-    "name": "shieldhealth",
-    "slug": "shieldhealth",
+    "name": "medicord",
+    "slug": "medicord",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "shieldhealth",
+    "scheme": "medicord",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.butlrstudio.medicord",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +23,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.butlrstudio.medicord"
     },
     "web": {
       "output": "static",
@@ -43,6 +48,12 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "a04a0cc8-b800-47bc-a8c0-bf3c45b45eb4"
+      }
     }
   }
 }
