@@ -1,0 +1,59 @@
+import { FlatList, Pressable, Text, View } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+const specialties = [
+  {
+    id: "ophthalmology",
+    title: "Ophthalmology",
+    icon: "eye",
+  },
+  {
+    id: "dentistry",
+    title: "Dentistry",
+    icon: "tooth",
+  },
+  {
+    id: "cardiology",
+    title: "Cardiology",
+    icon: "heart",
+  },
+  {
+    id: "dermatology",
+    title: "Dermatology",
+    icon: "face-woman-profile",
+  },
+] as const;
+
+export default function DoctorSpecialtyCarousel() {
+  return (
+    <View className="pt-4">
+      <FlatList
+        horizontal
+        data={specialties}
+        keyExtractor={(item) => item.id}
+        showsHorizontalScrollIndicator={false}
+        contentContainerClassName="px-6"
+        ItemSeparatorComponent={() => <View className="w-5" />}
+        renderItem={({ item }) => (
+          <Pressable className="w-[82px] items-center">
+            <View className="h-[62px] w-[77px] items-center justify-center rounded-[16px] border-2 border-[#2B6F95] bg-[#DDF8FF]">
+              <MaterialCommunityIcons
+                name={item.icon}
+                size={34}
+                color="#09516D"
+              />
+            </View>
+
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.65}
+              className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black">
+              {item.title}
+            </Text>
+          </Pressable>
+        )}
+      />
+    </View>
+  );
+}
