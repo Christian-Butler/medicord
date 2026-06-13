@@ -1,5 +1,6 @@
 import { BottomSheetHub } from '@/components/bottom-sheet';
 import { HapticTab } from '@/components/haptic-tab';
+import SpecialTabButton from '@/components/special-tab-button';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -46,15 +47,11 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="hub"
+          name='services-hub'
           options={{
-            title: "Hub",
-            tabBarIcon: ({ color, focused }) => (
-              <IconSymbol
-                size={focused ? 34 : 32}
-                name="cross.case"
-                color={color}
-              />
+            title: 'Services hub',
+            tabBarButton: () => (
+              <SpecialTabButton onPress={() => bottomSheetRef.current?.expand()} title='Services hub' />
             ),
           }}
         />
