@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import DoctorCarousel from "../../components/doctor-carousel";
@@ -10,15 +10,17 @@ import ProfileHeader from "./../../components/header-profile";
 export default function HomeScreen() {
   return (
     <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
-      <ProfileHeader />
+      <ScrollView>
+        <ProfileHeader />
 
-      <View className="flex-1">
-        <FindDoctor />
-        <DoctorCarousel />
-        <UpcomingAppointments />
-        <MedicationReminders />
-        <LatestDocuments />
-      </View>
+        <View className="flex-1">
+          <FindDoctor />
+          <DoctorCarousel />
+          <UpcomingAppointments />
+          <MedicationReminders />
+          <LatestDocuments />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
