@@ -1,72 +1,72 @@
-import { Tabs } from "expo-router";
-import React from "react";
+import { BottomSheetHub } from '@/components/bottom-sheet';
+import { HapticTab } from '@/components/haptic-tab';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { Tabs } from 'expo-router';
+import { useRef } from 'react';
+import { View } from 'react-native';
 
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 
 const BLUE = "#09516D";
 const INACTIVE = "#8A9BA3";
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const bottomSheetRef = useRef<BottomSheet>(null!);
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-
-        tabBarActiveTintColor: BLUE,
-        tabBarInactiveTintColor: INACTIVE,
-
-        tabBarStyle: {
-          height: 82,
-          backgroundColor: "#FFFFFF",
-          borderTopWidth: 3,
-          borderTopColor: BLUE,
-          paddingTop: 10,
-          paddingBottom: 12,
-        },
-
-        tabBarLabelStyle: {
-          fontSize: 12,
-          fontWeight: "500",
-        },
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color, focused }) => (
-            <IconSymbol
-              size={focused ? 34 : 32}
-              name="house.fill"
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="hub"
-        options={{
-          title: "Hub",
-          tabBarIcon: ({ color, focused }) => (
-            <IconSymbol
-              size={focused ? 34 : 32}
-              name="cross.case"
-              color={color}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: "Profile",
-          tabBarIcon: ({ color, focused }) => (
-            <IconSymbol size={focused ? 34 : 32} name="person" color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+    <View style={{ flex: 1 }}>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: Colors[colorScheme ?? 'dark'].tint,
+          headerShown: false,
+          tabBarButton: HapticTab,
+          tabBarStyle: {
+            height: 100,
+            borderTopColor: '#0a7ea4',
+            borderTopWidth: 2,
+            paddingTop: 20,
+          }
+        }}>
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: 'Home',
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="prescriptions"
+          options={{
+            href: null,
+            title: 'Prescriptions',
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="pills.fill" color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="hub"
+          options={{
+            title: "Hub",
+            tabBarIcon: ({ color, focused }) => (
+              <IconSymbol
+                size={focused ? 34 : 32}
+                name="cross.case"
+                color={color}
+              />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Profile',
+            tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.crop.circle.fill" color={color} />,
+          }}
+        />
+      </Tabs>
+      <BottomSheetHub bottomSheetRef={bottomSheetRef} />
+    </View>
   );
 }
