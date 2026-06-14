@@ -8,7 +8,7 @@ type ProfileHeaderProps = {
 export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
   return (
     <View className="bg-white">
-      <View className="flex-row items-center justify-between px-6 pt-16 pb-8">
+      <View className="flex-row items-center justify-between px-6 pt-8 pb-8">
         <View className="flex-row items-center pt-51">
           <Image
             source={require("/Users/christianbutler/medicord/assets/images/phillip.png")}
