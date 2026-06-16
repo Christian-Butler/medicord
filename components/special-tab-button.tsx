@@ -17,8 +17,8 @@ export const SpecialTabButton = ({ onPress, title }: Props) => {
 
 	return (
 		<TouchableOpacity onPress={handlePress} style={styles.button}>
-			<MaterialIcons name="medical-services" size={28} color={'#9BA1A6'} />
-			<Text style={{ fontSize: 10 }}>{title}</Text>
+			<MaterialIcons name="medical-services" size={28} color={'#85888b'} />
+			<Text style={{ fontSize: 10, color: '#85888b' }}>{title}</Text>
 		</TouchableOpacity>
 	);
 };
