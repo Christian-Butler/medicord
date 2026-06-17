@@ -1,5 +1,6 @@
-import { FlatList, Pressable, Text, View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { Href, useRouter } from "expo-router";
+import { FlatList, Pressable, Text, View } from "react-native";
 
 const specialties = [
   {
@@ -25,6 +26,8 @@ const specialties = [
 ] as const;
 
 export default function DoctorSpecialtyCarousel() {
+  const router = useRouter();
+
   return (
     <View className="pt-4">
       <FlatList
@@ -35,7 +38,11 @@ export default function DoctorSpecialtyCarousel() {
         contentContainerClassName="px-6"
         ItemSeparatorComponent={() => <View className="w-5" />}
         renderItem={({ item }) => (
-          <Pressable className="w-[82px] items-center">
+          <Pressable
+            className="w-[82px] items-center"
+            onPress={() =>
+              router.navigate(`/${item.id}` as Href)
+            }>
             <View className="h-[62px] w-[77px] items-center justify-center rounded-[16px] border-2 border-[#2B6F95] bg-[#DDF8FF]">
               <MaterialCommunityIcons
                 name={item.icon}

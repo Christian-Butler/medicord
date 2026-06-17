@@ -30,4 +30,10 @@ const Card = () => {
     );
 };
 
+const styles = {
+    containerStyle: {
+
+    }
+}
+
 export default Card;
