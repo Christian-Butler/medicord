@@ -27,6 +27,13 @@ export default function RootLayout() {
               name="modal"
               options={{ presentation: "modal", title: "Modal" }}
             />
+            <Stack.Screen
+              name='cardiology'
+              options={{
+                title: "Cardiology",
+                headerBackTitle: "Home",
+              }}
+            />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>
