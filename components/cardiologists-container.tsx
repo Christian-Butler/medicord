@@ -2,8 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Search } from 'lucide-react-native';
 import React from 'react';
 import { Image, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
-
-
+import WeeklyCalendar from './calendar';
 
 interface Doctor {
     name: string;
@@ -69,13 +68,17 @@ const Card: React.FC = () => {
                             <Text>Closest available slot :</Text>
                             <Text style={styles.day}>{doctor.closestDay}</Text>
                         </View>
-                        <TouchableHighlight >
-                            <View style={styles.containerButton}>
-                                <Text style={styles.text2}>Book Now</Text>
-                                <MaterialIcons name="chevron-right" size={26} color="#fff" />
+                        <View>
+                            <View>
+                                <WeeklyCalendar />
+                                <TouchableHighlight >
+                                    <View style={styles.containerButton}>
+                                        <Text style={styles.text2}>Book Now</Text>
+                                        <MaterialIcons name="chevron-right" size={26} color="#fff" />
+                                    </View>
+                                </TouchableHighlight>
                             </View>
-                        </TouchableHighlight>
-
+                        </View>
                     </View>
                 ))}
             </View>
@@ -86,7 +89,8 @@ const Card: React.FC = () => {
 const styles = StyleSheet.create({
     search: {
         width: 350,
-        alignItems: 'center'
+        marginBottom: 20,
+        alignSelf: 'center',
     },
     containerMain: {
         paddingHorizontal: 6,
