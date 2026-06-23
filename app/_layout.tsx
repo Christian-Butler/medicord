@@ -34,6 +34,13 @@ export default function RootLayout() {
                 headerBackTitle: "Home",
               }}
             />
+            <Stack.Screen
+              name='doctor-details'
+              options={{
+                title: "Doctor Details",
+                headerBackTitle: 'Back',
+              }}
+            />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>

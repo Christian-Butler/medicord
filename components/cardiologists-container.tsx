@@ -1,7 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { Search } from 'lucide-react-native';
 import React from 'react';
-import { Image, StyleSheet, Text, TextInput, TouchableHighlight, TouchableOpacity, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import WeeklyCalendar from './calendar';
 
 interface Doctor {
@@ -12,23 +13,23 @@ interface Doctor {
 
 const doctors: Doctor[] = [
     {
-        name: 'Eric Smith',
+        name: 'Dr. Eric Smith',
         avatar: 'https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg',
         closestDay: 'Tue. April 14th',
     },
     {
-        name: 'Peter Chambellain',
+        name: 'Dr. Peter Chambellain',
         avatar:
             'https://images.pexels.com/photos/8460094/pexels-photo-8460094.jpeg',
         closestDay: 'Mon. June 2nd',
     },
     {
-        name: 'Anna Karsinsky',
+        name: 'Dr. Anna Karsinsky',
         avatar: 'https://images.pexels.com/photos/8376300/pexels-photo-8376300.jpeg',
         closestDay: 'Wed. July 9th',
     },
     {
-        name: 'Sophia Sunderland',
+        name: 'Dr. Sophia Sunderland',
         avatar: 'https://images.pexels.com/photos/5738735/pexels-photo-5738735.jpeg',
         closestDay: 'Thu. August 12th',
     },
@@ -68,15 +69,17 @@ const Card: React.FC = () => {
                             <Text>Closest available slot :</Text>
                             <Text style={styles.day}>{doctor.closestDay}</Text>
                         </View>
-                        <View>
+                        <View style={styles.bookContainer}>
                             <View>
                                 <WeeklyCalendar />
-                                <TouchableHighlight >
-                                    <View style={styles.containerButton}>
-                                        <Text style={styles.text2}>Book Now</Text>
-                                        <MaterialIcons name="chevron-right" size={26} color="#fff" />
-                                    </View>
-                                </TouchableHighlight>
+                                <Pressable
+                                    style={styles.containerButton}
+                                    accessibilityRole="button"
+                                    onPress={() => router.push('/doctor-details')}
+                                >
+                                    <Text style={styles.text2}>Book Now</Text>
+                                    <MaterialIcons name="chevron-right" size={26} color="#fff" />
+                                </Pressable>
                             </View>
                         </View>
                     </View>
@@ -125,13 +128,6 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '300'
     },
-    slot: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingTop: 12,
-        paddingBottom: 12
-    },
     day: {
         fontSize: 12,
         fontWeight: '500',
@@ -144,7 +140,19 @@ const styles = StyleSheet.create({
         borderColor: '#0D5175',
         borderRadius: 14
     },
+    slot: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: 12,
+        paddingBottom: 12
+    },
+    bookContainer: {
+        flexDirection: 'row',
+        backgroundColor: 'red',
+    },
     containerButton: {
+        width: 125,
         flexDirection: 'row',
         backgroundColor: '#5085A8',
         color: '#fff',
@@ -154,7 +162,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         paddingRight: 10,
         borderRadius: 10,
-        justifyContent: 'center',
+
     },
     text2: {
         flex: 1,

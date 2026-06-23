@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 12,
         paddingVertical: 8,
+        marginBottom: 16,
     },
     header: {
         flexDirection: 'row',
