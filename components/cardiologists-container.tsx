@@ -75,7 +75,15 @@ const Card: React.FC = () => {
                                 <Pressable
                                     style={styles.containerButton}
                                     accessibilityRole="button"
-                                    onPress={() => router.push('/doctor-details')}
+                                    onPress={() =>
+                                        router.push({
+                                            pathname: '/doctor-details',
+                                            params: {
+                                                name: doctor.name,
+                                                closestDay: doctor.closestDay
+                                            }
+                                        })
+                                    }
                                 >
                                     <Text style={styles.text2}>Book Now</Text>
                                     <MaterialIcons name="chevron-right" size={26} color="#fff" />
