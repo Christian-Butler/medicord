@@ -41,6 +41,13 @@ export default function RootLayout() {
                 headerBackTitle: 'Back',
               }}
             />
+            <Stack.Screen
+              name='book-appointment'
+              options={{
+                title: "Appointment",
+                headerBackTitle: 'Back',
+              }}
+            />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>

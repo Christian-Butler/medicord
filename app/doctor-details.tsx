@@ -31,9 +31,9 @@ export default function DoctorDetails() {
                 </View>
             </ScrollView >
             <View style={styles.container}>
-                <View style={styles.wrapper}>
+                <View>
                 </View>
-                <View style={styles.dayWrapper}>
+                <View style={styles.dayContainer}>
                     <Text>Closest available slot :</Text>
                     <Text style={styles.day}>{availableDate}</Text>
                 </View>
@@ -42,7 +42,7 @@ export default function DoctorDetails() {
                     accessibilityRole="button"
                     onPress={() =>
                         router.push({
-                            pathname: '/doctor-details',
+                            pathname: '/book-appointment',
                             params: {
 
                             }
@@ -88,9 +88,6 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
     },
-    wrapper: {
-
-    },
     day: {
         fontSize: 12,
         fontWeight: '500',
@@ -103,7 +100,7 @@ const styles = StyleSheet.create({
         borderColor: '#0D5175',
         borderRadius: 14
     },
-    dayWrapper: {
+    dayContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         width: '90%',
