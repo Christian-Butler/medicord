@@ -1,13 +1,14 @@
-import { BottomSheetHub } from "@/components/bottom-sheet";
-import { HapticTab } from "@/components/haptic-tab";
-import { SpecialTabButton } from "@/components/special-tab-button";
-import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
-import BottomSheet from "@gorhom/bottom-sheet";
-import { Tabs } from "expo-router";
-import { useRef } from "react";
-import { View } from "react-native";
+import { BottomSheetHub } from '@/components/bottom-sheet';
+import { HapticTab } from '@/components/haptic-tab';
+import SpecialTabButton from '@/components/special-tab-button';
+import { IconSymbol } from '@/components/ui/icon-symbol';
+import { Colors } from '@/constants/theme';
+import { useColorScheme } from '@/hooks/use-color-scheme';
+import BottomSheet from '@gorhom/bottom-sheet';
+import { Tabs } from 'expo-router';
+import { useRef } from 'react';
+import { View } from 'react-native';
+
 
 const BLUE = "#09516D";
 const INACTIVE = "#8A9BA3";
@@ -43,21 +44,11 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="hub"
+          name='services-hub'
           options={{
-            title: "Hub",
+            title: 'Services hub',
             tabBarButton: () => (
-              <SpecialTabButton
-                onPress={() => bottomSheetRef.current?.expand()}
-                title="Services hub"
-              />
-            ),
-            tabBarIcon: ({ color, focused }) => (
-              <IconSymbol
-                size={focused ? 34 : 32}
-                name="cross.case"
-                color={color}
-              />
+              <SpecialTabButton onPress={() => bottomSheetRef.current?.expand()} title='Services hub' />
             ),
           }}
         />
