@@ -1,6 +1,4 @@
 import { ScrollView, View } from "react-native";
-
-import { Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import DoctorCarousel from "../../components/doctor-carousel";
@@ -27,16 +25,9 @@ export default function HomeScreen() {
           <LatestDocuments />
         </View>
       </ScrollView>
-      <ProfileHeader  />
+      
 
      
-      <View className="flex-1">
-        <FindDoctor />
-        <DoctorCarousel />
-        <UpcomingAppointments />
-        <MedicationReminders />
-        <LatestDocuments />
-      </View>
     </SafeAreaView>
   );
 }
