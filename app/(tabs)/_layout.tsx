@@ -21,29 +21,26 @@ export default function TabLayout() {
     <View style={{ flex: 1 }}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? 'dark'].tint,
+          tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
           headerShown: false,
           tabBarButton: HapticTab,
+          tabBarActiveTintColor: BLUE,
+          tabBarInactiveTintColor: INACTIVE,
           tabBarStyle: {
             height: 100,
-            borderTopColor: '#0a7ea4',
+            borderTopColor: "#FFFFFF",
             borderTopWidth: 2,
             paddingTop: 20,
-          }
+            paddingBottom: 12,
+          },
         }}>
         <Tabs.Screen
           name="index"
           options={{
-            title: 'Home',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-          }}
-        />
-        <Tabs.Screen
-          name="prescriptions"
-          options={{
-            href: null,
-            title: 'Prescriptions',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="pills.fill" color={color} />,
+            title: "Home",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol size={28} name="house.fill" color={color} />
+            ),
           }}
         />
         <Tabs.Screen
@@ -58,8 +55,14 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           options={{
-            title: 'Profile',
-            tabBarIcon: ({ color }) => <IconSymbol size={28} name="person.crop.circle.fill" color={color} />,
+            title: "Profile",
+            tabBarIcon: ({ color }) => (
+              <IconSymbol
+                size={28}
+                name="person.crop.circle.fill"
+                color={color}
+              />
+            ),
           }}
         />
       </Tabs>
