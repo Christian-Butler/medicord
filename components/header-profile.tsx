@@ -11,7 +11,7 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
       <View className="flex-row items-center justify-between px-6 pt-8 pb-8">
         <View className="flex-row items-center pt-51">
           <Image
-            source={require("/Users/christianbutler/medicord/assets/images/phillip.png")}
+            source={require("@/assets/images/phillip.png")}
             className="h-16 w-16 rounded-full"
           />
 
