@@ -23,12 +23,16 @@ const hoursData: dayHours[] = [
 
 const HoursBooking = () => {
 
+  // UseState to keep track of the slected time with id
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   return (
     <View style={styles.container}>
       <View style={styles.grid}>
         {hoursData.map((hour) => {
+
+          // Different style for selected, unavailable and default states
+
           const isSelected = hour.id === selectedId;
 
           let currentButtonStyle = styles.buttonUnselected;

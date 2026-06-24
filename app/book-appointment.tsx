@@ -2,11 +2,13 @@ import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from 'expo-checkbox';
+import { router } from "expo-router";
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Booking() {
 
+    // Declare the state of the checkbox initially
     const [isChecked, setChecked] = useState(false);
 
     return (
@@ -32,7 +34,15 @@ export default function Booking() {
                     <Text style={{ fontSize: 14, lineHeight: 20, fontWeight: 400, maxWidth: 300, color: '#333' }}>By booking this appointment, I am confirming my presence at that day and hour. I am aware that by failing to attend, or not notifying my unavailability may result in getting blacklisted.</Text>
                 </View>
                 <View style={styles.containerButton}>
-                    <Text style={styles.buttonText}>Confirm booking</Text>
+                    <Pressable
+                        accessibilityRole="button"
+                        onPress={() =>
+                            router.push({
+                                pathname: '/(tabs)',
+                            })
+                        }
+                    ><Text style={styles.buttonText}>Confirm booking</Text></Pressable>
+
                 </View>
             </ScrollView>
         </View>

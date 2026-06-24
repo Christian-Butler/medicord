@@ -27,6 +27,9 @@ const isSameDay = (first: Date, second: Date) =>
     first.toDateString() === second.toDateString();
 
 const getWeekDays = (baseDate: Date): DayItem[] => {
+
+    // Build the seven-day range that the calendar should display
+
     const startOfWeek = new Date(baseDate);
     startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
 
@@ -49,6 +52,9 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
 };
 
 const WeeklyCalendar = () => {
+
+    // Keep track of the visible week and the selected day
+
     const [currentDate, setCurrentDate] = useState(() => new Date());
     const [selectedDayIso, setSelectedDayIso] = useState<string | null>(null);
 
@@ -153,6 +159,8 @@ const styles = StyleSheet.create({
     navButton: {
         width: 36,
         height: 36,
+        marginRight: 10,
+        marginLeft: 10,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 18,
@@ -161,12 +169,12 @@ const styles = StyleSheet.create({
     navText: {
         fontSize: 22,
         fontWeight: '600',
-        color: '#0f4c5c',
+        color: '#0',
     },
     currentDate: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#0f4c5c',
+        color: '#00',
     },
     weekRow: {
         flexDirection: 'row',

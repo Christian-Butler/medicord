@@ -5,6 +5,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function DoctorDetails() {
 
+    // Read the doctor info passed from the previous screen
     const { name, closestDay } = useLocalSearchParams<{ name: string; closestDay: string }>();
 
     const doctorName = name || "Dr. Eric Smith";
@@ -17,6 +18,9 @@ export default function DoctorDetails() {
                     <DoctorHeader name={doctorName} profession={"Cardiologist"} />
                 </View>
                 <View style={{ padding: 20, paddingBottom: 220 }}>
+
+                    {/* Leave room for the sticky booking footer-like container. */}
+
                     <Text style={{ fontSize: 24, fontWeight: 400, paddingBottom: 20 }}> Services provided</Text>
                     <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>The cardiologist is a specialist in the heart and its pathologies as well as vascular problems.{"\n"}{"\n"}
                         <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>{doctorName} practices:{"\n"}{"\n"}
@@ -30,6 +34,9 @@ export default function DoctorDetails() {
                     </Text>
                 </View>
             </ScrollView >
+
+            {/* Keep the booking action visible above the screen's edge. */}
+
             <View style={styles.container}>
                 <View>
                 </View>

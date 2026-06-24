@@ -156,20 +156,20 @@ const styles = StyleSheet.create({
         paddingBottom: 12
     },
     bookContainer: {
-        flexDirection: 'row',
-        backgroundColor: 'red',
     },
     containerButton: {
-        width: 125,
+        alignSelf: 'flex-end',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        width: '40%',
         flexDirection: 'row',
         backgroundColor: '#5085A8',
         color: '#fff',
-        alignItems: 'center',
         paddingTop: 6,
         paddingBottom: 6,
         paddingLeft: 10,
-        paddingRight: 10,
-        borderRadius: 10,
+        paddingRight: 6,
+        borderRadius: 12,
 
     },
     text2: {
