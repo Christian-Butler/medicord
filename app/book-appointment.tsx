@@ -1,4 +1,5 @@
 import WeeklyCalendar from "@/components/calendar";
+import HoursBooking from "@/components/hours-select";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from 'expo-checkbox';
 import React, { useState } from "react";
@@ -22,6 +23,9 @@ export default function Booking() {
                 </View>
                 <View style={{ marginBottom: 26 }}>
                     <WeeklyCalendar />
+                </View>
+                <View>
+                    <HoursBooking />
                 </View>
                 <View style={{ flexDirection: 'row', maxWidth: 350, justifyContent: 'space-between', alignSelf: 'center', alignItems: 'center' }}>
                     <Checkbox style={{ marginRight: 20 }} value={isChecked} onValueChange={setChecked} />
