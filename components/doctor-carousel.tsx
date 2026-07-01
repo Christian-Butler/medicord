@@ -42,7 +42,7 @@ export default function DoctorSpecialtyCarousel() {
             className="w-[82px] items-center"
             onPress={() =>
               router.push({
-                pathname: "/book-appointment",
+                pathname: "/cardiology",
                 params: {
                   specialty: item.title,
                 },

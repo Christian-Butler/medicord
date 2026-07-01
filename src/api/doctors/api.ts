@@ -24,3 +24,26 @@ export async function getDoctorsBySpecialty(specialty: string) {
 
   return data ?? [];
 }
+
+export async function getDoctorById(id: string) {
+  const { data, error } = await supabase
+    .from("doctors")
+    .select(`
+      id,
+      full_name,
+      specialty,
+      bio,
+      clinic_name,
+      location,
+      avatar_url,
+      rating,
+      years_experience,
+      requires_gp_referral
+    `)
+    .eq("id", id)
+    .single();
+
+  if (error) throw error;
+
+  return data;
+}

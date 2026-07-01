@@ -1,65 +1,129 @@
 import DoctorHeader from "@/components/doctor-details-header";
+import { getDoctorById } from "@/src/api/doctors/api";
 import { router, useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
+type Doctor = {
+    id: string;
+    full_name: string;
+    specialty: string | null;
+    bio?: string | null;
+    clinic_name?: string | null;
+    location?: string | null;
+    avatar_url?: string | null;
+    requires_gp_referral?: boolean | null;
+};
+
 export default function DoctorDetails() {
+    const { doctorId, name, closestDay, specialty } = useLocalSearchParams<{
+        doctorId?: string;
+        name?: string;
+        closestDay?: string;
+        specialty?: string;
+    }>();
 
-    // Read the doctor info passed from the previous screen
-    const { name, closestDay } = useLocalSearchParams<{ name: string; closestDay: string }>();
+    const [doctor, setDoctor] = useState<Doctor | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-    const doctorName = name || "Dr. Eric Smith";
+    useEffect(() => {
+        async function loadDoctor() {
+            if (!doctorId) {
+                console.log("[DoctorDetails] no doctorId param");
+                return;
+            }
+
+            try {
+                setError(null);
+
+                console.log("[DoctorDetails] loading doctorId:", doctorId);
+
+                const row = await getDoctorById(String(doctorId));
+
+                console.log("[DoctorDetails] doctor returned:", row);
+
+                setDoctor(row as Doctor);
+            } catch (err) {
+                console.error("[DoctorDetails] failed to load doctor:", err);
+                setError(err instanceof Error ? err.message : "Failed to load doctor");
+            }
+        }
+
+        loadDoctor();
+    }, [doctorId]);
+
+    const doctorName = doctor?.full_name || name || "Dr. Eric Smith";
+    const doctorProfession = doctor?.specialty || specialty || "Cardiologist";
     const availableDate = closestDay || "No slots available";
 
     return (
         <View className="flex-1 bg-[#EEF9FB]">
             <ScrollView>
                 <View className="flex-1">
-                    <DoctorHeader name={doctorName} profession={"Cardiologist"} />
+                    <DoctorHeader name={doctorName} profession={doctorProfession} />
                 </View>
+
                 <View style={{ padding: 20, paddingBottom: 220 }}>
+                    {error ? (
+                        <Text style={{ color: "#B42318", paddingBottom: 12 }}>
+                            {error}
+                        </Text>
+                    ) : null}
 
                     {/* Leave room for the sticky booking footer-like container. */}
 
-                    <Text style={{ fontSize: 24, fontWeight: 400, paddingBottom: 20 }}> Services provided</Text>
-                    <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>The cardiologist is a specialist in the heart and its pathologies as well as vascular problems.{"\n"}{"\n"}
-                        <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>{doctorName} practices:{"\n"}{"\n"}
+                    <Text style={{ fontSize: 24, fontWeight: 400, paddingBottom: 20 }}>
+                        Services provided
+                    </Text>
+
+                    <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>
+                        The cardiologist is a specialist in the heart and its pathologies as well as vascular problems.{"\n"}{"\n"}
+
+                        <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>
+                            {doctorName} practices:{"\n"}{"\n"}
                         </Text>
+
                         <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>
                             - in his private office the cardiological examination, echocardiography, holter, electrocardiogram, sleep apnea screening;{"\n"}
                             - and at the St. Vincent’s Hospital, the stress test is held only on Wednesday mornings (a prior consultation is necessary to carry out the stress tests in the clinic).{"\n"}{"\n"}
                         </Text>
+
                         <Text style={{ fontSize: 16, fontWeight: 400, lineHeight: 22 }}>
-                            It is also possible to obtain more information  for follow-up consultations and for new patients through its secretariat through the messages service provided in Medicord.</Text>
+                            It is also possible to obtain more information for follow-up consultations and for new patients through its secretariat through the messages service provided in Medicord.
+                        </Text>
                     </Text>
                 </View>
-            </ScrollView >
+            </ScrollView>
 
             {/* Keep the booking action visible above the screen's edge. */}
 
             <View style={styles.container}>
                 <View>
                 </View>
+
                 <View style={styles.dayContainer}>
                     <Text>Closest available slot :</Text>
                     <Text style={styles.day}>{availableDate}</Text>
                 </View>
+
                 <Pressable
                     style={styles.containerButton}
                     accessibilityRole="button"
                     onPress={() =>
                         router.push({
-                            pathname: '/book-appointment',
+                            pathname: "/book-appointment",
                             params: {
-
-                            }
+                                doctorId: doctor?.id ?? doctorId,
+                                specialty: doctorProfession,
+                                closestDay: availableDate,
+                            },
                         })
                     }
                 >
                     <Text style={styles.buttonText}>Book an appointment now</Text>
                 </Pressable>
             </View>
-        </View >
+        </View>
     );
 }
 
