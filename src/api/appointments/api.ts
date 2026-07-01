@@ -1,14 +1,17 @@
 import { supabase } from "@/supabase/supabase";
 
+
 export type CreateAppointmentInput = {
-  clinicianId: string;
+  doctorId: string;
+  gpId?: string | null;
+  referralRequired?: boolean;
   patientName: string;
   patientEmail: string;
   patientPhone?: string;
   reason?: string;
   startsAt: string;
   endsAt: string;
-  location?: string;
+  location?: string | null;
 };
 
 export type UpdateAppointmentInput = {
@@ -23,45 +26,71 @@ export type UpdateAppointmentInput = {
 };
 
 export async function createAppointment(input: CreateAppointmentInput) {
+  console.log("[createAppointment] input:", input);
+
   const {
     data: { user },
     error: userError,
   } = await supabase.auth.getUser();
 
-  if (userError) throw userError;
-  if (!user) throw new Error("You must be logged in to book an appointment.");
+  console.log("[createAppointment] auth user:", user);
+  console.log("[createAppointment] auth userError:", userError);
+
+  if (userError) {
+    console.error("[createAppointment] getUser error:", userError);
+    throw userError;
+  }
+
+  if (!user) {
+    throw new Error("You must be logged in to book an appointment.");
+  }
 
   const now = new Date().toISOString();
+  const referralRequired = input.referralRequired ?? false;
+  const gpId = input.gpId ?? null;
+
+  const payload = {
+  user_id: user.id,
+  doctor_id: input.doctorId,
+  gp_id: input.gpId ?? null,
+
+  referral_required: referralRequired,
+  referral_status: referralRequired
+    ? gpId
+      ? "provided"
+      : "missing"
+    : "not_required",
+
+  title: `Appointment for ${input.patientName}`,
+  appointment_type: "consultation",
+  location: input.location ?? null,
+
+  starts_at: input.startsAt,
+  ends_at: input.endsAt,
+
+  status: "pending",
+  reason: input.reason ?? null,
+  notes: null,
+
+  patient_name: input.patientName,
+  patient_email: input.patientEmail,
+  patient_phone: input.patientPhone ?? null,
+
+  created_at: now,
+  updated_at: now,
+  };
+  console.log("[createAppointment] payload:", payload);
 
   const { data, error } = await supabase
     .from("appointments")
-    .insert({
-      user_id: user.id,
-      healthcare_service_id: null,
-      clinician_id: input.clinicianId,
-
-      title: `Appointment for ${input.patientName}`,
-      appointment_type: "consultation",
-      location: input.location ?? null,
-
-      starts_at: input.startsAt,
-      ends_at: input.endsAt,
-
-      status: "pending",
-      reason: input.reason ?? null,
-      notes: null,
-
-      patient_name: input.patientName,
-      patient_email: input.patientEmail,
-      patient_phone: input.patientPhone ?? null,
-
-      created_at: now,
-      updated_at: now,
-    })
-    .select(
-      `
+    .insert(payload)
+    .select(`
       id,
-      clinician_id,
+      user_id,
+      doctor_id,
+      gp_id,
+      referral_required,
+      referral_status,
       title,
       appointment_type,
       location,
@@ -74,18 +103,28 @@ export async function createAppointment(input: CreateAppointmentInput) {
       patient_phone,
       created_at,
       updated_at,
-      clinicians (
+      doctors (
         id,
         full_name,
         specialty,
         clinic_name,
         location
+      ),
+      gps (
+        id,
+        full_name,
+        practice_name
       )
-    `,
-    )
+    `)
     .single();
 
-  if (error) throw error;
+  console.log("[createAppointment] insert data:", data);
+  console.log("[createAppointment] insert error:", error);
+
+  if (error) {
+    console.error("[createAppointment] Supabase insert error:", error);
+    throw new Error(error.message);
+  }
 
   return data;
 }
@@ -93,10 +132,11 @@ export async function createAppointment(input: CreateAppointmentInput) {
 export async function getMyAppointments() {
   const { data, error } = await supabase
     .from("appointments")
-    .select(
-      `
+    .select(`
       id,
-      clinician_id,
+      user_id,
+      doctor_id,
+      gp_id,
       title,
       appointment_type,
       location,
@@ -109,15 +149,20 @@ export async function getMyAppointments() {
       patient_phone,
       created_at,
       updated_at,
-      clinicians (
+      doctors (
         id,
         full_name,
         specialty,
         clinic_name,
         location
+      ),
+      gps (
+        id,
+        full_name,
+        practice_name
+       
       )
-    `,
-    )
+    `)
     .order("starts_at", { ascending: true });
 
   if (error) throw error;

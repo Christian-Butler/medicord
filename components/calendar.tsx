@@ -51,6 +51,8 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
     });
 };
 
+
+
 const WeeklyCalendar = () => {
 
     // Keep track of the visible week and the selected day
