@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
+import { useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
@@ -9,15 +10,6 @@ type ServiceItem = {
     label: string;
     onPress?: () => void;
 };
-
-const services: ServiceItem[] = [
-    { icon: 'calendar-month', label: 'Appointments' },
-    { icon: 'archive', label: 'Medical records' },
-    { icon: 'medication', label: 'Medication' },
-    { icon: 'forum', label: 'Messages' },
-    { icon: 'change-circle', label: 'Order repeat medication' },
-    { icon: 'favorite', label: 'Your doctors' },
-];
 
 const ServiceButton = ({ icon, label, onPress }: ServiceItem) => (
     <TouchableOpacity style={styles.serviceIcon} onPress={onPress}>
@@ -32,6 +24,8 @@ type Props = {
 
 export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
 
+    const router = useRouter();
+
     // useMemo stops snapPoints array being created on each render
     const snapPoints = useMemo(() => ['45%'], []);
     const renderBackdrop = (props: any) => (
@@ -42,7 +36,22 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
             pressBehavior="close"
         />
     );
-    const flatServices = services.flat();
+
+    const services: ServiceItem[] = [
+        { icon: 'calendar-month', label: 'Appointments' },
+        { icon: 'archive', label: 'Medical records' },
+        {
+            icon: 'medication', label: 'Medication',
+            onPress: () => {
+                bottomSheetRef.current?.close();
+                router.push('/medication-routine')
+            }
+        },
+        { icon: 'forum', label: 'Messages' },
+        { icon: 'change-circle', label: 'Order repeat medication' },
+        { icon: 'favorite', label: 'Your doctors' },
+    ];
+
     return (
         <BottomSheet
             ref={bottomSheetRef}
@@ -56,7 +65,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
                 <Text style={styles.title}>Services hub</Text>
                 <FlatList
                     style={{ width: "100%" }}
-                    data={flatServices}
+                    data={services}
                     renderItem={({ item }) => (
                         <ServiceButton {...item} />
                     )}

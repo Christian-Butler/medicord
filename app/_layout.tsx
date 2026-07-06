@@ -51,7 +51,7 @@ export default function RootLayout() {
             <Stack.Screen
               name='medication-routine'
               options={{
-                title: "Set up routine",
+                title: "Create Routine",
                 headerBackTitle: 'Back',
               }}
             />
