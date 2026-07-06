@@ -48,6 +48,13 @@ export default function RootLayout() {
                 headerBackTitle: 'Back',
               }}
             />
+            <Stack.Screen
+              name='medication-routine'
+              options={{
+                title: "Set up routine",
+                headerBackTitle: 'Back',
+              }}
+            />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>
