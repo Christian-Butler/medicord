@@ -1,5 +1,5 @@
-import { ScrollView, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import React from "react";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -58,18 +58,43 @@ const records: MedicalList[] = [
     }
 ];
 
-export default function HomeScreen() {
+export default function MedicalRecordsMain() {
 
     return (
-        <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
-            <ScrollView>
-                <View className="flex-1">
-
+        <ScrollView className="flex-1 bg-[#EEF9FB]">
+            <View className="flex-1">
+                <View style={styles.container}>
+                    {records.map((record, index) => (
+                        <View key={`${record.name}-${index}`} style={styles.card}>
+                            <MaterialIcons name={record.icon} size={24} color="#3f3128" />
+                            <View>
+                                <Text>{record.name}</Text>
+                            </View>
+                            <TouchableOpacity>
+                                <MaterialIcons name={record.button} size={24} color="#3f3128" />
+                            </TouchableOpacity>
+                        </View>
+                    ))}
                 </View>
-            </ScrollView>
-
-
-
-        </SafeAreaView>
-    );
+            </View>
+        </ScrollView>
+    )
 }
+
+
+const styles = StyleSheet.create({
+    container: {
+        marginTop: '20%',
+        paddingLeft: '4%',
+        paddingRight: '4%',
+
+
+    },
+    card: {
+        flexDirection: 'row',
+        paddingTop: '4%',
+        marginBottom: '10%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    }
+})
