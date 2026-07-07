@@ -2,7 +2,6 @@ import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { MaterialIcons } from "@expo/vector-icons";
-import ProfileHeader from "./../../components/header-profile";
 
 interface MedicalList {
     name: string;
@@ -64,7 +63,6 @@ export default function HomeScreen() {
     return (
         <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
             <ScrollView>
-                <ProfileHeader />
                 <View className="flex-1">
 
                 </View>
