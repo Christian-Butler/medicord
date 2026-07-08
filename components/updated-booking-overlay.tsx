@@ -1,44 +1,55 @@
-import { X } from "lucide-react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type UpdateAppointmentSuccessOverlayProps = {
   visible: boolean;
-  onClose: () => void;
+  onAddToCalendar?: () => void;
   onViewAppointments: () => void;
 };
 
 export default function UpdateAppointmentSuccessOverlay({
   visible,
-  onClose,
+  onAddToCalendar,
   onViewAppointments,
 }: UpdateAppointmentSuccessOverlayProps) {
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 items-center justify-end bg-black/30">
-        <Pressable className="absolute inset-0" onPress={onClose} />
-
-        <View className="w-full rounded-t-[14px] bg-[#EEF9FB] px-1 pb-12 pt-6">
-          <View className="items-stretch">
-            <Pressable
-              onPress={onClose}
-              className="mb-20 h-[44px] w-[56px] self-end items-center justify-center mr-3"
-            >
-              <X size={32} color="#000" strokeWidth={2} />
-            </Pressable>
-
-            <Text className="mx-5 mb-24 text-left text-[30px] font-normal leading-[38px] text-black">
-              Your appointment has{"\n"}been updated.
-            </Text>
-
-            <Pressable
-              onPress={onViewAppointments}
-              className="mx-1 h-[66px] items-center justify-center rounded-[16px] bg-[#5085A8]"
-            >
-              <Text className="text-[22px] font-normal text-white">
-                View appointments
-              </Text>
-            </Pressable>
+      <View className="flex-1 items-center justify-center bg-black/30">
+        <View className="w-[92%] rounded-[20px] bg-[#EEF9FB] px-4 pb-8 pt-12">
+          <View className="mb-8 items-center">
+            <MaterialIcons name="event-available" size={104} color="#2F789E" />
           </View>
+
+          <Text className="mb-12 text-center text-[27px] font-bold leading-[34px] text-black">
+            Your appointment has been{"\n"}successfully updated !
+          </Text>
+
+          <Text className="mb-10 text-left text-[23px] font-normal leading-[31px] text-black">
+            By clicking the button below you will be redirected to your
+            appointments.
+          </Text>
+
+          <Text className="mb-9 text-left text-[23px] font-normal leading-[31px] text-black">
+            Your updated appointment will be shown there.
+          </Text>
+
+          <Pressable
+            onPress={onAddToCalendar}
+            className="mb-7 h-[70px] items-center justify-center rounded-[12px] border-[2.5px] border-[#0D5175] bg-white"
+          >
+            <Text className="text-[22px] font-semibold text-[#0D5175]">
+              + Add to calendar
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={onViewAppointments}
+            className="h-[70px] items-center justify-center rounded-[12px] bg-[#5085A8]"
+          >
+            <Text className="text-[22px] font-semibold text-white">
+              View appointments
+            </Text>
+          </Pressable>
         </View>
       </View>
     </Modal>

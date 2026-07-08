@@ -1,351 +1,312 @@
-import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
-import UpdateAppointmentSuccessOverlay from "@/components/updated-booking-overlay";
+import ScreenHeader from "@/components/screen-header";
+import BookingSuccessOverlay from "@/components/success-booking";
+import WeeklyCalendar from "@/components/calendar";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import { useUpdateAppointment } from "@/src/hooks/useUpdateAppointment";
+import {
+  buildLocalIsoDateTime,
+  toLocalIsoDate,
+  toLocalTimeValue,
+} from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
-
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import {
-    buildLocalIsoDateTime,
-    toLocalIsoDate,
-    toLocalTimeValue,
-} from "@/src/utils/dateTime";
-import ScreenHeader from "@/components/screen-header";
-
-function getMonthLabel(dateValue: string) {
-    const date = dateValue ? new Date(`${dateValue}T00:00:00`) : new Date();
-
-    return date.toLocaleDateString("en-GB", {
-        month: "long",
-    });
-}
 
 export default function EditAppointment() {
-    const { appointmentId } = useLocalSearchParams<{
-        appointmentId?: string;
-    }>();
-    const [showUpdateSuccessOverlay, setShowUpdateSuccessOverlay] = useState(false);
+  const { appointmentId } = useLocalSearchParams<{
+    appointmentId?: string;
+  }>();
 
-    const {
-        appointment,
-        loading,
-        error: appointmentError,
-    } = useAppointment(appointmentId ? String(appointmentId) : undefined);
+  const {
+    appointment,
+    loading,
+    error: appointmentError,
+  } = useAppointment(appointmentId ? String(appointmentId) : undefined);
 
-    const { update, updating, updateError } = useUpdateAppointment();
+  const { update, updating, updateError } = useUpdateAppointment();
 
-    const [selectedDate, setSelectedDate] = useState("");
-    const [selectedTime, setSelectedTime] = useState("");
-    const [isChecked, setChecked] = useState(false);
-    const [formError, setFormError] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [isChecked, setChecked] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
+  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
 
-    useEffect(() => {
-        if (!appointment) return;
+  useEffect(() => {
+    if (!appointment) return;
 
-        const localDate = toLocalIsoDate(appointment.starts_at);
-        const localTime = toLocalTimeValue(appointment.starts_at);
+    setSelectedDate(toLocalIsoDate(appointment.starts_at));
+    setSelectedTime(toLocalTimeValue(appointment.starts_at));
+  }, [appointment]);
 
-        console.log("[editAppointment] loaded appointment:", appointment);
-        console.log("[editAppointment] local selectedDate:", localDate);
-        console.log("[editAppointment] local selectedTime:", localTime);
+  async function handleConfirmChanges() {
+    setFormError(null);
 
-        setSelectedDate(localDate);
-        setSelectedTime(localTime);
-    }, [appointment]);
-
-    async function handleConfirmChanges() {
-        if (!appointment) {
-            setFormError("Appointment not loaded.");
-            return;
-        }
-
-        if (!selectedDate) {
-            setFormError("Please select a date.");
-            return;
-        }
-
-        if (!selectedTime) {
-            setFormError("Please select a time.");
-            return;
-        }
-
-        if (!isChecked) {
-            setFormError("Please confirm the appointment notice.");
-            return;
-        }
-
-        try {
-            setFormError(null);
-
-            const startsAt = buildLocalIsoDateTime(selectedDate, selectedTime);
-            const endsAt = new Date(
-                new Date(startsAt).getTime() + 30 * 60 * 1000
-            ).toISOString();
-
-            const payload = {
-                id: appointment.id,
-                startsAt,
-                endsAt,
-                location: appointment.location,
-                reason: appointment.reason ?? undefined,
-                patientName: appointment.patient_name ?? undefined,
-                patientEmail: appointment.patient_email ?? undefined,
-                patientPhone: appointment.patient_phone ?? undefined,
-            };
-
-            console.log("[editAppointment] update payload:", payload);
-
-            const updatedAppointment = await update(payload);
-            await update(payload);
-            setShowUpdateSuccessOverlay(true);
-
-            console.log("[editAppointment] update successful:", updatedAppointment);
-
-
-        } catch (err) {
-            console.error("[editAppointment] update failed:", err);
-        }
-
+    if (!appointmentId) {
+      setFormError("Missing appointment.");
+      return;
     }
 
-    const visibleError = formError ?? appointmentError ?? updateError;
+    if (!selectedDate) {
+      setFormError("Please select a date.");
+      return;
+    }
 
+    if (!selectedTime) {
+      setFormError("Please select a time.");
+      return;
+    }
 
+    if (!isChecked) {
+      setFormError("Please confirm the appointment notice.");
+      return;
+    }
 
-    return (
-        <View style={styles.page}>
-            <ScreenHeader title="Modify appointment" />
+    try {
+      const startsAt = buildLocalIsoDateTime(selectedDate, selectedTime);
 
+      const endsAt = new Date(
+        new Date(startsAt).getTime() + 30 * 60 * 1000
+      ).toISOString();
 
-            <ScrollView
-                style={styles.scroll}
-                contentContainerStyle={styles.scrollContent}
-                showsVerticalScrollIndicator={false}
-            >
-                {loading ? (
-                    <Text style={styles.statusText}>Loading appointment...</Text>
-                ) : null}
+      await update({
+        id: String(appointmentId),
+        startsAt,
+        endsAt,
+      });
 
-                {visibleError ? (
-                    <Text style={styles.errorText}>{visibleError}</Text>
-                ) : null}
+      setShowSuccessOverlay(true);
+    } catch (err) {
+      console.error("[EditAppointment] update failed:", err);
+    }
+  }
 
-                <View style={styles.dateHeaderRow}>
-                    <Text style={styles.sectionTitle}>Select date</Text>
+  const visibleError = formError ?? appointmentError ?? updateError;
 
-                    <Pressable style={styles.monthPill}>
-                        <Text style={styles.monthPillText}>
-                            Month selected: {getMonthLabel(selectedDate)}
-                        </Text>
+  return (
+    <View style={styles.page}>
+      <ScreenHeader title="Modify appointment" />
 
-                        <MaterialIcons name="keyboard-arrow-down" size={18} color="#000" />
-                    </Pressable>
-                </View>
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.monthContainer}>
+          <Text style={styles.sectionTitle}>Select date</Text>
 
-                <View style={styles.calendarWrap}>
-                    <WeeklyCalendar
-                        selectedDate={selectedDate || undefined}
-                        onSelectDate={setSelectedDate}
-                    />
-                </View>
-
-                <View style={styles.hoursWrap}>
-                    <HoursBooking
-                        selectedTime={selectedTime || undefined}
-                        onSelectTime={setSelectedTime}
-                    />
-                </View>
-
-                <View style={styles.noticeRow}>
-                    <Checkbox
-                        style={styles.checkbox}
-                        value={isChecked}
-                        onValueChange={setChecked}
-                        color={isChecked ? "#0D5175" : undefined}
-                    />
-
-                    <Text style={styles.noticeText}>
-                        By confirming the changes, I am agreeing to be present at the day at
-                        time indicated to the appointment.
-                    </Text>
-                </View>
-
-                <Pressable
-                    accessibilityRole="button"
-                    style={[
-                        styles.confirmButton,
-                        updating ? styles.disabledButton : null,
-                    ]}
-                    onPress={handleConfirmChanges}
-                    disabled={updating}
-                >
-                    <Text style={styles.confirmButtonText}>
-                        {updating ? "Saving..." : "Confirm changes"}
-                    </Text>
-                </Pressable>
-            </ScrollView>
-            <UpdateAppointmentSuccessOverlay
-                visible={showUpdateSuccessOverlay}
-                onClose={() => setShowUpdateSuccessOverlay(false)}
-                onViewAppointments={() => {
-                    setShowUpdateSuccessOverlay(false);
-                    router.replace("/appointments");
-                }}
-            />
+          <View style={styles.month}>
+            <Text style={styles.monthText}>
+              Date selected
+            </Text>
+            <MaterialIcons name="keyboard-arrow-down" size={18} />
+          </View>
         </View>
-    );
+
+        <View style={styles.calendarContainer}>
+          <WeeklyCalendar
+            selectedDate={selectedDate || undefined}
+            onSelectDate={(date) => {
+              setSelectedDate(date);
+              setFormError(null);
+            }}
+          />
+        </View>
+
+        <View style={styles.hoursContainer}>
+          <HoursBooking
+            selectedTime={selectedTime || undefined}
+            onSelectTime={(time) => {
+              setSelectedTime(time);
+              setFormError(null);
+            }}
+          />
+        </View>
+
+        {loading ? (
+          <View style={styles.statusContainer}>
+            <Text style={styles.statusText}>Loading appointment...</Text>
+          </View>
+        ) : null}
+
+        {visibleError ? (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>{visibleError}</Text>
+          </View>
+        ) : null}
+
+        <View style={styles.noticeRow}>
+          <Checkbox
+            style={{ marginRight: 20 }}
+            value={isChecked}
+            onValueChange={(value) => {
+              setChecked(value);
+              setFormError(null);
+            }}
+          />
+
+          <Text style={styles.noticeText}>
+            By modifying this appointment, I am confirming my presence at that
+            day and hour. I am aware that by failing to attend, or not notifying
+            my unavailability may result in getting blacklisted.
+          </Text>
+        </View>
+
+        <Pressable
+          accessibilityRole="button"
+          disabled={updating}
+          onPress={handleConfirmChanges}
+          style={[styles.containerButton, updating ? styles.disabledButton : null]}
+        >
+          <Text style={styles.buttonText}>
+            {updating ? "Saving..." : "Confirm changes"}
+          </Text>
+        </Pressable>
+      </ScrollView>
+
+      <BookingSuccessOverlay
+        visible={showSuccessOverlay}
+        onAddToCalendar={() => {}}
+        onGoHome={() => {
+          setShowSuccessOverlay(false);
+          router.replace("/appointments");
+        }}
+        onClose={() => setShowSuccessOverlay(false)}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    page: {
-        flex: 1,
-        backgroundColor: "#EEF9FB",
-    },
+  page: {
+    flex: 1,
+    backgroundColor: "#EEF9FB",
+  },
 
-    header: {
-        height: 104,
-        backgroundColor: "#fff",
-        borderBottomWidth: 2,
-        borderBottomColor: "#0D5175",
-        flexDirection: "row",
-        alignItems: "center",
-        paddingTop: 24,
-        paddingHorizontal: 24,
-    },
+  scroll: {
+    flex: 1,
+  },
 
-    backButton: {
-        width: 40,
-        alignItems: "flex-start",
-        justifyContent: "center",
-    },
+  scrollContent: {
+    paddingTop: 26,
+    paddingBottom: 120,
+  },
 
-    headerTitle: {
-        flex: 1,
-        textAlign: "center",
-        fontSize: 24,
-        fontWeight: "400",
-        color: "#000",
-    },
+  sectionTitle: {
+    fontSize: 22,
+    color: "#000",
+  },
 
-    headerSpacer: {
-        width: 40,
-    },
+  month: {
+    fontSize: 12,
+    fontWeight: "500",
+    backgroundColor: "#fff",
+    paddingTop: 6,
+    paddingBottom: 6,
+    paddingLeft: 12,
+    paddingRight: 10,
+    borderWidth: 2,
+    borderColor: "#0D5175",
+    borderRadius: 14,
+    flexDirection: "row",
+    alignItems: "center",
+  },
 
-    scroll: {
-        flex: 1,
-    },
+  monthText: {
+    fontSize: 12,
+    fontWeight: "500",
+    color: "#000",
+  },
 
-    scrollContent: {
-        paddingTop: 34,
-        paddingBottom: 44,
-    },
+  monthContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "90%",
+    alignSelf: "center",
+    justifyContent: "space-between",
+    marginBottom: 26,
+  },
 
-    statusText: {
-        fontSize: 14,
-        color: "#333",
-        marginBottom: 14,
-        paddingHorizontal: 22,
-    },
+  calendarContainer: {
+    marginBottom: 26,
+  },
 
-    errorText: {
-        fontSize: 14,
-        color: "#B42318",
-        marginBottom: 14,
-        paddingHorizontal: 22,
-    },
+  hoursContainer: {
+    marginBottom: 22,
+  },
 
-    dateHeaderRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: "90%",
-        alignSelf: "center",
-        marginBottom: 26,
-    },
+  statusContainer: {
+    width: "90%",
+    alignSelf: "center",
+    marginBottom: 16,
+    borderRadius: 12,
+    backgroundColor: "#E8F4FA",
+    padding: 12,
+  },
 
-    sectionTitle: {
-        fontSize: 22,
-        fontWeight: "400",
-        color: "#000",
-    },
+  statusText: {
+    color: "#333",
+    fontSize: 14,
+  },
 
-    monthPill: {
-        height: 34,
-        borderWidth: 2,
-        borderColor: "#0D5175",
-        borderRadius: 14,
-        backgroundColor: "#fff",
-        paddingLeft: 12,
-        paddingRight: 10,
-        flexDirection: "row",
-        alignItems: "center",
-    },
+  errorContainer: {
+    width: "90%",
+    alignSelf: "center",
+    marginBottom: 16,
+    borderRadius: 12,
+    backgroundColor: "#FFECEC",
+    padding: 12,
+  },
 
-    monthPillText: {
-        fontSize: 12,
-        fontWeight: "500",
-        color: "#000",
-        marginRight: 4,
-    },
+  errorText: {
+    color: "#B42318",
+    fontSize: 14,
+  },
 
-    calendarWrap: {
-        marginBottom: 34,
-    },
+  noticeRow: {
+    flexDirection: "row",
+    maxWidth: 350,
+    justifyContent: "space-between",
+    alignSelf: "center",
+    alignItems: "center",
+  },
 
-    hoursWrap: {
-        marginBottom: 38,
-    },
+  noticeText: {
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: "400",
+    maxWidth: 300,
+    color: "#333",
+  },
 
-    noticeRow: {
-        flexDirection: "row",
-        alignItems: "flex-start",
-        width: "90%",
-        alignSelf: "center",
-        marginBottom: 42,
-    },
+  containerButton: {
+    width: "96%",
+    backgroundColor: "#5085A8",
+    height: 50,
+    alignItems: "center",
+    alignSelf: "center",
+    justifyContent: "center",
+    marginTop: 30,
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderRadius: 14,
+  },
 
-    checkbox: {
-        width: 24,
-        height: 24,
-        marginTop: 4,
-        marginRight: 14,
-        borderRadius: 3,
-    },
+  disabledButton: {
+    opacity: 0.6,
+  },
 
-    noticeText: {
-        flex: 1,
-        fontSize: 16,
-        lineHeight: 24,
-        color: "#000",
-    },
-
-    confirmButton: {
-        height: 62,
-        width: "96%",
-        alignSelf: "center",
-        backgroundColor: "#5085A8",
-        borderRadius: 14,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-
-    disabledButton: {
-        opacity: 0.6,
-    },
-
-    confirmButtonText: {
-        fontSize: 20,
-        fontWeight: "500",
-        color: "#fff",
-    },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#fff",
+  },
 });
