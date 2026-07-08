@@ -58,7 +58,7 @@ const records: MedicalList[] = [
     }
 ];
 
-export default function MedicalRecordsMain() {
+export default function MedicalRecordsScreen() {
 
     return (
         <ScrollView className="flex-1 bg-[#EEF9FB]">
@@ -66,7 +66,7 @@ export default function MedicalRecordsMain() {
                 <View style={styles.container}>
                     {records.map((record, index) => (
                         <View key={`${record.name}-${index}`} style={styles.card}>
-                            <MaterialIcons name={record.icon} size={24} color="#3f3128" />
+                            <MaterialIcons name={record.icon} size={28} color="#5085A8" />
                             <View>
                                 <Text>{record.name}</Text>
                             </View>
