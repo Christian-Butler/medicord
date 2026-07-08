@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
 import { Bell } from "lucide-react-native";
+import { useEffect, useState } from "react";
 import { Image, Pressable, Text, View } from "react-native";
 
-import { setDemoSession } from "../src/features/auth/demoSession";
-import { getMyUser } from "../src/features/auth/getUser";
+import { setDemoSession } from "../src/api/auth/demoSession";
+import { getMyUser } from "../src/api/auth/getUser";
 
 type ProfileHeaderProps = {
   name?: string;
