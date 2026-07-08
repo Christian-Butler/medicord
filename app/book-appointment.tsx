@@ -1,428 +1,289 @@
-import AppointmentReasonOverlay from "@/components/booking-reason";
 import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import BookingSuccessOverlay from "@/components/success-booking";
-
-import { createAppointment } from "@/src/api/appointments/api";
-import { getDoctorsBySpecialty } from "@/src/api/doctors/api";
-
+import ScreenHeader from "@/components/screen-header";
+import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
+import { useDoctor } from "@/src/hooks/useDoctor";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Checkbox } from "expo-checkbox";
 import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
+    buildLocalIsoDateTime,
+    getMonthLabel,
+} from "@/src/utils/dateTime";
 
-type Doctor = {
-  id: string;
-  full_name: string;
-  specialty: string | null;
-  clinic_name: string | null;
-  location: string | null;
-  avatar_url?: string | null;
-  requires_gp_referral?: boolean | null;
-};
+
+
 
 export default function Booking() {
-  const { specialty } = useLocalSearchParams<{ specialty?: string }>();
+    const { doctorId, specialty } = useLocalSearchParams<{
+        doctorId?: string;
+        name?: string;
+        specialty?: string;
+        closestDay?: string;
+    }>();
 
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
+    const {
+        doctor,
+        loading: doctorLoading,
+        error: doctorError,
+    } = useDoctor(doctorId ? String(doctorId) : undefined);
 
-  const [selectedReasons, setSelectedReasons] = useState<string[]>([]);
+    const { create, creating, createError } = useCreateAppointment();
 
-  const [showReasonOverlay, setShowReasonOverlay] = useState(false);
-  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+    const [isChecked, setChecked] = useState(false);
+    const [formError, setFormError] = useState<string | null>(null);
+    const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
 
-  const [loadingDoctors, setLoadingDoctors] = useState(false);
-  const [booking, setBooking] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = useState<string | null>(null);
+    const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
-  /**
-   * Temporary values until WeeklyCalendar and HoursBooking return real selected values.
-   */
-  const selectedDate = "2026-06-20";
-  const selectedTime = "10:00";
-
-  useEffect(() => {
-    async function loadDoctors() {
-      console.log("[Booking] route specialty:", specialty);
-
-      if (!specialty) {
-        console.log("[Booking] no specialty param found");
-        return;
-      }
-
-      try {
-        setLoadingDoctors(true);
-        setError(null);
-
-        console.log("[Booking] fetching doctors for specialty:", String(specialty));
-
-        const rows = await getDoctorsBySpecialty(String(specialty));
-
-        console.log("[Booking] doctors returned:", rows);
-
-        setDoctors(rows as Doctor[]);
-
-        if (rows?.[0]) {
-          console.log("[Booking] auto-selecting first doctor:", rows[0]);
-          setSelectedDoctor(rows[0] as Doctor);
+    async function handleConfirmBooking() {
+        if (!doctor && !doctorId) {
+            setFormError("Missing selected doctor.");
+            return;
         }
-      } catch (err) {
-        console.error("[Booking] failed to load doctors:", err);
-        setError(err instanceof Error ? err.message : "Failed to load doctors");
-      } finally {
-        setLoadingDoctors(false);
-      }
+
+        if (!selectedDate) {
+            setFormError("Please select a date.");
+            return;
+        }
+
+        if (!selectedTime) {
+            setFormError("Please select a time.");
+            return;
+        }
+
+        if (!isChecked) {
+            setFormError("Please confirm the appointment notice.");
+            return;
+        }
+
+        try {
+            setFormError(null);
+
+            const startsAt = buildLocalIsoDateTime(selectedDate, selectedTime);
+            const endsAt = new Date(
+                new Date(startsAt).getTime() + 30 * 60 * 1000
+            ).toISOString();
+
+            const input = {
+                doctorId: doctor?.id ?? String(doctorId),
+                gpId: null,
+                referralRequired: doctor?.requires_gp_referral ?? false,
+
+                patientName: "Philip",
+                patientEmail: "demo@medicord.test",
+                patientPhone: "07123456789",
+
+                reason: `${doctor?.specialty ?? specialty ?? "Appointment"
+                    } consultation`,
+                startsAt,
+                endsAt,
+                location: doctor?.location ?? null,
+            };
+
+            console.log("[BookAppointment] create appointment input:", input);
+
+            const created = await create(input);
+
+            console.log("[BookAppointment] created appointment:", created);
+
+            setShowSuccessOverlay(true);
+        } catch (err) {
+            console.error("[BookAppointment] create appointment failed:", err);
+        }
     }
 
-    loadDoctors();
-  }, [specialty]);
+    const visibleError = formError ?? doctorError ?? createError;
 
-  function toggleReason(reason: string) {
-    setSelectedReasons((prev) => {
-      const next = prev.includes(reason)
-        ? prev.filter((item) => item !== reason)
-        : [...prev, reason];
+    return (
+        <View className="flex-1 bg-[#EEF9FB]">
+            <ScreenHeader title="Appointment" />
+            <ScrollView>
+                <View className="flex-1" style={{ height: 26 }} />
 
-      console.log("[Booking] selectedReasons next:", next);
+                <View style={styles.monthContainer}>
+                    <Text style={{ fontSize: 22 }}>Select date</Text>
 
-      return next;
-    });
-  }
+                    <View style={styles.month}>
+                        <Text>Month selected: {getMonthLabel(selectedDate)}</Text>
+                        <MaterialIcons name="keyboard-arrow-down" size={18} />
+                    </View>
+                </View>
 
-  function handleOpenReasonOverlay() {
-    console.log("[Booking] confirm booking pressed");
-    console.log("[Booking] selectedDoctor before overlay:", selectedDoctor);
+                <View style={{ marginBottom: 26 }}>
+                    <WeeklyCalendar
+                        selectedDate={selectedDate ?? undefined}
+                        onSelectDate={(date) => {
+                            setSelectedDate(date);
+                            setFormError(null);
+                        }}
+                    />
+                </View>
 
-    if (!selectedDoctor) {
-      setError("Please select a doctor.");
-      return;
-    }
+                <View>
+                    <HoursBooking
+                        selectedTime={selectedTime ?? undefined}
+                        onSelectTime={(time) => {
+                            setSelectedTime(time);
+                            setFormError(null);
+                        }}
+                    />
+                </View>
 
-    setSelectedReasons([]);
-    setError(null);
-    setShowReasonOverlay(true);
-  }
+                {doctorLoading ? (
+                    <View style={styles.statusContainer}>
+                        <Text style={styles.statusText}>Loading doctor...</Text>
+                    </View>
+                ) : null}
 
-  async function handleConfirmReason() {
-    console.log("[Booking] reason overlay confirm pressed");
-    console.log("[Booking] selectedDoctor:", selectedDoctor);
-    console.log("[Booking] selectedReasons:", selectedReasons);
+                {visibleError ? (
+                    <View style={styles.errorContainer}>
+                        <Text style={styles.errorText}>{visibleError}</Text>
+                    </View>
+                ) : null}
 
-    if (!selectedDoctor) {
-      setError("Please select a doctor.");
-      return;
-    }
+                <View style={styles.noticeRow}>
+                    <Checkbox
+                        style={{ marginRight: 20 }}
+                        value={isChecked}
+                        onValueChange={(value) => {
+                            setChecked(value);
+                            setFormError(null);
+                        }}
+                    />
 
-    if (selectedReasons.length === 0) {
-      setError("Please select at least one reason.");
-      return;
-    }
+                    <Text style={styles.noticeText}>
+                        By booking this appointment, I am confirming my presence at that day
+                        and hour. I am aware that by failing to attend, or not notifying my
+                        unavailability may result in getting blacklisted.
+                    </Text>
+                </View>
 
-    try {
-      setBooking(true);
-      setError(null);
+                <View
+                    style={[
+                        styles.containerButton,
+                        creating ? styles.disabledButton : null,
+                    ]}
+                >
+                    <Pressable
+                        accessibilityRole="button"
+                        disabled={creating}
+                        onPress={handleConfirmBooking}
+                    >
+                        <Text style={styles.buttonText}>
+                            {creating ? "Booking..." : "Confirm booking"}
+                        </Text>
+                    </Pressable>
+                </View>
+            </ScrollView>
 
-      const startsAt = new Date(`${selectedDate}T${selectedTime}:00.000Z`);
-      const endsAt = new Date(startsAt.getTime() + 30 * 60 * 1000);
-
-      console.log("[Booking] startsAt:", startsAt.toISOString());
-      console.log("[Booking] endsAt:", endsAt.toISOString());
-
-      const input = {
-        doctorId: selectedDoctor.id,
-        gpId: null,
-        referralRequired: selectedDoctor.requires_gp_referral ?? false,
-
-        patientName: "Philip",
-        patientEmail: "demo@medicord.test",
-        patientPhone: "07123456789",
-
-        reason: selectedReasons.join(", "),
-        startsAt: startsAt.toISOString(),
-        endsAt: endsAt.toISOString(),
-        location: selectedDoctor.location ?? null,
-    };
-
-      console.log("[Booking] createAppointment input:", input);
-
-      const createdAppointment = await createAppointment(input);
-
-      console.log("[Booking] createdAppointment returned:", createdAppointment);
-
-      setShowReasonOverlay(false);
-      setShowSuccessOverlay(true);
-    } catch (err) {
-      console.error("[Booking] create appointment failed:", err);
-
-      setError(
-        err instanceof Error ? err.message : "Failed to book appointment"
-      );
-    } finally {
-      setBooking(false);
-    }
-  }
-
-  return (
-    <View className="flex-1 bg-[#EEF9FB]">
-      <ScrollView>
-        <View className="flex-1" style={{ height: 26 }} />
-
-        <View style={styles.headerContainer}>
-          <Pressable onPress={() => router.back()} style={styles.backButton}>
-            <Text style={styles.backButtonText}>‹ Home</Text>
-          </Pressable>
-
-          <Text style={styles.headerTitle}>
-            {specialty ?? "Book appointment"}
-          </Text>
-
-          <View style={{ width: 90 }} />
-        </View>
-
-        <View style={styles.doctorsContainer}>
-          <Text style={styles.sectionTitle}>Select doctor</Text>
-
-          {loadingDoctors ? (
-            <Text style={styles.helperText}>Loading doctors...</Text>
-          ) : null}
-
-          {!loadingDoctors && doctors.length === 0 ? (
-            <Text style={styles.helperText}>
-              No doctors found for this specialty.
-            </Text>
-          ) : null}
-
-          {doctors.map((doctor) => {
-            const selected = selectedDoctor?.id === doctor.id;
-
-            return (
-              <Pressable
-                key={doctor.id}
-                onPress={() => {
-                  console.log("[Booking] doctor selected:", doctor);
-                  setSelectedDoctor(doctor);
-                  setError(null);
+            <BookingSuccessOverlay
+                visible={showSuccessOverlay}
+                onAddToCalendar={() => { }}
+                onGoHome={() => {
+                    setShowSuccessOverlay(false);
+                    router.replace("/(tabs)");
                 }}
-                style={[
-                  styles.doctorCard,
-                  selected && styles.doctorCardSelected,
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.doctorName,
-                    selected && styles.doctorTextSelected,
-                  ]}
-                >
-                  {doctor.full_name}
-                </Text>
-
-                <Text
-                  style={[
-                    styles.doctorMeta,
-                    selected && styles.doctorTextSelected,
-                  ]}
-                >
-                  {doctor.specialty ?? specialty}
-                </Text>
-
-                <Text
-                  style={[
-                    styles.doctorMeta,
-                    selected && styles.doctorTextSelected,
-                  ]}
-                >
-                  {doctor.clinic_name ?? "Clinic"} ·{" "}
-                  {doctor.location ?? "Location"}
-                </Text>
-              </Pressable>
-            );
-          })}
+                onClose={() => setShowSuccessOverlay(false)}
+            />
         </View>
-
-        <View style={styles.monthContainer}>
-          <Text style={{ fontSize: 22 }}>Select date</Text>
-
-          <View style={styles.month}>
-            <Text>Month selected: June</Text>
-            <MaterialIcons name="keyboard-arrow-down" size={18} />
-          </View>
-        </View>
-
-        <View style={{ marginBottom: 26 }}>
-          <WeeklyCalendar />
-        </View>
-
-        <View>
-          <HoursBooking />
-        </View>
-
-        {error ? (
-          <View style={styles.errorContainer}>
-            <Text style={styles.errorText}>{error}</Text>
-          </View>
-        ) : null}
-
-        <View style={styles.containerButton}>
-          <Pressable
-            accessibilityRole="button"
-            disabled={booking}
-            onPress={handleOpenReasonOverlay}
-          >
-            <Text style={styles.buttonText}>
-              {booking ? "Booking..." : "Confirm booking"}
-            </Text>
-          </Pressable>
-        </View>
-      </ScrollView>
-
-      <AppointmentReasonOverlay
-        visible={showReasonOverlay}
-        selectedReasons={selectedReasons}
-        onToggleReason={toggleReason}
-        onConfirm={handleConfirmReason}
-        onClose={() => setShowReasonOverlay(false)}
-      />
-
-      <BookingSuccessOverlay
-        visible={showSuccessOverlay}
-        onAddToCalendar={() => {
-          console.log("[Booking] add to calendar pressed");
-        }}
-        onGoHome={() => {
-          console.log("[Booking] success overlay go home pressed");
-          setShowSuccessOverlay(false);
-          router.replace("/(tabs)");
-        }}
-        onClose={() => {
-          console.log("[Booking] success overlay closed");
-          setShowSuccessOverlay(false);
-        }}
-      />
-    </View>
-  );
+    );
 }
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    width: "90%",
-    alignSelf: "center",
-    marginBottom: 22,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  backButton: {
-    borderRadius: 28,
-    backgroundColor: "#fff",
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-  },
-  backButtonText: {
-    fontSize: 22,
-    color: "#111",
-  },
-  headerTitle: {
-    fontSize: 26,
-    fontWeight: "700",
-    color: "#111",
-  },
-  doctorsContainer: {
-    width: "90%",
-    alignSelf: "center",
-    marginBottom: 26,
-  },
-  sectionTitle: {
-    fontSize: 22,
-    marginBottom: 12,
-  },
-  helperText: {
-    fontSize: 14,
-    color: "#555",
-    marginBottom: 12,
-  },
-  doctorCard: {
-    backgroundColor: "#fff",
-    borderRadius: 14,
-    borderWidth: 2,
-    borderColor: "#DDF8FF",
-    padding: 14,
-    marginBottom: 12,
-  },
-  doctorCardSelected: {
-    backgroundColor: "#09516D",
-    borderColor: "#09516D",
-  },
-  doctorName: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#000",
-  },
-  doctorMeta: {
-    marginTop: 4,
-    fontSize: 14,
-    color: "#555",
-  },
-  doctorTextSelected: {
-    color: "#fff",
-  },
-  month: {
-    fontSize: 12,
-    fontWeight: "500",
-    backgroundColor: "#fff",
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 12,
-    paddingRight: 10,
-    borderWidth: 2,
-    borderColor: "#0D5175",
-    borderRadius: 14,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  monthContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "90%",
-    alignSelf: "center",
-    justifyContent: "space-between",
-    marginBottom: 26,
-  },
-  errorContainer: {
-    width: "90%",
-    alignSelf: "center",
-    marginBottom: 16,
-    borderRadius: 12,
-    backgroundColor: "#FFECEC",
-    padding: 12,
-  },
-  errorText: {
-    color: "#B42318",
-    fontSize: 14,
-  },
-  containerButton: {
-    width: "96%",
-    backgroundColor: "#5085A8",
-    height: 50,
-    alignItems: "center",
-    alignSelf: "center",
-    justifyContent: "center",
-    marginTop: 30,
-    marginBottom: 30,
-    paddingTop: 8,
-    paddingBottom: 8,
-    borderRadius: 14,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#fff",
-  },
+    month: {
+        fontSize: 12,
+        fontWeight: "500",
+        backgroundColor: "#fff",
+        paddingTop: 6,
+        paddingBottom: 6,
+        paddingLeft: 12,
+        paddingRight: 10,
+        borderWidth: 2,
+        borderColor: "#0D5175",
+        borderRadius: 14,
+        flexDirection: "row",
+        alignItems: "center",
+    },
+
+    monthContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: "90%",
+        alignSelf: "center",
+        justifyContent: "space-between",
+        marginBottom: 26,
+    },
+
+    containerButton: {
+        width: "96%",
+        backgroundColor: "#5085A8",
+        color: "#fff",
+        height: 50,
+        alignItems: "center",
+        alignSelf: "center",
+        justifyContent: "space-evenly",
+        marginTop: 30,
+        paddingTop: 8,
+        paddingBottom: 8,
+        borderRadius: 14,
+    },
+
+    disabledButton: {
+        opacity: 0.6,
+    },
+
+    buttonText: {
+        fontSize: 16,
+        fontWeight: "500",
+        color: "#fff",
+    },
+
+    statusContainer: {
+        width: "90%",
+        alignSelf: "center",
+        marginBottom: 16,
+        borderRadius: 12,
+        backgroundColor: "#E8F4FA",
+        padding: 12,
+    },
+
+    statusText: {
+        color: "#333",
+        fontSize: 14,
+    },
+
+    errorContainer: {
+        width: "90%",
+        alignSelf: "center",
+        marginBottom: 16,
+        borderRadius: 12,
+        backgroundColor: "#FFECEC",
+        padding: 12,
+    },
+
+    errorText: {
+        color: "#B42318",
+        fontSize: 14,
+    },
+
+    noticeRow: {
+        flexDirection: "row",
+        maxWidth: 350,
+        justifyContent: "space-between",
+        alignSelf: "center",
+        alignItems: "center",
+    },
+
+    noticeText: {
+        fontSize: 14,
+        lineHeight: 20,
+        fontWeight: "400",
+        maxWidth: 300,
+        color: "#333",
+    },
 });
