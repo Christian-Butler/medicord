@@ -1,3 +1,8 @@
+import { MaterialIcons } from '@expo/vector-icons';
+import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
+import { useRouter } from 'expo-router';
+import React, { useMemo } from 'react';
+import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from "@expo/vector-icons";
 import BottomSheet, {
   BottomSheetBackdrop,
@@ -27,6 +32,60 @@ type Props = {
 export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
   const snapPoints = useMemo(() => ["45%"], []);
 
+    const router = useRouter();
+
+    // useMemo stops snapPoints array being created on each render
+    const snapPoints = useMemo(() => ['45%'], []);
+    const renderBackdrop = (props: any) => (
+        <BottomSheetBackdrop
+            {...props}
+            disappearsOnIndex={-1}
+            appearsOnIndex={0}
+            pressBehavior="close"
+        />
+    );
+
+    const services: ServiceItem[] = [
+        { icon: 'calendar-month', label: 'Appointments' },
+        { icon: 'archive', label: 'Medical records' },
+        {
+            icon: 'medication', label: 'Medication',
+            onPress: () => {
+                bottomSheetRef.current?.close();
+                router.push('/medication-routine')
+            }
+        },
+        { icon: 'forum', label: 'Messages' },
+        { icon: 'change-circle', label: 'Order repeat medication' },
+        { icon: 'favorite', label: 'Your doctors' },
+    ];
+
+    return (
+        <BottomSheet
+            ref={bottomSheetRef}
+            snapPoints={snapPoints}
+            index={-1}
+            backdropComponent={renderBackdrop}
+            enablePanDownToClose
+            backgroundStyle={{ backgroundColor: '#EFF7F8' }}
+        >
+            <BottomSheetView style={styles.sheetContent}>
+                <Text style={styles.title}>Services hub</Text>
+                <FlatList
+                    style={{ width: "100%" }}
+                    data={services}
+                    renderItem={({ item }) => (
+                        <ServiceButton {...item} />
+                    )}
+                    keyExtractor={(item) => item.label}
+                    numColumns={3}
+                    columnWrapperStyle={styles.row}
+                    contentContainerStyle={styles.grid}
+                />
+            </BottomSheetView>
+        </BottomSheet>
+    );
+};
   const closeSheet = () => {
     bottomSheetRef.current?.close();
   };

@@ -33,6 +33,28 @@ export default function RootLayout() {
                 title: "Cardiology",
                 headerBackTitle: "Home",
               }}
+            />
+            <Stack.Screen
+              name='doctor-details'
+              options={{
+                title: "Doctor Details",
+                headerBackTitle: 'Back',
+              }}
+            />
+            <Stack.Screen
+              name='book-appointment'
+              options={{
+                title: "Appointment",
+                headerBackTitle: 'Back',
+              }}
+            />
+            <Stack.Screen
+              name='medication-routine'
+              options={{
+                title: "Create Routine",
+                headerBackTitle: 'Back',
+              }}
+            />
             /> */}
             <Stack.Screen name="specialist-page" options={{ headerShown: false }} />
             <Stack.Screen name="doctor-details" options={{ headerShown: false }} />
