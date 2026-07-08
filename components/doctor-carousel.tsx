@@ -41,8 +41,8 @@ export default function DoctorSpecialtyCarousel() {
           <Pressable
             className="w-[82px] items-center"
             onPress={() =>
-              router.push({
-                pathname: "/cardiology",
+               router.push({
+                pathname: "/specialist-page",
                 params: {
                   specialty: item.title,
                 },
