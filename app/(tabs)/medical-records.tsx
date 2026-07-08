@@ -1,13 +1,13 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { MaterialIcons } from "@expo/vector-icons";
+import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface MedicalList {
     name: string;
-    icon: keyof typeof MaterialIcons.glyphMap;
-    button: keyof typeof MaterialIcons.glyphMap;
+    icon: React.ComponentProps<typeof MaterialIcons>['name'];
+    button: React.ComponentProps<typeof MaterialIcons>['name'];
     onPress?: () => void;
 }
 
@@ -19,42 +19,42 @@ const records: MedicalList[] = [
     },
     {
         name: 'Family / Personal history',
-        icon: 'article',
+        icon: 'person-search',
         button: 'chevron-right',
     },
     {
         name: 'Regular treatments',
-        icon: 'archive',
+        icon: 'pending-actions',
         button: 'chevron-right',
     },
     {
         name: 'Allergies',
-        icon: 'archive',
+        icon: 'coronavirus',
         button: 'chevron-right',
     },
     {
         name: 'Gynecological follow-up',
-        icon: 'article',
+        icon: 'female',
         button: 'chevron-right',
     },
     {
         name: 'Vaccines',
-        icon: 'archive',
+        icon: 'vaccines',
         button: 'chevron-right',
     },
     {
         name: 'Surgical operations',
-        icon: 'archive',
+        icon: 'monitor-heart',
         button: 'chevron-right',
     },
     {
         name: 'Lifestyle',
-        icon: 'archive',
+        icon: 'directions-walk',
         button: 'chevron-right',
     },
     {
         name: 'Measurements',
-        icon: 'archive',
+        icon: 'design-services',
         button: 'chevron-right',
     }
 ];
@@ -68,7 +68,7 @@ export default function MedicalRecordsScreen() {
                     <View style={styles.container}>
                         {records.map((record, index) => (
                             <View key={`${record.name}-${index}`} style={styles.card}>
-                                <MaterialIcons name={record.icon} size={28} color="#5085A8" />
+                                <MaterialIcons name={record.icon} size={32} color="#5085A8" />
                                 <View>
                                     <Text>{record.name}</Text>
                                 </View>

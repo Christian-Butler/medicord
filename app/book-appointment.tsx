@@ -1,6 +1,6 @@
 import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
-import { MaterialIcons } from "@expo/vector-icons";
+import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { Checkbox } from 'expo-checkbox';
 import { router } from "expo-router";
 import React, { useState } from "react";

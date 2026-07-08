@@ -1,4 +1,4 @@
-import { MaterialIcons } from '@expo/vector-icons';
+import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { IconSymbol } from "@/components/ui/icon-symbol";
 import * as Haptics from 'expo-haptics';
 import React from 'react';

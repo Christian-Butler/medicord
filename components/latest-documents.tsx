@@ -1,4 +1,4 @@
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import FontAwesome5 from "@react-native-vector-icons/fontawesome5";
 import { View, Pressable, Text } from "react-native";
 
 export default function LatestDocuments() {
@@ -7,7 +7,6 @@ export default function LatestDocuments() {
       <Text className="text-[28px] font-normal text-black">
         Latest documents
       </Text>
-
       {/* Example document card */}
       <Pressable className="mt-5 rounded-2xl border border-[#D6E7EC] bg-white px-5 py-5">
         <View className="flex-row items-center">
@@ -15,7 +14,7 @@ export default function LatestDocuments() {
               name="clipboard-list"
               size={34}
               color="#09516D"
-              solid
+              iconStyle="solid"
             />
           
           <View className="ml-4 flex-1">

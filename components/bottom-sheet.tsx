@@ -1,11 +1,11 @@
-import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
+import MaterialIcons from "@react-native-vector-icons/material-icons";
 import React, { useMemo } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 //using Typescript to define the data fields of the grid
 type ServiceItem = {
-    icon: keyof typeof MaterialIcons.glyphMap;
+    icon: React.ComponentProps<typeof MaterialIcons>['name'];
     label: string;
     onPress?: () => void;
 };

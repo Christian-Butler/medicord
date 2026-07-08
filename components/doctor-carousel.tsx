@@ -1,4 +1,4 @@
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import MaterialCommunityIcons from "@react-native-vector-icons/material-design-icons";
 import { Href, useRouter } from "expo-router";
 import { FlatList, Pressable, Text, View } from "react-native";
 
