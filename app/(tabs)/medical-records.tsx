@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface MedicalList {
     name: string;
@@ -61,23 +62,25 @@ const records: MedicalList[] = [
 export default function MedicalRecordsScreen() {
 
     return (
-        <ScrollView className="flex-1 bg-[#EEF9FB]">
-            <View className="flex-1">
-                <View style={styles.container}>
-                    {records.map((record, index) => (
-                        <View key={`${record.name}-${index}`} style={styles.card}>
-                            <MaterialIcons name={record.icon} size={28} color="#5085A8" />
-                            <View>
-                                <Text>{record.name}</Text>
+        <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
+            <ScrollView>
+                <View className="flex-1">
+                    <View style={styles.container}>
+                        {records.map((record, index) => (
+                            <View key={`${record.name}-${index}`} style={styles.card}>
+                                <MaterialIcons name={record.icon} size={28} color="#5085A8" />
+                                <View>
+                                    <Text>{record.name}</Text>
+                                </View>
+                                <TouchableOpacity>
+                                    <MaterialIcons name={record.button} size={24} color="#3f3128" />
+                                </TouchableOpacity>
                             </View>
-                            <TouchableOpacity>
-                                <MaterialIcons name={record.button} size={24} color="#3f3128" />
-                            </TouchableOpacity>
-                        </View>
-                    ))}
+                        ))}
+                    </View>
                 </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 

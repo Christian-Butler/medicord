@@ -1,10 +1,11 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function AppointmentsScreen() {
     return (
-        <View className="flex-1 bg-[#EEF9FB]" style={{ paddingTop: '6%' }}>
+        <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
             <ScrollView stickyHeaderIndices={[1, 3]} contentContainerStyle={{ paddingBottom: 20 }}>
                 <View className="flex-1" style={{ height: 26 }}>
                 </View>
@@ -16,7 +17,7 @@ export default function AppointmentsScreen() {
                     <Text style={styles.stickyHeader}> Past </Text>
                 </View>
             </ScrollView >
-        </View>
+        </SafeAreaView>
 
     )
 }
