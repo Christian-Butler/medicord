@@ -1,5 +1,5 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { Href, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { FlatList, Pressable, Text, View } from "react-native";
 
 const specialties = [
@@ -41,8 +41,14 @@ export default function DoctorSpecialtyCarousel() {
           <Pressable
             className="w-[82px] items-center"
             onPress={() =>
-              router.navigate(`/${item.id}` as Href)
-            }>
+               router.push({
+                pathname: "/specialist-page",
+                params: {
+                  specialty: item.title,
+                },
+              })
+            }
+          >
             <View className="h-[62px] w-[77px] items-center justify-center rounded-[16px] border-2 border-[#2B6F95] bg-[#DDF8FF]">
               <MaterialCommunityIcons
                 name={item.icon}
@@ -55,7 +61,8 @@ export default function DoctorSpecialtyCarousel() {
               numberOfLines={1}
               adjustsFontSizeToFit
               minimumFontScale={0.65}
-              className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black">
+              className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black"
+            >
               {item.title}
             </Text>
           </Pressable>
