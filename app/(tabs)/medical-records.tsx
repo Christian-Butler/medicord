@@ -14,12 +14,12 @@ interface MedicalList {
 const records: MedicalList[] = [
     {
         name: 'Documents',
-        icon: 'archive',
+        icon: 'article',
         button: 'chevron-right',
     },
     {
         name: 'Family / Personal history',
-        icon: 'archive',
+        icon: 'article',
         button: 'chevron-right',
     },
     {
@@ -33,8 +33,8 @@ const records: MedicalList[] = [
         button: 'chevron-right',
     },
     {
-        name: 'Gynaecological follow-up',
-        icon: 'archive',
+        name: 'Gynecological follow-up',
+        icon: 'article',
         button: 'chevron-right',
     },
     {
