@@ -27,7 +27,7 @@ export default function RootLayout() {
               name="modal"
               options={{ presentation: "modal", title: "Modal" }}
             />
-            <Stack.Screen
+            {/* <Stack.Screen
               name='cardiology'
               options={{
                 title: "Cardiology",
@@ -55,7 +55,15 @@ export default function RootLayout() {
                 headerBackTitle: 'Back',
               }}
             />
+            /> */}
+            <Stack.Screen name="specialist-page" options={{ headerShown: false }} />
+            <Stack.Screen name="doctor-details" options={{ headerShown: false }} />
+            <Stack.Screen name="book-appointment" options={{ headerShown: false }} />
+            <Stack.Screen name="appointments" options={{ headerShown: false }} />
+            <Stack.Screen name="appointment-details" options={{ headerShown: false }} />
+            <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
           </Stack>
+
           <StatusBar style="auto" />
         </ThemeProvider>
       </SafeAreaProvider>

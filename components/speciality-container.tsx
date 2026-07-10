@@ -1,4 +1,5 @@
-import { getDoctorsBySpecialty } from "@/src/api/doctors/api";
+import { getClosestAvailableSlotsForDoctors } from "@/src/api/appointments/availability";
+import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
@@ -14,46 +15,69 @@ import {
 } from "react-native";
 import WeeklyCalendar from "./calendar";
 
-interface Doctor {
-  id: string;
-  full_name: string;
-  specialty: string | null;
-  avatar_url: string | null;
-  clinic_name?: string | null;
-  location?: string | null;
-  requires_gp_referral?: boolean | null;
-}
+type SpecialityContainerProps = {
+  specialty: string;
+};
 
-const Card: React.FC = () => {
-  const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+const fallbackAvatars = [
+  "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg",
+  "https://images.pexels.com/photos/8460094/pexels-photo-8460094.jpeg",
+  "https://images.pexels.com/photos/8376300/pexels-photo-8376300.jpeg",
+  "https://images.pexels.com/photos/5738735/pexels-photo-5738735.jpeg",
+];
 
-  const specialty = "Cardiology";
+export default function SpecialityContainer({
+  specialty,
+}: SpecialityContainerProps) {
+  const {
+    doctors,
+    loading,
+    error,
+  } = useDoctorsBySpecialty(specialty);
+
+  const [availabilityByDoctorId, setAvailabilityByDoctorId] = useState<
+    Record<string, string>
+  >({});
+
+  const [availabilityError, setAvailabilityError] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
-    async function loadCardiologists() {
+    async function loadAvailability() {
+      if (doctors.length === 0) {
+        setAvailabilityByDoctorId({});
+        return;
+      }
+
       try {
-        setLoading(true);
-        setError(null);
+        setAvailabilityError(null);
 
-        console.log("[CardiologyCard] loading doctors for:", specialty);
+        const slots = await getClosestAvailableSlotsForDoctors(
+          doctors.map((doctor) => doctor.id)
+        );
 
-        const rows = await getDoctorsBySpecialty(specialty);
+        const formattedSlots: Record<string, string> = {};
 
-        console.log("[CardiologyCard] doctors returned:", rows);
+        doctors.forEach((doctor) => {
+          formattedSlots[doctor.id] =
+            slots[doctor.id]?.label ?? "No slots available";
+        });
 
-        setDoctors(rows as Doctor[]);
+        setAvailabilityByDoctorId(formattedSlots);
       } catch (err) {
-        console.error("[CardiologyCard] failed to load doctors:", err);
-        setError(err instanceof Error ? err.message : "Failed to load doctors");
-      } finally {
-        setLoading(false);
+        console.error("[SpecialityContainer] availability failed:", err);
+
+        setAvailabilityError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load availability"
+        );
       }
     }
 
-    loadCardiologists();
-  }, []);
+    loadAvailability();
+  }, [doctors]);
 
   return (
     <View>
@@ -71,44 +95,37 @@ const Card: React.FC = () => {
       </View>
 
       {loading ? (
-        <Text style={styles.statusText}>Loading cardiologists...</Text>
+        <Text style={styles.statusText}>Loading doctors...</Text>
       ) : null}
 
-      {error ? (
-        <Text style={styles.errorText}>{error}</Text>
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+      {availabilityError ? (
+        <Text style={styles.errorText}>{availabilityError}</Text>
       ) : null}
 
       {!loading && !error && doctors.length === 0 ? (
-        <Text style={styles.statusText}>No cardiologists found.</Text>
+        <Text style={styles.statusText}>No doctors found.</Text>
       ) : null}
 
       <View style={styles.containerMain}>
         {doctors.map((doctor, index) => {
           const closestDay =
-            index === 0
-              ? "Tue. April 14th"
-              : index === 1
-                ? "Mon. June 2nd"
-                : index === 2
-                  ? "Wed. July 9th"
-                  : "Thu. August 12th";
+            availabilityByDoctorId[doctor.id] ?? "Checking availability...";
+
+          const avatar =
+            doctor.avatar_url ?? fallbackAvatars[index % fallbackAvatars.length];
 
           return (
             <View key={doctor.id} style={styles.card}>
               <View style={styles.doctorInfo}>
-                <Image
-                  source={{
-                    uri:
-                      doctor.avatar_url ??
-                      "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg",
-                  }}
-                  style={styles.avatar}
-                />
+                <Image source={{ uri: avatar }} style={styles.avatar} />
 
                 <View style={styles.doctorText}>
                   <Text style={styles.name}>{doctor.full_name}</Text>
+
                   <Text style={styles.profession}>
-                    {doctor.specialty ?? "Cardiologist"}
+                    {doctor.specialty ?? specialty}
                   </Text>
                 </View>
 
@@ -136,12 +153,12 @@ const Card: React.FC = () => {
                           doctorId: doctor.id,
                           name: doctor.full_name,
                           closestDay,
-                          specialty: doctor.specialty ?? "Cardiology",
+                          specialty: doctor.specialty ?? specialty,
                         },
                       })
                     }
                   >
-                    <Text style={styles.text2}>Book Now</Text>
+                    <Text style={styles.text2}>View Details</Text>
                     <MaterialIcons name="chevron-right" size={26} color="#fff" />
                   </Pressable>
                 </View>
@@ -152,11 +169,12 @@ const Card: React.FC = () => {
       </View>
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   search: {
     width: 350,
+    marginTop: 18,
     marginBottom: 20,
     alignSelf: "center",
   },
@@ -248,5 +266,3 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 });
-
-export default Card;
