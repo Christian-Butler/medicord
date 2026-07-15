@@ -1,106 +1,131 @@
-import { Image, Platform, StyleSheet } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Image, Pressable, ScrollView, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { HelloWave } from "@/components/hello-wave";
-// import ParallaxScrollView from "@/components/parallax-scroll-view";
-import { ThemedText } from "@/components/themed-text";
-import { ThemedView } from "@/components/themed-view";
-import { Link } from "expo-router";
+type ProfileRowProps = {
+  icon?: keyof typeof MaterialIcons.glyphMap;
+  title: string;
+  subtitle?: string;
+  destructive?: boolean;
+  onPress?: () => void;
+};
 
-export default function ProfileScreen() {
+function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: ProfileRowProps) {
   return (
-    <><h1></h1> </>
-    // <ParallaxScrollView
-    //   headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
-    //   headerImage={
-    //     <Image
-    //       source={require("@/assets/images/partial-react-logo.png")}
-    //       style={styles.reactLogo}
-    //     />
-    //   }>
-    //   <ThemedView style={styles.titleContainer}>
-    //     <ThemedText type="title">Welcome!</ThemedText>
-    //     <HelloWave />
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-    //     <ThemedText>
-    //       Edit{" "}
-    //       <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-    //       to see changes. Press{" "}
-    //       <ThemedText type="defaultSemiBold">
-    //         {Platform.select({
-    //           ios: "cmd + d",
-    //           android: "cmd + m",
-    //           web: "F12",
-    //         })}
-    //       </ThemedText>{" "}
-    //       to open developer tools.
-    //     </ThemedText>
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <Link href="/modal">
-    //       <Link.Trigger>
-    //         <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-    //       </Link.Trigger>
-    //       <Link.Preview />
-    //       <Link.Menu>
-    //         <Link.MenuAction
-    //           title="Action"
-    //           icon="cube"
-    //           onPress={() => alert("Action pressed")}
-    //         />
-    //         <Link.MenuAction
-    //           title="Share"
-    //           icon="square.and.arrow.up"
-    //           onPress={() => alert("Share pressed")}
-    //         />
-    //         <Link.Menu title="More" icon="ellipsis">
-    //           <Link.MenuAction
-    //             title="Delete"
-    //             icon="trash"
-    //             destructive
-    //             onPress={() => alert("Delete pressed")}
-    //           />
-    //         </Link.Menu>
-    //       </Link.Menu>
-    //     </Link>
+    <Pressable
+      onPress={onPress}
+      className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3"
+    >
+      {icon ? (
+        <MaterialIcons
+          name={icon}
+          size={22}
+          color={destructive ? "#E33434" : "#000"}
+          style={{ marginRight: 14 }}
+        />
+      ) : null}
 
-    //     <ThemedText>
-    //       {`Tap the Explore tab to learn more about what's included in this starter app.`}
-    //     </ThemedText>
-    //   </ThemedView>
-    //   <ThemedView style={styles.stepContainer}>
-    //     <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-    //     <ThemedText>
-    //       {`When you're ready, run `}
-    //       <ThemedText type="defaultSemiBold">
-    //         npm run reset-project
-    //       </ThemedText>{" "}
-    //       to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-    //       directory. This will move the current{" "}
-    //       <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-    //       <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-    //     </ThemedText>
-    //   </ThemedView>
-    // </ParallaxScrollView>
+      <View className="flex-1">
+        <Text
+          className={`text-[17px] font-normal ${
+            destructive ? "text-[#E33434]" : "text-black"
+          }`}
+        >
+          {title}
+        </Text>
+
+        {subtitle ? (
+          <Text className="mt-1 text-[15px] font-normal text-black">
+            {subtitle}
+          </Text>
+        ) : null}
+      </View>
+
+      <MaterialIcons
+        name="chevron-right"
+        size={26}
+        color={destructive ? "#E33434" : "#000"}
+      />
+    </Pressable>
   );
 }
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});
+function SectionTitle({ title }: { title: string }) {
+  return (
+    <View className="border-b border-[#B9CBCD] px-5 pb-3 pt-7">
+      <Text className="text-[19px] font-semibold text-black">{title}</Text>
+    </View>
+  );
+}
+
+export default function ProfilePage() {
+  return (
+    <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
+      <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
+        <Text className="text-center text-[24px] font-normal text-black">
+          Profile
+        </Text>
+      </View>
+
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ paddingBottom: 120 }}
+        showsVerticalScrollIndicator={false}
+      >
+        <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
+          <Pressable className="absolute right-6 top-6 flex-row items-center">
+            <MaterialIcons name="edit" size={16} color="#8A3F00" />
+            <Text className="ml-1 text-[16px] text-[#8A3F00]">Edit</Text>
+          </Pressable>
+
+          <Image
+            source={require("@/assets/images/phillip.png")}
+            className="h-[74px] w-[74px] rounded-full"
+          />
+
+          <Text className="mt-5 text-[17px] font-normal text-black">
+            Philip Connally
+          </Text>
+
+          <Text className="mt-3 text-[16px] font-normal text-black">
+            Cork - 19/04/53
+          </Text>
+
+          <Text className="mt-3 text-[16px] font-normal text-black">
+            Address unspecified
+          </Text>
+        </View>
+
+        <SectionTitle title="Authentification" />
+
+        <ProfileRow icon="phone" title="Phone number" subtitle="XXX XXX XXX" />
+
+        <ProfileRow icon="mail-outline" title="Email address" subtitle="John@Doe.com" />
+
+        <ProfileRow icon="lock-outline" title="Security details" />
+
+        <SectionTitle title="Other settings" />
+
+        <ProfileRow title="Online payment settings" subtitle="Manage your payments" />
+
+        <ProfileRow icon="credit-card" title="Payment options" subtitle="Your credit cards for appointments" />
+
+        <ProfileRow icon="language" title="Language" subtitle="English (UK)" />
+
+        <ProfileRow title="Encrypted documents" subtitle="Active" />
+
+        <SectionTitle title="Confidentiality" />
+
+        <ProfileRow title="My preferences" />
+
+        <ProfileRow title="Legal information" />
+
+        <ProfileRow title="Delete my account" />
+
+        <View className="h-[64px] border-b border-[#B9CBCD]" />
+
+        <ProfileRow icon="logout" title="Disconnect" destructive />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}

@@ -1,30 +1,34 @@
 import { useAppointmentList } from "@/src/hooks/useAppointmentList";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
-  Dimensions,
   FlatList,
   Image,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
   Pressable,
   StyleSheet,
   Text,
+  useWindowDimensions,
   View,
 } from "react-native";
 import { formatAppointmentDateTime } from "@/src/utils/dateTime";
 
-const { width } = Dimensions.get("window");
-
-const CARD_WIDTH = width - 44;
+const CARD_GAP = 14;
 
 export default function UpcomingAppointments() {
-  const {
-    upcomingAppointments,
-    loading,
-    error,
-  } = useAppointmentList();
+  const { upcomingAppointments, loading, error } = useAppointmentList();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const { width } = useWindowDimensions();
+  const cardWidth = width - 44;
 
-  
+  function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const nextIndex = Math.round(offsetX / (cardWidth + CARD_GAP));
+    setActiveIndex(Math.max(0, Math.min(nextIndex, upcomingAppointments.length - 1)));
+  }
+
   if (loading) {
     return (
       <View style={styles.section}>
@@ -47,7 +51,7 @@ export default function UpcomingAppointments() {
     return (
       <View style={styles.section}>
         <Text style={styles.title}>Upcoming Appointments</Text>
-        <View style={styles.emptyCard}>
+        <View style={[styles.emptyCard, { width: cardWidth }]}>
           <Text style={styles.emptyText}>No upcoming appointments</Text>
         </View>
       </View>
@@ -63,62 +67,50 @@ export default function UpcomingAppointments() {
         data={upcomingAppointments}
         keyExtractor={(item) => item.id}
         showsHorizontalScrollIndicator={false}
-        snapToInterval={CARD_WIDTH + 14}
+        snapToInterval={cardWidth + CARD_GAP}
+        snapToAlignment="start"
         decelerationRate="fast"
+        bounces={false}
+        overScrollMode="never"
+        onMomentumScrollEnd={handleScroll}
         contentContainerStyle={styles.carouselContent}
-        ItemSeparatorComponent={() => <View style={{ width: 14 }} />}
+        ItemSeparatorComponent={() => <View style={{ width: CARD_GAP }} />}
         renderItem={({ item }) => {
-          const doctorName =
-            item.doctors?.full_name ?? item.title ?? "Appointment";
-
-          const doctorSpecialty =
-            item.doctors?.specialty ?? item.appointment_type ?? "Consultation";
-
+          const doctorName = item.doctors?.full_name ?? item.title ?? "Appointment";
+          const doctorSpecialty = item.doctors?.specialty ?? item.appointment_type ?? "Consultation";
           const avatarUrl = item.doctors?.avatar_url;
 
           return (
             <Pressable
-              style={styles.card}
+              style={[styles.card, { width: cardWidth }]}
               accessibilityRole="button"
               onPress={() =>
                 router.push({
                   pathname: "/appointment-details" as never,
-                  params: {
-                    appointmentId: item.id,
-                  },
+                  params: { appointmentId: item.id },
                 })
               }
             >
               <View style={styles.topRow}>
                 <View style={styles.avatarWrapper}>
-                  {avatarUrl ? (
-                    <Image source={{ uri: avatarUrl }} style={styles.avatar} />
-                  ) : (
-                    <Image
-                      source={{
-                        uri: "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg",
-                      }}
-                      style={styles.avatar}
-                    />
-                  )}
+                  <Image
+                    source={{
+                      uri: avatarUrl ?? "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg",
+                    }}
+                    style={styles.avatar}
+                  />
                 </View>
 
                 <View style={styles.doctorTextContainer}>
                   <Text numberOfLines={1} style={styles.doctorName}>
                     {doctorName}
                   </Text>
-
                   <Text numberOfLines={1} style={styles.doctorSpecialty}>
                     {doctorSpecialty}
                   </Text>
                 </View>
 
-                <MaterialIcons
-                  name="chevron-right"
-                  size={42}
-                  color="#000"
-                  style={styles.chevron}
-                />
+                <MaterialIcons name="chevron-right" size={42} color="#000" style={styles.chevron} />
               </View>
 
               <View style={styles.datePill}>
@@ -130,6 +122,20 @@ export default function UpcomingAppointments() {
           );
         }}
       />
+
+      {upcomingAppointments.length > 1 ? (
+        <View style={styles.dotsContainer}>
+          {upcomingAppointments.map((_, index) => (
+            <View
+              key={index}
+              style={[
+                styles.dot,
+                index === activeIndex ? styles.dotActive : styles.dotInactive,
+              ]}
+            />
+          ))}
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -150,7 +156,6 @@ const styles = StyleSheet.create({
     paddingRight: 22,
   },
   card: {
-    width: CARD_WIDTH,
     minHeight: 134,
     borderWidth: 2,
     borderColor: "#0D5175",
@@ -218,7 +223,6 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   emptyCard: {
-    width: CARD_WIDTH,
     minHeight: 110,
     borderWidth: 2,
     borderColor: "#0D5175",
@@ -227,9 +231,28 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
+    marginLeft: 10,
   },
   emptyText: {
     fontSize: 18,
     color: "#333",
+  },
+  dotsContainer: {
+    marginTop: 16,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  dot: {
+    height: 8,
+    borderRadius: 4,
+    marginHorizontal: 4,
+  },
+  dotActive: {
+    width: 22,
+    backgroundColor: "#0D5175",
+  },
+  dotInactive: {
+    width: 8,
+    backgroundColor: "#B7D4DE",
   },
 });
