@@ -15,3 +15,18 @@ export type Medication = {
   noon_frequency: number | null;
   evening_frequency: number | null;
 };
+
+export type MedicationInput = {
+  name: string;
+  noSpecificTime?: boolean;
+  noSpecificHour?: boolean;
+  instructions?: string[];
+  hours?: number[];
+  daysFrequency?: string[];
+  monthsDuration?: number | null;
+  weeksDuration?: number | null;
+  daysDuration?: number | null;
+  morningFrequency?: number | null;
+  noonFrequency?: number | null;
+  eveningFrequency?: number | null;
+};
