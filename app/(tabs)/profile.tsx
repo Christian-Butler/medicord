@@ -1,23 +1,24 @@
+import LogoutModal from "@/components/logout-modal";
+import { useProfile } from "@/src/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
 
 type ProfileRowProps = {
   icon?: keyof typeof MaterialIcons.glyphMap;
   title: string;
   subtitle?: string;
   destructive?: boolean;
+  onPress?: () => void;
 };
 
-function ProfileRow({
-  icon,
-  title,
-  subtitle,
-  destructive = false,
-}: ProfileRowProps) {
+function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: ProfileRowProps) {
   return (
-    <Pressable className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3">
+    <Pressable
+      onPress={onPress}
+      className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3"
+    >
       {icon ? (
         <MaterialIcons
           name={icon}
@@ -28,25 +29,16 @@ function ProfileRow({
       ) : null}
 
       <View className="flex-1">
-        <Text
-          className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"
-            }`}
-        >
+        <Text className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
           {title}
         </Text>
 
         {subtitle ? (
-          <Text className="mt-1 text-[15px] font-normal text-black">
-            {subtitle}
-          </Text>
+          <Text className="mt-1 text-[15px] font-normal text-black">{subtitle}</Text>
         ) : null}
       </View>
 
-      <MaterialIcons
-        name="chevron-right"
-        size={26}
-        color={destructive ? "#E33434" : "#000"}
-      />
+      <MaterialIcons name="chevron-right" size={26} color={destructive ? "#E33434" : "#000"} />
     </Pressable>
   );
 }
@@ -60,8 +52,17 @@ function SectionTitle({ title }: { title: string }) {
 }
 
 export default function ProfilePage() {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
+
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
+      <LogoutModal
+        visible={showLogoutModal}
+        onCancel={() => setShowLogoutModal(false)}
+        onConfirm={() => setShowLogoutModal(false)}
+      />
+
       <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
         <Text className="text-center text-[24px] font-normal text-black">
           Profile
@@ -73,87 +74,47 @@ export default function ProfilePage() {
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="px-5 py-4">
-          <Pressable
-            onPress={() => router.push("/login")}
-            className="mb-3 h-[48px] items-center justify-center rounded-[10px] bg-[#5085A8]"
-          >
-            <Text className="text-[16px] font-semibold text-white">Go to Login</Text>
-          </Pressable>
-
-          <Pressable
-            onPress={() => router.push("/register")}
-            className="h-[48px] items-center justify-center rounded-[10px] border-[2px] border-[#0D5175] bg-white"
-          >
-            <Text className="text-[16px] font-semibold text-[#0D5175]">
-              Go to Register
-            </Text>
-          </Pressable>
-        </View>
         <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
-          <Pressable className="absolute right-6 top-6 flex-row items-center">
+          <Pressable onPress={handleEditAvatar} className="absolute right-6 top-6 flex-row items-center">
             <MaterialIcons name="edit" size={16} color="#8A3F00" />
             <Text className="ml-1 text-[16px] text-[#8A3F00]">Edit</Text>
           </Pressable>
 
-          <Image
-            source={require("@/assets/images/phillip.png")}
-            className="h-[74px] w-[74px] rounded-full"
-          />
+          {avatarUrl ? (
+            <Image source={{ uri: avatarUrl }} className="h-[74px] w-[74px] rounded-full" />
+          ) : (
+            <Image source={require("@/assets/images/phillip.png")} className="h-[74px] w-[74px] rounded-full" />
+          )}
 
-          <Text className="mt-5 text-[17px] font-normal text-black">
-            Philip Connally
-          </Text>
-
-          <Text className="mt-3 text-[16px] font-normal text-black">
-            Cork - 19/04/53
-          </Text>
-
-          <Text className="mt-3 text-[16px] font-normal text-black">
-            Address unspecified
-          </Text>
+          <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
+          <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
+          <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
         </View>
 
         <SectionTitle title="Authentification" />
-
-        <ProfileRow icon="phone" title="Phone number" subtitle="XXX XXX XXX" />
-
-        <ProfileRow
-          icon="mail-outline"
-          title="Email address"
-          subtitle="John@Doe.com"
-        />
-
+        <ProfileRow icon="phone" title="Phone number" subtitle={phone} />
+        <ProfileRow icon="mail-outline" title="Email address" subtitle={email} />
         <ProfileRow icon="lock-outline" title="Security details" />
 
         <SectionTitle title="Other settings" />
-
-        <ProfileRow
-          title="Online payment settings"
-          subtitle="Manage your payments"
-        />
-
-        <ProfileRow
-          icon="credit-card"
-          title="Payment options"
-          subtitle="Your credit cards for appointments"
-        />
-
+        <ProfileRow title="Online payment settings" subtitle="Manage your payments" />
+        <ProfileRow icon="credit-card" title="Payment options" subtitle="Your credit cards for appointments" />
         <ProfileRow icon="language" title="Language" subtitle="English (UK)" />
-
         <ProfileRow title="Encrypted documents" subtitle="Active" />
 
         <SectionTitle title="Confidentiality" />
-
         <ProfileRow title="My preferences" />
-
         <ProfileRow title="Legal information" />
-
         <ProfileRow title="Delete my account" />
 
         <View className="h-[64px] border-b border-[#B9CBCD]" />
 
-        <ProfileRow icon="logout" title="Disconnect" destructive />
+        <ProfileRow
+          icon="logout"
+          title="Disconnect"
+          destructive
+          onPress={() => setShowLogoutModal(true)}
+        />
       </ScrollView>
     </SafeAreaView>
   );

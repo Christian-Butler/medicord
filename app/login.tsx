@@ -1,6 +1,5 @@
-import { signInWithEmail } from "@/src/api/auth/api";
+import { useLogin } from "@/src/hooks/useLogin";
 import { router } from "expo-router";
-import { useState } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,31 +10,7 @@ import {
 } from "react-native";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  async function handleLogin() {
-    if (!email.trim() || !password) {
-      setError("Please enter your email and password.");
-      return;
-    }
-
-    try {
-      setLoading(true);
-      setError(null);
-
-      await signInWithEmail(email, password);
-
-      router.replace("/(tabs)");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to log in.");
-    } finally {
-      setLoading(false);
-    }
-  }
+  const { email, setEmail, password, setPassword, loading, error, handleLogin } = useLogin();
 
   return (
     <KeyboardAvoidingView
@@ -68,9 +43,7 @@ export default function LoginPage() {
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">
-          Password
-        </Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">Password</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
@@ -83,13 +56,19 @@ export default function LoginPage() {
         <Pressable
           disabled={loading}
           onPress={handleLogin}
-          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${
-            loading ? "opacity-60" : ""
-          }`}
+          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${loading ? "opacity-60" : ""
+            }`}
         >
           <Text className="text-[17px] font-semibold text-white">
             {loading ? "Logging in..." : "Log in"}
           </Text>
+        </Pressable>
+
+        <Pressable
+          onPress={() => router.push("/forgot-password")}
+          className="mt-4 items-center"
+        >
+          <Text className="text-[15px] text-[#075B7A]">Forgot password?</Text>
         </Pressable>
 
         <Pressable
