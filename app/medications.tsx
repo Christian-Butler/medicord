@@ -1,12 +1,12 @@
-import MedicationFormContainer from "@/components/medication-form-container";
+import MedicationContainer from "@/components/medication-container";
 import ScreenHeader from "@/components/screen-header";
 import { ScrollView, StyleSheet } from "react-native";
 
-export default function MedicationRoutineSetUp() {
+export default function MedicationsPage() {
   return (
     <ScrollView style={styles.page}>
-      <ScreenHeader title="Medication Routine" />
-      <MedicationFormContainer />
+      <ScreenHeader title="Medication" />
+      <MedicationContainer />
     </ScrollView>
   );
 }

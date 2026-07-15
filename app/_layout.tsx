@@ -62,8 +62,14 @@ export default function RootLayout() {
             <Stack.Screen name="appointments" options={{ headerShown: false }} />
             <Stack.Screen name="appointment-details" options={{ headerShown: false }} />
             <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
+            <Stack.Screen name="create-medication" options={{ headerShown: false }} />
+            <Stack.Screen name="medication-details" options={{ headerShown: false }} />
+            <Stack.Screen name="medications" options={{ headerShown: false }} />
+            <Stack.Screen name="medication-formpage" options={{ headerShown: false }} />
+            <Stack.Screen name="medication-routine" options={{ headerShown: false }} />
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+            <Stack.Screen name="register" options={{ headerShown: false }} />
           </Stack>
-
           <StatusBar style="auto" />
         </ThemeProvider>
       </SafeAreaProvider>
