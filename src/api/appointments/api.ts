@@ -1,8 +1,9 @@
-import { supabase } from "@/supabase/supabase";
+import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 import type {
   Appointment,
   AppointmentInput,
 } from "@/src/types/appointmentTypes";
+import { supabase } from "@/supabase/supabase";
 
 const appointmentSelect = `
   id,
@@ -43,23 +44,14 @@ export async function createAppointment(
 ): Promise<Appointment> {
   console.log("[createAppointment] input:", input);
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  console.log("[createAppointment] auth user:", user);
-  console.log("[createAppointment] auth userError:", userError);
-
-  if (userError) throw userError;
-  if (!user) throw new Error("You must be logged in to book an appointment.");
+  const userId = await getCurrentAppUserId();
 
   const now = new Date().toISOString();
   const referralRequired = input.referralRequired ?? false;
   const gpId = input.gpId ?? null;
 
   const payload = {
-    user_id: user.id,
+    user_id: userId,
     doctor_id: input.doctorId,
     gp_id: gpId,
 
@@ -106,9 +98,12 @@ export async function createAppointment(
 }
 
 export async function getMyAppointments(): Promise<Appointment[]> {
+  const userId = await getCurrentAppUserId();
+
   const { data, error } = await supabase
     .from("appointments")
     .select(appointmentSelect)
+    .eq("user_id", userId)
     .neq("status", "cancelled")
     .order("starts_at", { ascending: true });
 
@@ -118,10 +113,13 @@ export async function getMyAppointments(): Promise<Appointment[]> {
 }
 
 export async function getAppointmentById(id: string): Promise<Appointment> {
+  const userId = await getCurrentAppUserId();
+
   const { data, error } = await supabase
     .from("appointments")
     .select(appointmentSelect)
     .eq("id", id)
+    .eq("user_id", userId)
     .single();
 
   if (error) throw error;
@@ -143,6 +141,8 @@ export type UpdateAppointmentInput = {
 export async function updateAppointment(
   input: UpdateAppointmentInput
 ): Promise<Appointment> {
+  const userId = await getCurrentAppUserId();
+
   const patch: Record<string, unknown> = {
     updated_at: new Date().toISOString(),
   };
@@ -159,6 +159,7 @@ export async function updateAppointment(
     .from("appointments")
     .update(patch)
     .eq("id", input.id)
+    .eq("user_id", userId)
     .select(appointmentSelect)
     .single();
 
@@ -168,6 +169,8 @@ export async function updateAppointment(
 }
 
 export async function cancelAppointment(id: string): Promise<Appointment> {
+  const userId = await getCurrentAppUserId();
+
   const { data, error } = await supabase
     .from("appointments")
     .update({
@@ -175,6 +178,7 @@ export async function cancelAppointment(id: string): Promise<Appointment> {
       updated_at: new Date().toISOString(),
     })
     .eq("id", id)
+    .eq("user_id", userId)
     .select(appointmentSelect)
     .single();
 
@@ -184,10 +188,13 @@ export async function cancelAppointment(id: string): Promise<Appointment> {
 }
 
 export async function deleteAppointment(id: string): Promise<void> {
+  const userId = await getCurrentAppUserId();
+
   const { error } = await supabase
     .from("appointments")
     .delete()
-    .eq("id", id);
+    .eq("id", id)
+    .eq("user_id", userId);
 
   if (error) throw error;
 }
