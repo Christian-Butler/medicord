@@ -3,14 +3,6 @@ import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/botto
 import { useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { MaterialIcons } from "@expo/vector-icons";
-import BottomSheet, {
-  BottomSheetBackdrop,
-  BottomSheetView,
-} from "@gorhom/bottom-sheet";
-import { router } from "expo-router";
-import React, { useMemo } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 type ServiceItem = {
   icon: keyof typeof MaterialIcons.glyphMap;
@@ -30,107 +22,10 @@ type Props = {
 };
 
 export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
-  const snapPoints = useMemo(() => ["45%"], []);
+  const router = useRouter();
 
-    const router = useRouter();
-
-    // useMemo stops snapPoints array being created on each render
-    const snapPoints = useMemo(() => ['45%'], []);
-    const renderBackdrop = (props: any) => (
-        <BottomSheetBackdrop
-            {...props}
-            disappearsOnIndex={-1}
-            appearsOnIndex={0}
-            pressBehavior="close"
-        />
-    );
-
-    const services: ServiceItem[] = [
-        { icon: 'calendar-month', label: 'Appointments' },
-        { icon: 'archive', label: 'Medical records' },
-        {
-            icon: 'medication', label: 'Medication',
-            onPress: () => {
-                bottomSheetRef.current?.close();
-                router.push('/medication-routine')
-            }
-        },
-        { icon: 'forum', label: 'Messages' },
-        { icon: 'change-circle', label: 'Order repeat medication' },
-        { icon: 'favorite', label: 'Your doctors' },
-    ];
-
-    return (
-        <BottomSheet
-            ref={bottomSheetRef}
-            snapPoints={snapPoints}
-            index={-1}
-            backdropComponent={renderBackdrop}
-            enablePanDownToClose
-            backgroundStyle={{ backgroundColor: '#EFF7F8' }}
-        >
-            <BottomSheetView style={styles.sheetContent}>
-                <Text style={styles.title}>Services hub</Text>
-                <FlatList
-                    style={{ width: "100%" }}
-                    data={services}
-                    renderItem={({ item }) => (
-                        <ServiceButton {...item} />
-                    )}
-                    keyExtractor={(item) => item.label}
-                    numColumns={3}
-                    columnWrapperStyle={styles.row}
-                    contentContainerStyle={styles.grid}
-                />
-            </BottomSheetView>
-        </BottomSheet>
-    );
-};
-  const closeSheet = () => {
-    bottomSheetRef.current?.close();
-  };
-
-  const navigateFromSheet = (pathname: string) => {
-    closeSheet();
-
-    requestAnimationFrame(() => {
-      router.push(pathname as never);
-    });
-  };
-
-  const services: ServiceItem[] = [
-    {
-      icon: "calendar-month",
-      label: "Appointments",
-      onPress: () => navigateFromSheet("/appointments"),
-    },
-    {
-      icon: "archive",
-      label: "Medical records",
-      onPress: () => navigateFromSheet("/medical-records"),
-    },
-    {
-      icon: "medication",
-      label: "Medication",
-      onPress: () => navigateFromSheet("/medication"),
-    },
-    {
-      icon: "forum",
-      label: "Messages",
-      onPress: () => navigateFromSheet("/messages"),
-    },
-    {
-      icon: "change-circle",
-      label: "Order repeat medication",
-      onPress: () => navigateFromSheet("/repeat-medication"),
-    },
-    {
-      icon: "favorite",
-      label: "Your doctors",
-      onPress: () => navigateFromSheet("/your-doctors"),
-    },
-  ];
-
+  // useMemo stops snapPoints array being created on each render
+  const snapPoints = useMemo(() => ['45%'], []);
   const renderBackdrop = (props: any) => (
     <BottomSheetBackdrop
       {...props}
@@ -140,6 +35,21 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
     />
   );
 
+  const services: ServiceItem[] = [
+    { icon: 'calendar-month', label: 'Appointments' },
+    { icon: 'archive', label: 'Medical records' },
+    {
+      icon: 'medication', label: 'Medication',
+      onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/medication-routine')
+      }
+    },
+    { icon: 'forum', label: 'Messages' },
+    { icon: 'change-circle', label: 'Order repeat medication' },
+    { icon: 'favorite', label: 'Your doctors' },
+  ];
+
   return (
     <BottomSheet
       ref={bottomSheetRef}
@@ -147,15 +57,16 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       index={-1}
       backdropComponent={renderBackdrop}
       enablePanDownToClose
-      backgroundStyle={{ backgroundColor: "#EFF7F8" }}
+      backgroundStyle={{ backgroundColor: '#EFF7F8' }}
     >
       <BottomSheetView style={styles.sheetContent}>
         <Text style={styles.title}>Services hub</Text>
-
         <FlatList
           style={{ width: "100%" }}
           data={services}
-          renderItem={({ item }) => <ServiceButton {...item} />}
+          renderItem={({ item }) => (
+            <ServiceButton {...item} />
+          )}
           keyExtractor={(item) => item.label}
           numColumns={3}
           columnWrapperStyle={styles.row}
