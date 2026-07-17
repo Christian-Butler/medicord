@@ -8,7 +8,7 @@ interface treatmentProps {
     value: number
 }
 
-export default function TreatmentDuration({ duration, text, setValue, value }: treatmentProps) {
+export default function TreatmentDurationDay({ duration, text, setValue, value }: treatmentProps) {
     const options = []
     for (var i = 1; i < duration + 1; i++) {
         options.push({ label: i, value: i });

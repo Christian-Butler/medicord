@@ -1,4 +1,6 @@
-import TreatmentDuration from '@/components/medication-duration';
+import TreatmentDurationDay from '@/components/medication-duration-days';
+import TreatmentDurationMonth from '@/components/medication-duration-months';
+import TreatmentDurationWeek from '@/components/medication-duration-weeks';
 import React, { useState } from 'react';
 import { ScrollView } from "react-native";
 
@@ -18,7 +20,9 @@ export default function MedicationRoutineSetUp() {
 
     return (
         <ScrollView>
-            <TreatmentDuration duration={12} text={"month"} setValue={setMonth} value={month} />
+            <TreatmentDurationMonth duration={12} text={"month"} setValue={setMonth} value={month} />
+            <TreatmentDurationWeek duration={4} text={"week"} setValue={setWeek} value={week} />
+            <TreatmentDurationDay duration={7} text={"day"} setValue={setDay} value={day} />
 
         </ScrollView>
     )
