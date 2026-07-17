@@ -10,6 +10,8 @@ export default function MedicationRoutineSetUp() {
     const [name, setName] = useState<string>('');
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [month, setMonth] = useState<number>(0);
+    const [week, setWeek] = useState<number>(0);
+    const [day, setDay] = useState<number>(0);
 
     const handleSubmit = () => {
         const payload = {
