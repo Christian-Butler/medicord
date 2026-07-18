@@ -42,6 +42,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="appointments"
           options={{
+            headerShown: true,
             title: "Appointments",
             tabBarIcon: ({ color }) => (
               <MaterialIcons size={28} name="calendar-month" color={color} />
@@ -51,6 +52,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="medical-records"
           options={{
+            headerShown: true,
             title: "Records",
             tabBarIcon: ({ color }) => (
               <MaterialIcons size={28} name="archive" color={color} />
@@ -60,6 +62,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="medication"
           options={{
+            headerShown: true,
             title: "Medication",
             tabBarIcon: ({ color }) => (
               <MaterialIcons size={28} name="medication" color={color} />
@@ -69,6 +72,7 @@ export default function TabLayout() {
         <Tabs.Screen
           name="profile"
           options={{
+            headerShown: true,
             title: "Profile",
             tabBarIcon: ({ color }) => (
               <IconSymbol

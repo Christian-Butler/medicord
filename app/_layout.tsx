@@ -33,6 +33,7 @@ export default function RootLayout() {
             <Stack.Screen
               name='doctor-details'
               options={{
+
                 title: "Doctor Details",
                 headerBackTitle: 'Back',
               }}

@@ -1,10 +1,11 @@
 import DoctorHeader from "@/components/doctor-details-header";
+import FirstTimeBookingOverlay from "@/components/first-patient-overlay";
 import { router, useLocalSearchParams } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function DoctorDetails() {
-
+    const [modalVisible, setModalVisible] = useState(true);
     // Read the doctor info passed from the previous screen
     const { name, closestDay } = useLocalSearchParams<{ name: string; closestDay: string }>();
 
@@ -13,6 +14,11 @@ export default function DoctorDetails() {
 
     return (
         <View className="flex-1 bg-[#EEF9FB]">
+            <FirstTimeBookingOverlay visible={modalVisible} onNewPatient={function (): void {
+
+            }} onReturningPatient={function (): void {
+                setModalVisible(false)
+            }} />
             <ScrollView>
                 <View className="flex-1">
                     <DoctorHeader name={doctorName} profession={"Cardiologist"} />

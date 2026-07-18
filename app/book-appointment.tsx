@@ -1,4 +1,5 @@
 import WeeklyCalendar from "@/components/calendar";
+import GPOverlay from "@/components/gp-referral-overlay";
 import HoursBooking from "@/components/hours-select";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { Checkbox } from 'expo-checkbox';
@@ -7,12 +8,18 @@ import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Booking() {
+    const [modalVisible, setModalVisible] = useState(true);
 
     // Declare the state of the checkbox initially
     const [isChecked, setChecked] = useState(false);
 
     return (
         <View className="flex-1 bg-[#EEF9FB]">
+            <GPOverlay visible={modalVisible} onGoToGpSearch={function (): void {
+                ;
+            }} onContinue={function (): void {
+                setModalVisible(false);
+            }} />
             <ScrollView>
                 <View className="flex-1" style={{ height: 26 }}>
                 </View>
