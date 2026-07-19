@@ -23,7 +23,7 @@ export default function TabLayout() {
 
           tabBarInactiveTintColor: INACTIVE,
           tabBarStyle: {
-            height: 120,
+            height: 140,
             borderTopColor: "#FFFFFF",
             borderTopWidth: 2,
             paddingTop: 20,
@@ -75,15 +75,15 @@ export default function TabLayout() {
             headerShown: true,
             title: "Profile",
             tabBarIcon: ({ color }) => (
-              <IconSymbol
+              <MaterialIcons
                 size={28}
-                name="person.crop.circle.fill"
+                name="account-circle"
                 color={color}
               />
             ),
           }}
         />
       </Tabs>
-    </View>
+    </View >
   );
 }

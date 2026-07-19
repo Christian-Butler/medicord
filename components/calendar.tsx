@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 interface DayItem {
     date: Date;
+    dateName: string;
     day: number;
     iso: string;
     isToday: boolean;
@@ -43,6 +44,7 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
 
         return {
             date,
+            dateName: date.toLocaleDateString("en-EN", { weekday: 'short' }),
             day: date.getDate(),
             iso: Iso(date),
             isToday: isSameDay(date, new Date()),
@@ -101,11 +103,9 @@ const WeeklyCalendar = () => {
                     <Text style={styles.navText}>›</Text>
                 </Pressable>
             </View>
-
             <View style={styles.weekRow}>
                 {weekDays.map((label) => (
                     <View key={label.day} style={styles.dayLabelContainer}>
-                        <Text style={styles.dayLabel}>{label.day}</Text>
                     </View>
                 ))}
             </View>
@@ -126,6 +126,7 @@ const WeeklyCalendar = () => {
                                 isSelected && styles.selectedCell,
                             ]}
                         >
+                            <Text style={styles.dayLabel}>{dayItem.dateName}</Text>
                             <Text
                                 style={[
                                     styles.dayNumber,
@@ -135,6 +136,8 @@ const WeeklyCalendar = () => {
                             >
                                 {dayItem.day}
                             </Text>
+
+
                         </Pressable>
                     );
                 })}
@@ -186,27 +189,35 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     dayLabel: {
-        fontSize: 12,
-        color: '#6e7b84',
+        fontSize: 14,
+        fontWeight: 500,
+        color: '#fff',
+        paddingBottom: 12,
     },
     daysRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+        alignSelf: 'center',
+        width: 360,
     },
     dayCell: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 2,
-        paddingVertical: 10,
-        borderRadius: 12,
-        backgroundColor: '#fff',
+        marginHorizontal: 4,
+        paddingVertical: 14,
+        borderRadius: 14,
+        color: '#fff',
+        backgroundColor: '#326F95',
     },
     todayCell: {
-        backgroundColor: '#eef8fb',
+        color: '#fff',
+        backgroundColor: '#0D5175',
     },
     selectedCell: {
-        backgroundColor: '#0f4c5c',
+        color: '#fff',
+        backgroundColor: '#0D5175',
     },
     inactiveCell: {
         opacity: 0.45,
@@ -214,7 +225,7 @@ const styles = StyleSheet.create({
     dayNumber: {
         fontSize: 14,
         fontWeight: '600',
-        color: '#132126',
+        color: '#fff',
     },
     selectedDayText: {
         color: '#fff',
