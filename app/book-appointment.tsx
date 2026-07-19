@@ -1,6 +1,7 @@
 import WeeklyCalendar from "@/components/calendar";
 import GPOverlay from "@/components/gp-referral-overlay";
 import HoursBooking from "@/components/hours-select";
+import BookingSuccessOverlay from "@/components/success-booking";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { Checkbox } from 'expo-checkbox';
 import { router } from "expo-router";
@@ -9,9 +10,14 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Booking() {
     const [modalVisible, setModalVisible] = useState(true);
+    const [successOverlayVisible, setSuccessOverlayVisible] = useState(false);
 
     // Declare the state of the checkbox initially
     const [isChecked, setChecked] = useState(false);
+
+    const goToTabs = () => {
+        router.push({ pathname: '/(tabs)' });
+    };
 
     return (
         <View className="flex-1 bg-[#EEF9FB]">
@@ -20,6 +26,21 @@ export default function Booking() {
             }} onContinue={function (): void {
                 setModalVisible(false);
             }} />
+            <BookingSuccessOverlay
+                visible={successOverlayVisible}
+                onAddToCalendar={() => {
+                    setSuccessOverlayVisible(false);
+                    goToTabs();
+                }}
+                onGoHome={() => {
+                    setSuccessOverlayVisible(false);
+                    goToTabs();
+                }}
+                onClose={() => {
+                    setSuccessOverlayVisible(false);
+                    goToTabs();
+                }}
+            />
             <ScrollView>
                 <View className="flex-1" style={{ height: 26 }}>
                 </View>
@@ -40,15 +61,15 @@ export default function Booking() {
                     <Checkbox style={{ marginRight: 20 }} value={isChecked} onValueChange={setChecked} />
                     <Text style={{ fontSize: 14, lineHeight: 20, fontWeight: 400, maxWidth: 300, color: '#333' }}>By booking this appointment, I am confirming my presence at that day and hour. I am aware that by failing to attend, or not notifying my unavailability may result in getting blacklisted.</Text>
                 </View>
-                <View style={styles.containerButton}>
+                <View style={[styles.containerButton, !isChecked && styles.disabledButton]}>
                     <Pressable
                         accessibilityRole="button"
-                        onPress={() =>
-                            router.push({
-                                pathname: '/(tabs)',
-                            })
-                        }
-                    ><Text style={styles.buttonText}>Confirm booking</Text></Pressable>
+                        disabled={!isChecked}
+                        onPress={() => {
+                            if (!isChecked) return;
+                            setSuccessOverlayVisible(true);
+                        }}
+                    ><Text style={[styles.buttonText, !isChecked && styles.disabledButtonText]}>Confirm booking</Text></Pressable>
 
                 </View>
             </ScrollView>
@@ -93,9 +114,16 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         borderRadius: 14,
     },
+    disabledButton: {
+        backgroundColor: '#B3C9D6',
+        opacity: 0.8,
+    },
     buttonText: {
         fontSize: 16,
         fontWeight: '500',
         color: '#fff'
+    },
+    disabledButtonText: {
+        color: '#F3F7FA',
     },
 })
