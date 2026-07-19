@@ -22,7 +22,7 @@ export default function FirstTimeBookingOverlay({
         <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
           <View className="items-center">
             <View className="mb-9 h-[70px] w-[80px] items-center justify-center rounded-[8px] bg-[#2F7298]">
-              <BriefcaseMedical size={48} color="white" strokeWidth={3} />
+              <BriefcaseMedical size={48} color="white" strokeWidth={1} />
             </View>
 
             <Text className="mb-10 text-center text-[21px] font-semibold leading-7 text-black">

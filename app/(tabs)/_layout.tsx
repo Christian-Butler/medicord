@@ -17,13 +17,13 @@ export default function TabLayout() {
     <View style={{ flex: 1 }}>
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
+          tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
           headerShown: false,
           tabBarButton: HapticTab,
 
           tabBarInactiveTintColor: INACTIVE,
           tabBarStyle: {
-            height: 100,
+            height: 120,
             borderTopColor: "#FFFFFF",
             borderTopWidth: 2,
             paddingTop: 20,

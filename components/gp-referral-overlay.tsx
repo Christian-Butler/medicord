@@ -23,11 +23,11 @@ export default function GPOverlay({
           <View className="items-center">
             <View className="relative mb-7">
               <View className="h-[70px] w-[70px] items-center justify-center rounded-[8px] bg-[#2F7298]">
-                <FileText size={46} color="white" strokeWidth={3} />
+                <FileText size={46} color="white" strokeWidth={1} />
               </View>
 
               <View className="absolute -bottom-2 -right-3 h-11 w-11 items-center justify-center rounded-full bg-[#2F7298]">
-                <UserRound size={30} color="white" strokeWidth={3} />
+                <UserRound size={30} color="white" strokeWidth={1} />
               </View>
             </View>
 
