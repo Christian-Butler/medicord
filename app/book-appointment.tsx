@@ -2,11 +2,13 @@ import WeeklyCalendar from "@/components/calendar";
 import GPOverlay from "@/components/gp-referral-overlay";
 import HoursBooking from "@/components/hours-select";
 import BookingSuccessOverlay from "@/components/success-booking";
+import { TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { Checkbox } from 'expo-checkbox';
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Booking() {
     const [modalVisible, setModalVisible] = useState(true);
@@ -20,6 +22,7 @@ export default function Booking() {
     };
 
     return (
+
         <View className="flex-1 bg-[#EEF9FB]">
             <GPOverlay visible={modalVisible} onGoToGpSearch={function (): void {
                 ;
@@ -41,39 +44,42 @@ export default function Booking() {
                     goToTabs();
                 }}
             />
-            <ScrollView>
-                <View className="flex-1" style={{ height: 26 }}>
-                </View>
-                <View style={styles.monthContainer}>
-                    <Text style={{ fontSize: 22 }}>Select date</Text>
-                    <View style={styles.month}>
-                        <Text >Month selected: June</Text>
-                        <MaterialIcons name="keyboard-arrow-down" size={18} />
+            <SafeAreaView>
+                <ScrollView>
+                    <View className="flex-1" style={{ height: 26 }}>
                     </View>
-                </View>
-                <View style={{ marginBottom: 26 }}>
-                    <WeeklyCalendar />
-                </View>
-                <View>
-                    <HoursBooking />
-                </View>
-                <View style={{ flexDirection: 'row', maxWidth: 350, justifyContent: 'space-between', alignSelf: 'center', alignItems: 'center' }}>
-                    <Checkbox style={{ marginRight: 20 }} value={isChecked} onValueChange={setChecked} />
-                    <Text style={{ fontSize: 14, lineHeight: 20, fontWeight: 400, maxWidth: 300, color: '#333' }}>By booking this appointment, I am confirming my presence at that day and hour. I am aware that by failing to attend, or not notifying my unavailability may result in getting blacklisted.</Text>
-                </View>
-                <View style={[styles.containerButton, !isChecked && styles.disabledButton]}>
-                    <Pressable
-                        accessibilityRole="button"
-                        disabled={!isChecked}
-                        onPress={() => {
-                            if (!isChecked) return;
-                            setSuccessOverlayVisible(true);
-                        }}
-                    ><Text style={[styles.buttonText, !isChecked && styles.disabledButtonText]}>Confirm booking</Text></Pressable>
+                    <View style={styles.monthContainer}>
+                        <Text style={{ fontSize: 22 }}>Select date</Text>
+                        <View style={styles.month}>
+                            <Text >Month selected: June</Text>
+                            <MaterialIcons name="keyboard-arrow-down" size={18} />
+                        </View>
+                    </View>
+                    <View style={{ marginBottom: 26 }}>
+                        <WeeklyCalendar />
+                    </View>
+                    <View>
+                        <HoursBooking />
+                    </View>
+                    <TouchableWithoutFeedback style={{ flexDirection: 'row', maxWidth: 350, justifyContent: 'space-between', alignSelf: 'center', alignItems: 'center' }}>
+                        <Checkbox style={{ marginRight: 20 }} value={isChecked} onValueChange={setChecked} />
+                        <Text style={{ fontSize: 14, lineHeight: 20, fontWeight: 400, maxWidth: 300, color: '#333' }}>By booking this appointment, I am confirming my presence at that day and hour. I am aware that by failing to attend, or not notifying my unavailability may result in getting blacklisted.</Text>
+                    </TouchableWithoutFeedback>
+                    <View style={[styles.containerButton, !isChecked && styles.disabledButton]}>
+                        <Pressable
+                            accessibilityRole="button"
+                            disabled={!isChecked}
+                            onPress={() => {
+                                if (!isChecked) return;
+                                setSuccessOverlayVisible(true);
+                            }}
+                        ><Text style={[styles.buttonText, !isChecked && styles.disabledButtonText]}>Confirm booking</Text></Pressable>
 
-                </View>
-            </ScrollView>
+                    </View>
+                </ScrollView>
+            </SafeAreaView >
         </View>
+
     );
 }
 
