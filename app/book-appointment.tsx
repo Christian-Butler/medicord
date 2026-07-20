@@ -2,7 +2,6 @@ import WeeklyCalendar from "@/components/calendar";
 import GPOverlay from "@/components/gp-referral-overlay";
 import HoursBooking from "@/components/hours-select";
 import BookingSuccessOverlay from "@/components/success-booking";
-import { TouchableWithoutFeedback } from "@gorhom/bottom-sheet";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { Checkbox } from 'expo-checkbox';
 import { router } from "expo-router";
@@ -61,10 +60,10 @@ export default function Booking() {
                     <View>
                         <HoursBooking />
                     </View>
-                    <TouchableWithoutFeedback style={{ flexDirection: 'row', maxWidth: 350, justifyContent: 'space-between', alignSelf: 'center', alignItems: 'center' }}>
+                    <View style={styles.checkboxRow}>
                         <Checkbox style={{ marginRight: 20 }} value={isChecked} onValueChange={setChecked} />
-                        <Text style={{ fontSize: 14, lineHeight: 20, fontWeight: 400, maxWidth: 300, color: '#333' }}>By booking this appointment, I am confirming my presence at that day and hour. I am aware that by failing to attend, or not notifying my unavailability may result in getting blacklisted.</Text>
-                    </TouchableWithoutFeedback>
+                        <Text style={styles.checkboxText}>By booking this appointment, I am confirming my presence at that day and hour. I am aware that by failing to attend, or not notifying my unavailability may result in getting blacklisted.</Text>
+                    </View>
                     <View style={[styles.containerButton, !isChecked && styles.disabledButton]}>
                         <Pressable
                             accessibilityRole="button"
@@ -106,6 +105,20 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'space-between',
         marginBottom: 26,
+    },
+    checkboxRow: {
+        flexDirection: 'row',
+        maxWidth: 350,
+        justifyContent: 'space-between',
+        alignSelf: 'center',
+        alignItems: 'center',
+    },
+    checkboxText: {
+        fontSize: 14,
+        lineHeight: 20,
+        fontWeight: '400',
+        maxWidth: 300,
+        color: '#333',
     },
     containerButton: {
         width: '96%',
