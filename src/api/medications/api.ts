@@ -1,5 +1,5 @@
-import { supabase } from "@/supabase/supabase";
 import type { Medication } from "@/src/types/medicationTypes";
+import { supabase } from "@/supabase/supabase";
 
 const medicationSelect = `
   id,

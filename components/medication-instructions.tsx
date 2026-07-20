@@ -7,10 +7,10 @@ interface InstructionListProps {
     onAddInstruction: () => void;
 }
 
-export default function InsutrctionList({ instructions, onChangeInstruction, onAddInstruction }: InstructionListProps) {
+export default function InstructionList({ instructions, onChangeInstruction, onAddInstruction }: InstructionListProps) {
     return (
         <View>
-            <Text style={styles.label}>Instructions</Text>
+            <Text style={styles.label}>Other instructions</Text>
             {instructions.map((inst, index) => (
                 <TextInput
                     key={index}
@@ -29,10 +29,10 @@ export default function InsutrctionList({ instructions, onChangeInstruction, onA
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 16,
-        marginTop: 15,
-        marginBottom: 5,
-        fontWeight: '600'
+        fontSize: 20,
+        marginTop: 12,
+        marginBottom: 12,
+        fontWeight: 500
     },
     input: {
         backgroundColor: '#fff',
@@ -43,13 +43,14 @@ const styles = StyleSheet.create({
         borderColor: '#ddd'
     },
     addButton: {
-        padding: 10,
+        backgroundColor: '#5085A8',
+        borderRadius: 14,
+        paddingVertical: 14,
         alignItems: 'center',
-        marginBottom: 20
     },
     addButtonText: {
-        color: '#007AFF',
-        fontWeight: 'bold',
+        color: '#fff',
+        fontWeight: 600,
         fontSize: 16
     },
 });

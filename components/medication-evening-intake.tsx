@@ -15,6 +15,11 @@ export default function IntakeEvening({ duration, text, setValue, value }: intak
     }
     return (
         <Dropdown
+            dropdownStyle={{
+                maxWidth: 100,
+                maxHeight: 100,
+
+            }}
             placeholder={text}
             options={options}
             selectedValue={value}

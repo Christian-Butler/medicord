@@ -62,6 +62,7 @@ export default function RootLayout() {
             <Stack.Screen name="appointments" options={{ headerShown: false }} />
             <Stack.Screen name="appointment-details" options={{ headerShown: false }} />
             <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
+            <Stack.Screen name="medication-routine" options={{ headerShown: false }} />
           </Stack>
 
           <StatusBar style="auto" />

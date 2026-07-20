@@ -54,17 +54,17 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
       <View className="flex-row items-center justify-between px-6 pt-8 pb-8">
         <View className="flex-row items-center pt-51">
           <Image
-          
+
             source={require("@/assets/images/phillip.png")}
             className="h-16 w-16 rounded-full"
           />
 
           <View className="ml-7 mr-7">
-            <Text className="text-4xl font-normal text-black">
+            <Text className="text-2xl font-normal text-black">
               Welcome, {profileName}
             </Text>
 
-            
+
 
             {error && (
               <Text className="mt-1 text-xs text-red-500">

@@ -40,10 +40,6 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
     { icon: 'archive', label: 'Medical records' },
     {
       icon: 'medication', label: 'Medication',
-      onPress: () => {
-        bottomSheetRef.current?.close();
-        router.push('/medication-routine')
-      }
     },
     { icon: 'forum', label: 'Messages' },
     { icon: 'change-circle', label: 'Order repeat medication' },

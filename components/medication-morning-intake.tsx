@@ -15,11 +15,15 @@ export default function IntakeMorning({ duration, text, setValue, value }: intak
     }
     return (
         <Dropdown
+            dropdownStyle={{
+                maxWidth: 100,
+                maxHeight: 100,
+
+            }}
             placeholder={text}
             options={options}
             selectedValue={value}
             onValueChange={(value) => setValue(value as number)}
-            primaryColor={'green'}
         />
     );
 }
