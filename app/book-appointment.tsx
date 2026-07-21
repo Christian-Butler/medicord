@@ -2,7 +2,7 @@ import WeeklyCalendar from "@/components/calendar";
 import GPOverlay from "@/components/gp-referral-overlay";
 import HoursBooking from "@/components/hours-select";
 import BookingSuccessOverlay from "@/components/success-booking";
-import MaterialIcons from "@react-native-vector-icons/material-icons";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Checkbox } from 'expo-checkbox';
 import { router } from "expo-router";
 import React, { useState } from "react";
