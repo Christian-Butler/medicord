@@ -41,7 +41,7 @@ export default function MedicationHours({ text, setValue, value }: medicationHou
                 <View style={[styles.checkboxBox, noSpecificHour && styles.checkboxBoxChecked]}>
                     {noSpecificHour ? <Text style={styles.checkmark}>✓</Text> : null}
                 </View>
-                <Text style={styles.checkboxLabel}>No specific hour</Text>
+                <Text style={styles.checkboxLabel}>No specific hour.</Text>
             </Pressable>
 
             {!noSpecificHour ? (
@@ -50,7 +50,7 @@ export default function MedicationHours({ text, setValue, value }: medicationHou
                     options={choices}
                     selectedValue={value}
                     onValueChange={(nextValue) => setValue(String(nextValue))}
-                    primaryColor={'#0D5175'}
+                    primaryColor={'#326F95'}
                 />
             ) : null}
         </View>
@@ -59,22 +59,23 @@ export default function MedicationHours({ text, setValue, value }: medicationHou
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 27,
         marginBottom: 12,
     },
     checkboxRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 10,
+        marginBottom: 20,
     },
     checkboxBox: {
         width: 20,
         height: 20,
         borderRadius: 4,
-        borderWidth: 1,
-        borderColor: '#5085A8',
+        borderWidth: 1.5,
+        borderColor: '#161819',
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 8,
+        marginRight: 10,
         backgroundColor: '#fff',
     },
     checkboxBoxChecked: {
@@ -83,10 +84,10 @@ const styles = StyleSheet.create({
     checkmark: {
         color: '#fff',
         fontSize: 14,
-        fontWeight: '700',
+        fontWeight: '400',
     },
     checkboxLabel: {
-        color: '#1f2937',
-        fontSize: 14,
+        color: '#26282b',
+        fontSize: 16,
     },
 });

@@ -25,7 +25,7 @@ export default function IntakeEvening({ duration, text, setValue, value }: intak
             options={options}
             selectedValue={value}
             onValueChange={(value) => setValue(value as number)}
-            primaryColor={'green'}
+            primaryColor={'#326F95'}
         />
     );
 }

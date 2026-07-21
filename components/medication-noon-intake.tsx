@@ -25,7 +25,7 @@ export default function IntakeNoon({ duration, text, setValue, value }: intakePr
             options={options}
             selectedValue={value}
             onValueChange={(value) => setValue(value as number)}
-            primaryColor={'green'}
+            primaryColor={'#326F95'}
         />
     );
 }

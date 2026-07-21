@@ -13,7 +13,7 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
 
     return (
         <View>
-            <Text style={styles.label}>Which days?</Text>
+            <Text style={styles.label}>Frequency</Text>
             <View style={styles.daysContainer}>
                 {weekDays.map((day) => (
                     <TouchableOpacity
@@ -23,7 +23,7 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
                             selectedDays.includes(day) && styles.dayButtonSelected,
                         ]}
                         onPress={() => onToggleDay(day)}>
-                        <Text style={selectedDays.includes(day) ? styles.textLight : styles.textDark}>
+                        <Text style={selectedDays.includes(day) ? styles.textLight : styles.text}>
                             {day}
                         </Text>
                     </TouchableOpacity>
@@ -35,31 +35,37 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 16,
-        marginTop: 15,
-        marginBottom: 5,
-        fontWeight: '600'
+        fontSize: 20,
+        marginTop: 27,
+        marginBottom: 12,
+        fontWeight: '500'
     },
     daysContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 10,
-        marginBottom: 10
+        justifyContent: 'space-evenly',
+        gap: 8,
+        marginBottom: 28,
     },
     dayButton: {
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        borderRadius: 20,
-        backgroundColor: '#e0e0e0'
+        height: 40,
+        width: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+        backgroundColor: '#fff',
+        borderWidth: 2,
+        borderColor: '#326F95'
     },
     dayButtonSelected: {
-        backgroundColor: '#5085A8'
+        backgroundColor: '#326F95'
     },
     textLight: {
         color: '#fff',
         fontWeight: 'medium'
     },
-    textDark: {
-        color: '#333'
+    text: {
+        color: '#326F95',
+        fontWeight: 500,
     },
 })

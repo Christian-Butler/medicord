@@ -63,25 +63,29 @@ export default function MedicationRoutineSetUp() {
                     <DaysSelector selectedDays={[]} onToggleDay={function (day: string): void {
                         throw new Error('Function not implemented.');
                     }} />
-                    <TreatmentDurationMonth duration={12} text={"month"} setValue={setMonth} value={month} />
-                    <TreatmentDurationWeek duration={4} text={"week"} setValue={setWeek} value={week} />
-                    <TreatmentDurationDay duration={7} text={"day"} setValue={setDay} value={day} />
 
+                    <View style={{ alignItems: 'center', flexDirection: 'row', maxWidth: 378, paddingTop: 12, paddingBottom: 27 }}>
+                        <TreatmentDurationMonth duration={12} text={"month"} setValue={setMonth} value={month} />
+                        <TreatmentDurationWeek duration={4} text={"week"} setValue={setWeek} value={week} />
+                        <TreatmentDurationDay duration={7} text={"day"} setValue={setDay} value={day} />
+                    </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', maxWidth: 138 }}>
-                        <IntakeMorning duration={10} text={"0"} setValue={setMorning} value={morning} />
+                        <IntakeMorning duration={10} text={'0'} setValue={setMorning} value={morning} />
                         <IntakeNoon duration={10} text={"0"} setValue={setNoon} value={noon} />
                         <IntakeEvening duration={10} text={"0"} setValue={setEvening} value={evening} />
                     </View>
-                    <View style={{ maxWidth: 120 }}>
+                    <View style={{ maxWidth: 160 }}>
                         <MedicationHours text={'00:00'} setValue={function (value: string): void {
                             throw new Error('Function not implemented.');
                         }} value={''} />
                     </View>
-                    <InstructionList instructions={[]} onChangeInstruction={function (text: string, index: number): void {
-                        throw new Error('Function not implemented.');
-                    }} onAddInstruction={function (): void {
-                        throw new Error('Function not implemented.');
-                    }} />
+                    <View style={{ paddingBottom: 20 }}>
+                        <InstructionList instructions={['']} onChangeInstruction={function (text: string, index: number): void {
+                            throw new Error('Function not implemented.');
+                        }} onAddInstruction={function (): void {
+                            throw new Error('Function not implemented.');
+                        }} />
+                    </View>
                     <View style={styles.submitContainer}>
                         <Pressable
                             accessibilityRole="button"
@@ -99,10 +103,10 @@ export default function MedicationRoutineSetUp() {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        paddingBottom: 32,
     },
     submitContainer: {
         marginTop: 24,
+        marginBottom: 140
     },
     submitButton: {
         backgroundColor: '#5085A8',

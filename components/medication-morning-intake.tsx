@@ -25,6 +25,7 @@ export default function IntakeMorning({ duration, text, setValue, value }: intak
             options={options}
             selectedValue={value}
             onValueChange={(value) => setValue(value as number)}
+            primaryColor={'#326F95'}
         />
     );
 }
