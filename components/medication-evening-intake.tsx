@@ -18,6 +18,7 @@ export default function IntakeEvening({ duration, text, setValue, value }: intak
             dropdownStyle={{
                 maxWidth: 100,
                 maxHeight: 100,
+                borderRadius: 14,
 
             }}
             placeholder={text}

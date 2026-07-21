@@ -43,7 +43,7 @@ export default function TabLayout() {
             ),
           }}
         />
-       <Tabs.Screen
+        <Tabs.Screen
           name='services-hub'
           options={{
             title: 'Services hub',

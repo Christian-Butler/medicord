@@ -15,8 +15,6 @@ export default function MedicationName({ value, onChangeText }: medicationNamePr
                 placeholder="Enter a name"
                 value={value}
                 onChangeText={onChangeText}
-                autoCapitalize="words"
-                autoCorrect={false}
             />
 
         </View>
@@ -25,17 +23,18 @@ export default function MedicationName({ value, onChangeText }: medicationNamePr
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 16,
-        marginTop: 15,
-        marginBottom: 5,
-        fontWeight: '600'
+        fontSize: 20,
+        marginTop: 27,
+        marginBottom: 12,
+        fontWeight: '500'
     },
     input: {
         backgroundColor: '#fff',
         padding: 12,
         borderRadius: 8,
         marginBottom: 10,
-        borderWidth: 1,
-        borderColor: '#ddd'
+        borderWidth: 1.5,
+
+        borderColor: '#8F9D9E'
     },
 });

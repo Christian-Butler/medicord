@@ -15,6 +15,9 @@ export default function TreatmentDurationDay({ duration, text, setValue, value }
     }
     return (
         <Dropdown
+            dropdownStyle={{
+                borderRadius: 14,
+            }}
             placeholder={text}
             options={options}
             selectedValue={value}

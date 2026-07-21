@@ -11,6 +11,7 @@ import DaysSelector from '@/components/medication-week';
 import ScreenHeader from '@/components/screen-header';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default function MedicationRoutineSetUp() {
 
@@ -52,46 +53,47 @@ export default function MedicationRoutineSetUp() {
     };
 
     return (
-
-        <ScrollView>
-            <ScreenHeader title={'Medication'} style={{ borderBottomColor: '#0D5175', borderBottomWidth: 2.5, height: 120 }} />
-            <View style={{ paddingHorizontal: 12 }}>
-                <MedicationName value={''} onChangeText={function (text: string): void {
-                    throw new Error('Function not implemented.');
-                }} />
-                <DaysSelector selectedDays={[]} onToggleDay={function (day: string): void {
-                    throw new Error('Function not implemented.');
-                }} />
-                <TreatmentDurationMonth duration={12} text={"month"} setValue={setMonth} value={month} />
-                <TreatmentDurationWeek duration={4} text={"week"} setValue={setWeek} value={week} />
-                <TreatmentDurationDay duration={7} text={"day"} setValue={setDay} value={day} />
-
-                <View style={{ flexDirection: 'row', alignItems: 'center', maxWidth: 138 }}>
-                    <IntakeMorning duration={10} text={"0"} setValue={setMorning} value={morning} />
-                    <IntakeNoon duration={10} text={"0"} setValue={setNoon} value={noon} />
-                    <IntakeEvening duration={10} text={"0"} setValue={setEvening} value={evening} />
-                </View>
-                <View style={{ maxWidth: 120 }}>
-                    <MedicationHours text={'00:00'} setValue={function (value: string): void {
+        <SafeAreaProvider>
+            <ScrollView>
+                <ScreenHeader title={'Medication'} style={{ borderBottomColor: '#0D5175', borderBottomWidth: 2.5, height: 120 }} />
+                <View style={{ paddingHorizontal: 12 }}>
+                    <MedicationName value={''} onChangeText={function (text: string): void {
                         throw new Error('Function not implemented.');
-                    }} value={''} />
+                    }} />
+                    <DaysSelector selectedDays={[]} onToggleDay={function (day: string): void {
+                        throw new Error('Function not implemented.');
+                    }} />
+                    <TreatmentDurationMonth duration={12} text={"month"} setValue={setMonth} value={month} />
+                    <TreatmentDurationWeek duration={4} text={"week"} setValue={setWeek} value={week} />
+                    <TreatmentDurationDay duration={7} text={"day"} setValue={setDay} value={day} />
+
+                    <View style={{ flexDirection: 'row', alignItems: 'center', maxWidth: 138 }}>
+                        <IntakeMorning duration={10} text={"0"} setValue={setMorning} value={morning} />
+                        <IntakeNoon duration={10} text={"0"} setValue={setNoon} value={noon} />
+                        <IntakeEvening duration={10} text={"0"} setValue={setEvening} value={evening} />
+                    </View>
+                    <View style={{ maxWidth: 120 }}>
+                        <MedicationHours text={'00:00'} setValue={function (value: string): void {
+                            throw new Error('Function not implemented.');
+                        }} value={''} />
+                    </View>
+                    <InstructionList instructions={[]} onChangeInstruction={function (text: string, index: number): void {
+                        throw new Error('Function not implemented.');
+                    }} onAddInstruction={function (): void {
+                        throw new Error('Function not implemented.');
+                    }} />
+                    <View style={styles.submitContainer}>
+                        <Pressable
+                            accessibilityRole="button"
+                            onPress={handleSubmit}
+                            style={styles.submitButton}
+                        >
+                            <Text style={styles.submitButtonText}>Confirm routine creation</Text>
+                        </Pressable>
+                    </View>
                 </View>
-                <InstructionList instructions={[]} onChangeInstruction={function (text: string, index: number): void {
-                    throw new Error('Function not implemented.');
-                }} onAddInstruction={function (): void {
-                    throw new Error('Function not implemented.');
-                }} />
-                <View style={styles.submitContainer}>
-                    <Pressable
-                        accessibilityRole="button"
-                        onPress={handleSubmit}
-                        style={styles.submitButton}
-                    >
-                        <Text style={styles.submitButtonText}>Confirm routine creation</Text>
-                    </Pressable>
-                </View>
-            </View>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaProvider>
     )
 }
 const styles = StyleSheet.create({

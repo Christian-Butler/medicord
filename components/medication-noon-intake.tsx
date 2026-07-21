@@ -18,6 +18,7 @@ export default function IntakeNoon({ duration, text, setValue, value }: intakePr
             dropdownStyle={{
                 maxWidth: 100,
                 maxHeight: 100,
+                borderRadius: 14,
 
             }}
             placeholder={text}
