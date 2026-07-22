@@ -46,6 +46,10 @@ export default function MedicationHours({ text, setValue, value }: medicationHou
 
             {!noSpecificHour ? (
                 <Dropdown
+                    dropdownStyle={{
+                        backgroundColor: '#fff',
+                        borderRadius: 14
+                    }}
                     placeholder={text}
                     options={choices}
                     selectedValue={value}
@@ -71,7 +75,7 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
         borderRadius: 4,
-        borderWidth: 1.5,
+        borderWidth: 1.2,
         borderColor: '#161819',
         alignItems: 'center',
         justifyContent: 'center',

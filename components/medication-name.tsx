@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         marginTop: 27,
         marginBottom: 12,
-        fontWeight: '500'
+        fontWeight: '500',
+
     },
     input: {
         backgroundColor: '#fff',
@@ -34,7 +35,6 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 10,
         borderWidth: 1.5,
-
         borderColor: '#8F9D9E'
     },
 });

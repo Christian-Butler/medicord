@@ -16,10 +16,10 @@ export default function IntakeNoon({ duration, text, setValue, value }: intakePr
     return (
         <Dropdown
             dropdownStyle={{
+                backgroundColor: '#fff',
                 maxWidth: 100,
                 maxHeight: 100,
                 borderRadius: 14,
-
             }}
             placeholder={text}
             options={options}

@@ -1,23 +1,23 @@
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import { View, Pressable, Text } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 export default function LatestDocuments() {
   return (
     <View className="px-6 pt-10 pb-10">
-      <Text className="text-[28px] font-normal text-black">
+      <Text className="text-[24px] font-normal text-black">
         Latest documents
       </Text>
 
       {/* Example document card */}
       <Pressable className="mt-5 rounded-2xl border border-[#D6E7EC] bg-white px-5 py-5">
         <View className="flex-row items-center">
-            <FontAwesome5
-              name="clipboard-list"
-              size={34}
-              color="#09516D"
-              solid
-            />
-          
+          <FontAwesome5
+            name="clipboard-list"
+            size={34}
+            color="#09516D"
+            solid
+          />
+
           <View className="ml-4 flex-1">
             <Text className="text-base font-semibold text-black">
               No documents yet

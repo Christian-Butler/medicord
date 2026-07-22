@@ -34,9 +34,6 @@ export default function InstructionList({ instructions, onChangeInstruction, onA
 }
 
 const styles = StyleSheet.create({
-    label: {
-        color: '#778888',
-    },
     title: {
         fontSize: 20,
         marginTop: 12,
@@ -49,6 +46,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 10,
         borderWidth: 1.5,
+        borderColor: '#8F9D9E'
     },
     addButton: {
         backgroundColor: '#5085A8',

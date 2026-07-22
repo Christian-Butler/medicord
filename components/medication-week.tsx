@@ -36,7 +36,6 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
 const styles = StyleSheet.create({
     label: {
         fontSize: 20,
-        marginTop: 27,
         marginBottom: 12,
         fontWeight: '500'
     },
@@ -44,12 +43,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        gap: 8,
+        gap: 10,
         marginBottom: 28,
     },
     dayButton: {
-        height: 40,
-        width: 40,
+        height: 44,
+        width: 44,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 10,

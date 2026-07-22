@@ -56,7 +56,7 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
           <Image
 
             source={require("@/assets/images/phillip.png")}
-            className="h-16 w-16 rounded-full"
+            className="h-14 w-14 rounded-full"
           />
 
           <View className="ml-7 mr-7">
@@ -74,10 +74,10 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
           </View>
         </View>
 
-        <Pressable className="relative h-16 w-16 items-center justify-center rounded-full bg-[#09516D]">
-          <Bell size={34} color="white" />
+        <Pressable className="relative h-12 w-12 items-center justify-center rounded-full bg-[#09516D]">
+          <Bell size={24} color="white" />
 
-          <View className="absolute -right-1 -top-1 h-6 w-6 rounded-full bg-[#E7BF3C]" />
+          <View className="absolute -right-0 -top-1 h-4 w-4 rounded-full bg-[#E7BF3C]" />
         </Pressable>
       </View>
 

@@ -19,7 +19,7 @@ export default function IntakeEvening({ duration, text, setValue, value }: intak
                 maxWidth: 100,
                 maxHeight: 100,
                 borderRadius: 14,
-
+                backgroundColor: '#fff',
             }}
             placeholder={text}
             options={options}

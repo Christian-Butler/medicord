@@ -16,6 +16,7 @@ export default function IntakeMorning({ duration, text, setValue, value }: intak
     return (
         <Dropdown
             dropdownStyle={{
+                backgroundColor: '#fff',
                 maxWidth: 100,
                 maxHeight: 100,
                 borderRadius: 14,
