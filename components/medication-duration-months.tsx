@@ -1,6 +1,7 @@
 import React from 'react';
-import Dropdown from 'react-native-input-select';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { View } from 'react-native';
+import { DropdownSelect } from 'react-native-input-select';
+
 
 interface treatmentProps {
     duration: number,
@@ -9,25 +10,27 @@ interface treatmentProps {
     value: number
 }
 
-export default function TreatmentDurationMonth({ duration, text, setValue, value }: treatmentProps) {
+export default function TreatmentDuration({ duration, text, setValue, value }: treatmentProps) {
     const options = []
     for (var i = 1; i < duration + 1; i++) {
         options.push({ label: i, value: i });
     }
     return (
-        <SafeAreaProvider>
-            <Dropdown
+        <View style={{ width: 100, alignItems: 'center' }}>
+            <DropdownSelect
                 dropdownStyle={{
                     borderRadius: 14,
                     backgroundColor: '#fff',
-                    maxWidth: 100,
-                    maxHeight: 100,
+                    width: "auto",
                 }}
+                label={text}
+                labelStyle={{ fontSize: 16, color: '#00', fontWeight: '400' }}
                 placeholder={text}
                 options={options}
                 selectedValue={value}
                 onValueChange={(value) => setValue(value as number)}
                 primaryColor={'#326F95'}
             />
-        </SafeAreaProvider>);
+        </View>
+    );
 }

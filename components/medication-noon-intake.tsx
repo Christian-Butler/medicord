@@ -1,4 +1,5 @@
 import React from 'react';
+import { View } from 'react-native';
 import Dropdown from 'react-native-input-select';
 
 interface intakeProps {
@@ -14,18 +15,23 @@ export default function IntakeNoon({ duration, text, setValue, value }: intakePr
         options.push({ label: i, value: i });
     }
     return (
-        <Dropdown
-            dropdownStyle={{
-                backgroundColor: '#fff',
-                maxWidth: 100,
-                maxHeight: 100,
-                borderRadius: 14,
-            }}
-            placeholder={text}
-            options={options}
-            selectedValue={value}
-            onValueChange={(value) => setValue(value as number)}
-            primaryColor={'#326F95'}
-        />
+        <View style={{ width: 110, alignItems: 'center' }}>
+            <Dropdown
+                dropdownStyle={{
+                    backgroundColor: '#fff',
+                    alignSelf: 'center',
+                    width: 100,
+                    height: 50,
+                    borderRadius: 14,
+                }}
+                label={text}
+                labelStyle={{ fontSize: 16, color: '#000', fontWeight: '400', alignSelf: 'center' }}
+                placeholder={text}
+                options={options}
+                selectedValue={value}
+                onValueChange={(value) => setValue(value as number)}
+                primaryColor={'#326F95'}
+            />
+        </View>
     );
 }
