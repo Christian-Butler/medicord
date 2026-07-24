@@ -27,6 +27,8 @@ export default function MedicationRoutineSetUp() {
 
     const [medicationName, setMedicationName] = useState('');
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
+
+    const [noSpecificHour, setNoSpecificHour] = useState(false);
     const [noSpecificTime, setNoSpecificTime] = useState(false);
 
     const [month, setMonth] = useState<number>(0);
@@ -81,7 +83,7 @@ export default function MedicationRoutineSetUp() {
             noon_frequency: noon,
             evening_frequency: evening,
             no_specific_time: noSpecificTime,
-            no_specific_hour: false,
+            no_specific_hour: noSpecificHour,
             hours,
             instructions: readyInstructions,
         };
@@ -129,25 +131,40 @@ export default function MedicationRoutineSetUp() {
                         </View>
                     </View>
 
-                    <View style={{ flexDirection: 'row', marginBottom: 20, marginTop: 20 }}>
-                        <Pressable onPress={() => setNoSpecificTime((current) => !current)}>
-                            <View style={[styles.checkboxBox, noSpecificTime && styles.checkboxBoxChecked]}>
-                                {noSpecificTime ? <Text style={styles.checkmark}>✓</Text> : null}
+
+                    <View>
+                        <Text style={{ fontWeight: 500, fontSize: 20, paddingBottom: 14 }}>Duration</Text>
+                        {!noSpecificTime ? (
+                            <View style={{ flexDirection: 'row', marginTop: 2, justifyContent: 'space-between' }}>
+                                <IntakeMorning duration={10} text={'Morning intake'} setValue={setMorning} value={morning} />
+                                <IntakeNoon duration={10} text={'Noon intake'} setValue={setNoon} value={noon} />
+                                <IntakeEvening duration={10} text={'Evening Intake'} setValue={setEvening} value={evening} />
                             </View>
-                        </Pressable>
-                        <Text style={{ color: '#26282b', fontSize: 16, }}>No specific time.</Text>
+                        ) : null}
+
+                        <View style={{ flexDirection: 'row', marginBottom: 5, marginTop: 20 }}>
+                            <Pressable onPress={() => setNoSpecificTime((current) => !current)}>
+                                <View style={[styles.checkboxBox, noSpecificTime && styles.checkboxBoxChecked]}>
+                                    {noSpecificTime ? <Text style={styles.checkmark}>✓</Text> : null}
+                                </View>
+                            </Pressable>
+                            <Text style={{ color: '#26282b', fontSize: 16, }}>No specific time.</Text>
+                        </View>
                     </View>
 
-                    {!noSpecificTime ? (
-                        <View style={{ flexDirection: 'row', marginTop: 2, justifyContent: 'space-between', marginBottom: 20 }}>
-                            <IntakeMorning duration={10} text={'Morning intake'} setValue={setMorning} value={morning} />
-                            <IntakeNoon duration={10} text={'Noon intake'} setValue={setNoon} value={noon} />
-                            <IntakeEvening duration={10} text={'Evening Intake'} setValue={setEvening} value={evening} />
-                        </View>
-                    ) : null}
-
-                    <View style={{ maxWidth: 160 }}>
-                        <MedicationHours text={'00:00'} setValue={setHours} value={hours} />
+                    <View>
+                        {!noSpecificHour ? (
+                            <MedicationHours text={'Hours'} setValue={setHours} value={hours} />
+                        ) : null}
+                        <Pressable
+                            onPress={() => setNoSpecificHour((current) => !current)}
+                            style={styles.checkboxRow}
+                        >
+                            <View style={[styles.checkboxBox, noSpecificHour && styles.checkboxBoxChecked]}>
+                                {noSpecificHour ? <Text style={styles.checkmark}>✓</Text> : null}
+                            </View>
+                            <Text style={styles.checkboxLabel}>No specific hour.</Text>
+                        </Pressable>
                     </View>
                     <View style={{ paddingBottom: 20 }}>
                         <InstructionList

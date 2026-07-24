@@ -20,7 +20,7 @@ export default function IntakeMorning({ duration, text, setValue, value }: intak
                 dropdownStyle={{
                     backgroundColor: '#fff',
                     width: 100,
-                    height: 40,
+                    height: 30,
                     borderRadius: 14,
 
                 }}

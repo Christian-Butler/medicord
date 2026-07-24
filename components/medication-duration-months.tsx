@@ -20,6 +20,7 @@ export default function TreatmentDuration({ duration, text, setValue, value }: t
             <DropdownSelect
                 dropdownStyle={{
                     borderRadius: 14,
+                    height: 30,
                     backgroundColor: '#fff',
                     width: "auto",
                 }}

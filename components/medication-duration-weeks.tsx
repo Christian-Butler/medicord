@@ -22,7 +22,7 @@ export default function TreatmentDurationWeek({ duration, text, setValue, value 
                     borderRadius: 14,
                     backgroundColor: '#fff',
                     width: 100,
-                    height: 50
+                    height: 30,
                 }}
                 placeholder={text}
                 options={options}

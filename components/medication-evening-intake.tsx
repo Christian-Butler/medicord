@@ -19,7 +19,7 @@ export default function IntakeEvening({ duration, text, setValue, value }: intak
             <Dropdown
                 dropdownStyle={{
                     width: 100,
-                    height: 50,
+                    height: 30,
                     borderRadius: 14,
                     backgroundColor: '#fff',
                 }}

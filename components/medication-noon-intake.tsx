@@ -21,7 +21,7 @@ export default function IntakeNoon({ duration, text, setValue, value }: intakePr
                     backgroundColor: '#fff',
                     alignSelf: 'center',
                     width: 100,
-                    height: 50,
+                    height: 30,
                     borderRadius: 14,
                 }}
                 label={text}

@@ -77,14 +77,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     addButton: {
-        backgroundColor: '#5085A8',
+        backgroundColor: '#fff',
+        borderColor: '#326F95',
+        borderWidth: 2,
         borderRadius: 14,
         paddingVertical: 14,
+        width: 180,
+        alignSelf: 'flex-end',
         alignItems: 'center',
     },
     addButtonText: {
-        color: '#fff',
-        fontWeight: '600',
+        color: '#326F95',
+        fontWeight: '500',
         fontSize: 16
     },
 });
