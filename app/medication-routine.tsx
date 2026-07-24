@@ -8,6 +8,7 @@ import IntakeNoon from '@/components/medication-noon-intake';
 import DaysSelector from '@/components/medication-week';
 import ScreenHeader from '@/components/screen-header';
 import { useCreateMedication } from '@/src/hooks/useCreateMedication';
+import { parseTimeToMinutes } from '@/src/utils 2/medicationTime';
 import { Pill } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -73,8 +74,7 @@ export default function MedicationRoutineSetUp() {
 
         const readyInstructions = instructions.map((inst) => inst.text.trim()).filter((text) => text.length > 0);
 
-        const [hh, mm] = hours.split(':').map(Number);
-        const hoursMedication = [hh * 60 + mm];
+        const hoursMedication = [parseTimeToMinutes(hours)];
 
         const payload = {
             name: medicationName,

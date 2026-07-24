@@ -1,6 +1,6 @@
 import { formatTime } from '@/src/utils 2/medicationTime';
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import Dropdown from 'react-native-input-select';
 
 interface medicationHoursProps {
@@ -50,35 +50,3 @@ export default function MedicationHours({ text, setValue, value }: medicationHou
 
     );
 }
-
-const styles = StyleSheet.create({
-
-    checkboxRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    checkboxBox: {
-        width: 20,
-        height: 20,
-        borderRadius: 4,
-        borderWidth: 1.2,
-        borderColor: '#161819',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginRight: 10,
-        backgroundColor: '#fff',
-    },
-    checkboxBoxChecked: {
-        backgroundColor: '#5085A8',
-    },
-    checkmark: {
-        color: '#fff',
-        fontSize: 14,
-        fontWeight: '400',
-    },
-    checkboxLabel: {
-        color: '#26282b',
-        fontSize: 16,
-    },
-});
