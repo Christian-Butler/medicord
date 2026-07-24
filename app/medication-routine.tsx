@@ -7,7 +7,7 @@ import MedicationName from '@/components/medication-name';
 import IntakeNoon from '@/components/medication-noon-intake';
 import DaysSelector from '@/components/medication-week';
 import ScreenHeader from '@/components/screen-header';
-import { supabase } from '@/supabase/supabase';
+import { useCreateMedication } from '@/src/hooks/useCreateMedication';
 import { Pill } from 'lucide-react-native';
 import React, { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
@@ -25,6 +25,8 @@ const createInstruction = (): Instruction => ({
 
 export default function MedicationRoutineSetUp() {
 
+    const { create, creating, createError } = useCreateMedication();
+
     const [medicationName, setMedicationName] = useState('');
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
 
@@ -41,7 +43,6 @@ export default function MedicationRoutineSetUp() {
 
     const [hours, setHours] = useState('00:00');
     const [instructions, setInstructions] = useState<Instruction[]>([createInstruction()]);
-    const [loading, setLoading] = useState(false);
 
     const toggleDay = (day: string) => {
         setSelectedDays((currentDays) =>
@@ -69,9 +70,11 @@ export default function MedicationRoutineSetUp() {
             Alert.alert('Please name your medication routine');
             return;
         }
-        setLoading(true);
 
         const readyInstructions = instructions.map((inst) => inst.text.trim()).filter((text) => text.length > 0);
+
+        const [hh, mm] = hours.split(':').map(Number);
+        const hoursMedication = [hh * 60 + mm];
 
         const payload = {
             name: medicationName,
@@ -84,20 +87,16 @@ export default function MedicationRoutineSetUp() {
             evening_frequency: evening,
             no_specific_time: noSpecificTime,
             no_specific_hour: noSpecificHour,
-            hours,
+            hours: hoursMedication,
             instructions: readyInstructions,
         };
 
         try {
-            const { data, error } = await supabase.from('medication').insert([payload]).select();
-            if (error) throw error;
+            const created = await create(payload);
             Alert.alert('Success', 'Medication routine created successfully!');
-            console.log('Created record:', data);
+            console.log('Created record:', created);
         } catch (err: any) {
-            Alert.alert('Error', err.message || 'Failed to create routine.');
-            console.error('Supabase error:', err);
-        } finally {
-            setLoading(false);
+            Alert.alert('Error', createError ?? err.message ?? 'Failed to create routine.');
         }
     };
 
@@ -178,9 +177,10 @@ export default function MedicationRoutineSetUp() {
                         <Pressable
                             accessibilityRole="button"
                             onPress={handleSubmit}
+                            disabled={creating}
                             style={styles.submitButton}
                         >
-                            <Text style={styles.submitButtonText}>Confirm routine creation</Text>
+                            <Text style={styles.submitButtonText}>{creating ? 'Creating..' : 'Confirm routine creation'}</Text>
                         </Pressable>
                     </View>
                 </View>
