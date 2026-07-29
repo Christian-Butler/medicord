@@ -2,7 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import MaterialIcons from "@react-native-vector-icons/material-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 interface MedicalList {
     name: string;
@@ -62,32 +62,30 @@ const records: MedicalList[] = [
 export default function MedicalRecordsScreen() {
 
     return (
-        <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
+        <SafeAreaProvider style={{ backgroundColor: '#EEF9FB' }}>
             <ScrollView>
-                <View className="flex-1">
-                    <View style={styles.container}>
-                        {records.map((record, index) => (
-                            <View key={`${record.name}-${index}`} style={styles.card}>
-                                <MaterialIcons name={record.icon} size={32} color="#5085A8" />
-                                <View>
-                                    <Text>{record.name}</Text>
-                                </View>
-                                <TouchableOpacity>
-                                    <MaterialIcons name={record.button} size={24} color="#3f3128" />
-                                </TouchableOpacity>
+                <View style={styles.container}>
+                    {records.map((record, index) => (
+                        <View key={`${record.name}-${index}`} style={styles.card}>
+                            <MaterialIcons name={record.icon} size={32} color="#5085A8" />
+                            <View>
+                                <Text>{record.name}</Text>
                             </View>
-                        ))}
-                    </View>
+                            <TouchableOpacity>
+                                <MaterialIcons name={record.button} size={24} color="#3f3128" />
+                            </TouchableOpacity>
+                        </View>
+                    ))}
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </SafeAreaProvider>
     )
 }
 
 
 const styles = StyleSheet.create({
     container: {
-        marginTop: '20%',
+        marginTop: '4%',
         paddingLeft: '4%',
         paddingRight: '4%',
 
