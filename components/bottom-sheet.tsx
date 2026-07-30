@@ -36,10 +36,23 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
   );
 
   const services: ServiceItem[] = [
-    { icon: 'calendar-month', label: 'Appointments' },
-    { icon: 'archive', label: 'Medical records' },
     {
-      icon: 'medication', label: 'Medication',
+      icon: 'calendar-month', label: 'Appointments', onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/appointments');
+      },
+    },
+    {
+      icon: 'archive', label: 'Medical records', onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/medical-records');
+      },
+    },
+    {
+      icon: 'medication', label: 'Medication', onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/medication-page');
+      },
     },
     { icon: 'forum', label: 'Messages' },
     { icon: 'change-circle', label: 'Order repeat medication' },
