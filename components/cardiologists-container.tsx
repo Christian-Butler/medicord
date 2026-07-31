@@ -59,9 +59,9 @@ const Card: React.FC = () => {
     <View>
       <View
         style={styles.search}
-        className="h-14 flex-row rounded-2xl border-2 items-center border-[#09516D] bg-white px-5"
+        className="h-14 flex-row rounded-2xl border-2 items-center border-[#778888] bg-white px-5"
       >
-        <Search size={18} color="#09516D" />
+        <Search size={18} color="#778888" />
 
         <TextInput
           placeholder="Search"

@@ -54,7 +54,12 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
         router.push('/medication-page');
       },
     },
-    { icon: 'forum', label: 'Messages' },
+    {
+      icon: 'forum', label: 'Messages', onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/messages');
+      },
+    },
     { icon: 'change-circle', label: 'Order repeat medication' },
     { icon: 'favorite', label: 'Your doctors' },
   ];

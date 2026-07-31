@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
+import ScreenHeader from "@/components/screen-header";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -63,6 +64,7 @@ export default function MedicalRecordsScreen() {
 
     return (
         <SafeAreaProvider style={{ backgroundColor: '#EEF9FB' }}>
+            <ScreenHeader title="Medical records" />
             <ScrollView>
                 <View style={styles.container}>
                     {records.map((record, index) => (
