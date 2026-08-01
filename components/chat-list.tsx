@@ -6,7 +6,7 @@ export default function ChatList() {
 
     const chats = [
         { id: '1', text: 'I received the test result, I will check them.' },
-        { id: '2', text: 'Thank you you !' },
+        { id: '2', text: 'Thank you !' },
     ];
 
     return (
@@ -16,6 +16,7 @@ export default function ChatList() {
                 contentContainerStyle={{ flex: 1, paddingVertical: 20 }}
                 keyExtractor={(item, index) => (item.id ?? index).toString()}
                 showsVerticalScrollIndicator={false}
+                nestedScrollEnabled={true}
                 renderItem={({ item }) => <ChatItem item={item} />}
             />
         </View>
