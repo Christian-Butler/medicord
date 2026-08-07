@@ -67,6 +67,11 @@ export default function RootLayout() {
             <Stack.Screen name="medical-records" options={{ headerShown: false }} />
             <Stack.Screen name="messages" options={{ headerShown: false }} />
             <Stack.Screen name="chat-room" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-documents" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-history" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-treatments" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-vaccines" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-allergies" options={{ headerShown: false }} />
           </Stack>
 
           <StatusBar style="auto" />
