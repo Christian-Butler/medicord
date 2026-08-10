@@ -53,6 +53,9 @@ export default function MedicalRecordsScreen() {
             name: 'Gynecological follow-up',
             icon: 'female',
             button: 'chevron-right',
+            onPress: () => {
+                router.push('/mr-gynecological');
+            }
         },
         {
             name: 'Vaccines',
@@ -66,16 +69,25 @@ export default function MedicalRecordsScreen() {
             name: 'Surgical operations',
             icon: 'monitor-heart',
             button: 'chevron-right',
+            onPress: () => {
+                router.push('/mr-operations');
+            }
         },
         {
             name: 'Lifestyle',
             icon: 'directions-walk',
             button: 'chevron-right',
+            onPress: () => {
+                router.push('/mr-lifestyle');
+            }
         },
         {
             name: 'Measurements',
             icon: 'design-services',
             button: 'chevron-right',
+            onPress: () => {
+                router.push('/mr-measurements');
+            }
         }
     ];
 

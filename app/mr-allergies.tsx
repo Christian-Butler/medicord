@@ -12,14 +12,14 @@ export default function Allergies() {
 
             <ScreenHeader title='' />
 
-            <View className="m-6">
-                <View className="pl-8 pr-8 pt-12 ">
+            <View className="m-4">
+                <View className="pl-6 pr-6 pt-12 ">
                     <Text className="text-2xl text-center">Do you have any allergy ?</Text>
                 </View>
-                <View className="pl-4 pr-4 pt-4">
+                <View className="pl-2 pr-2 pt-4">
                     <Text className="text-base text-center">Keep a trace of your allergies to improve medical follow-ups. It includes food, medication or anything else.</Text>
                 </View>
-                <View className="flex-1 pt-12" >
+                <View className="flex-1  m-2 pt-12" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
@@ -29,7 +29,7 @@ export default function Allergies() {
 
                     </TouchableOpacity>
                 </View>
-                <View className="flex-1 pt-4" >
+                <View className="flex-1  m-2 pt-4" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"

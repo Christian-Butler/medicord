@@ -5,7 +5,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 
-export default function Vaccines() {
+export default function Operations() {
 
     return (
         <ScrollView className="bg-[#EEF9FB]">
@@ -13,11 +13,11 @@ export default function Vaccines() {
             <ScreenHeader title='' />
 
             <View className="m-6">
-                <View className="pl-8 pr-8 pt-12 ">
-                    <Text className="text-2xl text-center">Have you received any vaccine ?</Text>
+                <View className="pt-12 ">
+                    <Text className="text-2xl text-center">Have you had medical surgery</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-base text-center">With a vaccine history you can keep track of what you're protected from.</Text>
+                    <Text className="text-base text-center">Keep a trace of or medical surgeries for an improved medical follow-up.</Text>
                 </View>
                 <View className="flex-1 pt-12" >
                     <TouchableOpacity
@@ -25,7 +25,7 @@ export default function Vaccines() {
                         accessibilityRole="button"
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add a vaccine</Text>
+                        <Text className="text-base text-center text-[#fff] font-medium">Add a surgery</Text>
 
                     </TouchableOpacity>
                 </View>
@@ -34,13 +34,14 @@ export default function Vaccines() {
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
                     >
-                        <Text className="text-base text-center text-[#5085A8] font-medium">I have not received any vaccine</Text>
+                        <Text className="text-base text-center text-[#5085A8] font-medium">I have not had any surgery</Text>
 
                     </TouchableOpacity>
                 </View>
             </View>
 
         </ScrollView>
+
 
     );
 }

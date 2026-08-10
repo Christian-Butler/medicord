@@ -72,6 +72,10 @@ export default function RootLayout() {
             <Stack.Screen name="mr-treatments" options={{ headerShown: false }} />
             <Stack.Screen name="mr-vaccines" options={{ headerShown: false }} />
             <Stack.Screen name="mr-allergies" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-gynecological" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-operations" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-lifestyle" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
           </Stack>
 
           <StatusBar style="auto" />

@@ -29,7 +29,7 @@ export default function Documents() {
 
                     </TouchableOpacity>
                 </View>
-                <View className="flex-1 pt-4" >
+                <View className="flex-1 pt-8" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"

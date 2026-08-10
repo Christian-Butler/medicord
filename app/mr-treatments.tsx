@@ -12,14 +12,14 @@ export default function Treatments() {
 
             <ScreenHeader title='' />
 
-            <View className="m-6">
+            <View className="m-4">
                 <View className="pl-8 pr-8 pt-12 ">
                     <Text className="text-2xl text-center">Is there any treatment you are regularly taking ?</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
                     <Text className="text-base text-center">Keeping a trace of the treatments you follow reduces oversights and improves medical follow-ups.</Text>
                 </View>
-                <View className="flex-1 pt-12" >
+                <View className="flex-1 m-2 pt-12" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
@@ -29,7 +29,7 @@ export default function Treatments() {
 
                     </TouchableOpacity>
                 </View>
-                <View className="flex-1 pt-4" >
+                <View className="flex-1  m-2 pt-4" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
