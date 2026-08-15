@@ -62,13 +62,13 @@ export default function ScreenHeader({
 
 const styles = StyleSheet.create({
   header: {
-    height: 96,
-    paddingTop: 44,
+    height: 120,
+    paddingTop: '14%',
     paddingHorizontal: 12,
     flexDirection: "row",
     alignItems: "center",
     borderBottomWidth: 1,
-    borderBottomColor: "#D8EEF3",
+    borderBottomColor: "#003454",
   },
 
   side: {

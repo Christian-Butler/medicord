@@ -1,4 +1,5 @@
 import { useAppointmentList } from "@/src/hooks/useAppointmentList";
+import { formatAppointmentDateTime } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -13,7 +14,6 @@ import {
   useWindowDimensions,
   View,
 } from "react-native";
-import { formatAppointmentDateTime } from "@/src/utils/dateTime";
 
 const CARD_GAP = 14;
 
@@ -145,10 +145,10 @@ const styles = StyleSheet.create({
     marginTop: 18,
   },
   title: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: "400",
     color: "#000",
-    marginLeft: 10,
+    marginLeft: 16,
     marginBottom: 18,
   },
   carouselContent: {

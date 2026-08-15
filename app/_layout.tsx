@@ -62,13 +62,20 @@ export default function RootLayout() {
             <Stack.Screen name="appointments" options={{ headerShown: false }} />
             <Stack.Screen name="appointment-details" options={{ headerShown: false }} />
             <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
-            <Stack.Screen name="create-medication" options={{ headerShown: false }} />
-            <Stack.Screen name="medication-details" options={{ headerShown: false }} />
-            <Stack.Screen name="medications" options={{ headerShown: false }} />
-            <Stack.Screen name="medication-formpage" options={{ headerShown: false }} />
             <Stack.Screen name="medication-routine" options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="register" options={{ headerShown: false }} />
+            <Stack.Screen name="medication-page" options={{ headerShown: false }} />
+            <Stack.Screen name="medical-records" options={{ headerShown: false }} />
+            <Stack.Screen name="messages" options={{ headerShown: false }} />
+            <Stack.Screen name="chat-room" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-documents" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-history" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-treatments" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-vaccines" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-allergies" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-gynecological" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-operations" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-lifestyle" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>
