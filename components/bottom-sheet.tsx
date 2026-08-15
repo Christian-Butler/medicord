@@ -34,6 +34,17 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       pressBehavior="close"
     />
   );
+  const closeSheet = () => {
+    bottomSheetRef.current?.close();
+  };
+
+  const navigateFromSheet = (pathname: string) => {
+    closeSheet();
+
+    requestAnimationFrame(() => {
+      router.push(pathname as never);
+    });
+  };
 
   const services: ServiceItem[] = [
     {

@@ -27,8 +27,9 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 
       <View className="flex-1">
         <Text
-          className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"
-            }`}
+          className={`text-[17px] font-normal ${
+            destructive ? "text-[#E33434]" : "text-black"
+          }`}
         >
           {title}
         </Text>
