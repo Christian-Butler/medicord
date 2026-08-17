@@ -78,7 +78,6 @@ export default function RootLayout() {
             <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
             <Stack.Screen name="mr-search-history" options={{ headerShown: false }} />
           </Stack>
-
           <StatusBar style="auto" />
         </ThemeProvider>
       </SafeAreaProvider>

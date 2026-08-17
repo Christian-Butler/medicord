@@ -81,7 +81,14 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
         </Pressable>
       </View>
 
-      <View className="h-1 bg-[#09516D]" />
+      <Pressable className="relative h-16 w-16 items-center justify-center rounded-full bg-[#09516D]">
+        <Bell size={34} color="white" />
+
+        <View className="absolute -right-1 -top-1 h-6 w-6 rounded-full bg-[#E7BF3C]" />
+      </Pressable>
     </View>
+
+    <View className="h-1 bg-[#09516D]" />
+  </View>
   );
 }
