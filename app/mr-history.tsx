@@ -5,7 +5,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 
-export default function Documents() {
+export default function MedicalHistory() {
 
     return (
         <ScrollView className="bg-[#EEF9FB]">
