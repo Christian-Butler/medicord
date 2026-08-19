@@ -1,5 +1,6 @@
 import ScreenHeader from "@/components/screen-header";
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
@@ -23,12 +24,18 @@ export default function Operations() {
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
+                        onPress={() => router.push({
+                            pathname: "/mr-search-history",
+                            params: { category: "operations" },
+                        })
+                        }
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
                         <Text className="text-base text-center text-[#fff] font-medium">Add a surgery</Text>
 
                     </TouchableOpacity>
                 </View>
+                {/*
                 <View className="flex-1 pt-8" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
@@ -38,6 +45,7 @@ export default function Operations() {
 
                     </TouchableOpacity>
                 </View>
+                */}
             </View>
 
         </ScrollView>

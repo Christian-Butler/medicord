@@ -2,7 +2,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 
 export type MedicalRecordsCategory =
     | "medical_history"
-    | "treatments"
     | "allergies"
     | "vaccines"
     | "operations";
@@ -27,15 +26,10 @@ export const categories: Record<MedicalRecordsCategory, CategoryConfig> = {
             "Stroke",
         ],
     },
-    treatments: {
-        title: "Treatments",
-        icon: "medication",
-        items: [
-        ],
-    },
+
     allergies: {
         title: "Allergies",
-        icon: "warning",
+        icon: "gpp-maybe",
         items: [
             "Dust Mites",
             "Latex",

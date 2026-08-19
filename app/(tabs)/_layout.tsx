@@ -20,7 +20,7 @@ export default function TabLayout() {
 
   return (
     <SafeAreaProvider>
-      <View style={{ flex: 1 }}>
+      <View className="flex-1">
         <Tabs
           screenOptions={{
             tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
@@ -30,8 +30,8 @@ export default function TabLayout() {
             tabBarInactiveTintColor: INACTIVE,
             tabBarStyle: {
               height: 100,
-              borderTopColor: "#FFFFFF",
-              borderTopWidth: 2,
+              borderTopColor: "#09516D",
+              borderTopWidth: 1.5,
               paddingTop: 20,
               paddingBottom: 12,
             },
