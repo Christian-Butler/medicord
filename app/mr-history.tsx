@@ -26,7 +26,7 @@ export default function MedicalHistory() {
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
-                            params: { category: "medical_history" },
+                            params: { category: "family_medical_history" },
                         })
                         }
                     >
@@ -57,7 +57,7 @@ export default function MedicalHistory() {
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
-                            params: { category: "medical_history" },
+                            params: { category: "personal_medical_history" },
                         })
                         }
                     >

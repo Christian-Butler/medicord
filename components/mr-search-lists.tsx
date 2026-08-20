@@ -1,7 +1,8 @@
 import { MaterialIcons } from "@expo/vector-icons";
 
 export type MedicalRecordsCategory =
-    | "medical_history"
+    | "family_medical_history"
+    | "personal_medical_history"
     | "allergies"
     | "vaccines"
     | "operations";
@@ -13,8 +14,8 @@ export interface CategoryConfig {
 }
 
 export const categories: Record<MedicalRecordsCategory, CategoryConfig> = {
-    medical_history: {
-        title: "Medical History",
+    family_medical_history: {
+        title: "Family Medical History",
         icon: "medical-information",
         items: [
             "Asthma",
@@ -26,7 +27,19 @@ export const categories: Record<MedicalRecordsCategory, CategoryConfig> = {
             "Stroke",
         ],
     },
-
+    personal_medical_history: {
+        title: "Personal Medical History",
+        icon: "medical-information",
+        items: [
+            "Asthma",
+            "Coronary artery disease",
+            "Diabetes",
+            "Heart failure",
+            "High blood pressure",
+            "Hypercholesterolemia",
+            "Stroke",
+        ],
+    },
     allergies: {
         title: "Allergies",
         icon: "gpp-maybe",
