@@ -1,11 +1,12 @@
 import ScreenHeader from "@/components/screen-header";
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 
-export default function Documents() {
+export default function MedicalHistory() {
 
     return (
         <ScrollView className="bg-[#EEF9FB]">
@@ -23,21 +24,28 @@ export default function Documents() {
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
+                        onPress={() => router.push({
+                            pathname: "/mr-search-history",
+                            params: { category: "family_medical_history" },
+                        })
+                        }
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add family medical history</Text>
+                        <Text className="font-medium text-center text-[#fff] font-medium">Add family medical history</Text>
 
                     </TouchableOpacity>
                 </View>
-                <View className="flex-1 pt-8" >
+                {/* <View className="flex-1 pt-8" >
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
                     >
-                        <Text className="text-base text-center text-[#5085A8] font-medium">My family has no medical history</Text>
+                        <Text className="text-medium text-center text-[#5085A8] font-medium">My family has no medical history</Text>
 
                     </TouchableOpacity>
                 </View>
+                */}
+
                 <View className="mt-16 h-0.5 bg-[#BEC9CA] rounded-full" />
                 <View className="pl-4 pr-4 pt-16">
                     <Text className="text-2xl text-center">Any personal medical history ?</Text>
@@ -47,9 +55,14 @@ export default function Documents() {
                     <TouchableOpacity
                         className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
+                        onPress={() => router.push({
+                            pathname: "/mr-search-history",
+                            params: { category: "personal_medical_history" },
+                        })
+                        }
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add personal medical history</Text>
+                        <Text className="text-medium text-center text-[#fff] font-medium">Add personal medical history</Text>
 
                     </TouchableOpacity>
                 </View>

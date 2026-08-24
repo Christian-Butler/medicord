@@ -60,9 +60,16 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
           <Bell size={24} color="white" />
           <View className="absolute -right-0 -top-1 h-4 w-4 rounded-full bg-[#E7BF3C]" />
         </Pressable>
+
       </View>
+<<<<<<< HEAD
 
       <View className="h-1 bg-[#09516D]" />
     </View>
+=======
+      <View className="h-0.5 bg-[#09516D]" />
+    </View>
+
+>>>>>>> c520f0bb7480abeeaaf8a8d1b8f481ee14f56406
   );
 }
