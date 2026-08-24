@@ -1,6 +1,3 @@
-import { router } from "expo-router";
-import { Plus } from "lucide-react-native";
-import { Pressable, Text, View } from "react-native";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
 import { formatMedicationDuration } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -39,7 +36,6 @@ export default function MedicationReminder() {
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
     const nextIndex = Math.round(offsetX / cardWidth);
-
     setActiveIndex(
       Math.max(0, Math.min(nextIndex, sortedMedications.length - 1))
     );
@@ -49,16 +45,6 @@ export default function MedicationReminder() {
     <View className="px-6 pt-8">
       <Text className="text-[24px] font-normal text-black">Medication</Text>
 
-      <Pressable
-        className="mt-5 h-[58px] flex-row items-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
-        onPress={() => {
-          router.push('/medication-routine');
-        }}
-      >
-        <Plus size={20} color="#09516D" />
-
-        <Text className="ml-3 text-[18px] font-medium text-[#09516D]">
-          Add medication routine
       {loading ? (
         <Text className="mt-5 text-[15px] text-black">
           Loading medications...
@@ -75,7 +61,6 @@ export default function MedicationReminder() {
           className="mt-5 h-[58px] flex-row items-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
         >
           <Plus size={30} color="#09516D" />
-
           <Text className="ml-3 text-[19px] font-medium text-[#09516D]">
             Add medication routine
           </Text>
@@ -103,17 +88,11 @@ export default function MedicationReminder() {
                     onPress={() => router.push("/medications")}
                     className="flex-row items-center"
                   >
-                    <MaterialIcons
-                      name="medication"
-                      size={42}
-                      color="#075B7A"
-                    />
-
+                    <MaterialIcons name="medication" size={42} color="#075B7A" />
                     <View className="ml-4 flex-1">
                       <Text className="text-[19px] font-medium text-black">
                         {item.name ?? "Unnamed medication"}
                       </Text>
-
                       <Text className="mt-1 text-[14px] font-normal text-black">
                         {formatMedicationDuration(
                           item.months_duration,
@@ -122,12 +101,7 @@ export default function MedicationReminder() {
                         )}
                       </Text>
                     </View>
-
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={34}
-                      color="#000"
-                    />
+                    <MaterialIcons name="chevron-right" size={34} color="#000" />
                   </Pressable>
 
                   <View className="mt-4 h-[46px] items-center justify-center rounded-[12px] border-[2px] border-[#D3A000] bg-[#FFE9A8]">
