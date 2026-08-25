@@ -1,4 +1,11 @@
-export type Medication = {
+export type MedicationFrequency =
+  | "as_needed"
+  | "once_daily"
+  | "twice_daily"
+  | "three_times_daily"
+  | "long_term";
+
+  export type Medication = {
   id: number;
   created_at: string;
   name: string | null;
@@ -14,8 +21,8 @@ export type Medication = {
   morning_frequency: number | null;
   noon_frequency: number | null;
   evening_frequency: number | null;
+  frequency: string | null;
 };
-
 export type MedicationInput = {
   name: string;
   noSpecificTime?: boolean;
@@ -29,4 +36,5 @@ export type MedicationInput = {
   morningFrequency?: number | null;
   noonFrequency?: number | null;
   eveningFrequency?: number | null;
+  frequency?: MedicationFrequency | null;
 };

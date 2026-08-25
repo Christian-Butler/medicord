@@ -13,7 +13,7 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
 
     return (
         <View>
-            <Text style={styles.label}>Frequency</Text>
+            <Text style={styles.label}>Days of the Week</Text>
             <View style={styles.daysContainer}>
                 {weekDays.map((day) => (
                     <TouchableOpacity

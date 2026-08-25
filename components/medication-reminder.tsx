@@ -54,12 +54,9 @@ export default function MedicationReminder() {
           className="pl-10 pr-12 mt-5 h-[58px] flex-row items-center self-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
         >
           <Plus size={30} color="#09516D" />
-<<<<<<< HEAD
-          <Text className="ml-3 text-[19px] font-medium text-[#09516D]">
-=======
+          <Text className="ml-3 text-[19px] font-medium text-[#09516D]"/>
 
           <Text className="ml-3 text-[18px] font-medium text-[#09516D]">
->>>>>>> c520f0bb7480abeeaaf8a8d1b8f481ee14f56406
             Add medication routine
           </Text>
         </TouchableOpacity>
