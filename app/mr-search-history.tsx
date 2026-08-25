@@ -6,7 +6,7 @@ import React, { useMemo, useState } from "react";
 import { FlatList, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import { categories, MedicalRecordsCategory } from "../components/mr-search-lists";
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
-
+import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 export default function MedicalRecordsSearchScreen() {
     const { category } = useLocalSearchParams<{
         category: MedicalRecordsCategory;
@@ -38,9 +38,22 @@ export default function MedicalRecordsSearchScreen() {
             setModalVisible(true);
         }
     };
+    const { create, creating, createError } = useCreateMedicalRecord();
 
-    const handleFormSubmit = (formData: Record<string, string>) => {
-        console.log("Saved Medical Records Info:", formData);
+    const handleFormSubmit = async (formData: Record<string, string>) => {
+        try {
+            await create({
+                category,
+                item: selectedItem!,
+                vaccineDate: formData.vaccineDate ?? null,
+                operationDate: formData.operationDate ?? null,
+                diagnosis: formData.diagnosis ?? null,
+                conditionState: formData.conditionState ?? null,
+            });
+            setModalVisible(false);
+        } catch (err) {
+            console.error("[MedicalRecordsSearchScreen] save failed:", err);
+        }
     };
 
     return (
