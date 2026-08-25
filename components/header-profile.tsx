@@ -62,14 +62,8 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
         </Pressable>
 
       </View>
-<<<<<<< HEAD
-
-      <View className="h-1 bg-[#09516D]" />
-    </View>
-=======
       <View className="h-0.5 bg-[#09516D]" />
     </View>
 
->>>>>>> c520f0bb7480abeeaaf8a8d1b8f481ee14f56406
   );
 }
