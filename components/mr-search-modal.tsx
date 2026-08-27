@@ -22,6 +22,7 @@ export default function ItemDetailModal({
     const [vaccineDate, setVaccineDate] = useState("");
     const [operationDate, setOperationDate] = useState("");
     const [diagnosis, setDiagnosis] = useState("");
+    const [diagnosisDate, setDiagnosisDate] = useState("");
     const [conditionState, setConditionState] = useState<string | null>(null);
     const [isDropdownVisible, setDropdownVisible] = useState(false);
 
@@ -35,14 +36,17 @@ export default function ItemDetailModal({
             vaccineDate,
             operationDate,
             diagnosis,
+            diagnosisDate,
             conditionState: conditionState ?? "",
         });
 
         setVaccineDate("");
         setOperationDate("");
         setDiagnosis("");
+        setDiagnosisDate("");
         setConditionState(null);
         onClose();
+
     };
 
     const conditionOptions = ["Ongoing", "In remission", "Cured"];
@@ -110,8 +114,8 @@ export default function ItemDetailModal({
                                     <Text className="text-base font-medium mb-2 text-[#000]">When was it diagnosed ?</Text>
                                     <TextInput
                                         placeholder="MM/YYYY"
-                                        value={diagnosis}
-                                        onChangeText={setDiagnosis}
+                                        value={diagnosisDate}
+                                        onChangeText={setDiagnosisDate}
                                         className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
                                     />
                                     <View className="mt-4 relative z-10">

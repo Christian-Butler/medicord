@@ -64,6 +64,7 @@ export default function RootLayout() {
             <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
             <Stack.Screen name="medication-routine" options={{ headerShown: false }} />
             <Stack.Screen name="medication-page" options={{ headerShown: false }} />
+            <Stack.Screen name="medications" options={{ headerShown: false }} />
             <Stack.Screen name="medical-records" options={{ headerShown: false }} />
             <Stack.Screen name="messages" options={{ headerShown: false }} />
             <Stack.Screen name="chat-room" options={{ headerShown: false }} />
@@ -75,8 +76,9 @@ export default function RootLayout() {
             <Stack.Screen name="mr-gynecological" options={{ headerShown: false }} />
             <Stack.Screen name="mr-operations" options={{ headerShown: false }} />
             <Stack.Screen name="mr-lifestyle" options={{ headerShown: false }} />
-            <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
             <Stack.Screen name="mr-search-history" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
+            <Stack.Screen name="mr-family-members" options={{ headerShown: false }} />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>

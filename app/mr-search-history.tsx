@@ -8,16 +8,21 @@ import { categories, MedicalRecordsCategory } from "../components/mr-search-list
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
 
 export default function MedicalRecordsSearchScreen() {
-    const { category } = useLocalSearchParams<{
+    const params = useLocalSearchParams<{
         category: MedicalRecordsCategory;
+        previousAllergies: string[];
+        previousOperations?: string;
+        previousVaccines?: string;
+        previousFamilyHistory?: string;
+        previousPersonalHistory?: string;
     }>();
 
+    const category = params.category;
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedItem, setSelectedItem] = useState<string | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
 
     const currentCategoryConfig = categories[category];
-
 
     const processedList = useMemo(() => {
         return [...currentCategoryConfig.items]
@@ -31,7 +36,7 @@ export default function MedicalRecordsSearchScreen() {
         if (category === "allergies") {
             router.push({
                 pathname: "/mr-allergies",
-                params: { addedAllergy: label },
+                params: { addedAllergy: label, previousAllergies: params.previousAllergies },
             });
         } else {
             setSelectedItem(label);
@@ -40,7 +45,50 @@ export default function MedicalRecordsSearchScreen() {
     };
 
     const handleFormSubmit = (formData: Record<string, string>) => {
-        console.log("Saved Medical Records Info:", formData);
+        if (category === "operations") {
+            router.push({
+                pathname: "/mr-operations",
+                params: {
+                    addedOperation: JSON.stringify({
+                        name: formData.item,
+                        date: formData.operationDate,
+                    }),
+                    previousOperations: params.previousOperations ?? "[]",
+                },
+            });
+        } else if (category === "vaccines") {
+            router.push({
+                pathname: "/mr-vaccines",
+                params: {
+                    addedVaccine: JSON.stringify({
+                        name: formData.item,
+                        date: formData.vaccineDate,
+                    }),
+                    previousVaccines: params.previousVaccines ?? "[]",
+                },
+            });
+        } else if (category === "family_medical_history") {
+            router.push({
+                pathname: "/mr-family-members",
+                params: {
+                    item: formData.item,
+                    diagnosis: formData.diagnosis,
+                    previousFamilyHistory: params.previousFamilyHistory ?? "[]",
+                },
+            });
+        } else if (category === "personal_medical_history") {
+            router.push({
+                pathname: "/mr-history",
+                params: {
+                    addedPersonalHistory: JSON.stringify({
+                        name: formData.item,
+                        diagnosisDate: formData.diagnosisDate ?? "",
+                        conditionState: formData.conditionState ?? "",
+                    }),
+                    previousPersonalHistory: params.previousPersonalHistory ?? "[]",
+                },
+            });
+        }
     };
 
     return (

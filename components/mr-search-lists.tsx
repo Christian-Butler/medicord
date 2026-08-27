@@ -1,5 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 
+{/* Union type to be checked by Typescript at each branch */ }
 export type MedicalRecordsCategory =
     | "family_medical_history"
     | "personal_medical_history"

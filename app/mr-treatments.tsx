@@ -11,13 +11,14 @@ interface TreatmentsModalProps {
     onSubmit: (data: { treatmentName: string; startDate: string; frequency: string }) => void;
 }
 
+{/* Seperate modal for internal use only applying to treatments*/ }
 function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
     const [date, setDate] = useState<Date>(new Date());
     const [showPicker, setShowPicker] = useState(false);
     const [treatmentName, setTreatmentName] = useState("");
     const [frequency, setFrequency] = useState("");
 
-
+    {/* Picker dismissal on each change, no better event done yet to improve this feature */ }
     const handleDateChange = (_: DateTimePickerEvent, date?: Date) => {
         setShowPicker(false);
         if (date) {
@@ -119,39 +120,63 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
     )
 
 }
+interface Treatment {
+    id: string;
+    treatmentName: string;
+    startDate: string;
+    frequency: string;
+}
+
 export default function Treatments() {
 
     const params = useLocalSearchParams<{ addedTreatment?: string }>();
-    const [treatmentsList, setTreatmentsList] = useState<string[]>([]);
+    const [treatmentsList, setTreatmentsList] = useState<Treatment[]>([]);
 
     useEffect(() => {
         if (params.addedTreatment) {
             setTreatmentsList((prev) => {
-                if (!prev.includes(params.addedTreatment!)) {
-                    return [...prev, params.addedTreatment!];
+                if (!prev.some((t) => t.treatmentName === params.addedTreatment)) {
+                    return [
+                        ...prev,
+                        {
+                            id: Date.now().toString(),
+                            treatmentName: params.addedTreatment!,
+                            startDate: "",
+                            frequency: "",
+                        },
+                    ];
                 }
                 return prev;
             });
         }
     }, [params.addedTreatment]);
 
-    const handleRemoveTreatment = (removeTreatment: string) => {
-        setTreatmentsList((prev) => prev.filter((item) => item !== removeTreatment));
+    const handleRemoveTreatment = (id: string) => {
+        setTreatmentsList((prev) => prev.filter((item) => item.id !== id));
     }
-
 
     const [modalVisible, setModalVisible] = useState(false);
     const handleOpen = () => setModalVisible(true);
     const handleClose = () => setModalVisible(false);
 
+    {/* Ensures that there no duplicates by checking the name only */ }
     const handleSubmit = (data: { treatmentName: string; startDate: string; frequency: string }) => {
         setTreatmentsList((prev) => {
             const name = data.treatmentName.trim();
             if (!name) return prev;
-            if (!prev.includes(name)) return [...prev, name];
+            if (!prev.some((t) => t.treatmentName === name)) {
+                return [
+                    ...prev,
+                    {
+                        id: Date.now().toString(),
+                        treatmentName: name,
+                        startDate: data.startDate,
+                        frequency: data.frequency,
+                    },
+                ];
+            }
             return prev;
         });
-        console.log("New treatment:", data);
         handleClose();
     };
 
@@ -168,7 +193,7 @@ export default function Treatments() {
                 <View className="pl-4 pr-4 pt-4">
                     <Text className="text-base text-center">Keeping a trace of the treatments you follow reduces oversights and improves medical follow-ups.</Text>
                 </View>
-                <View className="flex-1 m-2 pt-12" >
+                <View className="flex-1 mx-2 mt-2 mb-20 pt-12" >
                     <TouchableOpacity
                         className="flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
@@ -195,29 +220,33 @@ export default function Treatments() {
 
             {treatmentsList.length > 0 && (
 
-                <View className="mx-4 mt-20 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95] ">
+                <View className="mt-20 mx-6 ">
 
                     {treatmentsList.map((treatment) => (
-                        <View className="my-8 flex-row items-center justify-between">
-                            <View className="flex-row">
-                                <MaterialIcons name="medication" size={44} color="#0D5175" />
-                                <View
-                                    key={treatment}
-                                    className="justify-start mx-8">
-                                    <Text className="font-medium text-xl mb-2">
-                                        Treatment
+                        <View
+                            key={treatment.id}
+                            className="px-2 py-8 mb-4 flex-row items-center justify-between rounded-2xl border-2 border-[#326F95]">
+                            <View className="flex-row ">
+                                <MaterialIcons name="medication" size={44} color="#0D5175" className="self-center" />
+                                <View className="justify-start mx-8">
+                                    <Text className="font-medium text-xl mb-1">
+                                        {treatment.treatmentName}
                                     </Text>
 
-
-                                    <View>
-                                        <Text>
-                                            {treatment}
-                                        </Text>
+                                    <View className="mb-1 flex-row">
+                                        <Text className="text-base font-medium text-black">Started: </Text>
+                                        <Text className="text-base ">{treatment.startDate || "Not stated"}</Text>
+                                    </View>
+                                    <View className="flex-row">
+                                        <Text className="text-base font-medium text-black">Frequency: </Text>
+                                        <Text className="text-base ">{treatment.frequency || "Not stated"}</Text>
                                     </View>
                                 </View>
                             </View>
+
                             <TouchableOpacity
-                                onPress={() => handleRemoveTreatment(treatment)}
+                                onPress={() => handleRemoveTreatment(treatment.id)}
+                                className="mr-4"
                             >
                                 <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
                             </TouchableOpacity>
