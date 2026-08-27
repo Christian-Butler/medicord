@@ -42,7 +42,7 @@ export default function MedicationRoutineSetUp() {
     const [noon, setNoon] = useState<number>(0);
     const [evening, setEvening] = useState<number>(0);
 
-    const [hours, setHours] = useState('00:00');
+    const [hours, setHours] = useState('');
     const [instructions, setInstructions] = useState<Instruction[]>([createInstruction()]);
 
     const toggleDay = (day: string) => {
@@ -87,7 +87,8 @@ export default function MedicationRoutineSetUp() {
             evening_frequency: evening,
             no_specific_time: noSpecificTime,
             no_specific_hour: noSpecificHour,
-            hours: hoursMedication,
+            hours: [],
+            frequency: hours,
             instructions: readyInstructions,
         };
 
@@ -132,7 +133,7 @@ export default function MedicationRoutineSetUp() {
 
 
                     <View>
-                        <Text style={{ fontWeight: 500, fontSize: 20, paddingBottom: 14 }}>Duration</Text>
+                        <Text style={{ fontWeight: 500, fontSize: 20, paddingBottom: 14 }}>Amount of per Day</Text>
                         {!noSpecificTime ? (
                             <View style={{ flexDirection: 'row', marginTop: 2, justifyContent: 'space-between' }}>
                                 <IntakeMorning duration={10} text={'Morning intake'} setValue={setMorning} value={morning} />
@@ -147,13 +148,13 @@ export default function MedicationRoutineSetUp() {
                                     {noSpecificTime ? <Text style={styles.checkmark}>✓</Text> : null}
                                 </View>
                             </Pressable>
-                            <Text style={{ color: '#26282b', fontSize: 16, }}>No specific time.</Text>
+                            <Text style={{ color: '#26282b', fontSize: 16, }}>No specific amount.</Text>
                         </View>
                     </View>
 
                     <View>
                         {!noSpecificHour ? (
-                            <MedicationHours text={'Hours'} setValue={setHours} value={hours} />
+                            <MedicationHours text={'Frequency'} setValue={setHours} value={hours} />
                         ) : null}
                         <Pressable
                             onPress={() => setNoSpecificHour((current) => !current)}
@@ -162,7 +163,7 @@ export default function MedicationRoutineSetUp() {
                             <View style={[styles.checkboxBox, noSpecificHour && styles.checkboxBoxChecked]}>
                                 {noSpecificHour ? <Text style={styles.checkmark}>✓</Text> : null}
                             </View>
-                            <Text style={styles.checkboxLabel}>No specific hour.</Text>
+                            <Text style={styles.checkboxLabel}>No specific frequency.</Text>
                         </Pressable>
                     </View>
                     <View style={{ paddingBottom: 20 }}>

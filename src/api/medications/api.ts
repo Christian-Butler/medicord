@@ -55,6 +55,7 @@ export type CreateMedicationInput = {
   morning_frequency: number;
   noon_frequency: number;
   evening_frequency: number;
+  frequency?: string | null;
 };
 
 export async function createMedication(

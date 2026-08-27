@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Search } from "lucide-react-native";
@@ -6,7 +7,6 @@ import React, { useMemo, useState } from "react";
 import { FlatList, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import { categories, MedicalRecordsCategory } from "../components/mr-search-lists";
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
-
 export default function MedicalRecordsSearchScreen() {
     const params = useLocalSearchParams<{
         category: MedicalRecordsCategory;
@@ -43,51 +43,21 @@ export default function MedicalRecordsSearchScreen() {
             setModalVisible(true);
         }
     };
+    const { create, creating, createError } = useCreateMedicalRecord();
 
-    const handleFormSubmit = (formData: Record<string, string>) => {
-        if (category === "operations") {
-            router.push({
-                pathname: "/mr-operations",
-                params: {
-                    addedOperation: JSON.stringify({
-                        name: formData.item,
-                        date: formData.operationDate,
-                    }),
-                    previousOperations: params.previousOperations ?? "[]",
-                },
+    const handleFormSubmit = async (formData: Record<string, string>) => {
+        try {
+            await create({
+                category,
+                item: selectedItem!,
+                vaccineDate: formData.vaccineDate ?? null,
+                operationDate: formData.operationDate ?? null,
+                diagnosis: formData.diagnosis ?? null,
+                conditionState: formData.conditionState ?? null,
             });
-        } else if (category === "vaccines") {
-            router.push({
-                pathname: "/mr-vaccines",
-                params: {
-                    addedVaccine: JSON.stringify({
-                        name: formData.item,
-                        date: formData.vaccineDate,
-                    }),
-                    previousVaccines: params.previousVaccines ?? "[]",
-                },
-            });
-        } else if (category === "family_medical_history") {
-            router.push({
-                pathname: "/mr-family-members",
-                params: {
-                    item: formData.item,
-                    diagnosis: formData.diagnosis,
-                    previousFamilyHistory: params.previousFamilyHistory ?? "[]",
-                },
-            });
-        } else if (category === "personal_medical_history") {
-            router.push({
-                pathname: "/mr-history",
-                params: {
-                    addedPersonalHistory: JSON.stringify({
-                        name: formData.item,
-                        diagnosisDate: formData.diagnosisDate ?? "",
-                        conditionState: formData.conditionState ?? "",
-                    }),
-                    previousPersonalHistory: params.previousPersonalHistory ?? "[]",
-                },
-            });
+            setModalVisible(false);
+        } catch (err) {
+            console.error("[MedicalRecordsSearchScreen] save failed:", err);
         }
     };
 

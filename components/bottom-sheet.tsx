@@ -72,7 +72,11 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       },
     },
     { icon: 'change-circle', label: 'Order repeat medication' },
-    { icon: 'favorite', label: 'Your doctors' },
+    {
+      icon: 'favorite', label: 'Your doctors', onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/your-doctors')
+    } },
   ];
 
   return (

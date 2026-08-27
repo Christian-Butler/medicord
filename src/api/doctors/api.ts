@@ -14,6 +14,9 @@ export async function getDoctorsBySpecialty(specialty: string) {
       avatar_url,
       rating,
       years_experience,
+      previous_experience,
+      qualified_year,
+      consultation_fee,
       requires_gp_referral
     `)
     .eq("is_active", true)
@@ -38,6 +41,9 @@ export async function getDoctorById(id: string) {
       avatar_url,
       rating,
       years_experience,
+      previous_experience,
+      qualified_year,
+      consultation_fee,
       requires_gp_referral
     `)
     .eq("id", id)

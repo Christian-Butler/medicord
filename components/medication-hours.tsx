@@ -1,52 +1,42 @@
-import { formatTime } from '@/src/utils 2/medicationTime';
 import React from 'react';
 import { View } from 'react-native';
 import Dropdown from 'react-native-input-select';
 
-interface medicationHoursProps {
-    text: string;
-    setValue: (value: string) => void;
-    value: string;
+interface MedicationFrequencyProps {
+  text: string;
+  setValue: (value: string) => void;
+  value: string;
 }
 
-const timeChoices = () => {
-    const options = [] as Array<{ label: string; value: string }>;
+const frequencyChoices = [
+  { label: "As needed", value: "as_needed" },
+  { label: "Once daily", value: "once_daily" },
+  { label: "Twice daily", value: "twice_daily" },
+  { label: "Three times daily", value: "three_times_daily" },
+  { label: "Long term / Ongoing", value: "long_term" },
+];
 
-    for (let totalMinutes = 0; totalMinutes <= 23 * 60 + 30; totalMinutes += 30) {
-        options.push({
-            label: formatTime(totalMinutes),
-            value: formatTime(totalMinutes),
-        });
-    }
-
-    return options;
-};
-
-export default function MedicationHours({ text, setValue, value }: medicationHoursProps) {
-    const choices = timeChoices();
-
-
-    return (
-        <View style={{ marginTop: 27, marginBottom: 5, width: 130 }}>
-
-            <Dropdown
-                dropdownStyle={{
-                    backgroundColor: '#fff',
-                    borderRadius: 14,
-                }}
-                label={text}
-                labelStyle={{
-                    paddingTop: 4, fontSize: 20, fontWeight: '500', color: '#000'
-                }}
-                placeholder={text}
-                options={choices}
-                selectedValue={value}
-                onValueChange={(nextValue) => setValue(String(nextValue))}
-                primaryColor={'#326F95'}
-            />
-
-
-        </View>
-
-    );
+export default function MedicationHours({ text, setValue, value }: MedicationFrequencyProps) {
+  return (
+    <View style={{ marginTop: 27, marginBottom: 5, width: 220 }}>
+      <Dropdown
+        dropdownStyle={{
+          backgroundColor: '#fff',
+          borderRadius: 14,
+        }}
+        label={text}
+        labelStyle={{
+          paddingTop: 4,
+          fontSize: 20,
+          fontWeight: '500',
+          color: '#000',
+        }}
+        placeholder="Select frequency"
+        options={frequencyChoices}
+        selectedValue={value}
+        onValueChange={(nextValue) => setValue(String(nextValue))}
+        primaryColor={'#326F95'}
+      />
+    </View>
+  );
 }
