@@ -1,5 +1,5 @@
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Fontisto from "@expo/vector-icons/Fontisto";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { FlatList, Pressable, Text, View } from "react-native";
 
@@ -59,7 +59,7 @@ export default function DoctorSpecialtyCarousel() {
   const router = useRouter();
 
   return (
-    <View className="pt-4">
+    <View className="mt-2 py-4 pl-2 ">
       <FlatList
         horizontal
         data={specialties}

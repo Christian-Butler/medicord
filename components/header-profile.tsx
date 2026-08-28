@@ -1,7 +1,6 @@
-import { Bell } from "lucide-react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
-
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { setDemoSession } from "../src/api/auth/demoSession";
 import { getMyUser } from "../src/api/auth/getUser";
 
@@ -56,10 +55,10 @@ export default function ProfileHeader({ name = "Philip" }: ProfileHeaderProps) {
           </View>
         </View>
 
-        <Pressable className="relative h-12 w-12 items-center justify-center rounded-full bg-[#09516D]">
-          <Bell size={24} color="white" />
+        <TouchableOpacity className="relative h-12 w-12 items-center justify-center rounded-full bg-[#09516D]">
+          <MaterialIcons name="notifications" color="white" size={26} />
           <View className="absolute -right-0 -top-1 h-4 w-4 rounded-full bg-[#E7BF3C]" />
-        </Pressable>
+        </TouchableOpacity>
 
       </View>
       <View className="h-0.5 bg-[#09516D]" />
