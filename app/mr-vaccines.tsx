@@ -1,64 +1,15 @@
 import ScreenHeader from "@/components/screen-header";
+import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
+import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useEffect, useState } from "react";
+import { router } from "expo-router";
+import React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
-type Vaccines = {
-    name: string;
-    date: string;
-};
-
 export default function Vaccines() {
-
-    const params = useLocalSearchParams<{
-        addedVaccine?: string;
-        previousVaccines?: string | string[];
-    }>();
-
-    const [vaccines, setVaccines] = useState<Vaccines[]>([]);
-
-    useEffect(() => {
-        const added = params.addedVaccine;
-        if (!added) return;
-
-        const rawPrev = params.previousVaccines;
-        let previous: Vaccines[] = [];
-
-        if (typeof rawPrev === "string") {
-            try {
-                const parsed = JSON.parse(rawPrev);
-                previous = Array.isArray(parsed) ? parsed : [parsed];
-            } catch {
-                previous = [];
-            }
-        } else if (Array.isArray(rawPrev)) {
-            previous = rawPrev
-                .map((item) => {
-                    try {
-                        return JSON.parse(item);
-                    } catch {
-                        return null;
-                    }
-                })
-                .filter(Boolean) as Vaccines[];
-        }
-
-        {/* To not have dupes, it checks if the name matches */ }
-        try {
-            const newVaccine = JSON.parse(added) as Vaccines;
-            setVaccines(() => {
-                const alreadyExists = previous.some((v) => v.name === newVaccine.name);
-                return alreadyExists ? previous : [...previous, newVaccine];
-            });
-        } catch {
-        }
-    }, [params.addedVaccine, params.previousVaccines]);
-
-    const handleRemoveVaccine = (indexToRemove: number) => {
-        setVaccines((prev) => prev.filter((_, index) => index !== indexToRemove));
-    };
+    const { records, refetch } = useMedicalRecords("vaccines");
+    const { deleteRecord } = useDeleteMedicalRecord(refetch);
 
     return (
         <ScrollView className="bg-[#EEF9FB]">
@@ -81,7 +32,7 @@ export default function Vaccines() {
                         onPress={() =>
                             router.push({
                                 pathname: "/mr-search-history",
-                                params: { category: "vaccines", previousVaccines: JSON.stringify(vaccines) },
+                                params: { category: "vaccines" },
                             })
                         }
                     >
@@ -103,22 +54,22 @@ export default function Vaccines() {
                     </TouchableOpacity>
                 </View>
                 */}
-            </View>{vaccines.length > 0 && (
+            </View>{records.length > 0 && (
                 <View className="mt-10 mx-6 mb-10">
-                    {vaccines.map((vaccine, index) => (
+                    {records.map((record) => (
                         <View
-                            key={index}
+                            key={record.id}
                             className="px-4 py-6 mb-4 flex-row items-center justify-between rounded-2xl border-2 border-[#326F95]"
                         >
                             <MaterialIcons name="vaccines" size={44} color="#0D5175" />
                             <View className="flex-1 px-4">
-                                <Text className="font-medium text-xl">{vaccine.name}</Text>
-                                <Text className="text-base text-black mt-1">Date: {vaccine.date || "Not stated"} </Text>
+                                <Text className="font-medium text-xl">{record.item}</Text>
+                                {record.vaccine_date ? (
+                                    <Text className="text-base text-black mt-1">Received: {record.vaccine_date} </Text>) : null}
                             </View>
                             <TouchableOpacity
-                                onPress={() => handleRemoveVaccine(index)}
+                                onPress={() => deleteRecord(record.id)}
                                 className="mr-4" >
-
                                 <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
                             </TouchableOpacity>
                         </View>

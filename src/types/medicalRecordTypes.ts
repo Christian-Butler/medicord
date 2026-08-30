@@ -8,6 +8,7 @@ export type MedicalRecord = {
   item: string;
   vaccine_date: string | null;
   operation_date: string | null;
+  family_diagnosis: string | null;
   diagnosis: string | null;
   condition_state: string | null;
   updated_at: string;
@@ -16,6 +17,7 @@ export type MedicalRecord = {
 export type MedicalRecordInput = {
   category: MedicalRecordsCategory;
   item: string;
+  familyDiagnosis?: string | null;
   vaccineDate?: string | null;
   operationDate?: string | null;
   diagnosis?: string | null;

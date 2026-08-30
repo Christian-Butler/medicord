@@ -41,21 +41,23 @@ export default function MedicalHistory() {
                 </View>
 
                 {familyRecords.length > 0 && (
-                    <View className="mt-6 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                    <View className="mt-4">
                         {familyRecords.map((record) => (
-                            <View key={record.id} className="my-4 flex-row items-center justify-between">
-                                <View className="flex-row items-center">
-                                    <MaterialIcons name="medical-information" size={36} color="#0D5175" />
-                                    <View className="ml-4">
-                                        <Text className="font-medium text-base">{record.item}</Text>
-                                        {record.diagnosis ? (
-                                            <Text className="text-sm text-[#555]">Diagnosed: {record.diagnosis}</Text>
-                                        ) : null}
+                            <View key={record.id} className="mt-4 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                                <View className="my-4 flex-row items-center justify-between">
+                                    <View className="flex-row items-center">
+                                        <MaterialIcons name="medical-information" size={36} color="#0D5175" />
+                                        <View className="ml-4">
+                                            <Text className="font-medium text-base">{record.item}</Text>
+                                            {record.diagnosis ? (
+                                                <Text className="text-sm text-[#555]">Diagnosed at {record.family_diagnosis} years old</Text>
+                                            ) : null}
+                                        </View>
                                     </View>
+                                    <TouchableOpacity onPress={() => deleteFamilyRecord(record.id)}>
+                                        <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity onPress={() => deleteFamilyRecord(record.id)}>
-                                    <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
-                                </TouchableOpacity>
                             </View>
                         ))}
                     </View>
@@ -81,24 +83,26 @@ export default function MedicalHistory() {
                 </View>
 
                 {personalRecords.length > 0 && (
-                    <View className="mt-6 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                    <View className="mt-4">
                         {personalRecords.map((record) => (
-                            <View key={record.id} className="my-4 flex-row items-center justify-between">
-                                <View className="flex-row items-center">
-                                    <MaterialIcons name="medical-information" size={36} color="#0D5175" />
-                                    <View className="ml-4">
-                                        <Text className="font-medium text-base">{record.item}</Text>
-                                        {record.diagnosis ? (
-                                            <Text className="text-sm text-[#555]">Diagnosed: {record.diagnosis}</Text>
-                                        ) : null}
-                                        {record.condition_state ? (
-                                            <Text className="text-sm text-[#555]">{record.condition_state}</Text>
-                                        ) : null}
+                            <View key={record.id} className="mt-4 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                                <View className="my-4 flex-row items-center justify-between">
+                                    <View className="flex-row items-center">
+                                        <MaterialIcons name="medical-information" size={36} color="#0D5175" />
+                                        <View className="ml-4">
+                                            <Text className="font-medium text-base">{record.item}</Text>
+                                            {record.diagnosis ? (
+                                                <Text className="text-sm text-[#555]">Diagnosed: {record.diagnosis}</Text>
+                                            ) : null}
+                                            {record.condition_state ? (
+                                                <Text className="text-sm text-[#555]">{record.condition_state}</Text>
+                                            ) : null}
+                                        </View>
                                     </View>
+                                    <TouchableOpacity onPress={() => deletePersonalRecord(record.id)}>
+                                        <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity onPress={() => deletePersonalRecord(record.id)}>
-                                    <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
-                                </TouchableOpacity>
                             </View>
                         ))}
                     </View>

@@ -1,8 +1,8 @@
-import { supabase } from "@/supabase/supabase";
 import type {
   MedicalRecord,
   MedicalRecordInput,
 } from "@/src/types/medicalRecordTypes";
+import { supabase } from "@/supabase/supabase";
 import { setDemoSession } from "../auth/demoSession";
 
 const medicalRecordsSelect = `
@@ -14,6 +14,7 @@ const medicalRecordsSelect = `
   vaccine_date,
   operation_date,
   diagnosis,
+  family_diagnosis,
   condition_state,
   updated_at
 `;
@@ -30,6 +31,7 @@ export async function createMedicalRecord(input: MedicalRecordInput): Promise<Me
     item: input.item,
     vaccine_date: input.vaccineDate ?? null,
     operation_date: input.operationDate ?? null,
+    family_diagnosis: input.familyDiagnosis ?? null,
     diagnosis: input.diagnosis ?? null,
     condition_state: input.conditionState ?? null,
     created_at: now,

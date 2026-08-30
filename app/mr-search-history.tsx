@@ -7,6 +7,7 @@ import React, { useMemo, useState } from "react";
 import { FlatList, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import { categories, MedicalRecordsCategory } from "../components/mr-search-lists";
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
+
 export default function MedicalRecordsSearchScreen() {
     const params = useLocalSearchParams<{
         category: MedicalRecordsCategory;
@@ -38,6 +39,8 @@ export default function MedicalRecordsSearchScreen() {
                 pathname: "/mr-allergies",
                 params: { addedAllergy: label, previousAllergies: params.previousAllergies },
             });
+        } if (category === "family_medical_history") {
+            router.push({ pathname: "/mr-family-members", params: { item: label } });
         } else {
             setSelectedItem(label);
             setModalVisible(true);
@@ -52,10 +55,11 @@ export default function MedicalRecordsSearchScreen() {
                 item: selectedItem!,
                 vaccineDate: formData.vaccineDate ?? null,
                 operationDate: formData.operationDate ?? null,
-                diagnosis: formData.diagnosis ?? null,
+                diagnosis: formData.diagnosis || formData.diagnosisDate || null,
                 conditionState: formData.conditionState ?? null,
             });
             setModalVisible(false);
+            router.back();
         } catch (err) {
             console.error("[MedicalRecordsSearchScreen] save failed:", err);
         }

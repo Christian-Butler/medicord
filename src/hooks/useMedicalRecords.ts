@@ -1,13 +1,16 @@
-import { getMyMedicalRecords } from "@/src/api/medical-records/api";
 import type { MedicalRecordsCategory } from "@/components/mr-search-lists";
-import { useCallback, useEffect, useState } from "react";
+import { getMyMedicalRecords } from "@/src/api/medical-records/api";
 import type { MedicalRecord } from "@/src/types/medicalRecordTypes";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+
 export function useMedicalRecords(category?: MedicalRecordsCategory) {
   const [records, setRecords] = useState<MedicalRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchRecords = useCallback(async () => {
+
     try {
       setLoading(true);
       setError(null);
@@ -18,12 +21,12 @@ export function useMedicalRecords(category?: MedicalRecordsCategory) {
       setError(err instanceof Error ? err.message : "Failed to load records");
     } finally {
       setLoading(false);
-    }
+    } [fetchRecords];
   }, [category]);
 
-  useEffect(() => {
+  useFocusEffect(() => {
     fetchRecords();
-  }, [fetchRecords]);
+  });
 
   return { records, loading, error, refetch: fetchRecords };
 }
