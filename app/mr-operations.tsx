@@ -41,14 +41,14 @@ export default function Operations() {
                 {records.length > 0 && (
                     <View className="mt-2">
                         {records.map((record) => (
-                            <View className="mt-4 h- px-4 py-4 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
-                                <View key={record.id} className="my-4 flex-row items-center justify-between">
+                            <View key={record.id} className="mt-4 h- px-4 py-4 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                                <View className="my-4 flex-row items-center justify-between">
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="local-hospital" size={36} color="#0D5175" />
                                         <View className="ml-4">
                                             <Text className="font-medium text-base">{record.item}</Text>
                                             {record.operation_date ? (
-                                                <Text className="text-sm text-[#555]">{record.operation_date}</Text>
+                                                <Text className="text-base text-gray-800">{record.operation_date}</Text>
                                             ) : null}
                                         </View>
                                     </View>

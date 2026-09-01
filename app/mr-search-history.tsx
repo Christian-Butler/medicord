@@ -39,8 +39,6 @@ export default function MedicalRecordsSearchScreen() {
                 pathname: "/mr-allergies",
                 params: { addedAllergy: label, previousAllergies: params.previousAllergies },
             });
-        } if (category === "family_medical_history") {
-            router.push({ pathname: "/mr-family-members", params: { item: label } });
         } else {
             setSelectedItem(label);
             setModalVisible(true);
@@ -49,6 +47,19 @@ export default function MedicalRecordsSearchScreen() {
     const { create, creating, createError } = useCreateMedicalRecord();
 
     const handleFormSubmit = async (formData: Record<string, string>) => {
+
+        if (category === "family_medical_history") {
+            setModalVisible(false);
+            router.push({
+                pathname: "/mr-family-members",
+                params: {
+                    item: selectedItem!,
+                    diagnosis: formData.diagnosis
+                }
+            });
+            return;
+        }
+
         try {
             await create({
                 category,

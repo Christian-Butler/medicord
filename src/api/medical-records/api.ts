@@ -15,6 +15,7 @@ const medicalRecordsSelect = `
   operation_date,
   diagnosis,
   family_diagnosis,
+  family_member,
   condition_state,
   updated_at
 `;
@@ -34,6 +35,7 @@ export async function createMedicalRecord(input: MedicalRecordInput): Promise<Me
     family_diagnosis: input.familyDiagnosis ?? null,
     diagnosis: input.diagnosis ?? null,
     condition_state: input.conditionState ?? null,
+    family_member: input.familyMember ?? null,
     created_at: now,
     updated_at: now,
   };

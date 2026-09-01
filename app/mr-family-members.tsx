@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
@@ -22,6 +23,7 @@ export default function FamilyMembersList() {
     }>();
 
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
+    const { create } = useCreateMedicalRecord();
 
     const selectMember = (member: string) => {
         setSelectedMembers((prev) =>
@@ -31,20 +33,21 @@ export default function FamilyMembersList() {
         );
     };
 
-    const handleSubmit = () => {
-        const newRecord = {
-            name: params.item,
-            diagnosis: params.diagnosis,
-            members: selectedMembers
-        };
-
-        router.push({
-            pathname: "/mr-history",
-            params: {
-                addedFamilyHistory: JSON.stringify(newRecord),
-                previousFamilyHistory: params.previousFamilyHistory
-            },
-        });
+    const handleSubmit = async () => {
+        try {
+            await Promise.all(
+                selectedMembers.map((member) => create({
+                    category: "family_medical_history",
+                    item: params.item,
+                    familyDiagnosis: params.diagnosis,
+                    familyMember: member,
+                })
+                )
+            )
+            router.push("/mr-history");
+        } catch (error) {
+            console.error("Failed to save family records", error);
+        }
     };
 
     return (

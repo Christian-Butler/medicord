@@ -48,9 +48,18 @@ export default function MedicalHistory() {
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="medical-information" size={36} color="#0D5175" />
                                         <View className="ml-4">
-                                            <Text className="font-medium text-base">{record.item}</Text>
-                                            {record.diagnosis ? (
-                                                <Text className="text-sm text-[#555]">Diagnosed at {record.family_diagnosis} years old</Text>
+                                            <Text className="font-medium text-xl mb-1">{record.item}</Text>
+                                            {record.family_diagnosis ? (
+                                                <View className="flex-row">
+                                                    <Text className="text-base font-medium text-black">Diagnosed at: </Text>
+                                                    <Text className="text-base text-gray-800">{record.family_diagnosis} years old</Text>
+                                                </View>
+                                            ) : null}
+                                            {record.family_member ? (
+                                                <View className="flex-row">
+                                                    <Text className="text-base font-medium text-black">Relationship: </Text>
+                                                    <Text className="text-base text-gray-800">{record.family_member}</Text>
+                                                </View>
                                             ) : null}
                                         </View>
                                     </View>
@@ -90,12 +99,18 @@ export default function MedicalHistory() {
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="medical-information" size={36} color="#0D5175" />
                                         <View className="ml-4">
-                                            <Text className="font-medium text-base">{record.item}</Text>
+                                            <Text className="font-medium text-xl mb-1">{record.item}</Text>
                                             {record.diagnosis ? (
-                                                <Text className="text-sm text-[#555]">Diagnosed: {record.diagnosis}</Text>
+                                                <View className="flex-row">
+                                                    <Text className="text-base font-medium text-black">Diagnosed: </Text>
+                                                    <Text className="text-base text-gray-800">{record.diagnosis}</Text>
+                                                </View>
                                             ) : null}
                                             {record.condition_state ? (
-                                                <Text className="text-sm text-[#555]">{record.condition_state}</Text>
+                                                <View className="flex-row">
+                                                    <Text className="text-base font-medium text-black">State: </Text>
+                                                    <Text className="text-base text-gray-800">{record.condition_state}</Text>
+                                                </View>
                                             ) : null}
                                         </View>
                                     </View>

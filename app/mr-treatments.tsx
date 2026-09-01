@@ -220,7 +220,7 @@ export default function Treatments() {
 
             {treatmentsList.length > 0 && (
 
-                <View className="mt-20 mx-6 ">
+                <View className="mx-6 ">
 
                     {treatmentsList.map((treatment) => (
                         <View
@@ -235,11 +235,11 @@ export default function Treatments() {
 
                                     <View className="mb-1 flex-row">
                                         <Text className="text-base font-medium text-black">Started: </Text>
-                                        <Text className="text-base ">{treatment.startDate || "Not stated"}</Text>
+                                        <Text className="text-base text-gray-800">{treatment.startDate}</Text>
                                     </View>
                                     <View className="flex-row">
                                         <Text className="text-base font-medium text-black">Frequency: </Text>
-                                        <Text className="text-base ">{treatment.frequency || "Not stated"}</Text>
+                                        <Text className="text-base text-gray-800">{treatment.frequency}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -254,13 +254,14 @@ export default function Treatments() {
                     ))}
 
                 </View>
-            )}
+            )
+            }
 
             <TreatmentsModal
                 visible={modalVisible}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
             />
-        </ScrollView>
+        </ScrollView >
     );
 }

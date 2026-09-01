@@ -16,9 +16,12 @@ export default function Allergies() {
 
     useEffect(() => {
         if (params.addedAllergy) {
+            const allergyToAdd = params.addedAllergy;
+            router.setParams({ addedAllergy: undefined });
+
             create({
                 category: "allergies",
-                item: params.addedAllergy,
+                item: allergyToAdd,
                 vaccineDate: null,
                 operationDate: null,
                 diagnosis: null,
@@ -43,7 +46,7 @@ export default function Allergies() {
                     </Text>
                 </View>
 
-                <View className="flex-1 m-2 pt-12">
+                <View className="flex-1 m-2 pt-12 mb-10">
                     <TouchableOpacity
                         className="flex-row justify-center bg-[#5085A8] h-14 mb-6 items-center rounded-2xl"
                         accessibilityRole="button"
@@ -59,19 +62,13 @@ export default function Allergies() {
             </View>
 
             {records.length > 0 && (
-                <View className="mt-4">
-
+                <View className="mt-10">
                     {records.map((record) => (
-                        <View className="mx-4 mt-4 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
-                            <View key={record.id} className="my-8 flex-row items-center justify-between">
-                                <View className="flex-row">
+                        <View key={record.id} className="mx-4 mt-4 px-4 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                            <View className="my-8 flex-row items-center justify-between">
+                                <View className="flex-row items-center">
                                     <MaterialIcons name="gpp-maybe" size={44} color="#0D5175" />
-                                    <View className="justify-start mx-8">
-                                        <Text className="font-medium text-xl mb-2">Allergy</Text>
-                                        <View>
-                                            <Text>{record.item}</Text>
-                                        </View>
-                                    </View>
+                                    <Text className="pl-4 mt-2 font-medium text-xl mb-2">{record.item}</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => deleteRecord(record.id)}>
                                     <MaterialIcons name="delete-outline" size={28} color="#D9534F" />

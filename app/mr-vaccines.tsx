@@ -27,7 +27,7 @@ export default function Vaccines() {
 
                 <View className="flex-1 pt-12">
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
+                        className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl mb-20"
                         accessibilityRole="button"
                         onPress={() =>
                             router.push({
@@ -55,7 +55,7 @@ export default function Vaccines() {
                 </View>
                 */}
             </View>{records.length > 0 && (
-                <View className="mt-10 mx-6 mb-10">
+                <View className=" mx-6 mb-10">
                     {records.map((record) => (
                         <View
                             key={record.id}
@@ -63,9 +63,13 @@ export default function Vaccines() {
                         >
                             <MaterialIcons name="vaccines" size={44} color="#0D5175" />
                             <View className="flex-1 px-4">
-                                <Text className="font-medium text-xl">{record.item}</Text>
+                                <Text className="font-medium text-xl mb-1">{record.item}</Text>
                                 {record.vaccine_date ? (
-                                    <Text className="text-base text-black mt-1">Received: {record.vaccine_date} </Text>) : null}
+                                    <View className="flex-row">
+                                        <Text className="text-base font-medium text-black">Received: </Text>
+                                        <Text className="text-base text-gray-800 mt-1">{record.vaccine_date} </Text>
+                                    </View>
+                                ) : null}
                             </View>
                             <TouchableOpacity
                                 onPress={() => deleteRecord(record.id)}
