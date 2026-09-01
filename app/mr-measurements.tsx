@@ -97,7 +97,7 @@ export default function Measurements() {
 
             <View className="m-4">
                 <View className="pl-4 pt-6">
-                    <Text className="text-2xl font-medium">My lifestyle</Text>
+                    <Text className="text-2xl font-medium">Measurements</Text>
                 </View>
 
                 {inputs.map((field) => {

@@ -92,7 +92,7 @@ export default function MedicalHistory() {
                 </View>
 
                 {personalRecords.length > 0 && (
-                    <View className="mt-4">
+                    <View className="mt-4 mb-10">
                         {personalRecords.map((record) => (
                             <View key={record.id} className="mt-4 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
                                 <View className="my-4 flex-row items-center justify-between">
