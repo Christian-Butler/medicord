@@ -17,28 +17,27 @@ export function useProfile() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        const data = await getMyUser(userId);
-        if (!mounted) return;
-        setFullName(data.full_name);
-        setEmail(data.email);
-        setPhone(data.phone);
-        setDob(formatDob(data.date_of_birth));
-        setLocation(data.gp_practice_location);
-        setAvatarUrl(data.avatar_url ?? null);
-      } catch (err) {
-        console.error("[useProfile] failed:", err);
-        if (!mounted) return;
-        setError(err instanceof Error ? err.message : "Failed to load profile");
-      } finally {
-        if (mounted) setLoading(false);
-      }
+  let mounted = true;
+  async function load() {
+    try {
+      const data = await getMyUser(userId);
+      if (!mounted) return;
+      setFullName(data.full_name);
+      setEmail(data.email);
+      setPhone(data.phone);
+      setDob(formatDob(data.date_of_birth));
+      setLocation(data.gp_practice_location);
+      setAvatarUrl(data.avatar_url ?? null);
+    } catch (err) {
+      if (!mounted) return;
+      console.warn("[useProfile] failed:", err);
+    } finally {
+      if (mounted) setLoading(false);
     }
-    load();
-    return () => { mounted = false; };
-  }, [userId]);
+  }
+  if (userId) load();
+  return () => { mounted = false; };
+}, [userId]);
 
   async function handleEditAvatar() {
     const result = await ImagePicker.launchImageLibraryAsync({
