@@ -1,41 +1,30 @@
-import { createMedication } from "@/src/api/medications/api";
-import type {
-  Medication,
-  MedicationInput,
-} from "@/src/types/medicationTypes";
+import {
+    createMedication,
+    type CreateMedicationInput,
+} from "@/src/api/medications/api";
+import type { Medication } from "@/src/types/medicationTypes";
 import { useCallback, useState } from "react";
 
-export function useCreateMedication(refetch?: () => Promise<Medication[]>) {
-  const [creating, setCreating] = useState(false);
-  const [createError, setCreateError] = useState<string | null>(null);
+export function useCreateMedication() {
+    const [creating, setCreating] = useState(false);
+    const [createError, setCreateError] = useState<string | null>(null);
 
-  const create = useCallback(
-    async (input: MedicationInput) => {
-      try {
-        setCreating(true);
-        setCreateError(null);
+    const create = useCallback(
+        async (input: CreateMedicationInput): Promise<Medication> => {
+            setCreating(true);
+            setCreateError(null);
+            try {
+                return await createMedication(input);
+            } catch (err: any) {
+                const message = err?.message ?? "Failed to create routine.";
+                setCreateError(message);
+                throw err;
+            } finally {
+                setCreating(false);
+            }
+        },
+        []
+    );
 
-        const row = await createMedication(input);
-
-        if (refetch) await refetch();
-
-        return row;
-      } catch (err) {
-        const message =
-          err instanceof Error ? err.message : "Failed to create medication";
-
-        setCreateError(message);
-        throw err;
-      } finally {
-        setCreating(false);
-      }
-    },
-    [refetch]
-  );
-
-  return {
-    create,
-    creating,
-    createError,
-  };
+    return { create, creating, createError };
 }
