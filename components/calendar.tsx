@@ -142,7 +142,10 @@ const WeeklyCalendar = ({
                             key={dayItem.iso}
                             accessibilityRole="button"
                             disabled={dayItem.isPast}
-                            onPress={() => setSelectedDayIso(dayItem.iso)}
+                            onPress={() => {
+                                setSelectedDayIso(dayItem.iso);
+                                onSelectDate?.(dayItem.iso);
+                            }}
                             style={[
                                 styles.dayCell,
                                 dayItem.isToday && styles.todayCell,
@@ -150,7 +153,6 @@ const WeeklyCalendar = ({
                                 isSelected && styles.selectedCell,
                             ]}
                         >
-
                             <Text
                                 style={[
                                     styles.dayNumber,
@@ -160,10 +162,14 @@ const WeeklyCalendar = ({
                             >
                                 {dayItem.day}
                             </Text>
-                            <Text style={[styles.dayLabel,
-                            dayItem.isPast && styles.inactiveText]
-                            }>{dayItem.dateName}</Text>
-
+                            <Text
+                                style={[
+                                    styles.dayLabel,
+                                    dayItem.isPast && styles.inactiveText,
+                                ]}
+                            >
+                                {dayItem.dateName}
+                            </Text>
                         </Pressable>
                     );
                 })}
