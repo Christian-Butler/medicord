@@ -1,11 +1,6 @@
 import { supabase } from "@/supabase/supabase";
-import type {
-  Medication,
-  MedicationInput,
-} from "@/src/types/medicationTypes";
+import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
-import type { Medication } from "@/src/types/medicationTypes";
-import { supabase } from "@/supabase/supabase";
 
 const medicationSelect = `
   id,
@@ -22,8 +17,26 @@ const medicationSelect = `
   days_duration,
   morning_frequency,
   noon_frequency,
-  evening_frequency
+  evening_frequency,
+  frequency
 `;
+
+export type UpdateMedicationInput = {
+  id: number;
+  name?: string;
+  noSpecificTime?: boolean;
+  noSpecificHour?: boolean;
+  instructions?: string[];
+  hours?: number[];
+  daysFrequency?: string[];
+  monthsDuration?: number | null;
+  weeksDuration?: number | null;
+  daysDuration?: number | null;
+  morningFrequency?: number | null;
+  noonFrequency?: number | null;
+  eveningFrequency?: number | null;
+  frequency?: string | null;
+};
 
 export async function getMyMedications(): Promise<Medication[]> {
   const userId = await getCurrentAppUserId();
@@ -54,9 +67,7 @@ export async function getMedicationById(id: number): Promise<Medication> {
   return data as Medication;
 }
 
-export async function createMedication(
-  input: MedicationInput
-): Promise<Medication> {
+export async function createMedication(input: MedicationInput): Promise<Medication> {
   const userId = await getCurrentAppUserId();
 
   const payload = {
@@ -73,6 +84,7 @@ export async function createMedication(
     morning_frequency: input.morningFrequency ?? null,
     noon_frequency: input.noonFrequency ?? null,
     evening_frequency: input.eveningFrequency ?? null,
+    frequency: input.frequency ?? null,
   };
 
   const { data, error } = await supabase
@@ -86,95 +98,30 @@ export async function createMedication(
   return data as Medication;
 }
 
-export type UpdateMedicationInput = {
-  id: number;
-  name?: string;
-  noSpecificTime?: boolean;
-  noSpecificHour?: boolean;
-  instructions?: string[];
-  hours?: number[];
-  daysFrequency?: string[];
-  monthsDuration?: number | null;
-  weeksDuration?: number | null;
-  daysDuration?: number | null;
-  morningFrequency?: number | null;
-  noonFrequency?: number | null;
-  eveningFrequency?: number | null;
-};
-
-export async function updateMedication(
-  input: UpdateMedicationInput
-): Promise<Medication> {
+export async function updateMedication(input: UpdateMedicationInput): Promise<Medication> {
   const userId = await getCurrentAppUserId();
 
   const patch: Record<string, unknown> = {};
 
   if (input.name !== undefined) patch.name = input.name;
-  if (input.noSpecificTime !== undefined) {
-    patch.no_specific_time = input.noSpecificTime;
-  }
-  if (input.noSpecificHour !== undefined) {
-    patch.no_specific_hour = input.noSpecificHour;
-  }
+  if (input.noSpecificTime !== undefined) patch.no_specific_time = input.noSpecificTime;
+  if (input.noSpecificHour !== undefined) patch.no_specific_hour = input.noSpecificHour;
   if (input.instructions !== undefined) patch.instructions = input.instructions;
   if (input.hours !== undefined) patch.hours = input.hours;
-  if (input.daysFrequency !== undefined) {
-    patch.days_frequency = input.daysFrequency;
-  }
-  if (input.monthsDuration !== undefined) {
-    patch.months_duration = input.monthsDuration;
-  }
-  if (input.weeksDuration !== undefined) {
-    patch.weeks_duration = input.weeksDuration;
-  }
-  if (input.daysDuration !== undefined) {
-    patch.days_duration = input.daysDuration;
-  }
-  if (input.morningFrequency !== undefined) {
-    patch.morning_frequency = input.morningFrequency;
-  }
-  if (input.noonFrequency !== undefined) {
-    patch.noon_frequency = input.noonFrequency;
-  }
-  if (input.eveningFrequency !== undefined) {
-    patch.evening_frequency = input.eveningFrequency;
-  }
+  if (input.daysFrequency !== undefined) patch.days_frequency = input.daysFrequency;
+  if (input.monthsDuration !== undefined) patch.months_duration = input.monthsDuration;
+  if (input.weeksDuration !== undefined) patch.weeks_duration = input.weeksDuration;
+  if (input.daysDuration !== undefined) patch.days_duration = input.daysDuration;
+  if (input.morningFrequency !== undefined) patch.morning_frequency = input.morningFrequency;
+  if (input.noonFrequency !== undefined) patch.noon_frequency = input.noonFrequency;
+  if (input.eveningFrequency !== undefined) patch.evening_frequency = input.eveningFrequency;
+  if (input.frequency !== undefined) patch.frequency = input.frequency;
 
   const { data, error } = await supabase
     .from("medication")
     .update(patch)
     .eq("id", input.id)
     .eq("user_id", userId)
-export type CreateMedicationInput = {
-  name: string;
-  no_specific_time: boolean;
-  no_specific_hour: boolean;
-  instructions: string[];
-  hours: number[];
-  days_frequency: string[];
-  months_duration: number;
-  weeks_duration: number;
-  days_duration: number;
-  morning_frequency: number;
-  noon_frequency: number;
-  evening_frequency: number;
-  frequency?: string | null;
-};
-
-export async function createMedication(
-  input: CreateMedicationInput
-): Promise<Medication> {
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
-
-  if (userError) throw userError;
-  if (!user) throw new Error("You must be logged in to create a routine.");
-
-  const { data, error } = await supabase
-    .from("medication")
-    .insert([{ ...input, user_id: user.id }])
     .select(medicationSelect)
     .single();
 

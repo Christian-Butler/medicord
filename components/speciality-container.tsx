@@ -116,12 +116,16 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
             availabilityByDoctorId[doctor.id] ?? "Checking availability...";
 
           const avatar =
-            doctor.avatar_url ?? fallbackAvatars[index % fallbackAvatars.length];
-
+            doctor.avatar_url || null;
+          console.log(`[Doctor] ${doctor.full_name} avatar:`, avatar);
           return (
             <View key={doctor.id} style={styles.card}>
               <View style={styles.doctorInfo}>
-                <Image source={{ uri: avatar }} style={styles.avatar} />
+                {avatar ? (
+                  <Image source={{ uri: avatar }} style={styles.avatar} />
+                ) : (
+                  <View style={[styles.avatar, { backgroundColor: '#D7E8ED' }]} />
+                )}
 
                 <View style={styles.doctorText}>
                   <Text style={styles.name}>{doctor.full_name}</Text>
@@ -204,9 +208,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 30,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
     marginRight: 12,
   },
   doctorText: {
