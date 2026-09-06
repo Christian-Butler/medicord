@@ -1,33 +1,32 @@
-import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ScrollView, View } from "react-native";
+import ProfileHeader from "@/components/header-profile";
+import DoctorCarousel from "@/components/doctor-carousel";
+import UpcomingAppointments from "@/components/upcoming-appointments";
+import FindDoctor from "@/components/find-doctor";
+import MedicationReminder from "@/components/medication-reminder";
+import LatestDocuments from "@/components/latest-documents";
 
-import DoctorCarousel from "../../components/doctor-carousel";
-import FindDoctor from "../../components/find-doctor";
-import LatestDocuments from "../../components/latest-documents";
-import MedicationReminders from "../../components/medication-reminder";
-import UpcomingAppointments from "../../components/upcoming-appointments";
-import ProfileHeader from "./../../components/header-profile";
-
-
-
-export default function HomeScreen() {
-  
+export default function Home() {
   return (
-    <SafeAreaView className="flex-1 bg-[#EEF9FB]" edges={["top"]}>
-      <ScrollView>
+    <View className="flex-1 bg-[#EEF9FB]">
+      <SafeAreaView edges={["top"]} className="bg-white">
         <ProfileHeader />
+      </SafeAreaView>
 
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ paddingBottom: 120 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View className="flex-1">
           <FindDoctor />
           <DoctorCarousel />
           <UpcomingAppointments />
-          <MedicationReminders />
+          <MedicationReminder />
           <LatestDocuments />
         </View>
       </ScrollView>
-      
-
-     
-    </SafeAreaView>
+    </View>
   );
 }

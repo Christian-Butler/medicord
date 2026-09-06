@@ -42,6 +42,12 @@ export function getMonthLabel(dateValue: string | null) {
   });
 }
 
+export function formatDob(value: string | null) {
+  if (!value) return null;
+  const [year, month, day] = value.split("-");
+  return `${day}/${month}/${String(year).slice(2)}`;
+}
+
 export function formatAppointmentDateTime(startsAt: string) {
   const date = new Date(startsAt);
 

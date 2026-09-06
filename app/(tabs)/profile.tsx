@@ -1,3 +1,7 @@
+import LogoutModal from "@/components/logout-modal";
+import { useProfile } from "@/src/hooks/useProfile";
+import { MaterialIcons } from "@expo/vector-icons";
+import { useState } from "react";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -26,6 +30,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
       ) : null}
 
       <View className="flex-1">
+        <Text className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
         <Text
           className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"
             }`}
@@ -34,6 +39,11 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
         </Text>
 
         {subtitle ? (
+          <Text className="mt-1 text-[15px] font-normal text-black">{subtitle}</Text>
+        ) : null}
+      </View>
+
+      <MaterialIcons name="chevron-right" size={26} color={destructive ? "#E33434" : "#000"} />
           <Text className="mt-1 text-[15px] font-normal text-black">
             {subtitle}
           </Text>
@@ -58,6 +68,17 @@ function SectionTitle({ title }: { title: string }) {
 }
 
 export default function ProfilePage() {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
+
+  return (
+    <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
+      <LogoutModal
+        visible={showLogoutModal}
+        onCancel={() => setShowLogoutModal(false)}
+        onConfirm={() => setShowLogoutModal(false)}
+      />
+
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
       <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
@@ -72,11 +93,37 @@ export default function ProfilePage() {
         showsVerticalScrollIndicator={false}
       >
         <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
+          <Pressable onPress={handleEditAvatar} className="absolute right-6 top-6 flex-row items-center">
           <Pressable className="absolute right-6 top-6 flex-row items-center">
             <MaterialIcons name="edit" size={16} color="#8A3F00" />
             <Text className="ml-1 text-[16px] text-[#8A3F00]">Edit</Text>
           </Pressable>
 
+          {avatarUrl ? (
+            <Image source={{ uri: avatarUrl }} className="h-[74px] w-[74px] rounded-full" />
+          ) : (
+            <Image source={require("@/assets/images/phillip.png")} className="h-[74px] w-[74px] rounded-full" />
+          )}
+
+          <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
+          <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
+          <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
+        </View>
+
+        <SectionTitle title="Authentification" />
+        <ProfileRow icon="phone" title="Phone number" subtitle={phone} />
+        <ProfileRow icon="mail-outline" title="Email address" subtitle={email} />
+        <ProfileRow icon="lock-outline" title="Security details" />
+
+        <SectionTitle title="Other settings" />
+        <ProfileRow title="Online payment settings" subtitle="Manage your payments" />
+        <ProfileRow icon="credit-card" title="Payment options" subtitle="Your credit cards for appointments" />
+        <ProfileRow icon="language" title="Language" subtitle="English (UK)" />
+        <ProfileRow title="Encrypted documents" subtitle="Active" />
+
+        <SectionTitle title="Confidentiality" />
+        <ProfileRow title="My preferences" />
+        <ProfileRow title="Legal information" />
           <Image
             source={require("@/assets/images/phillip.png")}
             className="h-[74px] w-[74px] rounded-full"
@@ -123,6 +170,16 @@ export default function ProfilePage() {
 
         <View className="h-[64px] border-b border-[#B9CBCD]" />
 
+        <ProfileRow
+          icon="logout"
+          title="Disconnect"
+          destructive
+          onPress={() => setShowLogoutModal(true)}
+        />
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
         <ProfileRow icon="logout" title="Disconnect" destructive />
       </ScrollView>
     </SafeAreaView>
