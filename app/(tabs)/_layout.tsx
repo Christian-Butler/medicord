@@ -3,38 +3,38 @@ import { BottomSheetHub } from "@/components/bottom-sheet";
 import { HapticTab } from "@/components/haptic-tab";
 import { SpecialTabButton } from "@/components/special-tab-button";
 import { IconSymbol } from "@/components/ui/icon-symbol";
-import { Colors } from "@/constants/theme";
-import { useColorScheme } from "@/hooks/use-color-scheme";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Tabs } from "expo-router";
 import { useRef } from "react";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
-const BLUE = "#09516D";
+const BLUE = "#5085A8";
 const INACTIVE = "#8A9BA3";
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const bottomSheetRef = useRef<BottomSheet>(null!);
 
   return (
     <SafeAreaProvider>
-      <View style={{ flex: 1 }}>
+      <View className="flex-1">
         <Tabs
           screenOptions={{
-            tabBarActiveTintColor: Colors[colorScheme ?? "dark"].tint,
+            tabBarActiveTintColor: BLUE,
             headerShown: false,
             tabBarButton: HapticTab,
-
             tabBarInactiveTintColor: INACTIVE,
+            tabBarLabelStyle: {
+              fontSize: 12,
+              fontWeight: 500
+            },
             tabBarStyle: {
               height: 100,
-              borderTopColor: "#FFFFFF",
-              borderTopWidth: 2,
+              borderTopColor: "#09516D",
+              borderTopWidth: 1.5,
               paddingTop: 20,
               paddingBottom: 12,
-            },
+            }
           }}>
           <Tabs.Screen
             name="index"

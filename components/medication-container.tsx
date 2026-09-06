@@ -34,11 +34,11 @@ export default function MedicationContainer() {
     <View className="px-6 pb-28 pt-8">
       <Pressable
         onPress={() => router.push("/medication-routine")}
-        className="h-[44px] flex-row items-center justify-center rounded-[8px] border-[2px] border-[#0D5175] bg-white"
+        className="h-[56px] flex-row items-center justify-center rounded-[14px] border-[2px] border-[#0D5175] bg-white"
       >
         <Plus size={20} color="#0D5175" />
 
-        <Text className="ml-2 text-[14px] font-medium text-[#0D5175]">
+        <Text className="ml-2 text-[16px] font-medium text-[#0D5175]">
           Add medication routine
         </Text>
       </Pressable>
@@ -136,14 +136,12 @@ export default function MedicationContainer() {
                       return (
                         <View
                           key={day}
-                          className={`h-[38px] min-w-[40px] items-center justify-center rounded-[8px] border-[2px] border-[#0D5175] px-2 ${
-                            selected ? "bg-[#0D5175]" : "bg-white"
-                          }`}
+                          className={`h-[38px] min-w-[40px] items-center justify-center rounded-[8px] border-[2px] border-[#0D5175] px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
+                            }`}
                         >
                           <Text
-                            className={`text-[14px] font-medium ${
-                              selected ? "text-white" : "text-[#0D5175]"
-                            }`}
+                            className={`text-[14px] font-medium ${selected ? "text-white" : "text-[#0D5175]"
+                              }`}
                           >
                             {day}
                           </Text>

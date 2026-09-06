@@ -11,6 +11,9 @@ type Doctor = {
   avatar_url?: string | null;
   rating?: number | null;
   years_experience?: number | null;
+  qualified_year?: number | null;
+  consultation_fee?: number | null;
+  previous_experience?: string | null;
   requires_gp_referral?: boolean | null;
   is_active?: boolean | null;
 };

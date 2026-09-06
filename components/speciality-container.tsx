@@ -1,5 +1,7 @@
 import { getClosestAvailableSlotsForDoctors } from "@/src/api/appointments/availability";
 import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
+import { useIsFavourite } from "@/src/hooks/useIsFavourite";
+import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
@@ -26,22 +28,33 @@ const fallbackAvatars = [
   "https://images.pexels.com/photos/5738735/pexels-photo-5738735.jpeg",
 ];
 
-export default function SpecialityContainer({
-  specialty,
-}: SpecialityContainerProps) {
-  const {
-    doctors,
-    loading,
-    error,
-  } = useDoctorsBySpecialty(specialty);
+function StarButton({ doctorId }: { doctorId: string }) {
+  const { isFavourite, setIsFavourite } = useIsFavourite(doctorId);
+  const { toggle } = useToggleFavourite();
 
-  const [availabilityByDoctorId, setAvailabilityByDoctorId] = useState<
-    Record<string, string>
-  >({});
-
-  const [availabilityError, setAvailabilityError] = useState<string | null>(
-    null
+  return (
+    <TouchableOpacity
+      style={styles.favorite}
+      onPress={async () => {
+        const result = await toggle(doctorId);
+        setIsFavourite(result);
+      }}
+    >
+      <MaterialIcons
+        name={isFavourite ? "star" : "star-border"}
+        size={24}
+        color="#E7BF3C"
+      />
+    </TouchableOpacity>
   );
+}
+
+export default function SpecialityContainer({ specialty }: SpecialityContainerProps) {
+  const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
+
+  const [availabilityByDoctorId, setAvailabilityByDoctorId] = useState<Record<string, string>>({});
+
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadAvailability() {
@@ -67,11 +80,8 @@ export default function SpecialityContainer({
         setAvailabilityByDoctorId(formattedSlots);
       } catch (err) {
         console.error("[SpecialityContainer] availability failed:", err);
-
         setAvailabilityError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load availability"
+          err instanceof Error ? err.message : "Failed to load availability"
         );
       }
     }
@@ -86,7 +96,6 @@ export default function SpecialityContainer({
         className="h-14 flex-row rounded-2xl border-2 items-center border-[#09516D] bg-white px-5"
       >
         <Search size={18} color="#09516D" />
-
         <TextInput
           placeholder="Search"
           placeholderTextColor="#7B8A91"
@@ -94,16 +103,9 @@ export default function SpecialityContainer({
         />
       </View>
 
-      {loading ? (
-        <Text style={styles.statusText}>Loading doctors...</Text>
-      ) : null}
-
+      {loading ? <Text style={styles.statusText}>Loading doctors...</Text> : null}
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
-      {availabilityError ? (
-        <Text style={styles.errorText}>{availabilityError}</Text>
-      ) : null}
-
+      {availabilityError ? <Text style={styles.errorText}>{availabilityError}</Text> : null}
       {!loading && !error && doctors.length === 0 ? (
         <Text style={styles.statusText}>No doctors found.</Text>
       ) : null}
@@ -123,15 +125,12 @@ export default function SpecialityContainer({
 
                 <View style={styles.doctorText}>
                   <Text style={styles.name}>{doctor.full_name}</Text>
-
                   <Text style={styles.profession}>
                     {doctor.specialty ?? specialty}
                   </Text>
                 </View>
 
-                <TouchableOpacity style={styles.favorite}>
-                  <MaterialIcons name="star-border" size={24} color="#3f3128" />
-                </TouchableOpacity>
+                <StarButton doctorId={doctor.id} />
               </View>
 
               <View style={styles.slot}>

@@ -18,11 +18,12 @@ import {
 
 
 export default function Booking() {
-    const { doctorId, specialty } = useLocalSearchParams<{
+    const { doctorId, specialty, reason } = useLocalSearchParams<{
         doctorId?: string;
         name?: string;
         specialty?: string;
         closestDay?: string;
+        reason?: string;
     }>();
 
     const {

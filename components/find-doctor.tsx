@@ -10,19 +10,19 @@ export default function FindDoctor() {
           Find a Doctor
         </Text>
 
-        <Pressable className="h-12 w-12 items-center justify-center rounded-xl bg-red-600">
-          <Siren size={20} color="white" />
+        <Pressable className="h-14 w-20 items-center justify-center border-2 border-[##B10111] rounded-xl bg-white">
+          <Siren fill="#B10111" size={22} color="#B10111" />
         </Pressable>
       </View>
 
       {/* Search input */}
-      <View className="h-16 flex-row items-center rounded-2xl border-2 border-[#09516D] bg-white px-5">
-        <Search size={20} color="#09516D" />
+      <View className="h-14 items-center flex-row rounded-2xl border-2 border-[#7B8A91] bg-white px-5">
+        <Search size={20} color="#7B8A91" />
 
         <TextInput
           placeholder="Search"
           placeholderTextColor="#7B8A91"
-          className="ml-4 flex-1 text-lg text-black"
+          className="mb-1 ml-2 text-lg text-black"
         />
       </View>
     </View>

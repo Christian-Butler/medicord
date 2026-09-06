@@ -27,9 +27,8 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 
       <View className="flex-1">
         <Text
-          className={`text-[17px] font-normal ${
-            destructive ? "text-[#E33434]" : "text-black"
-          }`}
+          className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"
+            }`}
         >
           {title}
         </Text>
@@ -100,7 +99,7 @@ export default function ProfilePage() {
 
         <ProfileRow icon="phone" title="Phone number" subtitle="XXX XXX XXX" />
 
-        <ProfileRow icon="mail-outline" title="Email address" subtitle="John@Doe.com" />
+        <ProfileRow icon="mail-outline" title="Email address" subtitle="philip.connally@hotmail.com" />
 
         <ProfileRow icon="lock-outline" title="Security details" />
 
