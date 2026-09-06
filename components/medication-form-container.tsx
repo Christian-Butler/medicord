@@ -33,21 +33,25 @@ export default function MedicationFormContainer() {
 
   async function handleSubmit(input: MedicationInput) {
     if (!input.name.trim()) return;
-
     if (isEditing && medicationIdNumber) {
-      await update({
-        id: medicationIdNumber,
-        ...input,
-      });
-      console.log("[MedicationFormContainer] submit", {
-        isEditing,
-        medicationIdNumber,
-        input,
-      });
+      await update({ id: medicationIdNumber, ...input });
     } else {
-      await create(input);
+      await create({
+        name: input.name,
+        no_specific_time: input.noSpecificTime ?? false,
+        no_specific_hour: input.noSpecificHour ?? false,
+        instructions: input.instructions ?? [],
+        hours: input.hours ?? [],
+        days_frequency: input.daysFrequency ?? [],
+        months_duration: input.monthsDuration ?? 0,
+        weeks_duration: input.weeksDuration ?? 0,
+        days_duration: input.daysDuration ?? 0,
+        morning_frequency: input.morningFrequency ?? 0,
+        noon_frequency: input.noonFrequency ?? 0,
+        evening_frequency: input.eveningFrequency ?? 0,
+        frequency: input.frequency ?? null,
+      });
     }
-
     router.back();
   }
 

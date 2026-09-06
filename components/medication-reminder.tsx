@@ -4,15 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
-import {
-  FlatList,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  Pressable,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Pressable, Text, TouchableOpacity, useWindowDimensions, View, } from "react-native";
 
 export default function MedicationReminder() {
   const { medications, loading, error, refetch } = useMedicationList();
@@ -36,15 +28,15 @@ export default function MedicationReminder() {
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
     const nextIndex = Math.round(offsetX / cardWidth);
-
     setActiveIndex(
       Math.max(0, Math.min(nextIndex, sortedMedications.length - 1))
     );
   }
 
+
   return (
     <View className="px-6 pt-8">
-      <Text className="text-[28px] font-normal text-black">Medication</Text>
+      <Text className="text-[24px] font-normal text-black">Medication</Text>
 
       {loading ? (
         <Text className="mt-5 text-[15px] text-black">
@@ -57,16 +49,17 @@ export default function MedicationReminder() {
       ) : null}
 
       {!loading && !error && sortedMedications.length === 0 ? (
-        <Pressable
+        <TouchableOpacity
           onPress={() => router.push("/medication-routine")}
-          className="mt-5 h-[58px] flex-row items-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
+          className="pl-10 pr-12 mt-5 h-[58px] flex-row items-center self-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
         >
           <Plus size={30} color="#09516D" />
+          <Text className="ml-3 text-[19px] font-medium text-[#09516D]"/>
 
-          <Text className="ml-3 text-[19px] font-medium text-[#09516D]">
+          <Text className="ml-3 text-[18px] font-medium text-[#09516D]">
             Add medication routine
           </Text>
-        </Pressable>
+        </TouchableOpacity>
       ) : null}
 
       {!loading && !error && sortedMedications.length > 0 ? (
@@ -90,17 +83,11 @@ export default function MedicationReminder() {
                     onPress={() => router.push("/medications")}
                     className="flex-row items-center"
                   >
-                    <MaterialIcons
-                      name="medication"
-                      size={42}
-                      color="#075B7A"
-                    />
-
+                    <MaterialIcons name="medication" size={42} color="#075B7A" />
                     <View className="ml-4 flex-1">
                       <Text className="text-[19px] font-medium text-black">
                         {item.name ?? "Unnamed medication"}
                       </Text>
-
                       <Text className="mt-1 text-[14px] font-normal text-black">
                         {formatMedicationDuration(
                           item.months_duration,
@@ -109,12 +96,7 @@ export default function MedicationReminder() {
                         )}
                       </Text>
                     </View>
-
-                    <MaterialIcons
-                      name="chevron-right"
-                      size={34}
-                      color="#000"
-                    />
+                    <MaterialIcons name="chevron-right" size={34} color="#000" />
                   </Pressable>
 
                   <View className="mt-4 h-[46px] items-center justify-center rounded-[12px] border-[2px] border-[#D3A000] bg-[#FFE9A8]">
@@ -124,7 +106,7 @@ export default function MedicationReminder() {
                   </View>
 
                   <Pressable
-                    onPress={() => {}}
+                    onPress={() => { }}
                     className="mt-5 h-[58px] items-center justify-center rounded-[12px] bg-[#5085A8]"
                   >
                     <Text className="text-[17px] font-semibold text-white">
@@ -141,17 +123,16 @@ export default function MedicationReminder() {
               {sortedMedications.map((medication, index) => (
                 <View
                   key={medication.id}
-                  className={`mx-1 h-[8px] rounded-full ${
-                    index === activeIndex
-                      ? "w-[22px] bg-[#0D5175]"
-                      : "w-[8px] bg-[#B7D4DE]"
-                  }`}
+                  className={`mx-1 h-[8px] rounded-full ${index === activeIndex
+                    ? "w-[22px] bg-[#0D5175]"
+                    : "w-[8px] bg-[#B7D4DE]"
+                    }`}
                 />
               ))}
             </View>
           ) : null}
         </View>
       ) : null}
-    </View>
+    </View >
   );
-}
+};
