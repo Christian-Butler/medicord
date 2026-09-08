@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   carouselContent: {
-    paddingLeft: 10,
+    paddingLeft: 18,
     paddingRight: 22,
   },
   card: {
@@ -185,12 +185,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   doctorName: {
-    fontSize: 24,
-    fontWeight: "700",
+    fontSize: 20,
+    fontWeight: "600",
     color: "#000",
   },
   doctorSpecialty: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "400",
     color: "#000",
     marginTop: 2,
@@ -209,13 +209,13 @@ const styles = StyleSheet.create({
   },
   dateText: {
     color: "#fff",
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "600",
   },
   statusText: {
     marginLeft: 10,
     color: "#333",
-    fontSize: 15,
+    fontSize: 14,
   },
   errorText: {
     marginLeft: 10,

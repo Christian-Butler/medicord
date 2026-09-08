@@ -291,25 +291,25 @@ const styles = StyleSheet.create({
   },
 
   doctorName: {
-    fontSize: 17,
+    fontSize: 18,
     fontWeight: "500",
     color: "#000",
   },
 
   specialty: {
-    fontSize: 15,
+    fontSize: 16,
     color: "#000",
   },
 
   viewDetails: {
-    fontSize: 13,
+    fontSize: 14,
     color: "#0D5175",
     fontWeight: "500",
   },
 
   appointmentDate: {
     marginTop: 8,
-    fontSize: 15,
+    fontSize: 16,
     color: "#000",
   },
 
