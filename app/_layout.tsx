@@ -1,9 +1,9 @@
+import { AuthProvider } from "@/src/context/AuthContext";
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { AuthProvider } from "@/src/context/AuthContext";
 import "../global.css";
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
@@ -56,6 +56,7 @@ export default function RootLayout() {
               <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
               <Stack.Screen name="mr-search-history" options={{ headerShown: false }} />
               <Stack.Screen name="mr-family-members" options={{ headerShown: false }} />
+              <Stack.Screen name="notifications" options={{ headerShown: false }} />
             </Stack>
           </AuthProvider>
           <StatusBar style="auto" />
