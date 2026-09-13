@@ -33,7 +33,7 @@ export default function FindDoctor() {
         const results = await searchDoctorsByName(trimmedSearchQuery);
         setDoctors(results as DoctorSearchResult[]);
       } catch (err) {
-        throw new Error("Doctors couldn't be searched")
+        setError("Doctors couldn't be searched");
       }
       finally {
         setLoading(false);
