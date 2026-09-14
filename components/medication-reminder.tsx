@@ -50,7 +50,7 @@ export default function MedicationReminder() {
 
       {!loading && !error && sortedMedications.length === 0 ? (
         <TouchableOpacity
-          onPress={() => router.push("/medication-routine")}
+          onPress={() => router.push("/medication-formpage")}
           className="pl-10 pr-12 mt-5 h-[58px] flex-row items-center self-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
         >
           <Plus size={30} color="#09516D" />

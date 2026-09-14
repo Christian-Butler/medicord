@@ -12,7 +12,17 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.butlrstudio.medicord",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": false,
+          "NSExceptionDomains": {
+            "jevqmqntyeyjyyyjocir.supabase.co": {
+              "NSExceptionAllowsInsecureHTTPLoads": false,
+              "NSIncludesSubdomains": true,
+              "NSExceptionMinimumTLSVersion": "TLSv1.2"
+            }
+          }
+        }
       }
     },
     "android": {
@@ -29,19 +39,19 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "/assets/images/Medicord-Logo.png"
+      "favicon": "./assets/images/Medicord-Logo.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "",
+          "image": "./assets/images/Medicord-Logo.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
+          "backgroundColor": "#EEF9FB",
           "dark": {
-            "backgroundColor": "#000000"
+            "backgroundColor": "#0D5175"
           }
         }
       ],

@@ -78,12 +78,12 @@ export async function createMedication(input: MedicationInput): Promise<Medicati
     instructions: input.instructions ?? [],
     hours: input.hours ?? [],
     days_frequency: input.daysFrequency ?? [],
-    months_duration: input.monthsDuration ?? null,
-    weeks_duration: input.weeksDuration ?? null,
-    days_duration: input.daysDuration ?? null,
-    morning_frequency: input.morningFrequency ?? null,
-    noon_frequency: input.noonFrequency ?? null,
-    evening_frequency: input.eveningFrequency ?? null,
+    months_duration: input.monthsDuration ?? 0,
+    weeks_duration: input.weeksDuration ?? 0,
+    days_duration: input.daysDuration ?? 0,
+    morning_frequency: input.morningFrequency ?? 0,
+    noon_frequency: input.noonFrequency ?? 0,
+    evening_frequency: input.eveningFrequency ?? 0,
     frequency: input.frequency ?? null,
   };
 

@@ -1,23 +1,27 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useDoctor } from "@/src/hooks/useDoctor";
 
 type DoctorHeaderProps = {
     name: string;
     profession: string;
+    doctorId?: string;
 };
 
-export default function DoctorHeader({ name, profession }: DoctorHeaderProps) {
+export default function DoctorHeader({ name, profession,doctorId }: DoctorHeaderProps) {
+    const { doctor } = useDoctor(doctorId);
+    const avatar = doctor?.avatar_url || null;
+
     return (
         <View className="bg-white">
             <View className="items-center justify-between px-3 pt-8 pb-4">
                 <View className="items-center">
-                    <Image
-                        source={{
-                            uri: 'https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg',
-                        }}
-                        className="h-14 w-14 rounded-full"
-                    />
+                    {avatar ? (
+                        <Image source={{ uri: avatar }} className="h-14 w-14 rounded-full" />
+                    ) : (
+                        <View className="h-14 w-14 rounded-full bg-[#D7E8ED]" />
+                    )}
                     <View style={styles.favorite}>
                         <Text className="ml-7 mr-7 text-2xl font-regular text-black">
                             {name}
