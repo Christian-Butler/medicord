@@ -83,6 +83,7 @@ export default function ProfilePage() {
 
           {avatarUrl ? (
             <Image
+              key = {avatarUrl}
               source={{ uri: avatarUrl }}
               style={{ height: 74, width: 74, borderRadius: 37 }}
             />
