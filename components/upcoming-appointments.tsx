@@ -3,6 +3,7 @@ import { formatAppointmentDateTime } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   FlatList,
   Image,
@@ -22,6 +23,7 @@ export default function UpcomingAppointments() {
   const [activeIndex, setActiveIndex] = useState(0);
   const { width } = useWindowDimensions();
   const cardWidth = width - 44;
+  const { t } = useTranslation();
 
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
@@ -32,8 +34,8 @@ export default function UpcomingAppointments() {
   if (loading) {
     return (
       <View style={styles.section}>
-        <Text style={styles.title}>Upcoming Appointments</Text>
-        <Text style={styles.statusText}>Loading appointments...</Text>
+        <Text style={styles.title}>{t(`upcoming-appointments.Upcoming Appointments`)}</Text>
+        <Text style={styles.statusText}>{t(`upcoming-appointments.Loading appointments...`)}</Text>
       </View>
     );
   }
@@ -41,7 +43,7 @@ export default function UpcomingAppointments() {
   if (error) {
     return (
       <View style={styles.section}>
-        <Text style={styles.title}>Upcoming Appointments</Text>
+        <Text style={styles.title}>{t(`upcoming-appointments.Upcoming Appointments`)}</Text>
         <Text style={styles.errorText}>{error}</Text>
       </View>
     );
@@ -50,9 +52,9 @@ export default function UpcomingAppointments() {
   if (upcomingAppointments.length === 0) {
     return (
       <View style={styles.section}>
-        <Text style={styles.title}>Upcoming Appointments</Text>
+        <Text style={styles.title}>{t(`upcoming-appointments.Upcoming Appointments`)}</Text>
         <View style={[styles.emptyCard, { width: cardWidth }]}>
-          <Text style={styles.emptyText}>No upcoming appointments</Text>
+          <Text style={styles.emptyText}>{t(`upcoming-appointments.No upcoming appointments`)}</Text>
         </View>
       </View>
     );
@@ -60,7 +62,7 @@ export default function UpcomingAppointments() {
 
   return (
     <View style={styles.section}>
-      <Text style={styles.title}>Upcoming Appointments</Text>
+      <Text style={styles.title}>{t(`upcoming-appointments.Upcoming Appointments`)}</Text>
 
       <FlatList
         horizontal

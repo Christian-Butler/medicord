@@ -1,6 +1,7 @@
 import Fontisto from "@expo/vector-icons/Fontisto";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, Text, View } from "react-native";
 
 const specialties = [
@@ -57,6 +58,7 @@ function SpecialtyIcon({ icon, library, size, color }: { icon: string; library: 
 
 export default function DoctorSpecialtyCarousel() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   return (
     <View className="mt-2 py-4 pl-2 ">
@@ -94,7 +96,7 @@ export default function DoctorSpecialtyCarousel() {
               minimumFontScale={0.65}
               className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black"
             >
-              {item.title}
+              {t(`doctor-carousel.${item.title}`)}
             </Text>
           </Pressable>
         )}

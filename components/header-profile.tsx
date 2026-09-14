@@ -1,10 +1,12 @@
 import { useProfile } from "@/src/hooks/useProfile";
 import { router } from "expo-router";
 import { Bell } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function ProfileHeader() {
   const { fullName, avatarUrl } = useProfile();
+  const { t } = useTranslation();
 
   return (
     <View className="bg-white">
@@ -22,7 +24,7 @@ export default function ProfileHeader() {
               adjustsFontSizeToFit
               className="text-4xl font-normal text-black"
             >
-              Welcome, {fullName}
+              {t(`header-profile.welcome`)}, {fullName}
             </Text>
           </View>
         </View>

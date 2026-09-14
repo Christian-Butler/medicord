@@ -2,6 +2,7 @@ import LogoutModal from "@/components/logout-modal";
 import { useProfile } from "@/src/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -14,6 +15,8 @@ type ProfileRowProps = {
 };
 
 function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: ProfileRowProps) {
+  const { t } = useTranslation();
+
   return (
     <Pressable
       onPress={onPress}
@@ -29,8 +32,8 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
       ) : null}
 
       <View className="flex-1">
-        <Text className={`text-[17px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
-          {title}
+        <Text className={`text-[18px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
+          {t(`profile.${title}`)}
         </Text>
 
         {subtitle ? (
@@ -54,6 +57,7 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
+  const { t } = useTranslation();
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
@@ -77,7 +81,7 @@ export default function ProfilePage() {
         <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
           <Pressable onPress={handleEditAvatar} className="absolute right-6 top-6 flex-row items-center">
             <MaterialIcons name="edit" size={16} color="#8A3F00" />
-            <Text className="ml-1 text-[16px] text-[#8A3F00]">Edit</Text>
+            <Text className="ml-1 text-[16px] text-[#8A3F00]">{t(`profile.edit`)}</Text>
           </Pressable>
 
           {avatarUrl ? (
@@ -91,18 +95,18 @@ export default function ProfilePage() {
           <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
         </View>
 
-        <SectionTitle title="Authentification" />
+        <SectionTitle title={t(`profile.Authentification`)} />
         <ProfileRow icon="phone" title="Phone number" subtitle={phone} />
         <ProfileRow icon="mail-outline" title="Email address" subtitle={email} />
         <ProfileRow icon="lock-outline" title="Security details" />
 
-        <SectionTitle title="Other settings" />
+        <SectionTitle title={t(`profile.Other settings`)} />
         <ProfileRow title="Online payment settings" subtitle="Manage your payments" />
         <ProfileRow icon="credit-card" title="Payment options" subtitle="Your credit cards for appointments" />
-        <ProfileRow icon="language" title="Language" subtitle="English (UK)" />
-        <ProfileRow title="Encrypted documents" subtitle="Active" />
+        <ProfileRow icon="language" title="Language" subtitle={t(`profile.English (UK)`)} />
+        <ProfileRow title="Encrypted documents" subtitle={t(`profile.Active`)} />
 
-        <SectionTitle title="Confidentiality" />
+        <SectionTitle title={t(`profile.Confidentiality`)} />
         <ProfileRow title="My preferences" />
         <ProfileRow title="Legal information" />
         <ProfileRow title="Delete my account" />
