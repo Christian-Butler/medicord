@@ -28,6 +28,19 @@ export async function getDoctorsBySpecialty(specialty: string) {
   return data ?? [];
 }
 
+export async function searchDoctorsByName(searchQuery: string) {
+  const { data, error } = await supabase
+    .from("doctors")
+    .select("id, full_name, specialty, avatar_url")
+    .eq("is_active", true)
+    .ilike("full_name", `%${searchQuery}%`)
+    .order("full_name", { ascending: true });
+
+  if (error) throw error;
+
+  return data ?? [];
+}
+
 export async function getDoctorById(id: string) {
   const { data, error } = await supabase
     .from("doctors")

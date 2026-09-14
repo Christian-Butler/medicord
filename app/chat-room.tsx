@@ -28,8 +28,8 @@ export default function ChatRoom() {
             <MessageList doctorId={doctorId} />
           </View>
           <View
-            style={{ height: 120, paddingHorizontal: "4%" }}
-            className="pt-2 bg-neutral-100"
+            style={{ height: 120, }}
+            className="pt-2 bg-white border-[#586A6A] px-4"
           >
             <View className="flex-row justify-between bg-white border p-2 border-[#586A6A] rounded-full pl-5">
               <TextInput
@@ -43,7 +43,7 @@ export default function ChatRoom() {
               <TouchableOpacity
                 onPress={handleSend}
                 disabled={sending}
-                className="p-2 mr-[1px]"
+                className="p-2 mr-[1px] "
               >
                 <MaterialIcons name="send" size={18} color="#586A6A" />
               </TouchableOpacity>

@@ -1,5 +1,5 @@
-import { getMyUser } from "@/src/api/auth/getUser";
 import { uploadAvatar } from "@/src/api/auth/avatar";
+import { getMyUser } from "@/src/api/auth/getUser";
 import { useAuth } from "@/src/context/AuthContext";
 import { formatDob } from "@/src/utils/dateTime";
 import * as ImagePicker from "expo-image-picker";

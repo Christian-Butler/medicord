@@ -161,24 +161,24 @@ export default function MedicationForm({
   return (
     <View className="px-6 pb-16 pt-8">
       <View className="items-center">
-        <MaterialIcons name="medication" size={82} color="#075B7A" />
+        <MaterialIcons name="medication" size={80} color="#075B7A" />
 
-        <Text className="mt-5 text-[22px] font-medium text-black">
+        <Text className="mt-2 text-[20px] font-medium text-black">
           Medication Type
         </Text>
 
-        <Text className="mt-1 text-[14px] text-black">
+        <Text className="mt-1 text-[14px] text-gray-500">
           Click to change image
         </Text>
       </View>
 
       {visibleError ? (
-        <Text className="mt-6 text-[15px] text-[#B42318]">
+        <Text className="mt-6 text-[16px] text-[#B42318]">
           {visibleError}
         </Text>
       ) : null}
 
-      <Text className="mt-8 text-[21px] font-medium text-black">Name</Text>
+      <Text className="mt-8 text-[20px] font-medium text-black">Name</Text>
 
       <TextInput
         value={name}
@@ -191,10 +191,11 @@ export default function MedicationForm({
         className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
       />
 
-      <Text className="mt-7 text-[21px] font-medium text-black">Duration</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">Duration</Text>
 
-      <View className="mt-3 flex-row gap-3">
+      <View className="mt-3 flex-row gap-3 justify-between">
         <StepperBox
+          widthClassName="w-[120px]"
           value={`${monthsDuration} Month(s)`}
           onIncrement={() =>
             setMonthsDuration((current) => incrementValue(current, 24))
@@ -205,6 +206,7 @@ export default function MedicationForm({
         />
 
         <StepperBox
+          widthClassName="w-[118px]"
           value={`${weeksDuration} Week(s)`}
           onIncrement={() =>
             setWeeksDuration((current) => incrementValue(current, 52))
@@ -215,6 +217,7 @@ export default function MedicationForm({
         />
 
         <StepperBox
+          widthClassName="w-[110px]"
           value={`${daysDuration} Day(s)`}
           onIncrement={() =>
             setDaysDuration((current) => incrementValue(current, 31))
@@ -225,7 +228,7 @@ export default function MedicationForm({
         />
       </View>
 
-      <Text className="mt-7 text-[21px] font-medium text-black">
+      <Text className="mt-7 text-[20px] font-medium text-black">
         Frequency
       </Text>
 
@@ -237,14 +240,12 @@ export default function MedicationForm({
             <Pressable
               key={day}
               onPress={() => toggleDay(day)}
-              className={`h-[43px] min-w-[45px] items-center justify-center rounded-[7px] border-[2px] border-[#0D5175] px-2 ${
-                selected ? "bg-[#0D5175]" : "bg-white"
-              }`}
+              className={`h-[43px] min-w-[45px] items-center justify-center rounded-[7px] border-[2px] border-[#0D5175] px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
+                }`}
             >
               <Text
-                className={`text-[13px] font-medium ${
-                  selected ? "text-white" : "text-[#0D5175]"
-                }`}
+                className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"
+                  }`}
               >
                 {day}
               </Text>
@@ -256,7 +257,7 @@ export default function MedicationForm({
       <View className="mt-7 flex-row justify-between">
         <View className="items-center">
           <StepperBox
-            widthClassName="w-[74px]"
+            widthClassName="w-[80px]"
             value={morningFrequency}
             onIncrement={() =>
               setMorningFrequency((current) => incrementValue(current, 10))
@@ -273,7 +274,7 @@ export default function MedicationForm({
 
         <View className="items-center">
           <StepperBox
-            widthClassName="w-[74px]"
+            widthClassName="w-[80px]"
             value={noonFrequency}
             onIncrement={() =>
               setNoonFrequency((current) => incrementValue(current, 10))
@@ -290,7 +291,7 @@ export default function MedicationForm({
 
         <View className="items-center">
           <StepperBox
-            widthClassName="w-[74px]"
+            widthClassName="w-[80px]"
             value={eveningFrequency}
             onIncrement={() =>
               setEveningFrequency((current) => incrementValue(current, 10))
@@ -311,9 +312,8 @@ export default function MedicationForm({
         className="mt-7 flex-row items-center"
       >
         <View
-          className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${
-            noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"
-          }`}
+          className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"
+            }`}
         />
 
         <Text className="ml-3 text-[16px] text-black">
@@ -321,13 +321,13 @@ export default function MedicationForm({
         </Text>
       </Pressable>
 
-      <Text className="mt-7 text-[21px] font-medium text-black">Hours</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">Hours</Text>
 
       <View className="mt-4 flex-row flex-wrap items-center gap-4">
         {hours.map((hour, index) => (
           <StepperBox
             key={index}
-            widthClassName="w-[116px]"
+            widthClassName="w-[105px]"
             disabled={noSpecificHour}
             value={formatHour(hour)}
             onIncrement={() => updateHour(index, incrementValue(hour, 23))}
@@ -338,9 +338,8 @@ export default function MedicationForm({
         <Pressable
           onPress={addHour}
           disabled={noSpecificHour}
-          className={`h-[46px] flex-row items-center justify-center rounded-[10px] border-[2px] border-[#0D5175] bg-white px-5 ${
-            noSpecificHour ? "opacity-50" : ""
-          }`}
+          className={`h-[46px] flex-row items-center justify-center rounded-[10px] border-[2px] border-[#0D5175] bg-white px-5 ${noSpecificHour ? "opacity-50" : ""
+            }`}
         >
           <Plus size={20} color="#0D5175" />
 
@@ -355,9 +354,8 @@ export default function MedicationForm({
         className="mt-7 flex-row items-center"
       >
         <View
-          className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${
-            noSpecificHour ? "bg-[#0D5175]" : "bg-transparent"
-          }`}
+          className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${noSpecificHour ? "bg-[#0D5175]" : "bg-transparent"
+            }`}
         />
 
         <Text className="ml-3 text-[16px] text-black">
@@ -374,7 +372,7 @@ export default function MedicationForm({
           key={index}
           value={instruction}
           onChangeText={(value) => updateInstruction(index, value)}
-          placeholder="ex. Number of pills a day"
+          placeholder="ex. Mix with food."
           placeholderTextColor="#7A8A8D"
           className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
@@ -394,11 +392,10 @@ export default function MedicationForm({
       <Pressable
         disabled={saving}
         onPress={handleSubmit}
-        className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${
-          saving ? "opacity-60" : ""
-        }`}
+        className={`mt-10 mb-10 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${saving ? "opacity-60" : ""
+          }`}
       >
-        <Text className="text-[17px] font-semibold text-white">
+        <Text className="text-[16px] font-medium text-white">
           {saving
             ? "Saving..."
             : medication
@@ -427,11 +424,10 @@ function StepperBox({
 }: StepperBoxProps) {
   return (
     <View
-      className={`h-[40px] ${widthClassName} flex-row items-center justify-center rounded-[10px] border-[2px] border-[#97A5A8] bg-white ${
-        disabled ? "opacity-50" : ""
-      }`}
+      className={`h-[44px] ${widthClassName} flex-row items-center justify-center rounded-[10px] border-[2px] border-[#97A5A8] bg-white ${disabled ? "opacity-50" : ""
+        }`}
     >
-      <Text className="text-[14px] text-black">{value}</Text>
+      <Text className="text-[16px] text-black">{value}</Text>
 
       <View className="ml-2">
         <Pressable disabled={disabled} onPress={onIncrement} hitSlop={8}>

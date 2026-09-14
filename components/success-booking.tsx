@@ -22,7 +22,7 @@ export default function BookingSuccessOverlay({
         <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
           <View className="items-center">
             <View className="mb-8 h-[80px] w-[80px] items-center justify-center">
-              <CalendarCheck2 size={80} color="#2F7298" strokeWidth={2.8} />
+              <CalendarCheck2 size={80} color="#2F7298" strokeWidth={2} />
             </View>
 
             <Text className="mb-8 text-center text-[21px] font-semibold leading-7 text-black">

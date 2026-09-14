@@ -33,7 +33,7 @@ export default function MedicationContainer() {
   return (
     <View className="px-6 pb-28 pt-8">
       <Pressable
-        onPress={() => router.push("/medication-routine")}
+        onPress={() => router.push("/medication-formpage")}
         className="h-[56px] flex-row items-center justify-center rounded-[14px] border-[2px] border-[#0D5175] bg-white"
       >
         <Plus size={20} color="#0D5175" />
@@ -81,7 +81,7 @@ export default function MedicationContainer() {
 
                 <View className="ml-5 flex-1">
                   <View className="flex-row items-start justify-between">
-                    <Text className="max-w-[150px] text-[25px] font-medium text-black">
+                    <Text className="max-w-[150px] text-[20px] font-medium text-black">
                       {medication.name ?? "Unnamed medication"}
                     </Text>
 
@@ -89,7 +89,7 @@ export default function MedicationContainer() {
                       <Pressable
                         onPress={() =>
                           router.push({
-                            pathname: "/medication-routine",
+                            pathname: "/medication-formpage",
                             params: {
                               medicationId: String(medication.id),
                             },
@@ -97,7 +97,7 @@ export default function MedicationContainer() {
                         }
                         className="mr-5 flex-row items-center"
                       >
-                        <MaterialIcons name="edit" size={19} color="#8A3F00" />
+                        <MaterialIcons name="edit" size={20} color="#8A3F00" />
 
                         <Text className="ml-1 text-[18px] font-medium text-[#8A3F00]">
                           Edit
@@ -110,22 +110,22 @@ export default function MedicationContainer() {
                       >
                         <MaterialIcons
                           name="delete-outline"
-                          size={28}
+                          size={24}
                           color="#E33434"
                         />
                       </Pressable>
                     </View>
                   </View>
 
-                  <Text className="mt-5 text-[25px] font-medium text-black">
+                  <Text className="mt-5 text-[20px] font-medium text-black">
                     Duration of treatment
                   </Text>
 
-                  <Text className="mt-1 text-[18px] font-normal text-black">
+                  <Text className="mt-1 text-[16px] font-normal text-gray-800">
                     {duration}
                   </Text>
 
-                  <Text className="mt-5 text-[25px] font-normal text-black">
+                  <Text className="mt-5 text-[20px] font-medium text-black">
                     {instruction}
                   </Text>
 
@@ -152,13 +152,13 @@ export default function MedicationContainer() {
 
                   <View className="mt-14 flex-row justify-end">
                     <Pressable className="mr-4 h-[48px] items-center justify-center rounded-[10px] border-[2px] border-[#2D7195] bg-white px-4">
-                      <Text className="text-[18px] font-medium text-[#2D7195]">
+                      <Text className="text-[16px] font-medium text-[#2D7195]">
                         Send to Calendar
                       </Text>
                     </Pressable>
 
                     <Pressable className="h-[48px] items-center justify-center rounded-[10px] bg-[#5085A8] px-5">
-                      <Text className="text-[18px] font-medium text-white">
+                      <Text className="text-[16px] font-medium text-white">
                         Create Alarm
                       </Text>
                     </Pressable>
