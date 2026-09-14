@@ -46,7 +46,7 @@ export default function Operations() {
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="local-hospital" size={36} color="#0D5175" />
                                         <View className="ml-4">
-                                            <Text className="font-medium text-base">{record.item}</Text>
+                                            <Text className="font-medium text-xl">{record.item}</Text>
                                             {record.operation_date ? (
                                                 <Text className="text-base text-gray-800">{record.operation_date}</Text>
                                             ) : null}

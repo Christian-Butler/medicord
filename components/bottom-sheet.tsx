@@ -62,7 +62,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
     {
       icon: 'medication', label: 'Medication', onPress: () => {
         bottomSheetRef.current?.close();
-        router.push('/medication-page');
+        router.push('/medications');
       },
     },
     {
@@ -76,7 +76,8 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       icon: 'favorite', label: 'Your doctors', onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/your-doctors')
-    } },
+      }
+    },
   ];
 
   return (
