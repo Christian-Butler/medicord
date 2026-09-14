@@ -54,6 +54,7 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
+  console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
@@ -81,14 +82,21 @@ export default function ProfilePage() {
           </Pressable>
 
           {avatarUrl ? (
-            <Image source={{ uri: avatarUrl }} className="h-[74px] w-[74px] rounded-full" />
+            <Image
+              source={{ uri: avatarUrl }}
+              style={{ height: 74, width: 74, borderRadius: 37 }}
+            />
           ) : (
-            <View className="h-[74px] w-[74px] rounded-full bg-[#D7E8ED]" />
+            <View
+              style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
+              />
+              
           )}
-
+          
           <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
           <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
           <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
+          
         </View>
 
         <SectionTitle title="Authentification" />

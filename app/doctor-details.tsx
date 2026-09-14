@@ -78,7 +78,7 @@ export default function DoctorDetails() {
       <ScreenHeader title={doctorName} />
       <ScrollView>
         <View className="flex-1">
-          <DoctorHeader name={doctorName} profession={doctorProfession} />
+          <DoctorHeader name={doctorName} profession={doctorProfession} doctorId={doctorId} />
         </View>
 
         <View style={{ padding: 20, paddingBottom: 220 }}>
