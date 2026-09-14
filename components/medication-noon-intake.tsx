@@ -11,7 +11,7 @@ interface intakeProps {
 
 export default function IntakeNoon({ duration, text, setValue, value }: intakeProps) {
     const options = []
-    for (var i = 1; i < duration + 1; i++) {
+    for (const i = 1; i < duration + 1; i++) {
         options.push({ label: i, value: i });
     }
     return (

@@ -32,6 +32,7 @@ export default function MedicationFormContainer() {
   const { update, updating, updateError } = useUpdateMedication();
 
   async function handleSubmit(input: MedicationInput) {
+    console.log('[handleSubmit] input:', JSON.stringify(input));
     if (!input.name.trim()) return;
     if (isEditing && medicationIdNumber) {
       await update({ id: medicationIdNumber, ...input });
