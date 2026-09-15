@@ -2,6 +2,7 @@ import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 type MedicationFormProps = {
@@ -134,7 +135,7 @@ export default function MedicationForm({
     const trimmedName = name.trim();
 
     if (!trimmedName) {
-      setLocalError("Please enter a medication name.");
+      setLocalError(t(`medication-form.name`));
       return;
     }
 
@@ -157,6 +158,8 @@ export default function MedicationForm({
   }
 
   const visibleError = localError ?? error;
+
+  const { t } = useTranslation();
 
   return (
     <View className="px-6 pb-16 pt-8">

@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Pressable, Text, TouchableOpacity, useWindowDimensions, View, } from "react-native";
 
 export default function MedicationReminder() {
@@ -28,24 +29,26 @@ export default function MedicationReminder() {
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
     const nextIndex = Math.round(offsetX / cardWidth);
+
     setActiveIndex(
       Math.max(0, Math.min(nextIndex, sortedMedications.length - 1))
     );
   }
 
+  const { t } = useTranslation();
 
   return (
     <View className="px-6 pt-8">
-      <Text className="text-[24px] font-normal text-black">Medication</Text>
+      <Text className="text-[24px] font-normal text-black">{t(`medication-reminder.medication`)}</Text>
 
       {loading ? (
         <Text className="mt-5 text-[15px] text-black">
-          Loading medications...
+          {t(`medication-reminder.loading`)}
         </Text>
       ) : null}
 
       {error ? (
-        <Text className="mt-5 text-[15px] text-[#B42318]">{error}</Text>
+        <Text className="mt-5 text-[15px] text-[#B42318]">{t(`medication-reminder.${error}`)}</Text>
       ) : null}
 
       {!loading && !error && sortedMedications.length === 0 ? (
@@ -54,10 +57,10 @@ export default function MedicationReminder() {
           className="pl-10 pr-12 mt-5 h-[58px] flex-row items-center self-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
         >
           <Plus size={30} color="#09516D" />
-          <Text className="ml-3 text-[19px] font-medium text-[#09516D]"/>
+          <Text className="ml-3 text-[19px] font-medium text-[#09516D]" />
 
           <Text className="ml-3 text-[18px] font-medium text-[#09516D]">
-            Add medication routine
+            {t(`medication-reminder.addRoutine`)}
           </Text>
         </TouchableOpacity>
       ) : null}
@@ -101,7 +104,7 @@ export default function MedicationReminder() {
 
                   <View className="mt-4 h-[46px] items-center justify-center rounded-[12px] border-[2px] border-[#D3A000] bg-[#FFE9A8]">
                     <Text className="text-[16px] font-medium text-black">
-                      Have you completed your daily intake?
+                      {t(`medication-reminder.dailyIntake`)}
                     </Text>
                   </View>
 
@@ -110,7 +113,7 @@ export default function MedicationReminder() {
                     className="mt-5 h-[58px] items-center justify-center rounded-[12px] bg-[#5085A8]"
                   >
                     <Text className="text-[17px] font-semibold text-white">
-                      Confirm
+                      {t(`medication-reminder.confirm`)}
                     </Text>
                   </Pressable>
                 </View>

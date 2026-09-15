@@ -37,11 +37,7 @@ export default function RootLayout() {
               <Stack.Screen name="appointment-details" options={{ headerShown: false }} />
               <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
               <Stack.Screen name="medications" options={{ headerShown: false }} />
-              <Stack.Screen name="medication-page" options={{ headerShown: false }} />
               <Stack.Screen name="medication-formpage" options={{ headerShown: false }} />
-              <Stack.Screen name="medication-routine" options={{ headerShown: false }} />
-              <Stack.Screen name="create-medication" options={{ headerShown: false }} />
-              <Stack.Screen name="medication-details" options={{ headerShown: false }} />
               <Stack.Screen name="medical-records" options={{ headerShown: false }} />
               <Stack.Screen name="messages" options={{ headerShown: false }} />
               <Stack.Screen name="chat-room" options={{ headerShown: false }} />

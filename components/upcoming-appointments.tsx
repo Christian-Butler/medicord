@@ -44,7 +44,7 @@ export default function UpcomingAppointments() {
     return (
       <View style={styles.section}>
         <Text style={styles.title}>{t(`upcoming-appointments.Upcoming Appointments`)}</Text>
-        <Text style={styles.errorText}>{error}</Text>
+        <Text style={styles.errorText}>{t(`upcoming-appointments.${error}`)}</Text>
       </View>
     );
   }
@@ -108,7 +108,7 @@ export default function UpcomingAppointments() {
                     {doctorName}
                   </Text>
                   <Text numberOfLines={1} style={styles.doctorSpecialty}>
-                    {doctorSpecialty}
+                    {t(`upcoming-appointments.${doctorSpecialty}`)}
                   </Text>
                 </View>
 

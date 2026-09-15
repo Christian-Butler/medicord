@@ -1,4 +1,13 @@
+import ScreenHeader from "@/components/screen-header";
 import { useAppointment } from "@/src/hooks/useAppointment";
+import {
+  formatAppointmentDate,
+  formatAppointmentTime,
+} from "@/src/utils/dateTime";
+import { MaterialIcons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
+import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   Pressable,
@@ -7,14 +16,6 @@ import {
   Text,
   View,
 } from "react-native";
-import {
-  formatAppointmentDate,
-  formatAppointmentTime,
-} from "@/src/utils/dateTime";
-import { MaterialIcons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import React from "react";
-import ScreenHeader from "@/components/screen-header";
 
 const fallbackAvatar =
   "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg";
@@ -24,6 +25,8 @@ export default function AppointmentDetails() {
   const { appointmentId } = useLocalSearchParams<{
     appointmentId?: string;
   }>();
+
+  const { t } = useTranslation();
 
   const {
     appointment,
@@ -39,8 +42,7 @@ export default function AppointmentDetails() {
   const location =
     appointment?.location ??
     doctor?.location ??
-    doctor?.clinic_name ??
-    "Location unavailable";
+    doctor?.clinic_name ?? t(`appointment-details.noLocation`);
 
   const dateText = appointment
     ? formatAppointmentDate(appointment.starts_at)
@@ -51,7 +53,7 @@ export default function AppointmentDetails() {
     : "";
   return (
     <View style={styles.page}>
-      <ScreenHeader title="Appointment details" />
+      <ScreenHeader title={t(`appointment-details.details`)} />
 
       <ScrollView
         style={styles.scroll}
@@ -59,15 +61,15 @@ export default function AppointmentDetails() {
         showsVerticalScrollIndicator={false}
       >
         {loading ? (
-          <Text style={styles.statusText}>Loading appointment...</Text>
+          <Text style={styles.statusText}>{t(`appointment-details.loading`)}</Text>
         ) : null}
 
-        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {error ? <Text style={styles.errorText}>{t(`appointment-details.${error}`)}</Text> : null}
 
         {appointment ? (
           <>
             <Text style={styles.confirmedText}>
-              Medical appointment confirmed with
+              {t(`appointment-details.confirmed`)}
             </Text>
 
             <View style={styles.doctorRow}>
@@ -75,22 +77,23 @@ export default function AppointmentDetails() {
 
               <View>
                 <Text style={styles.doctorName}>{doctorName}</Text>
-                <Text style={styles.specialty}>{specialty}</Text>
+                <Text style={styles.specialty}>{t(`appointment-details.${specialty}`)}</Text>
               </View>
             </View>
 
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>
-                Transfer document prior to{"\n"}appointment
+                {t(`appointment-details.transfer`)}
+
               </Text>
 
               <Pressable style={styles.outlineButton}>
-                <Text style={styles.outlineButtonText}>Import documents</Text>
+                <Text style={styles.outlineButtonText}>{t(`appointment-details.import`)}</Text>
               </Pressable>
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>When it is:</Text>
+              <Text style={styles.sectionTitle}>{t(`appointment-details.when`)}</Text>
 
               <View style={styles.whenRow}>
                 <View style={styles.calendarIconWrap}>
@@ -108,7 +111,7 @@ export default function AppointmentDetails() {
 
                   <Pressable style={styles.addCalendarButton}>
                     <Text style={styles.outlineButtonText}>
-                      Add to Calendar
+                      {t(`appointment-details.calendar`)}
                     </Text>
                   </Pressable>
                 </View>
@@ -127,31 +130,34 @@ export default function AppointmentDetails() {
                 }
               >
                 <Text style={styles.primaryButtonText}>
-                  Modify appointment date
+                  {t(`appointment-details.modify`)}
                 </Text>
               </Pressable>
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Where to go:</Text>
+              <Text style={styles.sectionTitle}>{t(`appointment-details.where`)}</Text>
 
-              <Text style={styles.bodyText}>{location}</Text>
+              <Text className="text-[16px] font-regular mb-6">{t(`appointment-details.${location}`)}</Text>
 
               <Pressable style={styles.outlineButton}>
-                <Text style={styles.outlineButtonText}>Check on the map</Text>
+                <Text style={styles.outlineButtonText}>{t(`appointment-details.map`)}</Text>
               </Pressable>
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>Who to contact</Text>
+              <Text style={styles.sectionTitle}>{t(`appointment-details.who`)}</Text>
 
-              <Text style={styles.bodyText}>
-                Benbury’s cabinet secretary number:{"\n"}01 678 9123
+              <Text className="text-[16px] py-2">
+                {t(`appointment-details.number`)}
+              </Text>
+              <Text className="text-[16px] mb-6">
+                01 678 9123
               </Text>
 
               <Pressable style={styles.callButton}>
                 <MaterialIcons name="phone" size={18} color="#0D5175" />
-                <Text style={styles.callButtonText}>Call</Text>
+                <Text style={styles.callButtonText}>{t(`appointment-details.call`)}</Text>
               </Pressable>
             </View>
           </>
@@ -329,14 +335,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "500",
     color: "#fff",
-  },
-
-  bodyText: {
-    fontSize: 16,
-    fontWeight: "400",
-    color: "#000",
-    lineHeight: 21,
-    marginBottom: 20,
   },
 
   callButton: {

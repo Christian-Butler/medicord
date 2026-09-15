@@ -5,6 +5,7 @@ import { useCancelAppointment } from "@/src/hooks/useCancelAppointment";
 import type { Appointment } from "@/src/types/appointmentTypes";
 import { router } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   Pressable,
@@ -46,11 +47,14 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
   const specialty = doctor?.specialty ?? appointment.appointment_type ?? "";
   const avatar = doctor?.avatar_url ?? fallbackAvatar;
 
+  const { t } = useTranslation();
+
   const location =
     appointment.location ??
     doctor?.location ??
-    doctor?.clinic_name ??
-    "Location unavailable";
+    t(`appointments.${doctor?.clinic_name ??
+      "Location unavailable"}`)
+    ;
 
   return (
     <View style={styles.appointmentRow}>
@@ -60,7 +64,7 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
         <View style={styles.topLine}>
           <View>
             <Text style={styles.doctorName}>{doctorName}</Text>
-            <Text style={styles.specialty}>{specialty}</Text>
+            <Text style={styles.specialty}>{t(`appointments.${specialty}`)}</Text>
           </View>
 
           <Pressable
@@ -73,7 +77,7 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
               })
             }
           >
-            <Text style={styles.viewDetails}>View details</Text>
+            <Text style={styles.viewDetails}>{t(`appointments.View details`)}</Text>
           </Pressable>
         </View>
 
@@ -81,22 +85,22 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
           {formatDateTime(appointment.starts_at)}
         </Text>
 
-        <Text style={styles.location}>{location}</Text>
+        <Text style={styles.location}>{t(`appointments.${location}`)}</Text>
 
         <View style={styles.buttonRow}>
           {type === "upcoming" ? (
             <>
               <Pressable style={styles.outlineButton}>
-                <Text style={styles.outlineButtonText}>Add to Calendar</Text>
+                <Text style={styles.outlineButtonText}>{t(`appointments.calendar`)}</Text>
               </Pressable>
 
               <Pressable style={styles.filledButton} onPress={onModify}>
-                <Text style={styles.filledButtonText}>Modify</Text>
+                <Text style={styles.filledButtonText}>{t(`appointments.modify`)}</Text>
               </Pressable>
             </>
           ) : (
             <Pressable style={styles.outlineButton}>
-              <Text style={styles.outlineButtonText}>Prescription</Text>
+              <Text style={styles.outlineButtonText}>{t(`appointments.prescription`)}</Text>
             </Pressable>
           )}
         </View>
@@ -152,9 +156,11 @@ export default function Appointments() {
 
   const visibleError = error ?? cancelError;
 
+  const { t } = useTranslation();
+
   return (
     <View style={styles.page}>
-      <ScreenHeader title="Appointments" />
+      <ScreenHeader title={t(`appointments.apointments`)} />
 
       <ScrollView
         style={styles.scroll}
@@ -162,19 +168,19 @@ export default function Appointments() {
         showsVerticalScrollIndicator={false}
       >
         {loading ? (
-          <Text style={styles.statusText}>Loading appointments...</Text>
+          <Text style={styles.statusText}>{t(`appointments.loading`)}</Text>
         ) : null}
 
         {visibleError ? (
-          <Text style={styles.errorText}>{visibleError}</Text>
+          <Text style={styles.errorText}>{t(`appointments.${visibleError}`)}</Text>
         ) : null}
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Upcoming</Text>
+          <Text style={styles.sectionTitle}>{t(`appointments.upcoming`)}</Text>
         </View>
 
         {upcomingAppointments.length === 0 && !loading ? (
-          <Text style={styles.emptyText}>No upcoming appointments.</Text>
+          <Text style={styles.emptyText}>{t(`appointments.noUpcoming`)}</Text>
         ) : null}
 
         {upcomingAppointments.map((appointment) => (
@@ -187,11 +193,11 @@ export default function Appointments() {
         ))}
 
         <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>Past</Text>
+          <Text style={styles.sectionTitle}>{t(`appointments.past`)}</Text>
         </View>
 
         {pastAppointments.length === 0 && !loading ? (
-          <Text style={styles.emptyText}>No past appointments.</Text>
+          <Text style={styles.emptyText}>{t(`appointments.noPast`)}</Text>
         ) : null}
 
         {pastAppointments.map((appointment) => (

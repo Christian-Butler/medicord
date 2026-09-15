@@ -57,8 +57,8 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
-  console.log('[ProfilePage] avatarUrl:', avatarUrl);
   const { t } = useTranslation();
+  console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
@@ -70,7 +70,7 @@ export default function ProfilePage() {
 
       <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
         <Text className="text-center text-[24px] font-normal text-black">
-          Profile
+          {t(`profile.profile`)}
         </Text>
       </View>
 
