@@ -57,6 +57,8 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     async function loadAvailability() {
       if (doctors.length === 0) {
@@ -90,7 +92,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
     loadAvailability();
   }, [doctors]);
 
-  const { t } = useTranslation();
+
 
   return (
     <View>
@@ -100,7 +102,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
       >
         <Search size={18} color="#7B8A91" />
         <TextInput
-          placeholder="Search"
+          placeholder={t(`speciality-container.search`)}
           placeholderTextColor="#7B8A91"
           className="ml-4 flex-1 text-lg text-black"
         />

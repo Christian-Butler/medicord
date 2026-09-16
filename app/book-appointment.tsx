@@ -110,7 +110,7 @@ export default function Booking() {
                     <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
 
                     <View style={styles.month}>
-                        <Text>{t(`book-appointment.selected`)}{t(`book-appointment.${getMonthLabel(selectedDate)}`)}</Text>
+                        <Text>{t(`book-appointment.selected`)}{getMonthLabel(selectedDate)}</Text>
                         <MaterialIcons name="keyboard-arrow-down" size={18} />
                     </View>
                 </View>

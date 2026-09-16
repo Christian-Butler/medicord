@@ -1,7 +1,7 @@
+import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
-import WeeklyCalendar from "@/components/calendar";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import { useUpdateAppointment } from "@/src/hooks/useUpdateAppointment";
 import {
@@ -13,6 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Pressable,
   ScrollView,
@@ -47,26 +48,28 @@ export default function EditAppointment() {
     setSelectedTime(toLocalTimeValue(appointment.starts_at));
   }, [appointment]);
 
+  const { t } = useTranslation();
+
   async function handleConfirmChanges() {
     setFormError(null);
 
     if (!appointmentId) {
-      setFormError("Missing appointment.");
+      setFormError(t(`edit-appointment.missing`));
       return;
     }
 
     if (!selectedDate) {
-      setFormError("Please select a date.");
+      setFormError(t(`edit-appointment.unselectedT`));
       return;
     }
 
     if (!selectedTime) {
-      setFormError("Please select a time.");
+      setFormError(t(`edit-appointment.unselectedT`));
       return;
     }
 
     if (!isChecked) {
-      setFormError("Please confirm the appointment notice.");
+      setFormError(t(`edit-appointment.confirmN`));
       return;
     }
 
@@ -93,7 +96,7 @@ export default function EditAppointment() {
 
   return (
     <View style={styles.page}>
-      <ScreenHeader title="Modify appointment" />
+      <ScreenHeader title={t(`edit-appointment.name`)} />
 
       <ScrollView
         style={styles.scroll}
@@ -101,11 +104,11 @@ export default function EditAppointment() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.monthContainer}>
-          <Text style={styles.sectionTitle}>Select date</Text>
+          <Text style={styles.sectionTitle}>{t(`edit-appointment.selectD`)}</Text>
 
           <View style={styles.month}>
             <Text style={styles.monthText}>
-              Date selected
+              {t(`edit-appointment.selectedD`)}
             </Text>
             <MaterialIcons name="keyboard-arrow-down" size={18} />
           </View>
@@ -133,7 +136,7 @@ export default function EditAppointment() {
 
         {loading ? (
           <View style={styles.statusContainer}>
-            <Text style={styles.statusText}>Loading appointment...</Text>
+            <Text style={styles.statusText}>{t(`edit-appointment.loading`)}</Text>
           </View>
         ) : null}
 
@@ -154,9 +157,7 @@ export default function EditAppointment() {
           />
 
           <Text style={styles.noticeText}>
-            By modifying this appointment, I am confirming my presence at that
-            day and hour. I am aware that by failing to attend, or not notifying
-            my unavailability may result in getting blacklisted.
+            {t(`edit-appointment.notice`)}
           </Text>
         </View>
 
@@ -167,14 +168,14 @@ export default function EditAppointment() {
           style={[styles.containerButton, updating ? styles.disabledButton : null]}
         >
           <Text style={styles.buttonText}>
-            {updating ? "Saving..." : "Confirm changes"}
+            {updating ? t(`edit-appointment.saving`) : t(`edit-appointment.confirm`)}
           </Text>
         </Pressable>
       </ScrollView>
 
       <BookingSuccessOverlay
         visible={showSuccessOverlay}
-        onAddToCalendar={() => {}}
+        onAddToCalendar={() => { }}
         onGoHome={() => {
           setShowSuccessOverlay(false);
           router.replace("/appointments");

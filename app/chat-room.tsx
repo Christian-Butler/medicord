@@ -5,6 +5,7 @@ import { useSendMessage } from "@/src/hooks/useSendMessage";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { TextInput, TouchableOpacity, View } from "react-native";
 
 export default function ChatRoom() {
@@ -18,10 +19,12 @@ export default function ChatRoom() {
     setInput("");
   }
 
+  const { t } = useTranslation();
+
   return (
     <CustomKeyboardView inChat={true}>
       <View style={{ backgroundColor: "#EEF9FB" }} className="flex-1">
-        <HeaderChat title="Doctor's name" />
+        <HeaderChat title={t(`chat-room.title`)} />
         <View style={{ paddingHorizontal: "4%" }} />
         <View className="flex-1 justify-between">
           <View className="flex-1 overflow-visible">
@@ -33,7 +36,7 @@ export default function ChatRoom() {
           >
             <View className="flex-row justify-between bg-white border p-2 border-[#586A6A] rounded-full pl-5">
               <TextInput
-                placeholder="Type message..."
+                placeholder={t(`chat-room.type`)}
                 style={{ fontSize: 16 }}
                 className="flex-1 mr-2"
                 value={input}

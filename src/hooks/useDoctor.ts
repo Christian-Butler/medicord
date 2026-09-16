@@ -1,5 +1,6 @@
 import { getDoctorById } from "@/src/api/doctors/api";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type Doctor = {
   id: string;
@@ -23,6 +24,8 @@ export function useDoctor(doctorId?: string) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const { t } = useTranslation();
+
   const refetch = useCallback(async () => {
     if (!doctorId) {
       setDoctor(null);
@@ -41,7 +44,7 @@ export function useDoctor(doctorId?: string) {
       return row as Doctor;
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : "Failed to load doctor";
+        err instanceof Error ? err.message : t(`useDoctors.error`);
 
       setError(message);
       throw err;

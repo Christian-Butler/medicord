@@ -3,11 +3,15 @@ import { getMyMedicalRecords } from "@/src/api/medical-records/api";
 import type { MedicalRecord } from "@/src/types/medicalRecordTypes";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function useMedicalRecords(category?: MedicalRecordsCategory) {
   const [records, setRecords] = useState<MedicalRecord[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { t } = useTranslation();
+
 
   const fetchRecords = useCallback(async () => {
 
@@ -18,7 +22,7 @@ export function useMedicalRecords(category?: MedicalRecordsCategory) {
       const filtered = category ? data.filter((r) => r.category === category) : data;
       setRecords(filtered);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load records");
+      setError(err instanceof Error ? err.message : t(`useMedicalRecords.fail`));
     } finally {
       setLoading(false);
     } [fetchRecords];

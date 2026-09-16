@@ -1,5 +1,6 @@
 import { useLogin } from "@/src/hooks/useLogin";
 import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -12,6 +13,8 @@ import {
 export default function LoginPage() {
   const { email, setEmail, password, setPassword, loading, error, handleLogin } = useLogin();
 
+  const { t } = useTranslation();
+
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-[#EEF9FB]"
@@ -19,11 +22,11 @@ export default function LoginPage() {
     >
       <View className="flex-1 justify-center px-6">
         <Text className="text-center text-[34px] font-semibold text-[#075B7A]">
-          Medicord
+          {t(`login.name`)}
         </Text>
 
         <Text className="mt-3 text-center text-[22px] font-medium text-black">
-          Log in
+          {t(`login.login`)}
         </Text>
 
         {error ? (
@@ -32,23 +35,23 @@ export default function LoginPage() {
           </Text>
         ) : null}
 
-        <Text className="mt-8 text-[17px] font-medium text-black">Email</Text>
+        <Text className="mt-8 text-[17px] font-medium text-black">{t(`login.email`)}</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
           keyboardType="email-address"
-          placeholder="Enter your email"
+          placeholder={t(`login.placeholderE`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">Password</Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">{t(`login.password`)}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          placeholder="Enter your password"
+          placeholder={t(`login.placeholderP`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
@@ -60,7 +63,7 @@ export default function LoginPage() {
             }`}
         >
           <Text className="text-[17px] font-semibold text-white">
-            {loading ? "Logging in..." : "Log in"}
+            {loading ? t(`login.logging`) : t(`login.confirm`)}
           </Text>
         </Pressable>
 
@@ -68,7 +71,7 @@ export default function LoginPage() {
           onPress={() => router.push("/forgot-password")}
           className="mt-4 items-center"
         >
-          <Text className="text-[15px] text-[#075B7A]">Forgot password?</Text>
+          <Text className="text-[15px] text-[#075B7A]">{t(`login.forgot`)}</Text>
         </Pressable>
 
         <Pressable
@@ -76,7 +79,7 @@ export default function LoginPage() {
           className="mt-6 items-center"
         >
           <Text className="text-[16px] text-[#075B7A]">
-            Don&apos;t have an account? Register
+            {t(`login.register`)}
           </Text>
         </Pressable>
       </View>
