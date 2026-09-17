@@ -1,6 +1,7 @@
 import ScreenHeader from "@/components/screen-header";
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -30,6 +31,9 @@ type GynecologyModalProps = {
 function GynecologyModal({ visible, inputConfig, firstValue, onClose, onSubmit }: GynecologyModalProps) {
     const [value, setValue] = useState(firstValue);
 
+    const { t } = useTranslation();
+
+
     React.useEffect(() => {
         setValue(firstValue);
     }, [firstValue, visible]);
@@ -55,10 +59,10 @@ function GynecologyModal({ visible, inputConfig, firstValue, onClose, onSubmit }
 
                         <View className="mt-6 mb-4">
                             <Text className="text-2xl font-semibold mb-4 text-[#000]">
-                                {inputConfig.title}
+                                {t(`mr-gynecological.${inputConfig.title}`)}
                             </Text>
                             <TextInput
-                                placeholder="Not Specified"
+                                placeholder={t(`mr-gynecological.noSpec`)}
                                 value={value}
                                 onChangeText={setValue}
                                 className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
@@ -70,7 +74,7 @@ function GynecologyModal({ visible, inputConfig, firstValue, onClose, onSubmit }
                                 onPress={handleSave}
                                 className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
                             >
-                                <Text className="self-center text-white font-medium text-base">Confirm</Text>
+                                <Text className="self-center text-white font-medium text-base">{t(`mr-gynecological.confirm`)}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -92,6 +96,9 @@ export default function Gynecology() {
         setFormData((prev) => ({ ...prev, [key]: value }));
     };
 
+    const { t } = useTranslation();
+
+
     return (
         <ScrollView className="bg-[#EEF9FB] flex-1">
 
@@ -99,7 +106,7 @@ export default function Gynecology() {
 
             <View className="m-4">
                 <View className="pl-4 pt-6">
-                    <Text className="text-2xl font-medium">My gynecological follow-up</Text>
+                    <Text className="text-2xl font-medium">{t(`mr-gynecological.title`)}</Text>
                 </View>
 
                 {inputs.map((field) => {
@@ -115,8 +122,8 @@ export default function Gynecology() {
                             >
                                 <MaterialIcons className="p-2" name={field.icon} size={48} color="#0D5175" />
                                 <View>
-                                    <Text className="text-base text-xl font-medium">{field.title}</Text>
-                                    <Text className="pt-2 text-base">{value.trim() ? value : "Not specified"}</Text>
+                                    <Text className="text-base text-xl font-medium">{t(`mr-gynecological.${field.title}`)}</Text>
+                                    <Text className="pt-2 text-base">{value.trim() ? value : t(`mr-gynecological.noSpec`)}</Text>
                                 </View>
 
                             </TouchableOpacity>

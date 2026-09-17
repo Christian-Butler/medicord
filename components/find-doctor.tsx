@@ -36,7 +36,7 @@ export default function FindDoctor() {
         const results = await searchDoctorsByName(trimmedSearchQuery);
         setDoctors(results as DoctorSearchResult[]);
       } catch (err) {
-        setError("Doctors couldn't be searched");
+        setError(t(`find-doctor.noSearch`));
       }
       finally {
         setLoading(false);

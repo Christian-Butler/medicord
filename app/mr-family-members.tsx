@@ -3,6 +3,7 @@ import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 
 const familyMembers = [
@@ -14,6 +15,8 @@ const familyMembers = [
 ];
 
 export default function FamilyMembersList() {
+
+    const { t } = useTranslation();
 
     const params = useLocalSearchParams<{
         item: string;
@@ -54,7 +57,7 @@ export default function FamilyMembersList() {
         <View className="flex-1 bg-[#EEF9FB]">
             <ScreenHeader title="" />
             <View className="flex-1 m-6">
-                <Text className="text-xl font-medium text-center mb-6">Which family member does it concern ?</Text>
+                <Text className="text-xl font-medium text-center mb-6">{t(`mr-family-members.query`)}</Text>
                 <FlatList
                     data={familyMembers}
                     keyExtractor={(item) => item}
@@ -70,7 +73,7 @@ export default function FamilyMembersList() {
                                     size={24}
                                     color="#5085A8"
                                 />
-                                <Text className="ml-3 text-base text-black">{item}</Text>
+                                <Text className="ml-3 text-base text-black">{t(`mr-family-members.${item}`)}</Text>
                             </TouchableOpacity>
                         );
                     }}
@@ -85,7 +88,7 @@ export default function FamilyMembersList() {
                         disabled={selectedMembers.length === 0}
                         onPress={handleSubmit}
                     >
-                        <Text className="text-base font-medium text-white">Continue</Text>
+                        <Text className="text-base font-medium text-white">{t(`mr-family-members.continue`)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

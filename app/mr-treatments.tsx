@@ -3,6 +3,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Keyboard, Modal, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 interface TreatmentsModalProps {
@@ -42,6 +43,8 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
         onClose();
     };
 
+    const { t } = useTranslation();
+
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -56,10 +59,10 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
 
                         <View className="mt-6 mb-4">
                             <Text className="text-base font-medium mb-1 text-[#000]">
-                                Treatment Name
+                                {t(`mr-treatments.name`)}
                             </Text>
                             <TextInput
-                                placeholder="e.g. Paracetamol"
+                                placeholder={t(`mr-treatments.eg`)}
                                 value={treatmentName}
                                 onChangeText={setTreatmentName}
                                 className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
@@ -69,7 +72,7 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                         <View>
                             <View className="mb-4">
                                 <Text className="text-base font-medium mb-1 text-[#333]">
-                                    When did you start taking this treatment?
+                                    {t(`mr-treatments.query`)}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => setShowPicker(true)}
@@ -93,7 +96,7 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
 
                             <View className="mb-4">
                                 <Text className="text-base font-medium mb-1 text-[#000]">
-                                    How frequently do you take it?
+                                    {t(`mr-treatments.query2`)}
                                 </Text>
                                 <TextInput
                                     placeholder="e.g. 2 pills morning and evening"
@@ -109,7 +112,7 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                                 onPress={handleSave}
                                 className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
                             >
-                                <Text className="self-center text-white font-medium text-base">Add treatment</Text>
+                                <Text className="self-center text-white font-medium text-base">{t(`mr-treatments.add`)}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -131,6 +134,8 @@ export default function Treatments() {
 
     const params = useLocalSearchParams<{ addedTreatment?: string }>();
     const [treatmentsList, setTreatmentsList] = useState<Treatment[]>([]);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (params.addedTreatment) {
@@ -188,10 +193,10 @@ export default function Treatments() {
 
             <View className="m-4">
                 <View className="pl-8 pr-8 pt-12 ">
-                    <Text className="text-2xl text-center">Is there any treatment you are regularly taking ?</Text>
+                    <Text className="text-2xl text-center">{t(`mr-treatments.query3`)}</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-base text-center">Keeping a trace of the treatments you follow reduces oversights and improves medical follow-ups.</Text>
+                    <Text className="text-base text-center">{t(`mr-treatments.info`)}</Text>
                 </View>
                 <View className="flex-1 mx-2 mt-2 mb-20 pt-12" >
                     <TouchableOpacity
@@ -200,7 +205,7 @@ export default function Treatments() {
                         onPress={handleOpen}
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add a treatment</Text>
+                        <Text className="text-base text-center text-[#fff] font-medium">{t(`mr-treatments.add2`)}</Text>
                     </TouchableOpacity>
                 </View>
                 {/* 
@@ -234,11 +239,11 @@ export default function Treatments() {
                                     </Text>
 
                                     <View className="mb-1 flex-row">
-                                        <Text className="text-base font-medium text-black">Started: </Text>
+                                        <Text className="text-base font-medium text-black">{t(`mr-treatments.started`)} </Text>
                                         <Text className="text-base text-gray-800">{treatment.startDate}</Text>
                                     </View>
                                     <View className="flex-row">
-                                        <Text className="text-base font-medium text-black">Frequency: </Text>
+                                        <Text className="text-base font-medium text-black">{t(`mr-treatments.frequency`)} </Text>
                                         <Text className="text-base text-gray-800">{treatment.frequency}</Text>
                                     </View>
                                 </View>

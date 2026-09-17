@@ -1,6 +1,7 @@
 import ScreenHeader from "@/components/screen-header";
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -32,6 +33,8 @@ type LifestyleModalProps = {
 function LifestyleModal({ visible, inputConfig, firstValue, onClose, onSubmit }: LifestyleModalProps) {
     const [value, setValue] = useState(firstValue);
 
+    const { t } = useTranslation();
+
     React.useEffect(() => {
         setValue(firstValue);
     }, [firstValue, visible]);
@@ -42,6 +45,7 @@ function LifestyleModal({ visible, inputConfig, firstValue, onClose, onSubmit }:
         onSubmit(inputConfig.key, value);
         onClose();
     };
+
 
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
@@ -57,10 +61,10 @@ function LifestyleModal({ visible, inputConfig, firstValue, onClose, onSubmit }:
 
                         <View className="mt-6 mb-4">
                             <Text className="text-2xl font-semibold mb-4 text-[#000]">
-                                {inputConfig.title}
+                                {t(`mr-lifestyle.${inputConfig.title}`)}
                             </Text>
                             <TextInput
-                                placeholder="Not Specified"
+                                placeholder={t(`mr-lifestyle.noSpec`)}
                                 value={value}
                                 onChangeText={setValue}
                                 className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
@@ -72,7 +76,7 @@ function LifestyleModal({ visible, inputConfig, firstValue, onClose, onSubmit }:
                                 onPress={handleSave}
                                 className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
                             >
-                                <Text className="self-center text-white font-medium text-base">Confirm</Text>
+                                <Text className="self-center text-white font-medium text-base">{t(`mr-lifestyle.confirm`)}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -84,6 +88,9 @@ function LifestyleModal({ visible, inputConfig, firstValue, onClose, onSubmit }:
 
 export default function Lifestyle() {
     const [activeInput, setActiveInput] = useState<InputConfig | null>(null);
+
+    const { t } = useTranslation();
+
     const [formData, setFormData] = useState<Record<InputFieldKey, string>>({
         smokingOrVaping: "",
         alcohol: "",
@@ -102,7 +109,7 @@ export default function Lifestyle() {
 
             <View className="m-4">
                 <View className="pl-4 pt-6">
-                    <Text className="text-2xl font-medium">My lifestyle</Text>
+                    <Text className="text-2xl font-medium">{t(`mr-lifestyle.title`)}</Text>
                 </View>
 
                 {inputs.map((field) => {
@@ -118,8 +125,8 @@ export default function Lifestyle() {
                             >
                                 <MaterialIcons className="p-2" name={field.icon} size={48} color="#0D5175" />
                                 <View>
-                                    <Text className="text-base text-xl font-medium">{field.title}</Text>
-                                    <Text className="pt-2 text-base">{value.trim() ? value : "Not specified"}</Text>
+                                    <Text className="text-base text-xl font-medium">{t(`mr-lifestyle.${field.title}`)}</Text>
+                                    <Text className="pt-2 text-base">{t(`mr-lifestyle.${value.trim() ? value : "Not specified"}`)}</Text>
                                 </View>
 
                             </TouchableOpacity>

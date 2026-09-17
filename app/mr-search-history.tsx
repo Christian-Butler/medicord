@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { Search } from "lucide-react-native";
 import React, { useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import { categories, MedicalRecordsCategory } from "../components/mr-search-lists";
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
@@ -76,9 +77,11 @@ export default function MedicalRecordsSearchScreen() {
         }
     };
 
+    const { t } = useTranslation();
+
     return (
         <View className="flex-1 bg-[#EEF9FB]">
-            <ScreenHeader title={currentCategoryConfig.title} />
+            <ScreenHeader title={t(`mr-search-history.${currentCategoryConfig.title}`)} />
             <FlatList
                 data={processedList}
                 keyExtractor={(item) => item}
@@ -112,14 +115,14 @@ export default function MedicalRecordsSearchScreen() {
                             />
                         </View>
                         <Text className="ml-6 text-base font-medium text-[#333]">
-                            {item}
+                            {t(`mr-search-history.${item}`)}
                         </Text>
                     </TouchableOpacity>
 
                 )}
                 ListEmptyComponent={
                     <Text className="text-center text-[#7B8A91] mt-8">
-                        Sorry, {searchQuery} is not found
+                        {t(`mr-search-history.sorry`)} {searchQuery} {t(`mr-search-history.noFound`)}
                     </Text>
                 }
             />

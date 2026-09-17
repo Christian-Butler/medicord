@@ -1,11 +1,14 @@
 import ScreenHeader from "@/components/screen-header";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 
 export default function Documents() {
+
+    const { t } = useTranslation();
 
     return (
 
