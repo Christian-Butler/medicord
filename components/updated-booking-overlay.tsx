@@ -1,4 +1,5 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type UpdateAppointmentSuccessOverlayProps = {
@@ -12,6 +13,9 @@ export default function UpdateAppointmentSuccessOverlay({
   onAddToCalendar,
   onViewAppointments,
 }: UpdateAppointmentSuccessOverlayProps) {
+
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30">
@@ -21,16 +25,15 @@ export default function UpdateAppointmentSuccessOverlay({
           </View>
 
           <Text className="mb-12 text-center text-[27px] font-bold leading-[34px] text-black">
-            Your appointment has been{"\n"}successfully updated !
+            {t(`updated-booking-overlay.title`)}
           </Text>
 
           <Text className="mb-10 text-left text-[23px] font-normal leading-[31px] text-black">
-            By clicking the button below you will be redirected to your
-            appointments.
+            {t(`updated-booking-overlay.info`)}
           </Text>
 
           <Text className="mb-9 text-left text-[23px] font-normal leading-[31px] text-black">
-            Your updated appointment will be shown there.
+            {t(`updated-booking-overlay.info2`)}
           </Text>
 
           <Pressable
@@ -38,7 +41,7 @@ export default function UpdateAppointmentSuccessOverlay({
             className="mb-7 h-[70px] items-center justify-center rounded-[12px] border-[2.5px] border-[#0D5175] bg-white"
           >
             <Text className="text-[22px] font-semibold text-[#0D5175]">
-              + Add to calendar
+              {t(`updated-booking-overlay.add`)}
             </Text>
           </Pressable>
 
@@ -47,7 +50,7 @@ export default function UpdateAppointmentSuccessOverlay({
             className="h-[70px] items-center justify-center rounded-[12px] bg-[#5085A8]"
           >
             <Text className="text-[22px] font-semibold text-white">
-              View appointments
+              {t(`updated-booking-overlay.view`)}
             </Text>
           </Pressable>
         </View>

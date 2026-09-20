@@ -110,8 +110,6 @@ export default function ProfilePage() {
         <ProfileRow icon="lock-outline" title="Security details" />
 
         <SectionTitle title={t(`profile.Other settings`)} />
-        <ProfileRow title="Online payment settings" subtitle="Manage your payments" />
-        <ProfileRow icon="credit-card" title="Payment options" subtitle="Your credit cards for appointments" />
         <ProfileRow icon="language" title="Language" subtitle={t(`profile.English (UK)`)} />
         <ProfileRow title="Encrypted documents" subtitle={t(`profile.Active`)} />
 

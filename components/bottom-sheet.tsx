@@ -2,6 +2,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 type ServiceItem = {
@@ -26,6 +27,9 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
 
   // useMemo stops snapPoints array being created on each render
   const snapPoints = useMemo(() => ['45%'], []);
+
+  const { t } = useTranslation();
+
   const renderBackdrop = (props: any) => (
     <BottomSheetBackdrop
       {...props}
@@ -48,32 +52,32 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
 
   const services: ServiceItem[] = [
     {
-      icon: 'calendar-month', label: 'Appointments', onPress: () => {
+      icon: 'calendar-month', label: t(`bottom-sheet.apt`), onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/appointments');
       },
     },
     {
-      icon: 'archive', label: 'Medical records', onPress: () => {
+      icon: 'archive', label: t(`bottom-sheet.medR`), onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/medical-records');
       },
     },
     {
-      icon: 'medication', label: 'Medication', onPress: () => {
+      icon: 'medication', label: t(`bottom-sheet.medN`), onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/medications');
       },
     },
     {
-      icon: 'forum', label: 'Messages', onPress: () => {
+      icon: 'forum', label: t(`bottom-sheet.mess`), onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/messages');
       },
     },
-    { icon: 'change-circle', label: 'Order repeat medication' },
+    { icon: 'change-circle', label: t(`bottom-sheet.order`) },
     {
-      icon: 'favorite', label: 'Your doctors', onPress: () => {
+      icon: 'favorite', label: t(`bottom-sheet.doc`), onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/your-doctors')
       }
@@ -90,7 +94,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       backgroundStyle={{ backgroundColor: '#EFF7F8' }}
     >
       <BottomSheetView style={styles.sheetContent}>
-        <Text style={styles.title}>Services hub</Text>
+        <Text style={styles.title}>{t(`bottom-sheet.services`)}</Text>
         <FlatList
           style={{ width: "100%" }}
           data={services}

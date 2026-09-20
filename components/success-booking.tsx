@@ -1,4 +1,5 @@
 import { CalendarCheck2 } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type BookingSuccessOverlayProps = {
@@ -14,6 +15,9 @@ export default function BookingSuccessOverlay({
   onGoHome,
   onClose,
 }: BookingSuccessOverlayProps) {
+
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
@@ -26,17 +30,16 @@ export default function BookingSuccessOverlay({
             </View>
 
             <Text className="mb-8 text-center text-[21px] font-semibold leading-7 text-black">
-              Your appointment has been{"\n"}successfully booked !
+              {t(`success-booking.title`)}
             </Text>
 
             <View className="mb-6 w-full px-3">
               <Text className="mb-7 text-left text-[16px] leading-6 text-black">
-                By clicking the button below you will be redirected to the
-                homepage.
+                {t(`success-booking.info`)}
               </Text>
 
               <Text className="text-left text-[16px] leading-6 text-black">
-                Your upcoming appointment has been added there.
+                {t(`success-booking.info2`)}
               </Text>
             </View>
 
@@ -44,7 +47,7 @@ export default function BookingSuccessOverlay({
               onPress={onAddToCalendar}
               className="mb-5 h-[46px] w-full items-center justify-center rounded-[10px] border-2 border-[#07527B] bg-white">
               <Text className="text-[15px] font-medium text-[#07527B]">
-                + Add to calendar
+                {t(`success-booking.add`)}
               </Text>
             </Pressable>
 
@@ -52,7 +55,7 @@ export default function BookingSuccessOverlay({
               onPress={onGoHome}
               className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
               <Text className="text-[15px] font-medium text-white">
-                Take me to the homepage
+                {t(`success-booking.home`)}
               </Text>
             </Pressable>
           </View>

@@ -1,5 +1,7 @@
 import { useRegister } from "@/src/hooks/useRegister";
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   KeyboardAvoidingView,
@@ -10,7 +12,6 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { router } from "expo-router";
 
 export default function RegisterPage() {
   const {
@@ -25,6 +26,9 @@ export default function RegisterPage() {
     handlePickAvatar,
     handleRegister,
   } = useRegister();
+
+  const { t } = useTranslation();
+
 
   return (
     <KeyboardAvoidingView
@@ -42,11 +46,11 @@ export default function RegisterPage() {
         showsVerticalScrollIndicator={false}
       >
         <Text className="text-center text-[34px] font-semibold text-[#075B7A]">
-          Medicord
+          {t(`register.name`)}
         </Text>
 
         <Text className="mt-3 text-center text-[22px] font-medium text-black">
-          Create account
+          {t(`register.create`)}
         </Text>
 
         {/* Avatar picker */}
@@ -62,7 +66,7 @@ export default function RegisterPage() {
             </View>
           )}
           <Text className="mt-2 text-[14px] text-[#075B7A]">
-            {avatarUri ? "Change photo" : "Add profile photo"}
+            {avatarUri ? t(`register.change`) : t(`register.add`)}
           </Text>
         </Pressable>
 
@@ -76,47 +80,47 @@ export default function RegisterPage() {
         <TextInput
           value={fullName}
           onChangeText={setFullName}
-          placeholder="Enter your full name"
+          placeholder={t(`register.fullName`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">Date of birth</Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">{t(`register.birth`)}</Text>
         <TextInput
           value={dateOfBirth}
           onChangeText={setDateOfBirth}
-          placeholder="YYYY-MM-DD"
+          placeholder={t(`register.bDate`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">Phone</Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">{t(`register.phone`)}</Text>
         <TextInput
           value={phone}
           onChangeText={setPhone}
           keyboardType="phone-pad"
-          placeholder="Enter your phone number"
+          placeholder={t(`register.number`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">Email</Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">{t(`register.email`)}</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
           autoCapitalize="none"
           keyboardType="email-address"
-          placeholder="Enter your email"
+          placeholder={t(`register.eAddress`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">Password</Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">{t(`register.password`)}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          placeholder="Create a password"
+          placeholder={t(`register.createP`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
@@ -124,12 +128,11 @@ export default function RegisterPage() {
         <Pressable
           disabled={loading}
           onPress={handleRegister}
-          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${
-            loading ? "opacity-60" : ""
-          }`}
+          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${loading ? "opacity-60" : ""
+            }`}
         >
           <Text className="text-[17px] font-semibold text-white">
-            {loading ? "Creating account..." : "Create account"}
+            {loading ? t(`register.creating`) : t(`register.confirm`)}
           </Text>
         </Pressable>
 
@@ -138,7 +141,7 @@ export default function RegisterPage() {
           className="mt-6 items-center"
         >
           <Text className="text-[16px] text-[#075B7A]">
-            Already have an account? Log in
+            {t(`register.login`)}
           </Text>
         </Pressable>
       </ScrollView>

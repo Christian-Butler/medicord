@@ -52,9 +52,8 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
   const location =
     appointment.location ??
     doctor?.location ??
-    t(`appointments.${doctor?.clinic_name ??
-      "Location unavailable"}`)
-    ;
+
+    doctor?.clinic_name ?? t(`appointments.locUnavailable`);
 
   return (
     <View style={styles.appointmentRow}>
@@ -77,7 +76,7 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
               })
             }
           >
-            <Text style={styles.viewDetails}>{t(`appointments.View details`)}</Text>
+            <Text style={styles.viewDetails}>{t(`appointments.details`)}</Text>
           </Pressable>
         </View>
 
@@ -85,7 +84,7 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
           {formatDateTime(appointment.starts_at)}
         </Text>
 
-        <Text style={styles.location}>{t(`appointments.${location}`)}</Text>
+        <Text style={styles.location}>{location}</Text>
 
         <View style={styles.buttonRow}>
           {type === "upcoming" ? (
@@ -160,7 +159,7 @@ export default function Appointments() {
 
   return (
     <View style={styles.page}>
-      <ScreenHeader title={t(`appointments.apointments`)} />
+      <ScreenHeader title={t(`appointments.appointments`)} />
 
       <ScrollView
         style={styles.scroll}

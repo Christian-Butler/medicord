@@ -1,4 +1,5 @@
 import { BriefcaseMedical } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type FirstTimeBookingOverlayProps = {
@@ -14,6 +15,9 @@ export default function FirstTimeBookingOverlay({
   onReturningPatient,
   onClose,
 }: FirstTimeBookingOverlayProps) {
+
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
@@ -26,14 +30,14 @@ export default function FirstTimeBookingOverlay({
             </View>
 
             <Text className="mb-10 text-center text-[21px] font-semibold leading-7 text-black">
-              Is this your first time{"\n"}booking this practitioner ?
+              {t(`first-patient-overlay.query`)}
             </Text>
 
             <Pressable
               onPress={onNewPatient}
               className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] border-2 border-[#07527B] bg-white">
               <Text className="text-[15px] font-medium text-[#07527B]">
-                Yes, I am a new patient
+                {t(`first-patient-overlay.yes`)}
               </Text>
             </Pressable>
 
@@ -41,7 +45,7 @@ export default function FirstTimeBookingOverlay({
               onPress={onReturningPatient}
               className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
               <Text className="text-[15px] font-medium text-white">
-                No, I am a returning patient
+                {t(`first-patient-overlay.no`)}
               </Text>
             </Pressable>
           </View>

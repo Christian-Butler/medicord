@@ -1,4 +1,5 @@
 import { X } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type CancelAppointmentOverlayProps = {
@@ -16,6 +17,9 @@ export default function CancelAppointmentOverlay({
   onPostpone,
   onCancelAppointment,
 }: CancelAppointmentOverlayProps) {
+
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
@@ -31,7 +35,7 @@ export default function CancelAppointmentOverlay({
           </Pressable>
 
           <Text className="mx-1 mb-14 text-left text-[22px] font-normal leading-[28px] text-black">
-            Do you want to postpone or{"\n"}cancel your appointment ?
+            {t(`cancel-appointment-overlay.query`)}
           </Text>
 
           <Pressable
@@ -40,19 +44,18 @@ export default function CancelAppointmentOverlay({
             className="mb-5 h-[48px] items-center justify-center rounded-[10px] bg-[#5085A8]"
           >
             <Text className="text-[15px] font-normal text-white">
-              Postpone my appointment
+              {t(`cancel-appointment-overlay.post`)}
             </Text>
           </Pressable>
 
           <Pressable
             onPress={onCancelAppointment}
             disabled={cancelling}
-            className={`h-[48px] items-center justify-center rounded-[10px] border-[1.5px] border-[#0D5175] bg-white ${
-              cancelling ? "opacity-60" : ""
-            }`}
+            className={`h-[48px] items-center justify-center rounded-[10px] border-[1.5px] border-[#0D5175] bg-white ${cancelling ? "opacity-60" : ""
+              }`}
           >
             <Text className="text-[15px] font-normal text-[#0D5175]">
-              {cancelling ? "Cancelling..." : "Cancel my appointment"}
+              {cancelling ? t(`cancel-appointment-overlay.cancelling`) : t(`cancel-appointment-overlay.cancel`)}
             </Text>
           </Pressable>
         </View>
