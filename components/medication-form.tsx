@@ -40,7 +40,10 @@ function formatHour(value: string) {
   return `${String(safeHour).padStart(2, "0")}:00`;
 }
 
+
+
 export default function MedicationForm({
+  
   medication,
   saving = false,
   error,
@@ -159,6 +162,7 @@ export default function MedicationForm({
 
   const visibleError = localError ?? error;
 
+  const [frequency, setFrequency] = useState<MedicationFrequency | null>(null);
   const { t } = useTranslation();
 
   return (
@@ -242,9 +246,10 @@ export default function MedicationForm({
           return (
             <Pressable
               key={day}
-              onPress={() => toggleDay(day)}
+              disabled={noSpecificTime}
+               onPress={() => !noSpecificTime && setFrequency(option.value)}
               className={`h-[43px] min-w-[45px] items-center justify-center rounded-[7px] border-[2px] border-[#0D5175] px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
-                }`}
+                } ${noSpecificTime ? "opacity-50" : ""}`}
             >
               <Text
                 className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"
@@ -262,6 +267,7 @@ export default function MedicationForm({
           <StepperBox
             widthClassName="w-[80px]"
             value={morningFrequency}
+             disabled={noSpecificTime}
             onIncrement={() =>
               setMorningFrequency((current) => incrementValue(current, 10))
             }
@@ -279,6 +285,7 @@ export default function MedicationForm({
           <StepperBox
             widthClassName="w-[80px]"
             value={noonFrequency}
+             disabled={noSpecificTime}
             onIncrement={() =>
               setNoonFrequency((current) => incrementValue(current, 10))
             }
@@ -296,6 +303,7 @@ export default function MedicationForm({
           <StepperBox
             widthClassName="w-[80px]"
             value={eveningFrequency}
+             disabled={noSpecificTime}
             onIncrement={() =>
               setEveningFrequency((current) => incrementValue(current, 10))
             }

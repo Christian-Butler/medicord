@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {router} from "expo-router"
 
 type ProfileRowProps = {
   icon?: keyof typeof MaterialIcons.glyphMap;
@@ -107,7 +108,7 @@ export default function ProfilePage() {
         <SectionTitle title={t(`profile.Authentification`)} />
         <ProfileRow icon="phone" title="Phone number" subtitle={phone} />
         <ProfileRow icon="mail-outline" title="Email address" subtitle={email} />
-        <ProfileRow icon="lock-outline" title="Security details" />
+        <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
 
         <SectionTitle title={t(`profile.Other settings`)} />
         <ProfileRow icon="language" title="Language" subtitle={t(`profile.English (UK)`)} />

@@ -54,6 +54,7 @@ export default function RootLayout() {
               <Stack.Screen name="mr-search-history" options={{ headerShown: false }} />
               <Stack.Screen name="mr-family-members" options={{ headerShown: false }} />
               <Stack.Screen name="notifications" options={{ headerShown: false }} />
+              <Stack.Screen name="security-details" options={{ headerShown: false }} />
             </Stack>
           </AuthProvider>
           <StatusBar style="auto" />
