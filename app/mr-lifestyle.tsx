@@ -126,7 +126,7 @@ export default function Lifestyle() {
                                 <MaterialIcons className="p-2" name={field.icon} size={48} color="#0D5175" />
                                 <View>
                                     <Text className="text-base text-xl font-medium">{t(`mr-lifestyle.${field.title}`)}</Text>
-                                    <Text className="pt-2 text-base">{t(`mr-lifestyle.${value.trim() ? value : "Not specified"}`)}</Text>
+                                    <Text className="pt-2 text-base">{value.trim() ? value : t(`mr-lifestyle.noSpec`)}</Text>
                                 </View>
 
                             </TouchableOpacity>

@@ -107,6 +107,7 @@ export const fr = {
 
     },
     "special-tab-button": {
+        "Services Hub": "Services",
         "Services": "Services",
     },
     "bottom-sheet": {
@@ -183,7 +184,7 @@ export const fr = {
         "Other reasons": "Autres raisons",
         confirm: "Confirmer la raison",
     },
-    'gp-referral-overlay': {
+    "gp-referral-overlay": {
         read: "À lire attentivement!",
         requires: "Ce.tte practicien.ne requiert une recommandation d'un.e généraliste.",
         takeTo: "M'amener à la page de recherche de médecine générale",

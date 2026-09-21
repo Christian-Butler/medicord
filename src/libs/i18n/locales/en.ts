@@ -108,7 +108,7 @@ export const en = {
 
     },
     "special-tab-button": {
-        "Services": "Services",
+        "Services Hub": "Services Hub",
     },
     "bottom-sheet": {
         services: "Services hub",
@@ -183,8 +183,12 @@ export const en = {
         "Chronic pain": "Chronic pain",
         "Other reasons": "Other reasons",
         confirm: "Confirm reason",
+        read: "Read carefully!",
+        requires: "This specialist requires a GP’s note.",
+        takeTo: "Take me to GP search page",
+        continue: "Continue with current booking",
     },
-    'gp-referral-overlay': {
+    "gp-referral-overlay": {
         read: "Read carefully!",
         requires: "This specialist requires a GP’s note.",
         takeTo: "Take me to GP search page",
@@ -587,7 +591,6 @@ export const en = {
         noSpec: "Not specified",
         confirm: "Confirm",
         title: "My lifestyle",
-        "Not specified": "Not specified",
     },
     "mr-measurements": {
         "Height": "Height",
@@ -595,7 +598,6 @@ export const en = {
         noSpec: "Not specified",
         confirm: "Confirm",
         title: "Measurements",
-        "Not specified": "Not specified",
     },
     "mr-operations": {
         query: "Have you had medical surgery ?",

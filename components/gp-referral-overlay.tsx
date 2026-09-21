@@ -36,7 +36,7 @@ export default function GPOverlay({
             </View>
 
             <Text className="mb-9 text-center text-[22px] font-semibold text-black">
-              {t(`booking-reason.read`)}
+              {t(`gp-referral-overlay.read`)}
             </Text>
 
             <Text className="mb-10 text-center text-[16px] leading-6 text-black">
@@ -47,7 +47,7 @@ export default function GPOverlay({
               onPress={onGoToGpSearch}
               className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] border-2 border-[#07527B] bg-white">
               <Text className="text-[15px] font-medium text-[#07527B]">
-                {t(`booking-reason.takeTo`)}
+                {t(`gp-referral-overlay.takeTo`)}
               </Text>
             </Pressable>
 
@@ -55,7 +55,7 @@ export default function GPOverlay({
               onPress={onContinue}
               className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
               <Text className="text-[15px] font-medium text-white">
-                {t(`booking-reason.continue`)}
+                {t(`gp-referral-overlay.continue`)}
               </Text>
             </Pressable>
           </View>
