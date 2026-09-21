@@ -13,6 +13,8 @@
       "bundleIdentifier": "com.butlrstudio.medicord",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
+        "NSCalendarsUsageDescription": "Medicord needs access to your calendar to add appointments.",
+        "NSCalendarsFullAccessUsageDescription": "Medicord needs full access to your calendar to manage appointments.",
         "NSAppTransportSecurity": {
           "NSAllowsArbitraryLoads": false,
           "NSExceptionDomains": {
