@@ -6,6 +6,7 @@ import ScreenHeader from "@/components/screen-header";
 import { useDoctor } from "@/src/hooks/useDoctor";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function DoctorDetails() {
@@ -15,12 +16,13 @@ export default function DoctorDetails() {
     closestDay?: string;
     specialty?: string;
   }>();
+  const { t } = useTranslation();
 
   const { doctor, loading, error } = useDoctor(doctorId ? String(doctorId) : undefined);
 
   const doctorName = doctor?.full_name || name || "Doctor";
   const doctorProfession = doctor?.specialty || specialty || "Specialist";
-  const availableDate = closestDay || "No slots available";
+  const availableDate = closestDay || t(`doctor-details.noSlot`);
   const bio = doctor?.bio ?? null;
   const yearsExperience = doctor?.years_experience ?? null;
   const previousExperience = doctor?.previous_experience ?? null;
@@ -73,6 +75,7 @@ export default function DoctorDetails() {
     });
   }
 
+
   return (
     <View className="flex-1 bg-[#EEF9FB]">
       <ScreenHeader title={doctorName} />
@@ -83,7 +86,7 @@ export default function DoctorDetails() {
 
         <View style={{ padding: 20, paddingBottom: 220 }}>
           {loading ? (
-            <Text style={{ color: "#333", paddingBottom: 12 }}>Loading doctor...</Text>
+            <Text style={{ color: "#333", paddingBottom: 12 }}>{t(`doctor-details.loading`)}</Text>
           ) : null}
 
           {error ? (
@@ -92,8 +95,8 @@ export default function DoctorDetails() {
 
           {bio ? (
             <>
-              <Text style={styles.sectionTitle}>About</Text>
-              <Text style={styles.bodyText}>{bio}</Text>
+              <Text style={styles.sectionTitle}>{t(`doctor-details.about`)}</Text>
+              <Text style={styles.bodyText}>{t(`doctor-details.${bio}`)}</Text>
             </>
           ) : null}
 
@@ -102,21 +105,21 @@ export default function DoctorDetails() {
               <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Experience</Text>
               {yearsExperience ? (
                 <Text style={styles.bodyText}>
-                  {yearsExperience} years of clinical experience
+                  {yearsExperience} {t(`doctor-details.years`)}
                 </Text>
               ) : null}
               {qualifiedYear ? (
-                <Text style={styles.bodyText}>Qualified in {qualifiedYear}</Text>
+                <Text style={styles.bodyText}>{t(`doctor-details.qualify`)}{qualifiedYear}</Text>
               ) : null}
               {previousExperience ? (
-                <Text style={styles.bodyText}>Previous Experience in {previousExperience}</Text>
+                <Text style={styles.bodyText}>{t(`doctor-details.previous`)} {previousExperience}</Text>
               ) : null}
             </>
           ) : null}
 
           {(clinicName || location) ? (
             <>
-              <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Location</Text>
+              <Text style={[styles.sectionTitle, { marginTop: 20 }]}>{t(`doctor-details.location`)}</Text>
               {clinicName ? <Text style={styles.bodyText}>{clinicName}</Text> : null}
               {location ? <Text style={styles.bodyText}>{location}</Text> : null}
             </>
@@ -124,15 +127,15 @@ export default function DoctorDetails() {
 
           {consultationFee ? (
             <>
-              <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Consultation Fee</Text>
-              <Text style={styles.bodyText}>€{consultationFee} per consultation</Text>
+              <Text style={[styles.sectionTitle, { marginTop: 20 }]}>{t(`doctor-details.fee`)}</Text>
+              <Text style={styles.bodyText}>€{consultationFee}{t(`doctor-details.consultation`)}</Text>
             </>
           ) : null}
 
-          <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Services provided</Text>
+          <Text style={[styles.sectionTitle, { marginTop: 20 }]}>{t(`doctor-details.services`)}</Text>
           <Text style={styles.bodyText}>
-            It is possible to obtain more information for follow-up consultations
-            and for new patients through the messages service provided in Medicord.
+            {t(`doctor-details.possible`)}
+
           </Text>
         </View>
       </ScrollView>
@@ -140,7 +143,7 @@ export default function DoctorDetails() {
       <View style={styles.container}>
         <View />
         <View style={styles.dayContainer}>
-          <Text>Closest available slot :</Text>
+          <Text>{t(`doctor-details.closest`)}</Text>
           <Text style={styles.day}>{availableDate}</Text>
         </View>
 
@@ -149,7 +152,7 @@ export default function DoctorDetails() {
           accessibilityRole="button"
           onPress={() => setShowReasonOverlay(true)}
         >
-          <Text style={styles.buttonText}>Book an appointment now</Text>
+          <Text style={styles.buttonText}>{t(`doctor-details.book`)}</Text>
         </Pressable>
       </View>
 

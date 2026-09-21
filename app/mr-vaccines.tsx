@@ -4,6 +4,7 @@ import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -11,17 +12,19 @@ export default function Vaccines() {
     const { records, refetch } = useMedicalRecords("vaccines");
     const { deleteRecord } = useDeleteMedicalRecord(refetch);
 
+    const { t } = useTranslation();
+
     return (
         <ScrollView className="bg-[#EEF9FB]">
             <ScreenHeader title="" />
 
             <View className="m-6">
                 <View className="pt-12">
-                    <Text className="text-2xl text-center">Have you received any vaccine ?</Text>
+                    <Text className="text-2xl text-center">{t(`mr-vaccines.query`)}</Text>
                 </View>
                 <View className="pt-4">
                     <Text className="text-base text-center">
-                        With a vaccine history you can keep track of what you're protected from.
+                        {t(`mr-vaccines.info`)}
                     </Text>
                 </View>
 
@@ -37,7 +40,7 @@ export default function Vaccines() {
                         }
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add a vaccine </Text>
+                        <Text className="text-base text-center text-[#fff] font-medium">{t(`mr-vaccines.add`)}</Text>
                     </TouchableOpacity>
                 </View>
 

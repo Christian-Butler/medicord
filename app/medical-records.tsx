@@ -4,6 +4,7 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-nati
 import ScreenHeader from "@/components/screen-header";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { useRouter } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 interface MedicalList {
@@ -50,7 +51,7 @@ export default function MedicalRecordsScreen() {
             }
         },
         {
-            name: 'Gynecological follow-up',
+            name: 'Gyneacological follow-up',
             icon: 'female',
             button: 'chevron-right',
             onPress: () => {
@@ -91,6 +92,8 @@ export default function MedicalRecordsScreen() {
         }
     ];
 
+    const { t } = useTranslation();
+
     return (
         <SafeAreaProvider style={{ backgroundColor: '#EEF9FB' }}>
             <ScreenHeader title="Medical records" />
@@ -101,7 +104,7 @@ export default function MedicalRecordsScreen() {
 
                             <MaterialIcons name={record.icon} size={32} color="#5085A8" />
                             <View>
-                                <Text>{record.name}</Text>
+                                <Text>{t(`medical-records.${record.name}`)}</Text>
                             </View>
 
                             <MaterialIcons name={record.button} size={24} color="#3f3128" />

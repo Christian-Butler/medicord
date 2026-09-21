@@ -6,6 +6,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Image,
   Pressable,
@@ -56,6 +57,8 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
   const [availabilityError, setAvailabilityError] = useState<string | null>(null);
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     async function loadAvailability() {
       if (doctors.length === 0) {
@@ -74,20 +77,22 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
         doctors.forEach((doctor) => {
           formattedSlots[doctor.id] =
-            slots[doctor.id]?.label ?? "No slots available";
+            slots[doctor.id]?.label ?? t(`speciality-container.slots`);
         });
 
         setAvailabilityByDoctorId(formattedSlots);
       } catch (err) {
         console.error("[SpecialityContainer] availability failed:", err);
         setAvailabilityError(
-          err instanceof Error ? err.message : "Failed to load availability"
+          err instanceof Error ? err.message : t(`speciality-container.error`)
         );
       }
     }
 
     loadAvailability();
   }, [doctors]);
+
+
 
   return (
     <View>
@@ -97,23 +102,23 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
       >
         <Search size={18} color="#7B8A91" />
         <TextInput
-          placeholder="Search"
+          placeholder={t(`speciality-container.search`)}
           placeholderTextColor="#7B8A91"
           className="ml-4 flex-1 text-lg text-black"
         />
       </View>
 
-      {loading ? <Text style={styles.statusText}>Loading doctors...</Text> : null}
+      {loading ? <Text style={styles.statusText}>{t(`speciality-container.loading`)}</Text> : null}
       {error ? <Text style={styles.errorText}>{error}</Text> : null}
       {availabilityError ? <Text style={styles.errorText}>{availabilityError}</Text> : null}
       {!loading && !error && doctors.length === 0 ? (
-        <Text style={styles.statusText}>No doctors found.</Text>
+        <Text style={styles.statusText}>{t(`speciality-container.noDoctor`)}</Text>
       ) : null}
 
       <View style={styles.containerMain}>
         {doctors.map((doctor, index) => {
           const closestDay =
-            availabilityByDoctorId[doctor.id] ?? "Checking availability...";
+            availabilityByDoctorId[doctor.id] ?? t(`speciality-container.availability`);
 
           const avatar =
             doctor.avatar_url || null;
@@ -138,7 +143,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
               </View>
 
               <View style={styles.slot}>
-                <Text>Closest available slot :</Text>
+                <Text>{t(`speciality-container.closestSlot`)}</Text>
                 <Text style={styles.day}>{closestDay}</Text>
               </View>
 
@@ -161,7 +166,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
                       })
                     }
                   >
-                    <Text style={styles.text2}>View Details</Text>
+                    <Text style={styles.text2}>{t(`speciality-container.details`)}</Text>
                     <MaterialIcons name="chevron-right" size={26} color="#fff" />
                   </Pressable>
                 </View>

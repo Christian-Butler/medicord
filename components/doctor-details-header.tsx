@@ -1,7 +1,8 @@
+import { useDoctor } from "@/src/hooks/useDoctor";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useDoctor } from "@/src/hooks/useDoctor";
 
 type DoctorHeaderProps = {
     name: string;
@@ -9,9 +10,11 @@ type DoctorHeaderProps = {
     doctorId?: string;
 };
 
-export default function DoctorHeader({ name, profession,doctorId }: DoctorHeaderProps) {
+export default function DoctorHeader({ name, profession, doctorId }: DoctorHeaderProps) {
     const { doctor } = useDoctor(doctorId);
     const avatar = doctor?.avatar_url || null;
+
+    const { t } = useTranslation();
 
     return (
         <View className="bg-white">
@@ -31,7 +34,7 @@ export default function DoctorHeader({ name, profession,doctorId }: DoctorHeader
                         </TouchableOpacity>
                     </View>
                     <Text className="ml-7 mr-7 text-xl font-medium text-black">
-                        {profession}
+                        {t(`doctor-details-header.${profession}`)}
                     </Text>
                 </View>
                 <View style={styles.iconsHeader}>
@@ -39,7 +42,7 @@ export default function DoctorHeader({ name, profession,doctorId }: DoctorHeader
                         <TouchableOpacity style={{ padding: 8 }}>
                             <MaterialIcons name="person-add" size={44} color="#0D5175" />
                         </TouchableOpacity>
-                        <Text>Accepts new patients</Text>
+                        <Text>{t(`doctor-details-header.accepts`)}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginStart: 30 }}>
                         <View style={{ width: 16 }} />
@@ -50,7 +53,7 @@ export default function DoctorHeader({ name, profession,doctorId }: DoctorHeader
                         <TouchableOpacity style={{ padding: 8 }}>
                             <MaterialIcons name="video-camera-front" size={44} color="#0D5175" />
                         </TouchableOpacity>
-                        <Text>No videocalls</Text>
+                        <Text>{t(`doctor-details-header.videocalls`)}</Text>
                     </View>
 
                 </View>

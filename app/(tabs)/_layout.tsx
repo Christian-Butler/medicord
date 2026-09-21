@@ -6,6 +6,7 @@ import { IconSymbol } from "@/components/ui/icon-symbol";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Tabs } from "expo-router";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -13,6 +14,8 @@ const BLUE = "#5085A8";
 const INACTIVE = "#8A9BA3";
 
 export default function TabLayout() {
+  const { t } = useTranslation();
+
   const bottomSheetRef = useRef<BottomSheet>(null!);
 
   return (
@@ -40,6 +43,7 @@ export default function TabLayout() {
             name="index"
             options={{
               title: "Home",
+              tabBarLabel: t('tabs.index'),
               tabBarIcon: ({ color }) => (
                 <IconSymbol size={28} name="house.fill" color={color} />
               ),
@@ -49,8 +53,9 @@ export default function TabLayout() {
             name='services-hub'
             options={{
               title: 'Services hub',
+              tabBarLabel: t('tabs.servicesHub'),
               tabBarButton: () => (
-                <SpecialTabButton onPress={() => bottomSheetRef.current?.expand()} title='Services hub' />
+                <SpecialTabButton onPress={() => bottomSheetRef.current?.expand()} title={t('tabs.servicesHub')} />
               ),
             }}
           />
@@ -58,6 +63,7 @@ export default function TabLayout() {
             name="profile"
             options={{
               title: "Profile",
+              tabBarLabel: t('tabs.profile'),
               tabBarIcon: ({ color }) => (
                 <IconSymbol
                   size={28}

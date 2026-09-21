@@ -1,6 +1,7 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Image, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 type HeaderChatProps = {
@@ -32,6 +33,9 @@ export default function HeaderChat({
 
         router.back();
     }
+
+    const { t } = useTranslation();
+
     return (
         <View className="bg-white h-120">
             <View style={[styles.header, { backgroundColor }, style]}>
@@ -51,7 +55,7 @@ export default function HeaderChat({
                         source={require("@/assets/images/phillip.png")}
                         className="h-10 w-10 rounded-full"
                     />
-                    <Text className="ml-3 text-[18px] font-medium text-[#233238]">{title}</Text>
+                    <Text className="ml-3 text-[18px] font-medium text-[#233238]">{t(`header-chat.${title}`)}</Text>
                 </View>
 
                 <View className="flex-row items-center">

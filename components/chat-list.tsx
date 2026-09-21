@@ -1,16 +1,19 @@
-import { useConversations } from "@/src/hooks/useConversation";
 import { type Conversation } from "@/src/api/messages/api";
-import ChatItem from "./chat-item";
+import { useConversations } from "@/src/hooks/useConversation";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Text, View } from "react-native";
+import ChatItem from "./chat-item";
 
 export default function ChatList() {
   const { conversations, loading, error } = useConversations();
 
+  const { t } = useTranslation();
+
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[15px] text-black">Loading messages...</Text>
+        <Text className="text-[15px] text-black">{t(`chat-list.loading`)}</Text>
       </View>
     );
   }

@@ -1,21 +1,19 @@
 import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
-import BookingSuccessOverlay from "@/components/success-booking";
 import ScreenHeader from "@/components/screen-header";
+import BookingSuccessOverlay from "@/components/success-booking";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
 import { useDoctor } from "@/src/hooks/useDoctor";
-import { MaterialIcons } from "@expo/vector-icons";
-import { Checkbox } from "expo-checkbox";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import {
     buildLocalIsoDateTime,
     getMonthLabel,
 } from "@/src/utils/dateTime";
-
-
-
+import { MaterialIcons } from "@expo/vector-icons";
+import { Checkbox } from "expo-checkbox";
+import { router, useLocalSearchParams } from "expo-router";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function Booking() {
     const { doctorId, specialty, reason } = useLocalSearchParams<{
@@ -43,22 +41,22 @@ export default function Booking() {
 
     async function handleConfirmBooking() {
         if (!doctor && !doctorId) {
-            setFormError("Missing selected doctor.");
+            setFormError(t(`book-appointment.missing`));
             return;
         }
 
         if (!selectedDate) {
-            setFormError("Please select a date.");
+            setFormError(t(`book-appointment.selectDate`));
             return;
         }
 
         if (!selectedTime) {
-            setFormError("Please select a time.");
+            setFormError(t(`book-appointment.selectTime`));
             return;
         }
 
         if (!isChecked) {
-            setFormError("Please confirm the appointment notice.");
+            setFormError(t(`book-appointment.confirmNotice`));
             return;
         }
 
@@ -100,17 +98,19 @@ export default function Booking() {
 
     const visibleError = formError ?? doctorError ?? createError;
 
+    const { t } = useTranslation();
+
     return (
         <View className="flex-1 bg-[#EEF9FB]">
-            <ScreenHeader title="Appointment" />
+            <ScreenHeader title={t(`book-appointment.appointment`)} />
             <ScrollView>
                 <View className="flex-1" style={{ height: 26 }} />
 
                 <View style={styles.monthContainer}>
-                    <Text style={{ fontSize: 22 }}>Select date</Text>
+                    <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
 
                     <View style={styles.month}>
-                        <Text>Month selected: {getMonthLabel(selectedDate)}</Text>
+                        <Text>{t(`book-appointment.selected`)}{getMonthLabel(selectedDate)}</Text>
                         <MaterialIcons name="keyboard-arrow-down" size={18} />
                     </View>
                 </View>
@@ -137,7 +137,7 @@ export default function Booking() {
 
                 {doctorLoading ? (
                     <View style={styles.statusContainer}>
-                        <Text style={styles.statusText}>Loading doctor...</Text>
+                        <Text style={styles.statusText}>{t(`book-appointment.loading`)}</Text>
                     </View>
                 ) : null}
 
@@ -158,9 +158,7 @@ export default function Booking() {
                     />
 
                     <Text style={styles.noticeText}>
-                        By booking this appointment, I am confirming my presence at that day
-                        and hour. I am aware that by failing to attend, or not notifying my
-                        unavailability may result in getting blacklisted.
+                        {t(`book-appointment.notice`)}
                     </Text>
                 </View>
 
@@ -176,7 +174,7 @@ export default function Booking() {
                         onPress={handleConfirmBooking}
                     >
                         <Text style={styles.buttonText}>
-                            {creating ? "Booking..." : "Confirm booking"}
+                            {creating ? "Booking..." : t(`book-appointment.confirm`)}
                         </Text>
                     </Pressable>
                 </View>

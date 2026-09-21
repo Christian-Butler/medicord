@@ -1,8 +1,8 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import * as Haptics from 'expo-haptics';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Pressable, StyleSheet, Text } from 'react-native';
-
 
 type Props = {
 	onPress: () => void;
@@ -10,15 +10,18 @@ type Props = {
 };
 
 export const SpecialTabButton = ({ onPress, title }: Props) => {
+
 	const handlePress = () => {
 		Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 		onPress();
 	};
 
+	const { t } = useTranslation();
+
 	return (
 		<Pressable onPress={handlePress} style={styles.button}>
 			<MaterialIcons name="medical-services" size={28} color={'#8A9BA3'} />
-			<Text style={{ fontSize: 12, color: '#8A9BA3', fontWeight: 500 }}>{title}</Text>
+			<Text style={{ fontSize: 12, color: '#8A9BA3', fontWeight: 500 }}>{t(`special-tab-button.${title}`)}</Text>
 		</Pressable>
 	);
 };

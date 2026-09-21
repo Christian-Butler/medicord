@@ -4,6 +4,7 @@ import { useMedication } from "@/src/hooks/useMedication";
 import { useUpdateMedication } from "@/src/hooks/useUpdateMedication";
 import type { MedicationInput } from "@/src/types/medicationTypes";
 import { router, useLocalSearchParams } from "expo-router";
+import { useTranslation } from "react-i18next";
 import { Text, View } from "react-native";
 
 function parseMedicationId(value?: string) {
@@ -60,11 +61,13 @@ export default function MedicationFormContainer() {
   const visibleError =
     (isEditing ? medicationError : null) ?? createError ?? updateError;
 
+  const { t } = useTranslation();
+
   return (
     <View>
       {loading && isEditing ? (
         <Text className="mx-6 mt-5 text-[15px] text-black">
-          Loading medication...
+          {t(`medication-form-container.loading`)}
         </Text>
       ) : null}
 

@@ -5,6 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Image, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
@@ -13,18 +14,20 @@ export default function YourDoctors() {
   const { toggle } = useToggleFavourite();
   const [searchQuery, setSearchQuery] = useState("");
 
+  const { t } = useTranslation();
+
   const filtered = doctors.filter((doc) =>
     doc.full_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <SafeAreaProvider style={{ backgroundColor: "#EEF9FB" }}>
-      <ScreenHeader title="Your Doctors" />
+      <ScreenHeader title={t(`your-doctors.title`)} />
 
       <View className="mx-4 mt-4 mb-2 h-14 flex-row rounded-2xl border-2 items-center border-[#778888] bg-white px-4">
         <Search size={20} color="#778888" />
         <TextInput
-          placeholder="Search"
+          placeholder={t(`your-doctors.search`)}
           placeholderTextColor="#7B8A91"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -33,7 +36,7 @@ export default function YourDoctors() {
       </View>
 
       {loading ? (
-        <Text className="text-center mt-8 text-[15px] text-black">Loading...</Text>
+        <Text className="text-center mt-8 text-[15px] text-black">{t(`your-doctors.loading`)}</Text>
       ) : error ? (
         <Text className="text-center mt-8 text-[15px] text-[#B42318]">{error}</Text>
       ) : (
@@ -60,7 +63,7 @@ export default function YourDoctors() {
                 )}
                 <View className="ml-4">
                   <Text className="text-[16px] font-bold text-black">{item.full_name}</Text>
-                  <Text className="text-[14px] text-[#555]">{item.specialty}</Text>
+                  <Text className="text-[14px] text-[#555]">{t(`your-doctors.${item.specialty}`)}</Text>
                 </View>
               </View>
 
@@ -75,7 +78,7 @@ export default function YourDoctors() {
             </TouchableOpacity>
           )}
           ListEmptyComponent={
-            <Text className="text-center mt-8 text-[#7B8A91]">No favourite doctors yet.</Text>
+            <Text className="text-center mt-8 text-[#7B8A91]">{t(`your-doctors.noFav`)}</Text>
           }
         />
       )}

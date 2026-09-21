@@ -2,6 +2,7 @@ import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 type MedicationFormProps = {
@@ -137,7 +138,7 @@ export default function MedicationForm({
     const trimmedName = name.trim();
 
     if (!trimmedName) {
-      setLocalError("Please enter a medication name.");
+      setLocalError(t(`medication-form.nameMed`));
       return;
     }
 
@@ -162,6 +163,7 @@ export default function MedicationForm({
   const visibleError = localError ?? error;
 
   const [frequency, setFrequency] = useState<MedicationFrequency | null>(null);
+  const { t } = useTranslation();
 
   return (
     <View className="px-6 pb-16 pt-8">
@@ -169,11 +171,11 @@ export default function MedicationForm({
         <MaterialIcons name="medication" size={80} color="#075B7A" />
 
         <Text className="mt-2 text-[20px] font-medium text-black">
-          Medication Type
+          {t(`medication-form.type`)}
         </Text>
 
         <Text className="mt-1 text-[14px] text-gray-500">
-          Click to change image
+          {t(`medication-form.image`)}
         </Text>
       </View>
 
@@ -183,7 +185,7 @@ export default function MedicationForm({
         </Text>
       ) : null}
 
-      <Text className="mt-8 text-[20px] font-medium text-black">Name</Text>
+      <Text className="mt-8 text-[20px] font-medium text-black">{t(`medication-form.name`)}</Text>
 
       <TextInput
         value={name}
@@ -191,12 +193,12 @@ export default function MedicationForm({
           setName(value);
           setLocalError(null);
         }}
-        placeholder="Enter a name"
+        placeholder={(t(`medication-form.enter`))}
         placeholderTextColor="#7A8A8D"
         className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
       />
 
-      <Text className="mt-7 text-[20px] font-medium text-black">Duration</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">{t(`medication-form.duration`)}</Text>
 
       <View className="mt-3 flex-row gap-3 justify-between">
         <StepperBox
@@ -234,7 +236,7 @@ export default function MedicationForm({
       </View>
 
       <Text className="mt-7 text-[20px] font-medium text-black">
-        Frequency
+        {t(`medication-form.frequency`)}
       </Text>
 
       <View className="mt-3 flex-row flex-wrap gap-2">
@@ -253,7 +255,7 @@ export default function MedicationForm({
                 className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"
                   }`}
               >
-                {day}
+                {t(`medication-form.${day}`)}
               </Text>
             </Pressable>
           );
@@ -275,7 +277,7 @@ export default function MedicationForm({
           />
 
           <Text className="mt-2 text-center text-[14px] text-black">
-            Morning Intake
+            {t(`medication-form.morning`)}
           </Text>
         </View>
 
@@ -293,7 +295,7 @@ export default function MedicationForm({
           />
 
           <Text className="mt-2 text-center text-[14px] text-black">
-            Noon Intake
+            {t(`medication-form.noon`)}
           </Text>
         </View>
 
@@ -311,7 +313,7 @@ export default function MedicationForm({
           />
 
           <Text className="mt-2 text-center text-[14px] text-black">
-            Evening Intake
+            {t(`medication-form.evening`)}
           </Text>
         </View>
       </View>
@@ -326,11 +328,11 @@ export default function MedicationForm({
         />
 
         <Text className="ml-3 text-[16px] text-black">
-          No specific time of the day.
+          {t(`medication-form.noTimeDay`)}
         </Text>
       </Pressable>
 
-      <Text className="mt-7 text-[20px] font-medium text-black">Hours</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">{t(`medication-form.hours`)}</Text>
 
       <View className="mt-4 flex-row flex-wrap items-center gap-4">
         {hours.map((hour, index) => (
@@ -353,7 +355,7 @@ export default function MedicationForm({
           <Plus size={20} color="#0D5175" />
 
           <Text className="ml-2 text-[16px] font-medium text-[#0D5175]">
-            Add another hour
+            {t(`medication-form.addHour`)}
           </Text>
         </Pressable>
       </View>
@@ -368,12 +370,12 @@ export default function MedicationForm({
         />
 
         <Text className="ml-3 text-[16px] text-black">
-          No specific hour specified.
+          {t(`medication-form.noHour`)}
         </Text>
       </Pressable>
 
       <Text className="mt-8 text-[21px] font-medium text-black">
-        Other instructions
+        {t(`medication-form.other`)}
       </Text>
 
       {instructions.map((instruction, index) => (
@@ -381,7 +383,7 @@ export default function MedicationForm({
           key={index}
           value={instruction}
           onChangeText={(value) => updateInstruction(index, value)}
-          placeholder="ex. Mix with food."
+          placeholder={t(`medication-form.placeholder`)}
           placeholderTextColor="#7A8A8D"
           className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
@@ -394,7 +396,7 @@ export default function MedicationForm({
         <Plus size={20} color="#0D5175" />
 
         <Text className="ml-2 text-[17px] font-medium text-[#0D5175]">
-          Add Instruction
+          {t(`medication-form.addInstr`)}
         </Text>
       </Pressable>
 
@@ -406,10 +408,10 @@ export default function MedicationForm({
       >
         <Text className="text-[16px] font-medium text-white">
           {saving
-            ? "Saving..."
+            ? t(`medication-form.saving`)
             : medication
-              ? "Confirm update"
-              : "Confirm creation"}
+              ? t(`medication-form.update`)
+              : t(`medication-form.creation`)}
         </Text>
       </Pressable>
     </View>

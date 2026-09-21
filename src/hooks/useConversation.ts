@@ -1,10 +1,13 @@
 import { getConversations, type Conversation } from "@/src/api/messages/api";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function useConversations() {
   const [conversations, setConversations] = useState<Conversation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { t } = useTranslation();
 
   const fetchConversations = useCallback(async () => {
     try {
@@ -19,7 +22,7 @@ export function useConversations() {
       });
       setConversations(deduped);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load conversations");
+      setError(err instanceof Error ? err.message : t(`useConversations.error`));
     } finally {
       setLoading(false);
     }

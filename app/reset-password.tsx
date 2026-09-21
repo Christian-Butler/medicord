@@ -1,4 +1,5 @@
 import { useResetPassword } from "@/src/hooks/useResetPassword";
+import { useTranslation } from "react-i18next";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -11,6 +12,8 @@ import {
 export default function ResetPasswordPage() {
   const { password, setPassword, confirm, setConfirm, loading, error, handleReset } = useResetPassword();
 
+  const { t } = useTranslation();
+
   return (
     <KeyboardAvoidingView
       className="flex-1 bg-[#EEF9FB]"
@@ -18,11 +21,11 @@ export default function ResetPasswordPage() {
     >
       <View className="flex-1 justify-center px-6">
         <Text className="text-center text-[34px] font-semibold text-[#075B7A]">
-          Medicord
+          {t(`reset-password.name`)}
         </Text>
 
         <Text className="mt-3 text-center text-[22px] font-medium text-black">
-          New password
+          {t(`reset-password.new`)}
         </Text>
 
         {error ? (
@@ -31,7 +34,7 @@ export default function ResetPasswordPage() {
           </Text>
         ) : null}
 
-        <Text className="mt-8 text-[17px] font-medium text-black">New password</Text>
+        <Text className="mt-8 text-[17px] font-medium text-black">{t(`reset-password.newP`)}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
@@ -41,12 +44,12 @@ export default function ResetPasswordPage() {
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">Confirm password</Text>
+        <Text className="mt-5 text-[17px] font-medium text-black">{t(`reset-password.confirmP`)}</Text>
         <TextInput
           value={confirm}
           onChangeText={setConfirm}
           secureTextEntry
-          placeholder="Confirm new password"
+          placeholder={t(`reset-password.confirmN`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
         />
@@ -54,12 +57,11 @@ export default function ResetPasswordPage() {
         <Pressable
           disabled={loading}
           onPress={handleReset}
-          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${
-            loading ? "opacity-60" : ""
-          }`}
+          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${loading ? "opacity-60" : ""
+            }`}
         >
           <Text className="text-[17px] font-semibold text-white">
-            {loading ? "Updating..." : "Update password"}
+            {loading ? t(`reset-password.updating`) : t(`reset-password.update`)}
           </Text>
         </Pressable>
       </View>

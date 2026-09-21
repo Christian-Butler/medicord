@@ -1,3 +1,4 @@
+import { getLocales } from 'expo-localization';
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
@@ -30,6 +31,10 @@ const months = [
     "December",
 ];
 
+const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+
+const deviceLanguage = getLocales()[0].languageCode;
+
 const Iso = (date: Date) => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -51,10 +56,17 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
         const date = new Date(startOfWeek);
         date.setDate(startOfWeek.getDate() + index);
         date.setHours(0, 0, 0, 0);
-
+        let dateName;
+        if (deviceLanguage == "en") {
+            dateName = date.toLocaleDateString("en-EN", { weekday: 'short' })
+        } else if (deviceLanguage == "fr") {
+            dateName = date.toLocaleDateString("fr-FR", { weekday: 'short' })
+        } else {
+            dateName = date.toLocaleDateString("en-EN", { weekday: 'short' })
+        };
         return {
             date,
-            dateName: date.toLocaleDateString("en-EN", { weekday: 'short' }),
+            dateName,
             day: date.getDate(),
             iso: Iso(date),
             isToday: isSameDay(date, new Date()),
@@ -91,9 +103,16 @@ const WeeklyCalendar = ({
         if (!startOfWeek || !endOfWeek) {
             return "";
         }
-
-        return `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${months[endOfWeek.getMonth()]
-            } ${endOfWeek.getDate()}, ${endOfWeek.getFullYear()}`;
+        if (deviceLanguage == "en") {
+            return `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${months[endOfWeek.getMonth()]
+                } ${endOfWeek.getDate()} ${endOfWeek.getFullYear()}`;
+        } else if (deviceLanguage == "fr") {
+            return `${startOfWeek.getDate()} ${mois[startOfWeek.getMonth()]}  - ${endOfWeek.getDate()} ${mois[endOfWeek.getMonth()]
+                } ${endOfWeek.getFullYear()}`;
+        } else {
+            return `${months[startOfWeek.getMonth()]} ${startOfWeek.getDate()} - ${months[endOfWeek.getMonth()]
+                } ${endOfWeek.getDate()} ${endOfWeek.getFullYear()}`;
+        }
     }, [startOfWeek, endOfWeek]);
 
     const goToWeek = (delta: number) => {

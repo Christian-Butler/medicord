@@ -1,4 +1,5 @@
 import { CalendarDays } from "lucide-react-native";
+import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
 type AppointmentReasonOverlayProps = {
@@ -24,6 +25,9 @@ export default function AppointmentReasonOverlay({
   onConfirm,
   onClose,
 }: AppointmentReasonOverlayProps) {
+
+  const { t } = useTranslation();
+
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
@@ -36,7 +40,7 @@ export default function AppointmentReasonOverlay({
             </View>
 
             <Text className="mb-9 text-center text-[21px] font-semibold leading-7 text-black">
-              What are your reasons for{"\n"}an appointment ?
+              {t(`booking-reason.query`)}
             </Text>
 
             <View className="mb-9 w-full px-4">
@@ -50,13 +54,13 @@ export default function AppointmentReasonOverlay({
                     className="mb-5 flex-row items-center">
                     <View
                       className={`mr-9 h-[18px] w-[18px] rounded-[3px] border ${selected
-                          ? "border-[#07527B] bg-[#07527B]"
-                          : "border-black bg-transparent"
+                        ? "border-[#07527B] bg-[#07527B]"
+                        : "border-black bg-transparent"
                         }`}
                     />
 
                     <Text className="flex-1 text-[14px] text-black">
-                      {reason}
+                      {t(`booking-reason.${reason}`)}
                     </Text>
                   </Pressable>
                 );
@@ -67,7 +71,7 @@ export default function AppointmentReasonOverlay({
               onPress={onConfirm}
               className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
               <Text className="text-[15px] font-medium text-white">
-                Confirm reason
+                {t(`booking-reason.confirm`)}
               </Text>
             </Pressable>
           </View>

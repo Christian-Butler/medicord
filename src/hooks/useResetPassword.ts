@@ -1,6 +1,7 @@
 import { updatePassword } from "@/src/api/auth/api";
 import { router } from "expo-router";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function useResetPassword() {
   const [password, setPassword] = useState("");
@@ -8,19 +9,26 @@ export function useResetPassword() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+
   async function handleReset() {
+
+    const { t } = useTranslation();
+
+
     if (!password || !confirm) {
-      setError("Please fill in both fields.");
+      setError(t(`useResetPassword.fill`));
       return;
     }
 
     if (password !== confirm) {
-      setError("Passwords do not match.");
+      setError(t(`useResetPassword.noMatch`));
       return;
     }
 
     if (password.length < 6) { 
       setError("Password must be at least 6 characters.");
+    if (password.length < 6) {
+      setError(t(`useResetPassword.charac`));
       return;
     }
 
@@ -30,7 +38,7 @@ export function useResetPassword() {
       await updatePassword(password);
       router.replace("/login");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to reset password.");
+      setError(err instanceof Error ? err.message : t(`useResetPassword.fail`));
     } finally {
       setLoading(false);
     }

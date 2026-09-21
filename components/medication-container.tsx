@@ -5,6 +5,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
 
 const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -12,6 +13,8 @@ const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 export default function MedicationContainer() {
   const { medications, loading, error, refetch } = useMedicationList();
   const { deleteById, deleting, deleteError } = useDeleteMedication(refetch);
+
+  const { t } = useTranslation();
 
   useFocusEffect(
     useCallback(() => {
@@ -39,25 +42,25 @@ export default function MedicationContainer() {
         <Plus size={20} color="#0D5175" />
 
         <Text className="ml-2 text-[16px] font-medium text-[#0D5175]">
-          Add medication routine
+          {t(`medication-container.addRoutine`)}
         </Text>
       </Pressable>
 
       {loading ? (
         <Text className="mt-5 text-[15px] text-black">
-          Loading medications...
+          {t(`medication-container.loading`)}
         </Text>
       ) : null}
 
       {visibleError ? (
         <Text className="mt-5 text-[15px] text-[#B42318]">
-          {visibleError}
+          {t(`medication-container.${visibleError}`)}
         </Text>
       ) : null}
 
       {!loading && !visibleError && sortedMedications.length === 0 ? (
         <Text className="mt-5 text-[15px] text-black">
-          No medication routines yet.
+          {t(`medication-container.noRoutine`)}
         </Text>
       ) : null}
 
@@ -73,7 +76,7 @@ export default function MedicationContainer() {
             const instruction =
               medication.instructions && medication.instructions.length > 0
                 ? medication.instructions[0]
-                : "No instructions added";
+                : t(`medication-container.instructions`);
 
             return (
               <View key={medication.id} className="mb-12 flex-row items-start">
@@ -100,7 +103,7 @@ export default function MedicationContainer() {
                         <MaterialIcons name="edit" size={20} color="#8A3F00" />
 
                         <Text className="ml-1 text-[18px] font-medium text-[#8A3F00]">
-                          Edit
+                          {t(`medication-container.edit`)}
                         </Text>
                       </Pressable>
 
@@ -118,7 +121,7 @@ export default function MedicationContainer() {
                   </View>
 
                   <Text className="mt-5 text-[20px] font-medium text-black">
-                    Duration of treatment
+                    {t(`medication-container.duration`)}
                   </Text>
 
                   <Text className="mt-1 text-[16px] font-normal text-gray-800">
@@ -143,7 +146,7 @@ export default function MedicationContainer() {
                             className={`text-[14px] font-medium ${selected ? "text-white" : "text-[#0D5175]"
                               }`}
                           >
-                            {day}
+                            {t(`medication-container.${day}`)}
                           </Text>
                         </View>
                       );
@@ -153,13 +156,13 @@ export default function MedicationContainer() {
                   <View className="mt-14 flex-row justify-end">
                     <Pressable className="mr-4 h-[48px] items-center justify-center rounded-[10px] border-[2px] border-[#2D7195] bg-white px-4">
                       <Text className="text-[16px] font-medium text-[#2D7195]">
-                        Send to Calendar
+                        {t(`medication-container.calendar`)}
                       </Text>
                     </Pressable>
 
                     <Pressable className="h-[48px] items-center justify-center rounded-[10px] bg-[#5085A8] px-5">
                       <Text className="text-[16px] font-medium text-white">
-                        Create Alarm
+                        {t(`medication-container.alarm`)}
                       </Text>
                     </Pressable>
                   </View>

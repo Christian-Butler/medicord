@@ -4,6 +4,7 @@ import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -11,17 +12,20 @@ export default function Operations() {
     const { records, refetch } = useMedicalRecords("operations");
     const { deleteRecord } = useDeleteMedicalRecord(refetch);
 
+    const { t } = useTranslation();
+
+
     return (
         <ScrollView className="bg-[#EEF9FB]">
             <ScreenHeader title='' />
 
             <View className="m-6">
                 <View className="pt-12">
-                    <Text className="text-2xl text-center">Have you had medical surgery</Text>
+                    <Text className="text-2xl text-center">{t(`mr-operations.query`)}</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
                     <Text className="text-base text-center">
-                        Keep a trace of your medical surgeries for an improved medical follow-up.
+                        {t(`mr-operations.keepTrace`)}
                     </Text>
                 </View>
                 <View className="flex-1 pt-12">
@@ -34,7 +38,7 @@ export default function Operations() {
                         })}
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add a surgery</Text>
+                        <Text className="text-base text-center text-[#fff] font-medium">{t(`mr-operations.add`)}</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -46,7 +50,7 @@ export default function Operations() {
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="local-hospital" size={36} color="#0D5175" />
                                         <View className="ml-4">
-                                            <Text className="font-medium text-xl">{record.item}</Text>
+                                            <Text className="font-medium text-xl">{t(`mr-operations.${record.item}`)}</Text>
                                             {record.operation_date ? (
                                                 <Text className="text-base text-gray-800">{record.operation_date}</Text>
                                             ) : null}

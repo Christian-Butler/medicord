@@ -1,9 +1,13 @@
-import SpecialityContainer from "@/components/speciality-container";
-import {  useLocalSearchParams } from "expo-router";
-import {  ScrollView, StyleSheet, Text, View } from "react-native";
 import ScreenHeader from "@/components/screen-header";
+import SpecialityContainer from "@/components/speciality-container";
+import { useLocalSearchParams } from "expo-router";
+import { useTranslation } from "react-i18next";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function SpecialistPage() {
+
+  const { t } = useTranslation();
+
   const { specialty } = useLocalSearchParams<{
     specialty?: string;
   }>();
@@ -11,7 +15,7 @@ export default function SpecialistPage() {
   if (!specialty) {
     return (
       <View className="flex-1 items-center justify-center bg-[#EEF9FB]">
-        <Text>Missing selected specialty.</Text>
+        <Text>{t(`book-appointment.missing`)}</Text>
       </View>
     );
   }
@@ -21,7 +25,7 @@ export default function SpecialistPage() {
 
   return (
     <ScrollView style={styles.page}>
-      <ScreenHeader title={specialtyTitle} />
+      <ScreenHeader title={t(`book-appointment.${specialtyTitle}`)} />
       <SpecialityContainer specialty={String(specialty)} />
     </ScrollView>
   );

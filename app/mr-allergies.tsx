@@ -5,6 +5,7 @@ import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -13,6 +14,8 @@ export default function Allergies() {
     const { records, refetch } = useMedicalRecords("allergies");
     const { create } = useCreateMedicalRecord();
     const { deleteRecord } = useDeleteMedicalRecord(refetch);
+
+    const { t } = useTranslation();
 
     useEffect(() => {
         if (params.addedAllergy) {
@@ -38,11 +41,11 @@ export default function Allergies() {
 
             <View className="m-4">
                 <View className="pl-6 pr-6 pt-12">
-                    <Text className="text-2xl text-center">Do you have any allergy ?</Text>
+                    <Text className="text-2xl text-center">{t(`mr-allergies.query`)}</Text>
                 </View>
                 <View className="pl-2 pr-2 pt-4">
                     <Text className="text-base text-center">
-                        Keep a trace of your allergies to improve medical follow-ups. It includes food, medication or anything else.
+                        {t(`mr-allergies.info`)}
                     </Text>
                 </View>
 
@@ -56,7 +59,7 @@ export default function Allergies() {
                         })}
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">Add an allergy</Text>
+                        <Text className="text-base text-center text-[#fff] font-medium">{t(`mr-allergies.add`)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -68,7 +71,7 @@ export default function Allergies() {
                             <View className="my-8 flex-row items-center justify-between">
                                 <View className="flex-row items-center">
                                     <MaterialIcons name="gpp-maybe" size={44} color="#0D5175" />
-                                    <Text className="pl-4 mt-2 font-medium text-xl mb-2">{record.item}</Text>
+                                    <Text className="pl-4 mt-2 font-medium text-xl mb-2">{t(`mr-allergies.${record.item}`)}</Text>
                                 </View>
                                 <TouchableOpacity onPress={() => deleteRecord(record.id)}>
                                     <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
