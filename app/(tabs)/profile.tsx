@@ -4,6 +4,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import {router} from "expo-router"
 
 type ProfileRowProps = {
   icon?: keyof typeof MaterialIcons.glyphMap;
@@ -103,7 +104,7 @@ export default function ProfilePage() {
         <SectionTitle title="Authentification" />
         <ProfileRow icon="phone" title="Phone number" subtitle={phone} />
         <ProfileRow icon="mail-outline" title="Email address" subtitle={email} />
-        <ProfileRow icon="lock-outline" title="Security details" />
+        <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
 
         <SectionTitle title="Other settings" />
         <ProfileRow title="Online payment settings" subtitle="Manage your payments" />
