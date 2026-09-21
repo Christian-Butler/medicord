@@ -59,3 +59,16 @@ export async function updatePassword(newPassword: string) {
   const { error } = await supabase.auth.updateUser({ password: newPassword });
   if (error) throw error;
 }
+
+export async function updateEmail(newEmail: string) {
+  const { error } = await supabase.auth.updateUser({ email: newEmail });
+  if (error) throw error;
+}
+
+export async function updatePhone(newPhone: string) {
+  const { error } = await supabase
+    .from("profiles")
+    .update({ phone: newPhone })
+    .eq("id", (await supabase.auth.getUser()).data.user?.id);
+  if (error) throw error;
+}
