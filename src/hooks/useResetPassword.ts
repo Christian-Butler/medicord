@@ -25,30 +25,31 @@ export function useResetPassword() {
       return;
     }
 
-    if (password.length < 6) { 
-      setError("Password must be at least 6 characters.");
     if (password.length < 6) {
-      setError(t(`useResetPassword.charac`));
-      return;
+      setError("Password must be at least 6 characters.");
+      if (password.length < 6) {
+        setError(t(`useResetPassword.charac`));
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        await updatePassword(password);
+        router.replace("/login");
+      } catch (err) {
+        setError(err instanceof Error ? err.message : t(`useResetPassword.fail`));
+      } finally {
+        setLoading(false);
+      }
     }
 
-    try {
-      setLoading(true);
-      setError(null);
-      await updatePassword(password);
-      router.replace("/login");
-    } catch (err) {
-      setError(err instanceof Error ? err.message : t(`useResetPassword.fail`));
-    } finally {
-      setLoading(false);
-    }
+    return {
+      password, setPassword,
+      confirm, setConfirm,
+      loading,
+      error,
+      handleReset,
+    };
   }
-
-  return {
-    password, setPassword,
-    confirm, setConfirm,
-    loading,
-    error,
-    handleReset,
-  };
 }

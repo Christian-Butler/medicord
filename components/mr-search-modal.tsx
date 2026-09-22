@@ -1,5 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Keyboard, Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { categories, MedicalRecordsCategory } from "../components/mr-search-lists";
@@ -49,6 +50,8 @@ export default function ItemDetailModal({
 
     };
 
+    const { t } = useTranslation();
+
     const conditionOptions = ["Ongoing", "In remission", "Cured"];
 
 
@@ -75,9 +78,9 @@ export default function ItemDetailModal({
 
                             {category === "vaccines" && (
                                 <View>
-                                    <Text className=" text-base font-medium mb-2 tex-[#000]">When did you receive this vaccine ?</Text>
+                                    <Text className=" text-base font-medium mb-2 tex-[#000]">{t(`mr-search-modal.query`)}</Text>
                                     <TextInput
-                                        placeholder="DD/MM/YYYY"
+                                        placeholder={t(`mr-search-modal.place1`)}
                                         value={vaccineDate}
                                         onChangeText={setVaccineDate}
                                         className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
@@ -87,9 +90,9 @@ export default function ItemDetailModal({
 
                             {category === "operations" && (
                                 <View>
-                                    <Text className="text-base font-medium mb-2 tex-[#000]">When did the surgery happen ?</Text>
+                                    <Text className="text-base font-medium mb-2 tex-[#000]">{t(`mr-search-modal.query2`)}</Text>
                                     <TextInput
-                                        placeholder="MM/YYYY"
+                                        placeholder={t(`mr-search-modal.place2`)}
                                         value={operationDate}
                                         onChangeText={setOperationDate}
                                         className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
@@ -100,9 +103,9 @@ export default function ItemDetailModal({
 
                             {category === "family_medical_history" && (
                                 <View>
-                                    <Text className="text-base font-medium mb-2 text-[#000]">When was it diagnosed ?</Text>
+                                    <Text className="text-base font-medium mb-2 text-[#000]">{t(`mr-search-modal.query3`)}</Text>
                                     <TextInput
-                                        placeholder="Family member's age when diagnosed"
+                                        placeholder={t(`mr-search-modal.place3`)}
                                         value={diagnosis}
                                         onChangeText={setDiagnosis}
                                         className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
@@ -111,16 +114,16 @@ export default function ItemDetailModal({
                             )}
                             {category === "personal_medical_history" && (
                                 <View>
-                                    <Text className="text-base font-medium mb-2 text-[#000]">When was it diagnosed ?</Text>
+                                    <Text className="text-base font-medium mb-2 text-[#000]">{t(`mr-search-modal.query4`)}</Text>
                                     <TextInput
-                                        placeholder="MM/YYYY"
+                                        placeholder={t(`mr-search-modal.place4`)}
                                         value={diagnosisDate}
                                         onChangeText={setDiagnosisDate}
                                         className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
                                     />
                                     <View className="mt-4 relative z-10">
                                         <Text className="text-base font-medium mb-2 text-[#000]">
-                                            What is the current state of the condition?
+                                            {t(`mr-search-modal.query5`)}
                                         </Text>
 
                                         <TouchableOpacity
@@ -128,7 +131,7 @@ export default function ItemDetailModal({
                                             className="flex-row items-center justify-between border border-[#326F95] rounded-xl p-3 bg-[#fff]"
                                         >
                                             <Text className="text-base text-black">
-                                                {conditionState ?? "Select a state"}
+                                                {conditionState ?? t(`mr-search-modal.select`)}
                                             </Text>
                                             <MaterialIcons
                                                 name={isDropdownVisible ? "keyboard-arrow-up" : "keyboard-arrow-down"}
@@ -151,7 +154,7 @@ export default function ItemDetailModal({
                                                             }}
                                                             className="py-3 px-3 border-b border-[#E0E0E0] last:border-b-0"
                                                         >
-                                                            <Text className="text-base text-black">{item}</Text>
+                                                            <Text className="text-base text-black">{t(`mr-search-modal.${item}`)}</Text>
                                                         </TouchableOpacity>
                                                     )}
                                                 />

@@ -551,7 +551,7 @@ export const en = {
         "Uncle": "Uncle",
         "Female cousin": "Female cousin",
         "Male cousin": "Male cousin",
-        continuer: "Continue",
+        continue: "Continue",
     },
     "mr-gynecological": {
         noSpec: "Not specified",
@@ -641,6 +641,21 @@ export const en = {
         sorry: "Sorry,",
         noFound: "is not found.",
 
+    },
+    "mr-search-modal": {
+        query: "When did you receive this vaccine?",
+        place1: "DD/MM/YYYY",
+        query2: "When did the surgery happen?",
+        place2: "MM/YYYY",
+        query3: "When was it diagnosed?",
+        place3: "Family member's age when diagnosed",
+        query4: "When was it diagnosed?",
+        place4: "MM/YYYY",
+        query5: "What is the current state of the condition?",
+        select: "Select a state",
+        "Ongoing": "Ongoing",
+        "In remission": "In remission",
+        "Cured": "Cured",
     },
     "mr-treatments": {
         name: "Treatment Name",

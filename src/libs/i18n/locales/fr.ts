@@ -547,7 +547,7 @@ export const fr = {
         "Uncle": "Oncle",
         "Female cousin": "Cousine",
         "Male cousin": "Cousin",
-        continuer: "Continuer",
+        continue: "Continuer",
     },
     "mr-gynecological": {
         noSpec: "Non renseigné",
@@ -640,6 +640,21 @@ export const fr = {
         noFound: "N'est pas trouvé.e.",
 
     },
+    "mr-search-modal": {
+        query: "Quand avez-vous reçu ce vaccin?",
+        place1: "JJ/MM/AAAA",
+        query2: "Quand avez-vous été opéré.e?",
+        place2: "MM/AAAA",
+        query3: "Quand est-ce que ce fut diagnostiqué?",
+        place3: "Âge du mombre de la famille au moment du diagnostic",
+        query4: "Quand est-ce que ce fut diagnostiqué?",
+        place4: "MM/AAAA",
+        query5: "Quel est l'état actuel de la condition?",
+        select: "Sélectionner un état",
+        "Ongoing": "An cours",
+        "In remission": "En rémission",
+        "Cured": "Guéri",
+    },
     "mr-treatments": {
         name: "Nom de traitement",
         eg: "ex. Antibiotiques",
@@ -729,7 +744,7 @@ export const fr = {
         logging: "Connexion...",
         confirm: "Se connecter",
         forgot: "Mot de passe oublié?",
-        register: "DoVous n'avez pas de compte? Créer",
+        register: "Vous n'avez pas de compte? Créer",
     },
     "forgot-password": {
         name: "Medicord",
