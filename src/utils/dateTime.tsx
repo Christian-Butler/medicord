@@ -1,4 +1,4 @@
-import { getLocales } from 'expo-localization';
+import { getLocales } from 'expo-localization'
 
 export function pad(value: number) {
   return String(value).padStart(2, "0");
