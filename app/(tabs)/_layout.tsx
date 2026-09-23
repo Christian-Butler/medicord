@@ -32,6 +32,7 @@ export default function TabLayout() {
               fontWeight: 500
             },
             tabBarStyle: {
+              backgroundColor: "#fff",
               height: 100,
               borderTopColor: "#09516D",
               borderTopWidth: 1.5,
