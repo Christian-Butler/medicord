@@ -2,6 +2,7 @@ import { CalendarCheck2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
+
 type BookingSuccessOverlayProps = {
   visible: boolean;
   onAddToCalendar: () => void;
@@ -10,6 +11,7 @@ type BookingSuccessOverlayProps = {
 };
 
 export default function BookingSuccessOverlay({
+  
   visible,
   onAddToCalendar,
   onGoHome,
@@ -17,6 +19,7 @@ export default function BookingSuccessOverlay({
 }: BookingSuccessOverlayProps) {
 
   const { t } = useTranslation();
+  
 
   return (
     <Modal visible={visible} transparent animationType="fade">

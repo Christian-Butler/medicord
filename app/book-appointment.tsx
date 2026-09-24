@@ -14,6 +14,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { useAddToCalender } from "@/src/hooks/useAddtoCalender";
 
 export default function Booking() {
     const { doctorId, specialty, reason } = useLocalSearchParams<{
@@ -38,6 +39,8 @@ export default function Booking() {
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const { handleAddToCalender } = useAddToCalender();
+
 
     async function handleConfirmBooking() {
         if (!doctor && !doctorId) {
@@ -182,7 +185,15 @@ export default function Booking() {
 
             <BookingSuccessOverlay
                 visible={showSuccessOverlay}
-                onAddToCalendar={() => { }}
+                onAddToCalendar={() =>
+                     handleAddToCalender({
+                        title: `Appointment with ${doctor?.full_name ?? "Doctor"}`,
+                        startDate: new Date(buildLocalIsoDateTime(selectedDate!, selectedTime!)),
+                        endDate: new Date(new Date(buildLocalIsoDateTime(selectedDate!, selectedTime!)).getTime() + 30 * 60 * 1000),
+                        location: doctor?.location ?? null,
+                        notes: reason ?? null,
+                    })
+                }
                 onGoHome={() => {
                     setShowSuccessOverlay(false);
                     router.replace("/(tabs)");

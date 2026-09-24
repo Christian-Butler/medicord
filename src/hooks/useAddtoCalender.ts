@@ -1,5 +1,6 @@
-import * as Calender from "expo-calendar"
+import * as Calendar from "expo-calendar"
 import { useState } from "react"
+import { Alert } from "react-native";
 
 export function useAddToCalender() {
     const [loading, setLoading] = useState(false);
@@ -47,6 +48,11 @@ export function useAddToCalender() {
             });
 
             setAdded(true);
+            Alert.alert(
+                "Added to Calendar",
+                "Your appointment has been added to your calendar.",
+                [{ text: "OK" }]
+            );
         } catch (err) {
             setError(err instanceof Error ? err.message : "Failed to add to calendar.");
         } finally {

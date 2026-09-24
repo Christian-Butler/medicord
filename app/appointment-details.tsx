@@ -16,6 +16,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { useAddToCalender } from "@/src/hooks/useAddtoCalender";
 
 const fallbackAvatar =
   "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg";
@@ -38,6 +39,7 @@ export default function AppointmentDetails() {
   const doctorName = doctor?.full_name ?? "Unknown doctor";
   const specialty = doctor?.specialty ?? "Specialist";
   const avatar = doctor?.avatar_url ?? fallbackAvatar;
+  const { handleAddToCalender } = useAddToCalender();
 
   const location =
     appointment?.location ??
@@ -109,7 +111,20 @@ export default function AppointmentDetails() {
                     {dateText} - {timeText}
                   </Text>
 
-                  <Pressable style={styles.addCalendarButton}>
+                  <Pressable
+                    style={styles.addCalendarButton}
+                    onPress={() => {
+                      console.log('[AppointmentDetails] add to calendar pressed');
+                      if (!appointment) return;
+                      handleAddToCalender({
+                        title: `Appointment with ${doctorName}`,
+                        startDate: new Date(appointment.starts_at),
+                        endDate: new Date(appointment.ends_at),
+                        location: location ?? null,
+                        notes: appointment.reason ?? null,
+                      });
+                    }}
+                  >
                     <Text style={styles.outlineButtonText}>
                       {t(`appointment-details.calendar`)}
                     </Text>

@@ -160,7 +160,10 @@ export default function DoctorDetails() {
         visible={showGpOverlay}
         onGoToGpSearch={() => {
           setShowGpOverlay(false);
-          router.push("/specialist-page");
+          router.push({
+            pathname: "/specialist-page",
+            params: { specialty: "GP" },
+          });
         }}
         onContinue={handleGpContinue}
         onClose={() => setShowGpOverlay(false)}
