@@ -60,7 +60,7 @@ export default function ProfilePreferences() {
                     <View className="flex-1">
                         <Text className="ml-1 mt-1 text-[16px] text-black">Map</Text>
                     </View>
-                    <MaterialIcons name="chevron-right" size={26} color="#326F95" />
+                    <MaterialIcons name="chevron-right" size={26} color="000" />
                 </Pressable>
 
                 <Pressable
@@ -71,7 +71,7 @@ export default function ProfilePreferences() {
                     <View className="flex-1">
                         <Text className="ml-1 mt-1 text-[16px] text-black">Notifications</Text>
                     </View>
-                    <MaterialIcons name="chevron-right" size={26} color="#326F95" />
+                    <MaterialIcons name="chevron-right" size={26} color="#000" />
                 </Pressable>
 
 
