@@ -1,16 +1,19 @@
-import { MaterialIcons } from "@expo/vector-icons"
-import { Modal, Pressable, Text, View } from "react-native"
+import { MaterialIcons } from "@expo/vector-icons";
+import { useTranslation } from "react-i18next";
+import { Modal, Pressable, Text, View } from "react-native";
 
 type SecurityConfirmationModalProps = {
-    visible: boolean;
-    message: string;
-    onClose: () => void;
+  visible: boolean;
+  message: string;
+  onClose: () => void;
 };
 
-export default function SecurityConfirmationModal({ visible, message, onClose }: SecurityConfirmationProps) {
-    return (
-        <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-             <View className="flex-1 items-center justify-center bg-black/30 px-8">
+export default function SecurityConfirmationModal({ visible, message, onClose }: SecurityConfirmationModalProps) {
+  const { t } = useTranslation();
+
+  return (
+    <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
+      <View className="flex-1 items-center justify-center bg-black/30 px-8">
         <View className="w-full rounded-[18px] bg-white px-6 py-10">
           <Pressable onPress={onClose} className="absolute right-4 top-4 p-2">
             <MaterialIcons name="close" size={22} color="#9BA8AB" />
@@ -28,6 +31,6 @@ export default function SecurityConfirmationModal({ visible, message, onClose }:
           </Pressable>
         </View>
       </View>
-        </Modal>
-    )
+    </Modal>
+  )
 }

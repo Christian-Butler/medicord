@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 export function useResetPassword() {
+  const { t } = useTranslation();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
@@ -11,8 +12,6 @@ export function useResetPassword() {
 
 
   async function handleReset() {
-
-    const { t } = useTranslation();
 
 
     if (!password || !confirm) {
@@ -26,30 +25,27 @@ export function useResetPassword() {
     }
 
     if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      if (password.length < 6) {
-        setError(t(`useResetPassword.charac`));
-        return;
-      }
-
-      try {
-        setLoading(true);
-        setError(null);
-        await updatePassword(password);
-        router.replace("/login");
-      } catch (err) {
-        setError(err instanceof Error ? err.message : t(`useResetPassword.fail`));
-      } finally {
-        setLoading(false);
-      }
+      setError(t(`useResetPassword.charac`));
+      return;
     }
 
-    return {
-      password, setPassword,
-      confirm, setConfirm,
-      loading,
-      error,
-      handleReset,
-    };
+    try {
+      setLoading(true);
+      setError(null);
+      await updatePassword(password);
+      router.replace("/login");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t(`useResetPassword.fail`));
+    } finally {
+      setLoading(false);
+    }
   }
+
+  return {
+    password, setPassword,
+    confirm, setConfirm,
+    loading,
+    error,
+    handleReset,
+  };
 }
