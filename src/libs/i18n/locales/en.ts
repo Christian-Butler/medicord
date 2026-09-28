@@ -328,7 +328,7 @@ export const en = {
         "Email address": "Email address",
         "Security details": "Security details",
         "Other settings": "Other settings",
-        "Language": "Language",
+        "Language (Local detection)": "Language (Local detection)",
         "Encrypted documents": "Encrypted documents",
         "Confidentiality": "Confidentiality",
         "My preferences": "My preferences",
@@ -337,6 +337,14 @@ export const en = {
         "Disconnect": "Disconnect",
         "English (UK)": "English (UK)",
         "Active": "Active",
+    },
+    "manage-notifications-modal": {
+        "Notifications from doctors, including prescriptions ready, messages.": "Notifications from doctors, including prescriptions ready, messages.",
+        "Notifications from Medicord, including appointment reminders.": "Notifications from Medicord, including appointment reminders.",
+    },
+    "manage-map-modal": {
+        "I accept to share my location.": "I accept to share my location.",
+        "I refuse to share my location.": "I refuse to share my location."
     },
     medications: {
         medication: "Medication",

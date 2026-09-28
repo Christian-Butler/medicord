@@ -323,7 +323,7 @@ export const fr = {
         "Email address": "Adresse email",
         "Security details": "Infos de sécurité",
         "Other settings": "Autres paramètres",
-        "Language": "Langue",
+        "Language (Local detection)": "Langue (Détection locale)",
         "Encrypted documents": "Documents chiffrés",
         "Confidentiality": "Confidentialité",
         "My preferences": "Mes préférences",

@@ -1,11 +1,11 @@
 import LogoutModal from "@/components/logout-modal";
 import { useProfile } from "@/src/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {router} from "expo-router"
 
 type ProfileRowProps = {
   icon?: keyof typeof MaterialIcons.glyphMap;
@@ -27,7 +27,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
         <MaterialIcons
           name={icon}
           size={22}
-          color={destructive ? "#E33434" : "#000"}
+          color={destructive ? "#E33434" : "#326F95"}
           style={{ marginRight: 14 }}
         />
       ) : null}
@@ -111,12 +111,12 @@ export default function ProfilePage() {
         <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
 
         <SectionTitle title={t(`profile.Other settings`)} />
-        <ProfileRow icon="language" title="Language" subtitle={t(`profile.English (UK)`)} />
+        <ProfileRow icon="language" title="Language (Local detection)" subtitle={t(`profile.English (UK)`)} />
         <ProfileRow title="Encrypted documents" subtitle={t(`profile.Active`)} />
 
         <SectionTitle title={t(`profile.Confidentiality`)} />
-        <ProfileRow title="My preferences" />
-        <ProfileRow title="Legal information" />
+        <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
+        <ProfileRow title="Legal information" onPress={() => router.push("/profile-legal")} />
         <ProfileRow title="Delete my account" />
 
         <View className="h-[64px] border-b border-[#B9CBCD]" />

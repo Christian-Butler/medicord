@@ -1,14 +1,18 @@
 import ScreenHeader from "@/components/screen-header";
 import SecurityModal from "@/components/security-modal";
+import { useResetPassword } from "@/src/hooks/useResetPassword";
 import { useUpdateEmail } from "@/src/hooks/useUpdateEmail";
 import { useUpdatePhone } from "@/src/hooks/useUpdatePhone";
-import { useResetPassword } from "@/src/hooks/useResetPassword";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SecurityDetails() {
+
+  const { t } = useTranslation();
+
   const { phone, setPhone, loading: phoneLoading, error: phoneError, showConfirmation: showPhoneModal, setShowConfirmation: setShowPhoneModal, handleUpdatePhone } = useUpdatePhone();
   const { email, setEmail, loading: emailLoading, error: emailError, showConfirmation: showEmailModal, setShowConfirmation: setShowEmailModal, handleUpdateEmail } = useUpdateEmail();
   const { password, setPassword, confirm, setConfirm, loading: passwordLoading, error: passwordError, handleReset } = useResetPassword();
@@ -43,6 +47,7 @@ export default function SecurityDetails() {
         {/* Phone number */}
         <View className="mx-6 mt-8">
           <Text className="text-[18px] font-medium text-black">Phone number</Text>
+          <Text className="mt-4 text-[14px]text-black">Change phone number</Text>
           {phoneError ? <Text className="mt-2 text-[14px] text-[#B42318]">{phoneError}</Text> : null}
           <TextInput
             value={phone}
@@ -66,6 +71,7 @@ export default function SecurityDetails() {
         {/* Email address */}
         <View className="mx-6 mt-8">
           <Text className="text-[18px] font-medium text-black">Email address</Text>
+          <Text className="mt-4 text-[14px]text-black">Change email address</Text>
           {emailError ? <Text className="mt-2 text-[14px] text-[#B42318]">{emailError}</Text> : null}
           <TextInput
             value={email}
@@ -92,7 +98,7 @@ export default function SecurityDetails() {
           <Text className="text-[18px] font-medium text-black">Security details</Text>
           {passwordError ? <Text className="mt-2 text-[14px] text-[#B42318]">{passwordError}</Text> : null}
 
-          <Text className="mt-4 text-[15px] text-black">Current password</Text>
+          <Text className="mt-4 text-[14px] text-black">Current password</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4">
             <TextInput
               secureTextEntry={!showCurrentPassword}
@@ -105,7 +111,7 @@ export default function SecurityDetails() {
             </Pressable>
           </View>
 
-          <Text className="mt-4 text-[15px] text-black">New password</Text>
+          <Text className="mt-4 text-[14px] text-black">New password</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4">
             <TextInput
               value={password}
@@ -120,7 +126,7 @@ export default function SecurityDetails() {
             </Pressable>
           </View>
 
-          <Text className="mt-4 text-[15px] text-black">Confirm password</Text>
+          <Text className="mt-4 text-[14px] text-black">Confirm password</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4">
             <TextInput
               value={confirm}
