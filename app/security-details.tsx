@@ -25,17 +25,17 @@ export default function SecurityDetails() {
 
   return (
     <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
-      <ScreenHeader title="Security details" />
+      <ScreenHeader title={t(`security-details.title`)} />
 
       <SecurityModal
         visible={showPhoneModal}
-        message={`We've sent a verification link\nto your new phone number,\nplease check it to confirm\nthe change !`}
+        message={t(`security-details.showP`)}
         onClose={() => setShowPhoneModal(false)}
       />
 
       <SecurityModal
         visible={showEmailModal}
-        message={`We've sent a verification link\nto your new email address,\nplease check it to confirm\nthe change !`}
+        message={t(`security-details.showE`)}
         onClose={() => setShowEmailModal(false)}
       />
 
@@ -46,8 +46,8 @@ export default function SecurityDetails() {
       >
         {/* Phone number */}
         <View className="mx-6 mt-8">
-          <Text className="text-[18px] font-medium text-black">Phone number</Text>
-          <Text className="mt-4 text-[14px]text-black">Change phone number</Text>
+          <Text className="text-[18px] font-medium text-black">{t(`security-details.phone`)}</Text>
+          <Text className="mt-4 text-[14px]text-black">{t(`security-details.changeP`)}</Text>
           {phoneError ? <Text className="mt-2 text-[14px] text-[#B42318]">{phoneError}</Text> : null}
           <TextInput
             value={phone}
@@ -63,15 +63,15 @@ export default function SecurityDetails() {
             className={`mt-3 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8] ${phoneLoading ? "opacity-60" : ""}`}
           >
             <Text className="text-[16px] font-semibold text-white">
-              {phoneLoading ? "Updating..." : "Confirm"}
+              {phoneLoading ? t(`security-details.update`) : t(`security-details.confirm`)}
             </Text>
           </Pressable>
         </View>
 
         {/* Email address */}
         <View className="mx-6 mt-8">
-          <Text className="text-[18px] font-medium text-black">Email address</Text>
-          <Text className="mt-4 text-[14px]text-black">Change email address</Text>
+          <Text className="text-[18px] font-medium text-black">{t(`security-details.email`)}</Text>
+          <Text className="mt-4 text-[14px]text-black">{t(`security-details.changeE`)}</Text>
           {emailError ? <Text className="mt-2 text-[14px] text-[#B42318]">{emailError}</Text> : null}
           <TextInput
             value={email}
@@ -88,17 +88,17 @@ export default function SecurityDetails() {
             className={`mt-3 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8] ${emailLoading ? "opacity-60" : ""}`}
           >
             <Text className="text-[16px] font-semibold text-white">
-              {emailLoading ? "Updating..." : "Confirm"}
+              {emailLoading ? t(`security-details.update`) : t(`security-details.confirm`)}
             </Text>
           </Pressable>
         </View>
 
         {/* Password */}
         <View className="mx-6 mt-8">
-          <Text className="text-[18px] font-medium text-black">Security details</Text>
+          <Text className="text-[18px] font-medium text-black">{t(`security-details.security`)}</Text>
           {passwordError ? <Text className="mt-2 text-[14px] text-[#B42318]">{passwordError}</Text> : null}
 
-          <Text className="mt-4 text-[14px] text-black">Current password</Text>
+          <Text className="mt-4 text-[14px] text-black">{t(`security-details.currentP`)}</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4">
             <TextInput
               secureTextEntry={!showCurrentPassword}
@@ -111,7 +111,7 @@ export default function SecurityDetails() {
             </Pressable>
           </View>
 
-          <Text className="mt-4 text-[14px] text-black">New password</Text>
+          <Text className="mt-4 text-[14px] text-black">{t(`security-details.newP`)}</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4">
             <TextInput
               value={password}
@@ -146,7 +146,7 @@ export default function SecurityDetails() {
             className="mt-4 flex-row items-center"
           >
             <View className={`h-[18px] w-[18px] rounded-full border-[2px] ${verifyByEmail ? "border-[#0D5175] bg-[#0D5175]" : "border-[#9BA8AB] bg-white"}`} />
-            <Text className="ml-3 text-[15px] text-black">Request verification by email.</Text>
+            <Text className="ml-3 text-[15px] text-black">{t(`security-details.requestE`)}</Text>
           </Pressable>
 
           <Pressable
@@ -154,7 +154,7 @@ export default function SecurityDetails() {
             className="mt-3 flex-row items-center"
           >
             <View className={`h-[18px] w-[18px] rounded-full border-[2px] ${verifyByMessage ? "border-[#0D5175] bg-[#0D5175]" : "border-[#9BA8AB] bg-white"}`} />
-            <Text className="ml-3 text-[15px] text-black">Request verification by message.</Text>
+            <Text className="ml-3 text-[15px] text-black">{t(`security-details.requestM`)}</Text>
           </Pressable>
 
           <Pressable
@@ -163,7 +163,7 @@ export default function SecurityDetails() {
             className={`mt-6 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8] ${passwordLoading ? "opacity-60" : ""}`}
           >
             <Text className="text-[16px] font-semibold text-white">
-              {passwordLoading ? "Updating..." : "Confirm"}
+              {passwordLoading ? t(`security-details.update`) : t(`security-details.confirm`)}
             </Text>
           </Pressable>
         </View>

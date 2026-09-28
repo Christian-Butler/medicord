@@ -338,13 +338,38 @@ export const en = {
         "English (UK)": "English (UK)",
         "Active": "Active",
     },
+    "security-modal": {
+        understand: "I understand",
+    },
+    "security-details": {
+        title: "Security details",
+        showP: "We've sent a verification link to your new phone number, please check it to confirm the change!",
+        showE: "We've sent a verification link to your new email address, please check it to confirm the change!",
+        phone: "Phone number",
+        changeP: "Change phone number",
+        email: "Email address",
+        changeE: "Change email address",
+        security: "Security details",
+        currentP: "Current password",
+        newP: "New password",
+        requestE: "Request verification by email.",
+        requestM: "Request verification by message.",
+        update: "Updating...",
+        confirm: "Confirm",
+    },
     "manage-notifications-modal": {
+        title: "Manage notifications",
+        choose: "Choose how you prefer to receive communications on the app.",
         "Notifications from doctors, including prescriptions ready, messages.": "Notifications from doctors, including prescriptions ready, messages.",
         "Notifications from Medicord, including appointment reminders.": "Notifications from Medicord, including appointment reminders.",
+        confirm: "Confirm",
     },
     "manage-map-modal": {
         "I accept to share my location.": "I accept to share my location.",
-        "I refuse to share my location.": "I refuse to share my location."
+        "I refuse to share my location.": "I refuse to share my location.",
+        title: "Manage map settings",
+        query: "Share your location to find the closest doctors near you?",
+        confirm: "Confirm",
     },
     medications: {
         medication: "Medication",
@@ -723,11 +748,16 @@ export const en = {
         fail: "Failed to load doctors",
     },
     "logout-modal": {
-        disconnect: "Disconnect Account",
         query: "Are you sure you want to Disconnect ?",
         notice: "You can log back in anytime.",
         stay: " No, keep me logged in",
         leave: "Yes, disconnect me"
+    },
+    "delete-modal": {
+        query: "Are you sure you want to Delete your account?",
+        notice: "You can claim it back before 12 days, after which the action is irreversible.",
+        stay: " No, I want to keep my account",
+        leave: "Yes, I want to delete my account"
     },
     register: {
         name: "Medicord",

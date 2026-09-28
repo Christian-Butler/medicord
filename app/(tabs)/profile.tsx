@@ -1,3 +1,4 @@
+import DeleteModal from "@/components/delete-modal";
 import LogoutModal from "@/components/logout-modal";
 import { useProfile } from "@/src/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -57,6 +58,7 @@ function SectionTitle({ title }: { title: string }) {
 
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
   const { t } = useTranslation();
   console.log('[ProfilePage] avatarUrl:', avatarUrl);
@@ -67,6 +69,12 @@ export default function ProfilePage() {
         visible={showLogoutModal}
         onCancel={() => setShowLogoutModal(false)}
         onConfirm={() => setShowLogoutModal(false)}
+      />
+
+      <DeleteModal
+        visible={showDeleteModal}
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={() => setShowDeleteModal(false)}
       />
 
       <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
@@ -117,7 +125,10 @@ export default function ProfilePage() {
         <SectionTitle title={t(`profile.Confidentiality`)} />
         <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
         <ProfileRow title="Legal information" onPress={() => router.push("/profile-legal")} />
-        <ProfileRow title="Delete my account" />
+        <ProfileRow
+          title="Delete my account"
+          onPress={() => setShowDeleteModal(true)}
+        />
 
         <View className="h-[64px] border-b border-[#B9CBCD]" />
 

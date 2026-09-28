@@ -27,7 +27,7 @@ export default function SecurityConfirmationModal({ visible, message, onClose }:
             onPress={onClose}
             className="mt-8 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8]"
           >
-            <Text className="text-[16px] font-semibold text-white">I understand</Text>
+            <Text className="text-[16px] font-semibold text-white">{t(`security-modal.understand`)}</Text>
           </Pressable>
         </View>
       </View>

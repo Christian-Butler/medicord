@@ -31,9 +31,9 @@ export default function ManageNotificationsModal({
 
                 <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
                     <View className="items-center">
-                        <Text className="mb-2 text-center text-[24px] font-semibold leading-7 text-black">Manage notifications</Text>
+                        <Text className="mb-2 text-center text-[24px] font-semibold leading-7 text-black">{t(`manage-notifications-modal.title`)}</Text>
                         <Text className="mb-9 text-center text-[20px] font-medium leading-7 text-black">
-                            Choose how you prefer to receive communications on the app.
+                            {t(`manage-notifications-modal.choose`)}
                         </Text>
 
                         <View className="mb-9 w-full px-4">
@@ -64,7 +64,7 @@ export default function ManageNotificationsModal({
                             onPress={onConfirm}
                             className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
                             <Text className="text-[15px] font-medium text-white">
-                                Confirm
+                                {t(`manage-notifications-modal.confirm`)}
                             </Text>
                         </Pressable>
                     </View>

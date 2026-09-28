@@ -331,7 +331,41 @@ export const fr = {
         "Delete my account": "Supprimer mon compte",
         "Disconnect": "Déconnexion",
         "English (UK)": "Anglais (UK)",
-        "Active": "Actif",
+        "Active": "Activée",
+    },
+
+    "security-modal": {
+        understand: "Je comprends",
+    },
+    "security-details": {
+        title: "Détails de sécurité",
+        showP: "Un lien de vérification a été envoyé à votre nouveau numéro de téléphone, veuillez le vérifier pour confirmer le changement!",
+        showE: "Un lien de vérification a été envoyé à votre nouvelle adresse mail, veuillez le vérifier pour confirmer le changement!",
+        phone: "Numéro de téléphone",
+        changeP: "Changer de numéro de téléphone",
+        email: "Adresse email",
+        changeE: "Changer d'adresse email",
+        security: "Détails de sécurité",
+        currentP: "Mot de passe actuel",
+        newP: "Nouveau mot de passe",
+        requestE: "Requête de vérification via email.",
+        requestM: "Requête de vérification via message.",
+        update: "Mise à jour...",
+        confirm: "Confirmer",
+    },
+    "manage-notifications-modal": {
+        title: "Gestion de notifications",
+        choose: "Choisis comment recevoir les communications sur l'application.",
+        "Notifications from doctors, including prescriptions ready, messages.": "Notifications de médecins, incluant la disponibilité de prescriptions, messages.",
+        "Notifications from Medicord, including appointment reminders.": "Notifications de Medicord, incluant les rappels de rendez-vous.",
+        confirm: "Confirmer",
+    },
+    "manage-map-modal": {
+        "I accept to share my location.": "J'accepte de partager ma localisation.",
+        "I refuse to share my location.": "Je refuse de partager ma localisation.",
+        title: "Gérer paramètres carte",
+        query: "Partager votre localisation pour trouver les médecins proches de vous?",
+        confirm: "Confirmer",
     },
     medications: {
         medication: "Traitement",
@@ -715,6 +749,12 @@ export const fr = {
         notice: "Vous pouvez revenir à tout moment.",
         stay: " Non, je reste connecté.e",
         leave: "Oui, je me déconnecte"
+    },
+    "delete-modal": {
+        query: "Voulez-vous vraiment Supprimer votre compte?",
+        notice: "Récupérez votre compte à tout moment sous 12 jours, action irréversible au-delà du délai.",
+        stay: " Non, je garde mon compte",
+        leave: "Oui, je supprime mon compte"
     },
     register: {
         name: "Medicord",
