@@ -13,6 +13,7 @@
       "bundleIdentifier": "com.butlrstudio.medicord",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
+        "NSUserNotificationsUsageDescription": "Medicord uses notifications to remind you to take your medication.",
         "NSCalendarsUsageDescription": "Medicord needs access to your calendar to add appointments.",
         "NSCalendarsFullAccessUsageDescription": "Medicord needs full access to your calendar to manage appointments.",
         "NSAppTransportSecurity": {
@@ -40,7 +41,7 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
+      "output": "single",
       "favicon": "./assets/images/Medicord-Logo.png"
     },
     "plugins": [
@@ -58,7 +59,8 @@
         }
       ],
       "@react-native-community/datetimepicker",
-      "expo-localization"
+      "expo-localization",
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -70,6 +72,12 @@
         "projectId": "a04a0cc8-b800-47bc-a8c0-bf3c45b45eb4"
       }
     },
-    "owner": "butlrstudio"
+    "owner": "butlrstudio",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/a04a0cc8-b800-47bc-a8c0-bf3c45b45eb4"
+    }
   }
 }

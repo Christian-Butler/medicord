@@ -13,9 +13,12 @@ export default function ProfileHeader() {
       <View className="flex-row items-center justify-between px-6 pb-6 pt-5">
         <View className="flex-1 flex-row items-center">
           {avatarUrl ? (
-            <Image source={{ uri: avatarUrl }} className="h-16 w-16 rounded-full" />
+            <Image
+              source={{ uri: avatarUrl }}
+              style={{ height: 64, width: 64, borderRadius: 32 }}
+            />
           ) : (
-            <View className="h-16 w-16 rounded-full bg-[#D7E8ED]" />
+            <View style={{ height: 64, width: 64, borderRadius: 32, backgroundColor: '#D7E8ED' }} />
           )}
 
           <View className="ml-7 mr-4 flex-1">
