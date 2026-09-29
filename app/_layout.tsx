@@ -53,6 +53,8 @@ export default function RootLayout() {
               <Stack.Screen name="mr-family-members" options={{ headerShown: false }} />
               <Stack.Screen name="notifications" options={{ headerShown: false }} />
               <Stack.Screen name="security-details" options={{ headerShown: false }} />
+              <Stack.Screen name="profile-preferences" options={{ headerShown: false }} />
+              <Stack.Screen name="profile-legal" options={{ headerShown: false }} />
             </Stack>
           </AuthProvider>
           <StatusBar style="auto" />

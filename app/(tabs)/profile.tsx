@@ -1,11 +1,12 @@
+import DeleteModal from "@/components/delete-modal";
 import LogoutModal from "@/components/logout-modal";
 import { useProfile } from "@/src/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import {router} from "expo-router"
 
 type ProfileRowProps = {
   icon?: keyof typeof MaterialIcons.glyphMap;
@@ -27,7 +28,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
         <MaterialIcons
           name={icon}
           size={22}
-          color={destructive ? "#E33434" : "#000"}
+          color={destructive ? "#E33434" : "#326F95"}
           style={{ marginRight: 14 }}
         />
       ) : null}
@@ -49,7 +50,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <View className="border-b border-[#B9CBCD] px-5 pb-3 pt-7">
+    <View className="border-b border-[#B9CBCD]  px-5 pb-3 pt-7">
       <Text className="text-[19px] font-semibold text-black">{title}</Text>
     </View>
   );
@@ -57,16 +58,23 @@ function SectionTitle({ title }: { title: string }) {
 
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
   const { t } = useTranslation();
   console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
+    <SafeAreaView edges={["top"]} className="flex-1 bg-[#fff]">
       <LogoutModal
         visible={showLogoutModal}
         onCancel={() => setShowLogoutModal(false)}
         onConfirm={() => setShowLogoutModal(false)}
+      />
+
+      <DeleteModal
+        visible={showDeleteModal}
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={() => setShowDeleteModal(false)}
       />
 
       <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
@@ -76,7 +84,7 @@ export default function ProfilePage() {
       </View>
 
       <ScrollView
-        className="flex-1"
+        className="flex-1 bg-[#EEF9FB]"
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
@@ -111,13 +119,16 @@ export default function ProfilePage() {
         <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
 
         <SectionTitle title={t(`profile.Other settings`)} />
-        <ProfileRow icon="language" title="Language" subtitle={t(`profile.English (UK)`)} />
+        <ProfileRow icon="language" title="Language (Local detection)" subtitle={t(`profile.English (UK)`)} />
         <ProfileRow title="Encrypted documents" subtitle={t(`profile.Active`)} />
 
         <SectionTitle title={t(`profile.Confidentiality`)} />
-        <ProfileRow title="My preferences" />
-        <ProfileRow title="Legal information" />
-        <ProfileRow title="Delete my account" />
+        <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
+        <ProfileRow title="Legal information" onPress={() => router.push("/profile-legal")} />
+        <ProfileRow
+          title="Delete my account"
+          onPress={() => setShowDeleteModal(true)}
+        />
 
         <View className="h-[64px] border-b border-[#B9CBCD]" />
 
