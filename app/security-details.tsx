@@ -7,7 +7,6 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, Text, TextInput, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function SecurityDetails() {
 
@@ -24,7 +23,7 @@ export default function SecurityDetails() {
   const [verifyByMessage, setVerifyByMessage] = useState(false);
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
+    <View className="flex-1 bg-[#EEF9FB]">
       <ScreenHeader title={t(`security-details.title`)} />
 
       <SecurityModal
@@ -168,6 +167,6 @@ export default function SecurityDetails() {
           </Pressable>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }

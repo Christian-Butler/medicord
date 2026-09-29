@@ -1,16 +1,15 @@
 import ScreenHeader from "@/components/screen-header";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ScrollView, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function ProfilePreferences() {
+export default function Legal() {
 
     return (
-        <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
-            <ScreenHeader title="My preferences" />
+        <View className="flex-1 bg-[#fff]">
+            <ScreenHeader title="Legal information" />
 
             <ScrollView
-                className="flex-1"
+                className="flex-1 bg-[#EEF9FB]"
                 contentContainerStyle={{ paddingBottom: 40 }}
                 showsVerticalScrollIndicator={false}
             >
@@ -40,6 +39,6 @@ export default function ProfilePreferences() {
 
 
             </ScrollView>
-        </SafeAreaView>
+        </View>
     );
 }

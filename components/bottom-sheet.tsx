@@ -75,7 +75,12 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
         router.push('/messages');
       },
     },
-    { icon: 'change-circle', label: t(`bottom-sheet.order`) },
+    {
+      icon: 'change-circle', label: t(`bottom-sheet.order`), onPress: () => {
+        bottomSheetRef.current?.close();
+        router.push('/prescription-renewal');
+      },
+    },
     {
       icon: 'favorite', label: t(`bottom-sheet.doc`), onPress: () => {
         bottomSheetRef.current?.close();
