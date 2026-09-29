@@ -1,5 +1,6 @@
 import { useDeleteMedication } from "@/src/hooks/useDeleteMedication";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
+import { useCreateAlarm } from "@/src/hooks/useCreateAlarm";
 import { formatMedicationDuration } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
@@ -15,6 +16,8 @@ export default function MedicationContainer() {
   const { deleteById, deleting, deleteError } = useDeleteMedication(refetch);
 
   const { t } = useTranslation();
+
+  const { handleCreateAlarm } = useCreateAlarm();
 
   useFocusEffect(
     useCallback(() => {
@@ -160,7 +163,13 @@ export default function MedicationContainer() {
                       </Text>
                     </Pressable>
 
-                    <Pressable className="h-[48px] items-center justify-center rounded-[10px] bg-[#5085A8] px-5">
+                    <Pressable
+                      className="h-[48px] items-center justify-center rounded-[10px] bg-[#5085A8] px-5"
+                      onPress={() => {
+                        if (!medication) return;
+                        handleCreateAlarm(medication);
+                      }}
+                    >
                       <Text className="text-[16px] font-medium text-white">
                         {t(`medication-container.alarm`)}
                       </Text>
