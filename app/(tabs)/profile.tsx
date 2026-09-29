@@ -50,7 +50,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <View className="border-b border-[#B9CBCD] px-5 pb-3 pt-7">
+    <View className="border-b border-[#B9CBCD]  px-5 pb-3 pt-7">
       <Text className="text-[19px] font-semibold text-black">{title}</Text>
     </View>
   );
@@ -64,7 +64,7 @@ export default function ProfilePage() {
   console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-[#EEF9FB]">
+    <SafeAreaView edges={["top"]} className="flex-1 bg-[#fff]">
       <LogoutModal
         visible={showLogoutModal}
         onCancel={() => setShowLogoutModal(false)}
@@ -84,7 +84,7 @@ export default function ProfilePage() {
       </View>
 
       <ScrollView
-        className="flex-1"
+        className="flex-1 bg-[#EEF9FB]"
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >

@@ -51,6 +51,7 @@ export default function AppointmentDetails() {
   const timeText = appointment
     ? formatAppointmentTime(appointment.starts_at)
     : "";
+
   return (
     <View style={styles.page}>
       <ScreenHeader title={t(`appointment-details.details`)} />
@@ -87,8 +88,8 @@ export default function AppointmentDetails() {
 
               </Text>
 
-              <Pressable style={styles.outlineButton}>
-                <Text style={styles.outlineButtonText}>{t(`appointment-details.import`)}</Text>
+              <Pressable className="h-[50] w-[100%] border-2 border-[#0D5175] rounded-[12] items-center justify-center bg-white">
+                <Text className="font-medium text-[16px] color-[#0D5175]">{t(`appointment-details.import`)}</Text>
               </Pressable>
             </View>
 
@@ -109,30 +110,38 @@ export default function AppointmentDetails() {
                     {dateText} - {timeText}
                   </Text>
 
-                  <Pressable style={styles.addCalendarButton}>
-                    <Text style={styles.outlineButtonText}>
-                      {t(`appointment-details.calendar`)}
-                    </Text>
-                  </Pressable>
                 </View>
               </View>
 
-              <Pressable
-                style={styles.primaryButton}
-                accessibilityRole="button"
-                onPress={() =>
-                  router.push({
-                    pathname: "/edit-appointment" as never,
-                    params: {
-                      appointmentId: appointment.id,
-                    },
-                  })
-                }
-              >
-                <Text style={styles.primaryButtonText}>
-                  {t(`appointment-details.modify`)}
-                </Text>
-              </Pressable>
+              <View className="mt-4 flex-row justify-between">
+
+                <Pressable
+                  style={styles.primaryButton}
+                  accessibilityRole="button"
+                  onPress={() =>
+                    router.push({
+                      pathname: "/edit-appointment" as never,
+                      params: {
+                        appointmentId: appointment.id,
+                      },
+                    })
+                  }
+                >
+                  <MaterialIcons name="edit-calendar" size={20} color="#fff" />
+                  <Text style={styles.primaryButtonText}>
+                    {t(`appointment-details.modify`)}
+                  </Text>
+                </Pressable>
+
+                <Pressable style={styles.addCalendarButton}>
+                  <MaterialIcons name="today" size={20} color="#0D5175" />
+                  <Text style={styles.outlineButtonText}>
+                    {t(`appointment-details.calendar`)}
+                  </Text>
+                </Pressable>
+
+              </View>
+
             </View>
 
             <View style={styles.section}>
@@ -141,6 +150,7 @@ export default function AppointmentDetails() {
               <Text className="text-[16px] font-regular mb-6">{t(`appointment-details.${location}`)}</Text>
 
               <Pressable style={styles.outlineButton}>
+                <MaterialIcons name="place" size={20} color="#0D5175" />
                 <Text style={styles.outlineButtonText}>{t(`appointment-details.map`)}</Text>
               </Pressable>
             </View>
@@ -272,11 +282,13 @@ const styles = StyleSheet.create({
   },
 
   outlineButton: {
-    height: 36,
+    flexDirection: "row",
+    gap: 8,
+    height: 50,
     width: "100%",
     borderWidth: 2,
     borderColor: "#0D5175",
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
@@ -291,7 +303,6 @@ const styles = StyleSheet.create({
   whenRow: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 28,
   },
 
   calendarIconWrap: {
@@ -300,49 +311,53 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
-  whenRight: {
-    flex: 1,
-  },
-
   whenText: {
     fontSize: 16,
     fontWeight: "400",
     color: "#000",
-    marginBottom: 12,
+  },
+
+  whenRight: {
+    flex: 1,
   },
 
   addCalendarButton: {
-    height: 36,
-    width: "100%",
+    flexDirection: "row",
+    gap: 8,
+    height: 50,
+    paddingHorizontal: 12,
     borderWidth: 2,
     borderColor: "#0D5175",
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
 
   primaryButton: {
-    height: 46,
-    width: "100%",
+    flexDirection: "row",
+    width: "44%",
+    gap: 8,
+    height: 50,
     backgroundColor: "#5085A8",
-    borderRadius: 8,
+    paddingHorizontal: 12,
+    borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
   },
 
   primaryButtonText: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "500",
     color: "#fff",
   },
 
   callButton: {
-    height: 36,
+    height: 50,
     width: "100%",
     borderWidth: 2,
     borderColor: "#0D5175",
-    borderRadius: 8,
+    borderRadius: 12,
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
