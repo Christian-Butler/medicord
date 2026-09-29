@@ -88,8 +88,8 @@ export default function AppointmentDetails() {
 
               </Text>
 
-              <Pressable className="h-[50] w-[100%] border-2 border-[#0D5175] rounded-[12] items-center justify-center bg-white">
-                <Text className="font-medium text-[16px] color-[#0D5175]">{t(`appointment-details.import`)}</Text>
+              <Pressable className="h-[50] w-[100%] rounded-[12] items-center justify-center bg-[#5085A8]">
+                <Text className="font-medium text-[16px] color-[white]">{t(`appointment-details.import`)}</Text>
               </Pressable>
             </View>
 
@@ -115,8 +115,15 @@ export default function AppointmentDetails() {
 
               <View className="mt-4 flex-row justify-between">
 
+                <Pressable style={styles.primaryButton}>
+                  <MaterialIcons name="today" size={20} color="#fff" />
+                  <Text style={styles.primaryButtonText}>
+                    {t(`appointment-details.calendar`)}
+                  </Text>
+                </Pressable>
+
                 <Pressable
-                  style={styles.primaryButton}
+                  style={styles.postpone}
                   accessibilityRole="button"
                   onPress={() =>
                     router.push({
@@ -127,18 +134,13 @@ export default function AppointmentDetails() {
                     })
                   }
                 >
-                  <MaterialIcons name="edit-calendar" size={20} color="#fff" />
-                  <Text style={styles.primaryButtonText}>
+                  <MaterialIcons name="edit-calendar" size={20} color="#0D5175" />
+                  <Text style={styles.outlineButtonText}>
                     {t(`appointment-details.modify`)}
                   </Text>
                 </Pressable>
 
-                <Pressable style={styles.addCalendarButton}>
-                  <MaterialIcons name="today" size={20} color="#0D5175" />
-                  <Text style={styles.outlineButtonText}>
-                    {t(`appointment-details.calendar`)}
-                  </Text>
-                </Pressable>
+
 
               </View>
 
@@ -281,6 +283,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  postpone: {
+    flexDirection: "row",
+    gap: 8,
+    height: 50,
+    borderWidth: 2,
+    borderColor: "#0D5175",
+    borderRadius: 12,
+    backgroundColor: "#fff",
+    paddingHorizontal: 24,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   outlineButton: {
     flexDirection: "row",
     gap: 8,
@@ -336,11 +350,10 @@ const styles = StyleSheet.create({
 
   primaryButton: {
     flexDirection: "row",
-    width: "44%",
     gap: 8,
     height: 50,
     backgroundColor: "#5085A8",
-    paddingHorizontal: 12,
+    paddingHorizontal: 22,
     borderRadius: 12,
     alignItems: "center",
     justifyContent: "center",
