@@ -10,8 +10,9 @@ export const en = {
     },
     "find-doctor": {
         find: "Find a Doctor",
-        search: "Search",
+        search: "Search a doctor's name",
         searching: "Searching...",
+        name: "By name",
         noDoctors: "No doctors found.",
         "GP": "GP",
         "Paediatrics": "Paediatrics",
@@ -28,6 +29,7 @@ export const en = {
         noSearch: "Doctors couldn't be searched",
     },
     "doctor-carousel": {
+        specialty: "By specialty",
         "GP": "GP",
         "Paediatrics": "Paediatrics",
         "Psychiatry": "Psychiatry",

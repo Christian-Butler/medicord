@@ -49,7 +49,7 @@ export default function FindDoctor() {
   return (
     <View className="px-6 pt-6">
       {/* Title row */}
-      <View className="mb-5 flex-row items-center justify-between">
+      <View className="mb-2 flex-row items-center justify-between">
         <Text className="text-3xl font-semibold text-[#000000]">
           {t(`find-doctor.find`)}
         </Text>
@@ -60,7 +60,13 @@ export default function FindDoctor() {
       </View>
 
       {/* Search input */}
+      <View className="mb-4">
+        <Text className="text-2xl font-regular text-zinc-600">
+          {t(`find-doctor.name`)}
+        </Text>
+      </View>
       <View className="h-14 items-center flex-row rounded-2xl border-2 border-[#7B8A91] bg-white px-5">
+
         <Search size={20} color="#7B8A91" />
 
         <TextInput
@@ -77,39 +83,44 @@ export default function FindDoctor() {
       {loading ? <Text className="mt-3 text-[#7B8A91]">{t(`find-doctor.searching`)}</Text> : null}
       {error ? <Text className="mt-3 text-[#B10111]">{error}</Text> : null}
 
-      {!loading && !error && searchQuery.trim() && doctors.length === 0 ? (
-        <Text className="rounded-b-xl mx-2 px-4 py-2 bg-[white] text-[#7B8A91]">{t(`find-doctor.noDoctors`)}</Text>
-      ) : null}
+      {
+        !loading && !error && searchQuery.trim() && doctors.length === 0 ? (
+          <Text className="rounded-b-xl mx-2 px-4 bg-[white] text-[#7B8A91]">{t(`find-doctor.noDoctors`)}</Text>
+        ) : null
+      }
 
-      {doctors.map((doctor) => (
-        <Pressable
-          key={doctor.id}
-          className="mt-2 flex-row items-center rounded-xl bg-white py-4 px-2"
-          onPress={() =>
-            router.push({
-              pathname: "/doctor-details",
-              params: {
-                doctorId: doctor.id,
-                name: doctor.full_name,
-                specialty: doctor.specialty ?? "Doctor",
-              },
-            })
-          }
-        >
-          {doctor.avatar_url ? (
-            <Image
-              source={{ uri: doctor.avatar_url }}
-              className="mr-3 h-12 w-12 rounded-full"
-            />
-          ) : (
-            <View className="mr-3 h-12 w-12 rounded-full bg-[#7B8A91]" />
-          )}
-          <View>
-            <Text className="font-medium text-base text-black">{doctor.full_name}</Text>
-            <Text className="text-[#7B8A91]">{t(`find-doctor.${doctor.specialty ?? "Doctor"}`)}</Text>
-          </View>
-        </Pressable>
-      ))}
-    </View>
+
+      {
+        doctors.map((doctor) => (
+          <Pressable
+            key={doctor.id}
+            className="flex-row items-center rounded-xl bg-white my-2 py-4 px-2"
+            onPress={() =>
+              router.push({
+                pathname: "/doctor-details",
+                params: {
+                  doctorId: doctor.id,
+                  name: doctor.full_name,
+                  specialty: doctor.specialty ?? "Doctor",
+                },
+              })
+            }
+          >
+            {doctor.avatar_url ? (
+              <Image
+                source={{ uri: doctor.avatar_url }}
+                className="mr-3 h-12 w-12 rounded-full"
+              />
+            ) : (
+              <View className="mr-3 h-12 w-12 rounded-full bg-[#7B8A91]" />
+            )}
+            <View>
+              <Text className="font-medium text-base text-black">{doctor.full_name}</Text>
+              <Text className="text-[#7B8A91]">{t(`find-doctor.${doctor.specialty ?? "Doctor"}`)}</Text>
+            </View>
+          </Pressable>
+        ))
+      }
+    </View >
   );
 }

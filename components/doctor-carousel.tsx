@@ -59,19 +59,27 @@ function SpecialtyIcon({ icon, library, size, color }: { icon: string; library: 
 export default function DoctorSpecialtyCarousel() {
   const router = useRouter();
   const { t } = useTranslation();
+  const numColumns = 4;
 
   return (
-    <View className="mt-2 py-4 pl-2 ">
+    <View>
+
+      <View className="mt-6 ml-6">
+        <Text className="text-2xl font-regular text-zinc-600">
+          {t(`doctor-carousel.specialty`)}
+        </Text>
+      </View>
+
       <FlatList
-        horizontal
+        key={`specialties-${numColumns}`}
+        horizontal={false}
         data={specialties}
+        numColumns={numColumns}
         keyExtractor={(item) => item.id}
-        showsHorizontalScrollIndicator={false}
-        contentContainerClassName="px-6"
-        ItemSeparatorComponent={() => <View className="w-5" />}
+        contentContainerClassName="mx-2"
         renderItem={({ item }) => (
           <Pressable
-            className="w-[82px] items-center"
+            className="items-center pt-6"
             onPress={() =>
               router.push({
                 pathname: "/specialist-page",
@@ -81,7 +89,7 @@ export default function DoctorSpecialtyCarousel() {
               })
             }
           >
-            <View className="h-[62px] w-[77px] items-center justify-center rounded-[16px] border-2 border-[#2B6F95] bg-[#DDF8FF]">
+            <View className="h-[64px] w-[76px] items-center justify-center rounded-[16px] border-2 border-[#2B6F95] bg-[#DDF8FF]">
               <SpecialtyIcon
                 icon={item.icon}
                 library={item.library}

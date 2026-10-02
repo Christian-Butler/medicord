@@ -88,34 +88,36 @@ export default function ProfilePage() {
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
-          <Pressable onPress={handleEditAvatar} className="absolute right-6 top-6 flex-row items-center">
-            <MaterialIcons name="edit" size={16} color="#8A3F00" />
-            <Text className="ml-1 text-[16px] text-[#8A3F00]">{t(`profile.edit`)}</Text>
-          </Pressable>
+        <Pressable onPress={handleEditAvatar}>
+          <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
 
-          {avatarUrl ? (
-            <Image
-              key={avatarUrl}
-              source={{ uri: avatarUrl }}
-              style={{ height: 74, width: 74, borderRadius: 37 }}
-            />
-          ) : (
-            <View
-              style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
-            />
+            <View className="absolute right-6 top-6 flex-row items-center">
+              <MaterialIcons name="edit" size={16} color="#8A3F00" />
+              <Text className="ml-1 text-[16px] text-[#8A3F00]">{t(`profile.edit`)}</Text>
+            </View>
 
-          )}
+            {avatarUrl ? (
+              <Image
+                key={avatarUrl}
+                source={{ uri: avatarUrl }}
+                style={{ height: 74, width: 74, borderRadius: 37 }}
+              />
+            ) : (
+              <View
+                style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
+              />
 
-          <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
-          <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
-          <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
+            )}
 
-        </View>
+            <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
+            <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
+            <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
+          </View>
+        </Pressable>
 
         <SectionTitle title={t(`profile.Authentification`)} />
-        <ProfileRow icon="phone" title="Phone number" subtitle={phone} />
-        <ProfileRow icon="mail-outline" title="Email address" subtitle={email} />
+        <ProfileRow icon="phone" title="Phone number" subtitle={phone} onPress={() => router.push("/security-details")} />
+        <ProfileRow icon="mail-outline" title="Email address" subtitle={email} onPress={() => router.push("/security-details")} />
         <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
 
         <SectionTitle title={t(`profile.Other settings`)} />
