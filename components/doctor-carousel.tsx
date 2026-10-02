@@ -76,10 +76,10 @@ export default function DoctorSpecialtyCarousel() {
         data={specialties}
         numColumns={numColumns}
         keyExtractor={(item) => item.id}
-        contentContainerClassName="mx-2"
+        contentContainerClassName="mx-2 mt-4"
         renderItem={({ item }) => (
           <Pressable
-            className="items-center pt-6"
+            className="items-center pb-6"
             onPress={() =>
               router.push({
                 pathname: "/specialist-page",
