@@ -1,7 +1,7 @@
 import { Picker } from "@react-native-picker/picker";
 import { Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import { Modal, Pressable, Text, TextInput, View } from "react-native";
 import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 
 type MedicationFormProps = {
@@ -20,6 +20,59 @@ const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
   { label: "Three times daily", value: "three_times_daily" },
   { label: "Long term / Ongoing", value: "long_term" },
 ];
+
+function SpinnerPickerField({
+  label,
+  value,
+  max,
+  onChange,
+  disabled = false,
+}: {
+  label: string;
+  value: number;
+  max: number;
+  onChange: (v: number) => void;
+  disabled?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const [temp, setTemp] = useState(value);
+
+  return (
+    <>
+      <Pressable
+        disabled={disabled}
+        onPress={() => { setTemp(value); setOpen(true); }}
+        className={`flex-row items-center justify-between rounded-[10px] border-[2px] border-[#9BA8AB] bg-white px-3 h-[44px] ${disabled ? "opacity-50" : ""}`}
+      >
+        <Text className="text-[15px] text-black">{value} {label}</Text>
+        <Text className="text-[13px] text-[#9BA8AB]">▼</Text>
+      </Pressable>
+
+      <Modal visible={open} transparent animationType="slide">
+        <View className="flex-1 justify-end bg-black/30">
+          <View className="bg-white">
+            <View className="flex-row justify-between px-4 py-3 border-b border-[#E0E0E0]">
+              <Pressable onPress={() => setOpen(false)}>
+                <Text className="text-[16px] text-[#5085A8]">Cancel</Text>
+              </Pressable>
+              <Pressable onPress={() => { onChange(temp); setOpen(false); }}>
+                <Text className="text-[16px] font-semibold text-[#5085A8]">Done</Text>
+              </Pressable>
+            </View>
+            <Picker
+              selectedValue={temp}
+              onValueChange={(v) => setTemp(Number(v))}
+            >
+              {Array.from({ length: max + 1 }, (_, i) => (
+                <Picker.Item key={i} label={`${i} ${label}`} value={i} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+      </Modal>
+    </>
+  );
+}
 
 export default function MedicationForm({
   medication,
@@ -118,15 +171,13 @@ export default function MedicationForm({
 
   const visibleError = localError ?? error;
 
-  const range = (n: number) => Array.from({ length: n + 1 }, (_, i) => i);
-
   return (
     <View className="px-6 pb-16 pt-8">
-
       {visibleError ? (
         <Text className="mt-6 text-[15px] text-[#B42318]">{visibleError}</Text>
       ) : null}
 
+      {/* Name */}
       <Text className="mt-8 text-[21px] font-medium text-black">Name</Text>
       <TextInput
         value={name}
@@ -140,36 +191,13 @@ export default function MedicationForm({
       <Text className="mt-7 text-[21px] font-medium text-black">Duration</Text>
       <View className="mt-3 flex-row gap-3">
         <View className="flex-1">
-          <Text className="mb-1 text-[13px] text-[#555]">Months</Text>
-          <View className="rounded-[10px] border-[2px] border-[#9BA8AB] bg-white">
-            <Picker selectedValue={monthsDuration} onValueChange={setMonthsDuration}>
-              {range(24).map((v) => (
-                <Picker.Item key={v} label={`${v}`} value={v} />
-              ))}
-            </Picker>
-          </View>
+          <SpinnerPickerField label="Month(s)" value={monthsDuration} max={24} onChange={setMonthsDuration} />
         </View>
-
         <View className="flex-1">
-          <Text className="mb-1 text-[13px] text-[#555]">Weeks</Text>
-          <View className="rounded-[10px] border-[2px] border-[#9BA8AB] bg-white">
-            <Picker selectedValue={weeksDuration} onValueChange={setWeeksDuration}>
-              {range(52).map((v) => (
-                <Picker.Item key={v} label={`${v}`} value={v} />
-              ))}
-            </Picker>
-          </View>
+          <SpinnerPickerField label="Week(s)" value={weeksDuration} max={52} onChange={setWeeksDuration} />
         </View>
-
         <View className="flex-1">
-          <Text className="mb-1 text-[13px] text-[#555]">Days</Text>
-          <View className="rounded-[10px] border-[2px] border-[#9BA8AB] bg-white">
-            <Picker selectedValue={daysDuration} onValueChange={setDaysDuration}>
-              {range(31).map((v) => (
-                <Picker.Item key={v} label={`${v}`} value={v} />
-              ))}
-            </Picker>
-          </View>
+          <SpinnerPickerField label="Day(s)" value={daysDuration} max={31} onChange={setDaysDuration} />
         </View>
       </View>
 
@@ -195,61 +223,30 @@ export default function MedicationForm({
         })}
       </View>
 
-      {/* Morning / Noon / Evening */}
-      <View className="mt-7 flex-row justify-between">
-        <View className="flex-1 items-center">
-          <Text className="mb-1 text-[13px] text-[#555]">Morning</Text>
-          <View className="w-full rounded-[10px] border-[2px] border-[#9BA8AB] bg-white">
-            <Picker
-              selectedValue={morningFrequency}
-              onValueChange={setMorningFrequency}
-              enabled={!noSpecificTime}
-            >
-              {range(10).map((v) => (
-                <Picker.Item key={v} label={`${v}`} value={v} />
-              ))}
-            </Picker>
-          </View>
-        </View>
-
-        <View className="flex-1 items-center px-2">
-          <Text className="mb-1 text-[13px] text-[#555]">Noon</Text>
-          <View className="w-full rounded-[10px] border-[2px] border-[#9BA8AB] bg-white">
-            <Picker
-              selectedValue={noonFrequency}
-              onValueChange={setNoonFrequency}
-              enabled={!noSpecificTime}
-            >
-              {range(10).map((v) => (
-                <Picker.Item key={v} label={`${v}`} value={v} />
-              ))}
-            </Picker>
-          </View>
-        </View>
-
-        <View className="flex-1 items-center">
-          <Text className="mb-1 text-[13px] text-[#555]">Evening</Text>
-          <View className="w-full rounded-[10px] border-[2px] border-[#9BA8AB] bg-white">
-            <Picker
-              selectedValue={eveningFrequency}
-              onValueChange={setEveningFrequency}
-              enabled={!noSpecificTime}
-            >
-              {range(10).map((v) => (
-                <Picker.Item key={v} label={`${v}`} value={v} />
-              ))}
-            </Picker>
-          </View>
-        </View>
-      </View>
-
+      {/* No specific time */}
       <Pressable
         onPress={() => setNoSpecificTime((p) => !p)}
-        className="mt-7 flex-row items-center"
+        className="mt-5 flex-row items-center"
       >
         <View className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"}`} />
         <Text className="ml-3 text-[16px] text-black">No specific time of the day.</Text>
       </Pressable>
+
+      {/* Morning / Noon / Evening */}
+      <View className="mt-5 flex-row gap-3">
+        <View className="flex-1">
+          <Text className="mb-2 text-[14px] text-[#555]">Morning Intake</Text>
+          <SpinnerPickerField label="pills" value={morningFrequency} max={10} onChange={setMorningFrequency} disabled={noSpecificTime} />
+        </View>
+        <View className="flex-1">
+          <Text className="mb-2 text-[14px] text-[#555]">Noon Intake</Text>
+          <SpinnerPickerField label="pills" value={noonFrequency} max={10} onChange={setNoonFrequency} disabled={noSpecificTime} />
+        </View>
+        <View className="flex-1">
+          <Text className="mb-2 text-[14px] text-[#555]">Evening Intake</Text>
+          <SpinnerPickerField label="pills" value={eveningFrequency} max={10} onChange={setEveningFrequency} disabled={noSpecificTime} />
+        </View>
+      </View>
 
       {/* Intake Frequency */}
       <Text className="mt-7 text-[21px] font-medium text-black">Intake Frequency</Text>
