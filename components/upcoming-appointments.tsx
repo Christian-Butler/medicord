@@ -1,6 +1,5 @@
 import { useAppointmentList } from "@/src/hooks/useAppointmentList";
 import { formatAppointmentDateTime } from "@/src/utils/dateTime";
-import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,11 +8,11 @@ import {
   Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Pressable,
   StyleSheet,
   Text,
+  TouchableOpacity,
   useWindowDimensions,
-  View,
+  View
 } from "react-native";
 
 const CARD_GAP = 14;
@@ -22,7 +21,7 @@ export default function UpcomingAppointments() {
   const { upcomingAppointments, loading, error } = useAppointmentList();
   const [activeIndex, setActiveIndex] = useState(0);
   const { width } = useWindowDimensions();
-  const cardWidth = width - 44;
+  const cardWidth = width - 36;
   const { t } = useTranslation();
 
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
@@ -83,15 +82,8 @@ export default function UpcomingAppointments() {
           const avatarUrl = item.doctors?.avatar_url;
 
           return (
-            <Pressable
+            <View
               style={[styles.card, { width: cardWidth }]}
-              accessibilityRole="button"
-              onPress={() =>
-                router.push({
-                  pathname: "/appointment-details" as never,
-                  params: { appointmentId: item.id },
-                })
-              }
             >
               <View style={styles.topRow}>
                 <View style={styles.avatarWrapper}>
@@ -111,8 +103,6 @@ export default function UpcomingAppointments() {
                     {t(`upcoming-appointments.${doctorSpecialty}`)}
                   </Text>
                 </View>
-
-                <MaterialIcons name="chevron-right" size={42} color="#000" style={styles.chevron} />
               </View>
 
               <View style={styles.datePill}>
@@ -120,7 +110,29 @@ export default function UpcomingAppointments() {
                   {formatAppointmentDateTime(item.starts_at)}
                 </Text>
               </View>
-            </Pressable>
+              <View className="flex-row justify-between">
+                <TouchableOpacity onPress={() =>
+                  router.push({
+                    pathname: "/edit-appointment" as never,
+                    params: { appointmentId: item.id },
+                  })
+                }>
+                  <View className="mt-6 border-2 border-[#0D5175] rounded-xl px-8 py-4">
+                    <Text className="font-medium color-[#0D5175] text-[16px]">Reschedule</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() =>
+                  router.push({
+                    pathname: "/appointment-details" as never,
+                    params: { appointmentId: item.id },
+                  })
+                }>
+                  <View className="mt-6 bg-[#5085A8] px-8 py-4 rounded-xl">
+                    <Text className="color-[white] font-medium text-[16px]">Check details</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
           );
         }}
       />
@@ -155,14 +167,11 @@ const styles = StyleSheet.create({
   },
   carouselContent: {
     paddingLeft: 18,
-    paddingRight: 22,
   },
   card: {
     minHeight: 134,
-    borderWidth: 2,
-    borderColor: "#0D5175",
     borderRadius: 18,
-    backgroundColor: "#DDF8FF",
+    backgroundColor: "white",
     paddingHorizontal: 18,
     paddingTop: 18,
     paddingBottom: 22,
@@ -177,7 +186,7 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     overflow: "hidden",
     backgroundColor: "#D7E8ED",
-    marginRight: 20,
+    marginRight: 10,
   },
   avatar: {
     width: "100%",
@@ -187,32 +196,29 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   doctorName: {
-    fontSize: 20,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "500",
     color: "#000",
   },
   doctorSpecialty: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "400",
     color: "#000",
     marginTop: 2,
   },
-  chevron: {
-    marginLeft: 8,
-  },
   datePill: {
-    height: 54,
+    height: 38,
     borderRadius: 12,
     backgroundColor: "#0D5A7C",
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 26,
+    marginTop: 12,
     paddingHorizontal: 16,
   },
   dateText: {
     color: "#fff",
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "500",
   },
   statusText: {
     marginLeft: 10,
@@ -225,18 +231,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   emptyCard: {
-    minHeight: 110,
-    borderWidth: 2,
-    borderColor: "#0D5175",
-    borderRadius: 18,
-    backgroundColor: "#DDF8FF",
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 10,
+    minHeight: 50,
+    marginTop: 26,
+    marginLeft: 18,
   },
   emptyText: {
-    fontSize: 18,
+    textAlign: "center",
+    fontSize: 16,
     color: "#333",
   },
   dotsContainer: {
@@ -251,10 +252,9 @@ const styles = StyleSheet.create({
   },
   dotActive: {
     width: 22,
-    backgroundColor: "#0D5175",
   },
   dotInactive: {
     width: 8,
-    backgroundColor: "#B7D4DE",
+    backgroundColor: "white",
   },
 });

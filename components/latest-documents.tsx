@@ -9,29 +9,38 @@ export default function LatestDocuments() {
   const { t } = useTranslation();
 
   return (
-    <View className="px-4 pt-10">
+    <View className=" px-4 pt-10">
       <Text className="pl-2 text-[24px] font-normal text-black">
         {t(`latest-documents.latest`)}
       </Text>
 
       {/* Example document card */}
 
-      <TouchableWithoutFeedback onPress={() => router.push({
-        pathname: "/mr-documents"
-      })}>
-        <View className="border-b-2 border-[#A8C9E1] px-4 py-6 my-2">
+      <TouchableWithoutFeedback
+
+        onPress={() => router.push({
+          pathname: "/mr-documents"
+        })}>
+        <View className="mt-6 bg-[white] rounded-xl px-4 py-4 my-2">
           <View className="flex-row items-center">
             <FontAwesome5
               name="clipboard-list"
               size={40}
-              color="#09516D"
+              color="#0D5175"
               solid
             />
 
             <View className="ml-4 flex-1">
-              <Text className="text-lg font-medium text-black">
-                {t(`latest-documents.noDocument`)}
-              </Text>
+              <View className="flex-row items-end">
+                <Text className="text-lg font-medium text-black">
+                  {t(`latest-documents.document`)}
+                </Text>
+                <View className="mx-2 py-1 px-4 rounded-[10px] border-[2px] border-[#54B85D] bg-[#B1EDB1]">
+                  <Text className="text-[12px] font-medium text-black">
+                    {t(`latest-documents.new`)}
+                  </Text>
+                </View>
+              </View>
               <Text className="mt-1 text-base text-gray-600">
                 {t(`latest-documents.received`)}
               </Text>

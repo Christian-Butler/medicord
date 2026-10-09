@@ -47,6 +47,12 @@ const specialties = [
     icon: "brain",
     library: "MaterialCommunityIcons",
   },
+  {
+    id: "Gyneacology",
+    title: "Gynecology",
+    icon: "",
+    library: "MaterialCommunityIcons",
+  },
 ] as const;
 
 function SpecialtyIcon({ icon, library, size, color }: { icon: string; library: string; size: number; color: string }) {
@@ -89,7 +95,7 @@ export default function DoctorSpecialtyCarousel() {
               })
             }
           >
-            <View className="h-[64px] w-[76px] items-center justify-center rounded-[16px] border-2 border-[#2B6F95] bg-[#DDF8FF]">
+            <View className="h-[70px] w-[70px] items-center justify-center rounded-[16px] bg-[white]">
               <SpecialtyIcon
                 icon={item.icon}
                 library={item.library}

@@ -29,7 +29,7 @@ export default function ProfileHeader() {
           </View>
         </View>
 
-        <TouchableOpacity className="relative h-12 w-12 items-center justify-center rounded-full bg-[#09516D]"
+        <TouchableOpacity className="relative h-12 w-12 items-center justify-center rounded-full bg-[#0D5175]"
           onPress={() => router.push({ pathname: "/notifications" })}>
           <Bell size={26} color="white" />
           <View className="absolute -right-0 -top-1 h-4 w-4 rounded-full bg-[#E7BF3C]" />
