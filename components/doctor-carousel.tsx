@@ -2,7 +2,7 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { FlatList, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 
 const specialties = [
   {
@@ -66,6 +66,9 @@ export default function DoctorSpecialtyCarousel() {
   const router = useRouter();
   const { t } = useTranslation();
   const numColumns = 4;
+  const rows = Array.from({ length: Math.ceil(specialties.length / numColumns) }, (_, rowIndex) =>
+    specialties.slice(rowIndex * numColumns, (rowIndex + 1) * numColumns)
+  );
 
   return (
     <View>
@@ -76,45 +79,44 @@ export default function DoctorSpecialtyCarousel() {
         </Text>
       </View>
 
-      <FlatList
-        key={`specialties-${numColumns}`}
-        horizontal={false}
-        data={specialties}
-        numColumns={numColumns}
-        keyExtractor={(item) => item.id}
-        contentContainerClassName="mx-2 mt-4"
-        renderItem={({ item }) => (
-          <Pressable
-            className="items-center pb-6"
-            onPress={() =>
-              router.push({
-                pathname: "/specialist-page",
-                params: {
-                  specialty: item.title,
-                },
-              })
-            }
-          >
-            <View className="h-[70px] w-[70px] items-center justify-center rounded-[16px] bg-[white]">
-              <SpecialtyIcon
-                icon={item.icon}
-                library={item.library}
-                size={34}
-                color="#09516D"
-              />
-            </View>
+      <View className="mx-2 mt-4">
+        {rows.map((row) => (
+          <View key={row[0].id} className="flex-row">
+            {row.map((item) => (
+              <Pressable
+                key={item.id}
+                className="w-1/4 items-center pb-6"
+                onPress={() =>
+                  router.push({
+                    pathname: "/specialist-page",
+                    params: {
+                      specialty: item.title,
+                    },
+                  })
+                }
+              >
+                <View className="h-[70px] w-[70px] items-center justify-center rounded-[16px] bg-[white]">
+                  <SpecialtyIcon
+                    icon={item.icon}
+                    library={item.library}
+                    size={34}
+                    color="#09516D"
+                  />
+                </View>
 
-            <Text
-              numberOfLines={1}
-              adjustsFontSizeToFit
-              minimumFontScale={0.65}
-              className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black"
-            >
-              {t(`doctor-carousel.${item.title}`)}
-            </Text>
-          </Pressable>
-        )}
-      />
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.65}
+                  className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black"
+                >
+                  {t(`doctor-carousel.${item.title}`)}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
+        ))}
+      </View>
     </View>
   );
 }

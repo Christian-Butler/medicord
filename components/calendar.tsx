@@ -47,22 +47,23 @@ const isSameDay = (first: Date, second: Date) =>
 
 const getWeekDays = (baseDate: Date): DayItem[] => {
     const startOfWeek = new Date(baseDate);
-    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
+    const daysSinceMonday = (baseDate.getDay() + 6) % 7;
+    startOfWeek.setDate(baseDate.getDate() - daysSinceMonday);
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    return Array.from({ length: 7 }, (_, index) => {
+    return Array.from({ length: 6 }, (_, index) => {
         const date = new Date(startOfWeek);
         date.setDate(startOfWeek.getDate() + index);
         date.setHours(0, 0, 0, 0);
         let dateName;
         if (deviceLanguage == "en") {
-            dateName = date.toLocaleDateString("en-EN", { weekday: 'short' })
+            dateName = date.toLocaleDateString("en-EN", { weekday: 'narrow' })
         } else if (deviceLanguage == "fr") {
-            dateName = date.toLocaleDateString("fr-FR", { weekday: 'short' })
+            dateName = date.toLocaleDateString("fr-FR", { weekday: 'narrow' })
         } else {
-            dateName = date.toLocaleDateString("en-EN", { weekday: 'short' })
+            dateName = date.toLocaleDateString("en-EN", { weekday: 'narrow' })
         };
         return {
             date,
@@ -167,28 +168,30 @@ const WeeklyCalendar = ({
                             }}
                             style={[
                                 styles.dayCell,
-                                dayItem.isToday && styles.todayCell,
                                 dayItem.isPast && styles.inactiveCell,
                                 isSelected && styles.selectedCell,
                             ]}
                         >
                             <Text
                                 style={[
-                                    styles.dayNumber,
+                                    styles.dayLabel,
+                                    dayItem.isPast && styles.inactiveText,
                                     isSelected && styles.selectedDayText,
+                                ]}
+                            >
+                                {dayItem.dateName}
+                            </Text>
+                            <Text
+                                style={[
+                                    styles.dayNumber,
+                                    dayItem.isToday && styles.todayText,
+                                    isSelected && styles.selectedDayNumber,
                                     dayItem.isPast && styles.inactiveText,
                                 ]}
                             >
                                 {dayItem.day}
                             </Text>
-                            <Text
-                                style={[
-                                    styles.dayLabel,
-                                    dayItem.isPast && styles.inactiveText,
-                                ]}
-                            >
-                                {dayItem.dateName}
-                            </Text>
+
                         </Pressable>
                     );
                 })}
@@ -213,16 +216,14 @@ const styles = StyleSheet.create({
     navButton: {
         width: 36,
         height: 36,
-        marginRight: 10,
-        marginLeft: 10,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 18,
-        backgroundColor: '#f3f6f8',
+        backgroundColor: '#EFF7F8',
     },
     navText: {
-        fontSize: 22,
-        fontWeight: '600',
+        fontSize: 20,
+        fontWeight: '500',
         color: '#0',
     },
     currentDate: {
@@ -232,58 +233,64 @@ const styles = StyleSheet.create({
     },
     weekRow: {
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 8,
     },
     dayLabelContainer: {
-        flex: 1,
         alignItems: 'center',
     },
     dayLabel: {
-        fontSize: 16,
+        textAlign: 'center',
+        fontSize: 12,
         fontWeight: 500,
-        color: '#fff',
-        paddingBottom: 2,
+        color: '#1A1A1A',
+        marginBottom: 8,
     },
     daysRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        alignSelf: 'center',
-        width: 360,
+        justifyContent: "space-between",
+        flexDirection: 'row',
     },
     dayCell: {
         flex: 1,
+        height: 56,
         alignItems: 'center',
         justifyContent: 'center',
-        marginHorizontal: 4,
-        paddingVertical: 14,
-        borderRadius: 14,
-        color: '#fff',
-        backgroundColor: '#326F95',
     },
-    todayCell: {
-        color: '#fff',
-        backgroundColor: '#326F95',
+    todayText: {
+        borderRadius: '100%',
+        color: 'white',
+        backgroundColor: "#0D5175"
     },
     selectedCell: {
-        color: '#fff',
-        backgroundColor: '#0D5175',
+        color: 'white',
+        backgroundColor: "#0D5175",
+        borderRadius: 16,
+        paddingVertical: 4,
     },
     inactiveCell: {
-        opacity: 0.45,
+        opacity: 0.5
     },
     dayNumber: {
         fontSize: 20,
-        paddingBottom: 10,
+        width: 28,
+        height: 28,
+        textAlign: 'center',
+        textAlignVertical: 'center',
+        includeFontPadding: false,
+        color: 'black',
         fontWeight: '500',
-        color: '#fff',
     },
     selectedDayText: {
-        color: '#fff',
+        color: 'white',
+    },
+    selectedDayNumber: {
+        color: '#0D5175',
+        backgroundColor: 'white',
+        borderRadius: '100%',
     },
     inactiveText: {
-        color: '#b4cedb',
+        color: '#1A1A1A',
     },
 });
 

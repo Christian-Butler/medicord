@@ -35,7 +35,6 @@ function StarButton({ doctorId }: { doctorId: string }) {
 
   return (
     <TouchableOpacity
-      style={styles.favorite}
       onPress={async () => {
         const result = await toggle(doctorId);
         setIsFavourite(result);
@@ -43,7 +42,7 @@ function StarButton({ doctorId }: { doctorId: string }) {
     >
       <MaterialIcons
         name={isFavourite ? "star" : "star-border"}
-        size={24}
+        size={28}
         color="#E7BF3C"
       />
     </TouchableOpacity>
@@ -126,20 +125,31 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
           return (
             <View key={doctor.id} style={styles.card}>
               <View style={styles.doctorInfo}>
-                {avatar ? (
-                  <Image source={{ uri: avatar }} style={styles.avatar} />
-                ) : (
-                  <View style={[styles.avatar, { backgroundColor: '#D7E8ED' }]} />
-                )}
-
-                <View style={styles.doctorText}>
-                  <Text style={styles.name}>{doctor.full_name}</Text>
-                  <Text style={styles.profession}>
-                    {doctor.specialty ?? specialty}
-                  </Text>
+                <View>
+                  {avatar ? (
+                    <Image source={{ uri: avatar }} style={styles.avatar} />
+                  ) : (
+                    <View style={[styles.avatar, { backgroundColor: '#D7E8ED' }]} />
+                  )}
                 </View>
 
-                <StarButton doctorId={doctor.id} />
+                <View className="flex-1 flex-row items-center justify-between">
+                  <View className="flex-1">
+                    <Text style={styles.name}>{doctor.full_name}</Text>
+                    <View className="flex-row items-center">
+                      <Text style={styles.profession}>
+                        {doctor.specialty ?? specialty}
+                      </Text>
+                      <Text className="mx-1">
+                        •
+                      </Text>
+                      <Text style={styles.profession}>
+                        {doctor.location}
+                      </Text>
+                    </View>
+                  </View>
+                  <StarButton doctorId={doctor.id} />
+                </View>
               </View>
 
               <View style={styles.slot}>
@@ -181,36 +191,35 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
 const styles = StyleSheet.create({
   search: {
-    width: 350,
+    width: 380,
     marginTop: 18,
     marginBottom: 20,
     alignSelf: "center",
   },
   statusText: {
-    width: 350,
     alignSelf: "center",
     marginBottom: 12,
     fontSize: 14,
     color: "#333",
   },
   errorText: {
-    width: 350,
     alignSelf: "center",
     marginBottom: 12,
     fontSize: 14,
     color: "#B42318",
   },
   containerMain: {
-    paddingHorizontal: 6,
-    paddingVertical: 4,
+    paddingHorizontal: 12,
   },
   card: {
-    padding: 10,
-    marginBottom: 10,
+    backgroundColor: "white",
+    borderRadius: 18,
+    paddingHorizontal: 18,
+    paddingVertical: 14,
+    marginBottom: 18,
   },
   doctorInfo: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
   },
   avatar: {
     width: 56,
@@ -218,31 +227,23 @@ const styles = StyleSheet.create({
     borderRadius: 28,
     marginRight: 12,
   },
-  doctorText: {
-    width: 250,
-  },
-  favorite: {
-    marginLeft: 40,
-    flexDirection: "row",
-  },
   name: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "500",
   },
   profession: {
+    marginTop: 4,
     fontSize: 14,
-    fontWeight: "300",
+    fontWeight: "400",
   },
   day: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
     backgroundColor: "#fff",
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 12,
     paddingRight: 12,
-    borderWidth: 2,
-    borderColor: "#0D5175",
     borderRadius: 14,
   },
   slot: {
