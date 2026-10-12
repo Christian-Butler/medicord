@@ -25,7 +25,7 @@ export default function MedicalHistory() {
                     <Text className="text-2xl text-center">{t(`mr-history.query`)}</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-base text-center">
+                    <Text className="text-[16px] text-center">
                         {t(`mr-history.info`)}
                     </Text>
                 </View>
@@ -54,14 +54,14 @@ export default function MedicalHistory() {
                                             <Text className="font-medium text-xl mb-1">{t(`mr-history.${record.item}`)}</Text>
                                             {record.family_diagnosis ? (
                                                 <View className="flex-row">
-                                                    <Text className="text-base font-medium text-black">{t(`mr-history.diagnosed`)}</Text>
-                                                    <Text className="text-base text-gray-800">{record.family_diagnosis} {t(`mr-history.years`)}</Text>
+                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.diagnosed`)}</Text>
+                                                    <Text className="text-[16px] text-gray-800">{record.family_diagnosis} {t(`mr-history.years`)}</Text>
                                                 </View>
                                             ) : null}
                                             {record.family_member ? (
                                                 <View className="flex-row">
-                                                    <Text className="text-base font-medium text-black">{t(`mr-history.relationship`)} </Text>
-                                                    <Text className="text-base text-gray-800">{record.family_member}</Text>
+                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.relationship`)} </Text>
+                                                    <Text className="text-[16px] text-gray-800">{record.family_member}</Text>
                                                 </View>
                                             ) : null}
                                         </View>
@@ -97,22 +97,22 @@ export default function MedicalHistory() {
                 {personalRecords.length > 0 && (
                     <View className="mt-4 mb-10">
                         {personalRecords.map((record) => (
-                            <View key={record.id} className="mt-4 px-4 py-2 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                            <View key={record.id} className="mt-4 px-4 py-2 bg-white rounded-2xl ">
                                 <View className="my-4 flex-row items-center justify-between">
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="medical-information" size={36} color="#0D5175" />
                                         <View className="ml-4">
                                             <Text className="font-medium text-xl mb-1">{t(`mr-history.${record.item}`)}</Text>
                                             {record.diagnosis ? (
-                                                <View className="flex-row">
-                                                    <Text className="text-base font-medium text-black">{t(`mr-history.diagnosed2`)} </Text>
-                                                    <Text className="text-base text-gray-800">{record.diagnosis}</Text>
+                                                <View className="flex-row mb-1">
+                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.diagnosed2`)} </Text>
+                                                    <Text className="text-[16px] text-gray-800">{record.diagnosis}</Text>
                                                 </View>
                                             ) : null}
                                             {record.condition_state ? (
                                                 <View className="flex-row">
-                                                    <Text className="text-base font-medium text-black">{t(`mr-history.state`)} </Text>
-                                                    <Text className="text-base text-gray-800">{t(`mr-history.${record.condition_state}`)}</Text>
+                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.state`)} </Text>
+                                                    <Text className="text-[16px] text-gray-800">{t(`mr-history.${record.condition_state}`)}</Text>
                                                 </View>
                                             ) : null}
                                         </View>

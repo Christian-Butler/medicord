@@ -63,7 +63,7 @@ function MeasurementsModal({ visible, inputConfig, firstValue, onClose, onSubmit
                                 placeholder={t(`mr-measurements.noSpec`)}
                                 value={value}
                                 onChangeText={setValue}
-                                className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
                             />
                         </View>
 
@@ -114,13 +114,13 @@ export default function Measurements() {
                         <View key={field.key} className="mt-6" >
                             <TouchableOpacity
                                 onPress={() => setActiveInput(field)}
-                                className="flex-row h-32 border-2 bg-[#E1F9FF] border-[#326F95] items-center rounded-2xl"
+                                className="flex-row py-6 px-2 bg-white items-center rounded-2xl"
                                 accessibilityRole="button"
                             >
                                 <MaterialIcons className="p-2" name={field.icon} size={48} color="#0D5175" />
                                 <View>
-                                    <Text className="text-base text-xl font-medium">{t(`mr-measurements.${field.title}`)}</Text>
-                                    <Text className="pt-2 text-base">{value.trim() ? value : t(`mr-measurements.noSpec`)}</Text>
+                                    <Text className="ml-2 text-[16px] text-xl font-medium">{t(`mr-measurements.${field.title}`)}</Text>
+                                    <Text className="ml-2 pt-2 text-[16px]">{value.trim() ? value : t(`mr-measurements.noSpec`)}</Text>
                                 </View>
 
                             </TouchableOpacity>

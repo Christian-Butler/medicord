@@ -34,12 +34,12 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
       ) : null}
 
       <View className="flex-1">
-        <Text className={`text-[18px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
+        <Text className={`text-[16px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
           {t(`profile.${title}`)}
         </Text>
 
         {subtitle ? (
-          <Text className="mt-1 text-[15px] font-normal text-black">{subtitle}</Text>
+          <Text className="mt-1 text-[14px] font-normal text-black">{subtitle}</Text>
         ) : null}
       </View>
 

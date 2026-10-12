@@ -13,7 +13,7 @@ export default function ChatList() {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[15px] text-black">{t(`chat-list.loading`)}</Text>
+        <Text className="text-[15px] text-[16px]lack">{t(`chat-list.loading`)}</Text>
       </View>
     );
   }

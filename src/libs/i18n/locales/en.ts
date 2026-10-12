@@ -560,6 +560,7 @@ export const en = {
         "Measurements": "Measurements",
     },
     "mr-allergies": {
+        add: "Add an allergy",
         query: "Do you have any allergy?",
         "Dust Mites": "Dust Mites",
         "Latex": "Latex",
@@ -676,6 +677,13 @@ export const en = {
         "Penicillin": "Penicillin",
         "Pollen": "Pollen",
         "Shellfish": "Shellfish",
+        "COVID-19": "COVID-19",
+        "Diptheria": "Diptheria",
+        "Hepatitis B": "Hepatitis B",
+        "Influenza (Flu)": "Influenza (Flu)",
+        "MMR": "MMR",
+        "Polio": "Polio",
+        "Tetanus": "Tetanus",
         sorry: "Sorry,",
         noFound: "is not found.",
 

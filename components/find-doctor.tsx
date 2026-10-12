@@ -54,7 +54,7 @@ export default function FindDoctor() {
           {t(`find-doctor.find`)}
         </Text>
 
-        <Pressable className="h-14 w-20 items-center justify-center border-2 border-[##B10111] rounded-xl bg-white">
+        <Pressable className="h-14 w-20 items-center justify-center border border-[#0D5175] rounded-xl p-3 bg-white">
           <Siren fill="#B10111" size={22} color="#B10111" />
         </Pressable>
       </View>
@@ -115,7 +115,7 @@ export default function FindDoctor() {
               <View className="mr-3 h-12 w-12 rounded-full bg-[#7B8A91]" />
             )}
             <View>
-              <Text className="font-medium text-base text-black">{doctor.full_name}</Text>
+              <Text className="font-medium text-[16px] text-black">{doctor.full_name}</Text>
               <Text className="text-[#7B8A91]">{t(`find-doctor.${doctor.specialty ?? "Doctor"}`)}</Text>
             </View>
           </Pressable>

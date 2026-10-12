@@ -24,7 +24,7 @@ export default function ResetPasswordPage() {
           {t(`reset-password.name`)}
         </Text>
 
-        <Text className="mt-3 text-center text-[22px] font-medium text-black">
+        <Text className="mt-3 text-center text-[22px] font-medium text-[16px]lack">
           {t(`reset-password.new`)}
         </Text>
 
@@ -34,24 +34,24 @@ export default function ResetPasswordPage() {
           </Text>
         ) : null}
 
-        <Text className="mt-8 text-[17px] font-medium text-black">{t(`reset-password.newP`)}</Text>
+        <Text className="mt-8 text-[17px] font-medium text-[16px]lack">{t(`reset-password.newP`)}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           placeholder="Enter new password"
           placeholderTextColor="#7A8A8D"
-          className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+          className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-[16px]lack"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">{t(`reset-password.confirmP`)}</Text>
+        <Text className="mt-5 text-[17px] font-medium text-[16px]lack">{t(`reset-password.confirmP`)}</Text>
         <TextInput
           value={confirm}
           onChangeText={setConfirm}
           secureTextEntry
           placeholder={t(`reset-password.confirmN`)}
           placeholderTextColor="#7A8A8D"
-          className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+          className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-[16px]lack"
         />
 
         <Pressable

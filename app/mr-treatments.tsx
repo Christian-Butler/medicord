@@ -58,27 +58,27 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                         </TouchableOpacity>
 
                         <View className="mt-6 mb-4">
-                            <Text className="text-base font-medium mb-1 text-[#000]">
+                            <Text className="text-[16px] font-regular mb-2 text-black">
                                 {t(`mr-treatments.name`)}
                             </Text>
                             <TextInput
                                 placeholder={t(`mr-treatments.eg`)}
                                 value={treatmentName}
                                 onChangeText={setTreatmentName}
-                                className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                className="border border-[#0D5175] rounded-xl p-3 bg-white text-[16px] text-black"
                             />
                         </View>
 
                         <View>
                             <View className="mb-4">
-                                <Text className="text-base font-medium mb-1 text-[#333]">
+                                <Text className="text-[16px] font-regular mb-2 text-black">
                                     {t(`mr-treatments.query`)}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => setShowPicker(true)}
-                                    className="border border-[#326F95] rounded-xl p-3 bg-[#fff] flex-row justify-between items-center"
+                                    className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
                                 >
-                                    <Text className="text-base text-[#333]">
+                                    <Text className="text-[16px] text-black">
                                         {date.toLocaleDateString()}
                                     </Text>
                                 </TouchableOpacity>
@@ -95,14 +95,14 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                             </View>
 
                             <View className="mb-4">
-                                <Text className="text-base font-medium mb-1 text-[#000]">
+                                <Text className="text-[16px] font-regular mb-2 text-black">
                                     {t(`mr-treatments.query2`)}
                                 </Text>
                                 <TextInput
                                     placeholder="e.g. 2 pills morning and evening"
                                     value={frequency}
                                     onChangeText={setFrequency}
-                                    className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                    className="border border-[#0D5175] rounded-xl px-4 py-4 bg-white text-[16px] text-black"
                                 />
                             </View>
 
@@ -112,7 +112,7 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                                 onPress={handleSave}
                                 className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
                             >
-                                <Text className="self-center text-white font-medium text-base">{t(`mr-treatments.add`)}</Text>
+                                <Text className="self-center text-white font-medium text-[16px]">{t(`mr-treatments.add`)}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -196,7 +196,7 @@ export default function Treatments() {
                     <Text className="text-2xl text-center">{t(`mr-treatments.query3`)}</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-base text-center">{t(`mr-treatments.info`)}</Text>
+                    <Text className="text-[14px] text-center">{t(`mr-treatments.info`)}</Text>
                 </View>
                 <View className="flex-1 mx-2 mt-2 mb-20 pt-12" >
                     <TouchableOpacity
@@ -205,7 +205,7 @@ export default function Treatments() {
                         onPress={handleOpen}
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">{t(`mr-treatments.add2`)}</Text>
+                        <Text className="text-[16px] text-center text-[#fff] font-medium">{t(`mr-treatments.add2`)}</Text>
                     </TouchableOpacity>
                 </View>
                 {/* 
@@ -214,7 +214,7 @@ export default function Treatments() {
                         className="flex-1 flex-row justify-center border-2 bg-[#fff] border-[#5085A8] h-14 items-center rounded-2xl"
                         accessibilityRole="button"
                     >
-                        <Text className="text-base text-center text-[#5085A8] font-medium">I am not taking any treatment</Text>
+                        <Text className="text-[16px]ase text-center text-[#5085A8] font-medium">I am not taking any treatment</Text>
 
                     </TouchableOpacity>
                 </View>
@@ -230,7 +230,7 @@ export default function Treatments() {
                     {treatmentsList.map((treatment) => (
                         <View
                             key={treatment.id}
-                            className="px-2 py-8 mb-4 flex-row items-center justify-between rounded-2xl border-2 border-[#326F95]">
+                            className="mt-10 px-2 py-6 mb-4 flex-row items-center justify-between rounded-2xl bg-white">
                             <View className="flex-row ">
                                 <MaterialIcons name="medication" size={44} color="#0D5175" className="self-center" />
                                 <View className="justify-start mx-8">
@@ -239,12 +239,12 @@ export default function Treatments() {
                                     </Text>
 
                                     <View className="mb-1 flex-row">
-                                        <Text className="text-base font-medium text-black">{t(`mr-treatments.started`)} </Text>
-                                        <Text className="text-base text-gray-800">{treatment.startDate}</Text>
+                                        <Text className="text-[16px] font-medium text-[16px]lack">{t(`mr-treatments.started`)} </Text>
+                                        <Text className="text-[16px] text-gray-800">{treatment.startDate}</Text>
                                     </View>
                                     <View className="flex-row">
-                                        <Text className="text-base font-medium text-black">{t(`mr-treatments.frequency`)} </Text>
-                                        <Text className="text-base text-gray-800">{treatment.frequency}</Text>
+                                        <Text className="text-[16px] font-medium text-[16px]lack">{t(`mr-treatments.frequency`)} </Text>
+                                        <Text className="text-[16px] text-gray-800">{treatment.frequency}</Text>
                                     </View>
                                 </View>
                             </View>

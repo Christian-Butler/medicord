@@ -19,7 +19,7 @@ export default function LogoutModal({ visible, onCancel, onConfirm }: LogoutModa
       <View className="flex-1 justify-center bg-[#B8C8E8]/80 px-8">
 
         <View className="w-full rounded-2xl border border-[#333] bg-[#EEF4FB] px-4 py-10">
-          <Text className="text-center text-[22px] font-semibold text-black">
+          <Text className="text-center text-[20px] font-semibold text-black">
             {t(`logout-modal.query`)}
           </Text>
 

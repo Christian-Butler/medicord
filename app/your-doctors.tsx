@@ -31,14 +31,14 @@ export default function YourDoctors() {
           placeholderTextColor="#7B8A91"
           value={searchQuery}
           onChangeText={setSearchQuery}
-          className="ml-3 flex-1 text-base text-black"
+          className="ml-3 flex-1 text-[16px] text-black"
         />
       </View>
 
       {loading ? (
-        <Text className="text-center mt-8 text-[15px] text-black">{t(`your-doctors.loading`)}</Text>
+        <Text className="text-center mt-8 text-[16px] text-black">{t(`your-doctors.loading`)}</Text>
       ) : error ? (
-        <Text className="text-center mt-8 text-[15px] text-[#B42318]">{error}</Text>
+        <Text className="text-center mt-8 text-[16px] text-[#B42318]">{error}</Text>
       ) : (
         <FlatList
           data={filtered}

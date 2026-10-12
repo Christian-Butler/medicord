@@ -108,7 +108,7 @@ export default function DoctorSpecialtyCarousel() {
                   numberOfLines={1}
                   adjustsFontSizeToFit
                   minimumFontScale={0.65}
-                  className="mt-2 w-[96px] text-center text-[13px] leading-[16px] text-black"
+                  className="mt-2 w-[96px] text-center text-[14px] leading-[16px] text-black"
                 >
                   {t(`doctor-carousel.${item.title}`)}
                 </Text>

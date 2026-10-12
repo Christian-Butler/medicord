@@ -73,7 +73,7 @@ export default function FamilyMembersList() {
                                     size={24}
                                     color="#5085A8"
                                 />
-                                <Text className="ml-3 text-base text-black">{t(`mr-family-members.${item}`)}</Text>
+                                <Text className="ml-3 text-[16px] text-black">{t(`mr-family-members.${item}`)}</Text>
                             </TouchableOpacity>
                         );
                     }}
@@ -88,7 +88,7 @@ export default function FamilyMembersList() {
                         disabled={selectedMembers.length === 0}
                         onPress={handleSubmit}
                     >
-                        <Text className="text-base font-medium text-white">{t(`mr-family-members.continue`)}</Text>
+                        <Text className="text-[16px] font-medium text-white">{t(`mr-family-members.continue`)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

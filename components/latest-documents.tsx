@@ -41,7 +41,7 @@ export default function LatestDocuments() {
                   </Text>
                 </View>
               </View>
-              <Text className="mt-1 text-base text-gray-600">
+              <Text className="mt-1 text-[16px] text-gray-600">
                 {t(`latest-documents.received`)}
               </Text>
             </View>

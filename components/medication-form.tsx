@@ -43,7 +43,7 @@ function formatHour(value: string) {
 
 
 export default function MedicationForm({
-  
+
   medication,
   saving = false,
   error,
@@ -247,7 +247,7 @@ export default function MedicationForm({
             <Pressable
               key={day}
               disabled={noSpecificTime}
-               onPress={() => !noSpecificTime && setFrequency(option.value)}
+              onPress={() => !noSpecificTime && setFrequency(option.value)}
               className={`h-[43px] min-w-[45px] items-center justify-center rounded-[7px] border-[2px] border-[#0D5175] px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
                 } ${noSpecificTime ? "opacity-50" : ""}`}
             >
@@ -267,7 +267,7 @@ export default function MedicationForm({
           <StepperBox
             widthClassName="w-[80px]"
             value={morningFrequency}
-             disabled={noSpecificTime}
+            disabled={noSpecificTime}
             onIncrement={() =>
               setMorningFrequency((current) => incrementValue(current, 10))
             }
@@ -285,7 +285,7 @@ export default function MedicationForm({
           <StepperBox
             widthClassName="w-[80px]"
             value={noonFrequency}
-             disabled={noSpecificTime}
+            disabled={noSpecificTime}
             onIncrement={() =>
               setNoonFrequency((current) => incrementValue(current, 10))
             }
@@ -303,7 +303,7 @@ export default function MedicationForm({
           <StepperBox
             widthClassName="w-[80px]"
             value={eveningFrequency}
-             disabled={noSpecificTime}
+            disabled={noSpecificTime}
             onIncrement={() =>
               setEveningFrequency((current) => incrementValue(current, 10))
             }

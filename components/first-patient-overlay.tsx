@@ -29,7 +29,7 @@ export default function FirstTimeBookingOverlay({
               <BriefcaseMedical size={48} color="white" strokeWidth={2} />
             </View>
 
-            <Text className="mb-10 text-center text-[21px] font-semibold leading-7 text-black">
+            <Text className="mb-10 text-center text-[20px] font-semibold leading-7 text-black">
               {t(`first-patient-overlay.query`)}
             </Text>
 
