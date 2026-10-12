@@ -61,7 +61,7 @@ export default function FindDoctor() {
 
       {/* Search input */}
       <View className="mb-4">
-        <Text className="text-2xl font-regular text-zinc-600">
+        <Text className="text-2xl font-regular text-gray-600">
           {t(`find-doctor.name`)}
         </Text>
       </View>

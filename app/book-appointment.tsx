@@ -97,6 +97,7 @@ export default function Booking() {
     }
 
     const visibleError = formError ?? doctorError ?? createError;
+    const confirm = Boolean(selectedDate && selectedTime && isChecked);
 
     const { t } = useTranslation();
 
@@ -110,8 +111,9 @@ export default function Booking() {
                     <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
 
                     <View style={styles.month}>
-                        <Text>{t(`book-appointment.selected`)}{getMonthLabel(selectedDate)}</Text>
-                        <MaterialIcons name="keyboard-arrow-down" size={18} />
+                        <MaterialIcons name="chevron-left" size={24} />
+                        <Text>{getMonthLabel(selectedDate)} 2026</Text>
+                        <MaterialIcons name="chevron-right" size={24} />
                     </View>
                 </View>
 
@@ -148,35 +150,48 @@ export default function Booking() {
                 ) : null}
 
                 <View style={styles.noticeRow}>
-                    <Checkbox
-                        style={{ marginRight: 20 }}
-                        value={isChecked}
-                        onValueChange={(value) => {
-                            setChecked(value);
-                            setFormError(null);
-                        }}
-                    />
 
-                    <Text style={styles.noticeText}>
-                        {t(`book-appointment.notice`)}
-                    </Text>
                 </View>
 
-                <View
-                    style={[
-                        styles.containerButton,
-                        creating ? styles.disabledButton : null,
-                    ]}
-                >
-                    <Pressable
-                        accessibilityRole="button"
-                        disabled={creating}
-                        onPress={handleConfirmBooking}
-                    >
-                        <Text style={styles.buttonText}>
-                            {creating ? "Booking..." : t(`book-appointment.confirm`)}
+                <View style={styles.container}>
+                    <View className="flex-row px-2 items-center">
+                        <Checkbox
+                            style={{ marginRight: 20 }}
+                            value={isChecked}
+                            onValueChange={(value) => {
+                                setChecked(value);
+                                setFormError(null);
+                            }}
+                        />
+
+                        <Text style={styles.noticeText}>
+                            {t(`book-appointment.notice`)}
                         </Text>
-                    </Pressable>
+                    </View>
+                    <View className="flex-row pt-6 px-6 justify-center items-center">
+                        <View>
+                            <Text className="font-regular text-[16px]">{t(`book-appointment.recap1`)}</Text>
+                        </View>
+                        <Text className="font-regular text-[16px]">{t(`book-appointment.recap2`)}</Text>
+                    </View>
+                    <View
+                        style={[
+                            styles.containerButton,
+                            !confirm || creating ? styles.disabledButton : null,
+                        ]}
+                    >
+                        <Pressable
+                            accessibilityRole="button"
+                            disabled={!confirm || creating}
+                            onPress={handleConfirmBooking}
+                        >
+                            <Text style={styles.buttonText}>
+                                {creating ? "Booking..." : t(`book-appointment.confirm`)}
+                            </Text>
+                        </Pressable>
+                    </View>
+
+
                 </View>
             </ScrollView>
 
@@ -195,31 +210,37 @@ export default function Booking() {
 
 const styles = StyleSheet.create({
     month: {
-        fontSize: 12,
+        marginTop: 6,
+        fontSize: 14,
         fontWeight: "500",
         backgroundColor: "#fff",
-        paddingTop: 6,
-        paddingBottom: 6,
-        paddingLeft: 12,
-        paddingRight: 10,
-        borderWidth: 2,
-        borderColor: "#0D5175",
+        paddingVertical: 8,
+        paddingHorizontal: 6,
         borderRadius: 14,
         flexDirection: "row",
         alignItems: "center",
     },
-
     monthContainer: {
         flexDirection: "row",
         alignItems: "center",
         width: "90%",
         alignSelf: "center",
         justifyContent: "space-between",
-        marginBottom: 26,
+        marginBottom: 20,
     },
-
+    container: {
+        width: '100%',
+        height: '100%',
+        backgroundColor: "#fff",
+        alignSelf: "center",
+        padding: 20,
+        shadowColor: "#070b23",
+        shadowOffset: { width: 0, height: -2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+    },
     containerButton: {
-        width: "96%",
+        width: "90%",
         backgroundColor: "#5085A8",
         color: "#fff",
         height: 50,
@@ -233,7 +254,7 @@ const styles = StyleSheet.create({
     },
 
     disabledButton: {
-        opacity: 0.6,
+        backgroundColor: "#A1A1A1",
     },
 
     buttonText: {

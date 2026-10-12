@@ -127,7 +127,7 @@ export default function UpcomingAppointments() {
                     params: { appointmentId: item.id },
                   })
                 }>
-                  <View className="mt-6 bg-[#5085A8] px-8 py-4 rounded-xl">
+                  <View className="mt-6 bg-[#5085A8] border-2 border-[#5085A8] px-8 py-4 rounded-xl">
                     <Text className="color-[white] font-medium text-[16px]">Check details</Text>
                   </View>
                 </TouchableOpacity>

@@ -16,6 +16,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import WeeklyCalendar from "./calendar";
 
 type SpecialityContainerProps = {
@@ -106,85 +107,85 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
           className="ml-4 flex-1 text-lg text-black"
         />
       </View>
+      <ScrollView>
+        {loading ? <Text style={styles.statusText}>{t(`speciality-container.loading`)}</Text> : null}
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {availabilityError ? <Text style={styles.errorText}>{availabilityError}</Text> : null}
+        {!loading && !error && doctors.length === 0 ? (
+          <Text style={styles.statusText}>{t(`speciality-container.noDoctor`)}</Text>
+        ) : null}
 
-      {loading ? <Text style={styles.statusText}>{t(`speciality-container.loading`)}</Text> : null}
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
-      {availabilityError ? <Text style={styles.errorText}>{availabilityError}</Text> : null}
-      {!loading && !error && doctors.length === 0 ? (
-        <Text style={styles.statusText}>{t(`speciality-container.noDoctor`)}</Text>
-      ) : null}
+        <View style={styles.containerMain}>
+          {doctors.map((doctor, index) => {
+            const closestDay =
+              availabilityByDoctorId[doctor.id] ?? t(`speciality-container.availability`);
 
-      <View style={styles.containerMain}>
-        {doctors.map((doctor, index) => {
-          const closestDay =
-            availabilityByDoctorId[doctor.id] ?? t(`speciality-container.availability`);
-
-          const avatar =
-            doctor.avatar_url || null;
-          console.log(`[Doctor] ${doctor.full_name} avatar:`, avatar);
-          return (
-            <View key={doctor.id} style={styles.card}>
-              <View style={styles.doctorInfo}>
-                <View>
-                  {avatar ? (
-                    <Image source={{ uri: avatar }} style={styles.avatar} />
-                  ) : (
-                    <View style={[styles.avatar, { backgroundColor: '#D7E8ED' }]} />
-                  )}
-                </View>
-
-                <View className="flex-1 flex-row items-center justify-between">
-                  <View className="flex-1">
-                    <Text style={styles.name}>{doctor.full_name}</Text>
-                    <View className="flex-row items-center">
-                      <Text style={styles.profession}>
-                        {doctor.specialty ?? specialty}
-                      </Text>
-                      <Text className="mx-1">
-                        •
-                      </Text>
-                      <Text style={styles.profession}>
-                        {doctor.location}
-                      </Text>
-                    </View>
+            const avatar =
+              doctor.avatar_url || null;
+            console.log(`[Doctor] ${doctor.full_name} avatar:`, avatar);
+            return (
+              <View key={doctor.id} style={styles.card}>
+                <View style={styles.doctorInfo}>
+                  <View>
+                    {avatar ? (
+                      <Image source={{ uri: avatar }} style={styles.avatar} />
+                    ) : (
+                      <View style={[styles.avatar, { backgroundColor: '#D7E8ED' }]} />
+                    )}
                   </View>
-                  <StarButton doctorId={doctor.id} />
+
+                  <View className="flex-1 flex-row items-center justify-between">
+                    <View className="flex-1">
+                      <Text style={styles.name}>{doctor.full_name}</Text>
+                      <View className="flex-row items-center">
+                        <Text style={styles.profession}>
+                          {doctor.specialty ?? specialty}
+                        </Text>
+                        <Text className="mx-1">
+                          •
+                        </Text>
+                        <Text style={styles.profession}>
+                          {doctor.location}
+                        </Text>
+                      </View>
+                    </View>
+                    <StarButton doctorId={doctor.id} />
+                  </View>
+                </View>
+
+                <View style={styles.slot}>
+                  <Text>{t(`speciality-container.closestSlot`)}</Text>
+                  <Text style={styles.day}>{closestDay}</Text>
+                </View>
+
+                <View style={styles.bookContainer}>
+                  <View>
+                    <WeeklyCalendar />
+
+                    <Pressable
+                      style={styles.containerButton}
+                      accessibilityRole="button"
+                      onPress={() =>
+                        router.push({
+                          pathname: "/doctor-details",
+                          params: {
+                            doctorId: doctor.id,
+                            name: doctor.full_name,
+                            closestDay,
+                            specialty: doctor.specialty ?? specialty,
+                          },
+                        })
+                      }
+                    >
+                      <Text className="color-[white] font-medium text-[16px]">{t(`speciality-container.details`)}</Text>
+                    </Pressable>
+                  </View>
                 </View>
               </View>
-
-              <View style={styles.slot}>
-                <Text>{t(`speciality-container.closestSlot`)}</Text>
-                <Text style={styles.day}>{closestDay}</Text>
-              </View>
-
-              <View style={styles.bookContainer}>
-                <View>
-                  <WeeklyCalendar />
-
-                  <Pressable
-                    style={styles.containerButton}
-                    accessibilityRole="button"
-                    onPress={() =>
-                      router.push({
-                        pathname: "/doctor-details",
-                        params: {
-                          doctorId: doctor.id,
-                          name: doctor.full_name,
-                          closestDay,
-                          specialty: doctor.specialty ?? specialty,
-                        },
-                      })
-                    }
-                  >
-                    <Text style={styles.text2}>{t(`speciality-container.details`)}</Text>
-                    <MaterialIcons name="chevron-right" size={26} color="#fff" />
-                  </Pressable>
-                </View>
-              </View>
-            </View>
-          );
-        })}
-      </View>
+            );
+          })}
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -232,7 +233,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   profession: {
-    marginTop: 4,
+    marginTop: 2,
     fontSize: 14,
     fontWeight: "400",
   },
@@ -240,38 +241,22 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "500",
     backgroundColor: "#fff",
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 12,
-    paddingRight: 12,
     borderRadius: 14,
   },
   slot: {
+    paddingTop: 10,
+    paddingBottom: 8,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingTop: 12,
-    paddingBottom: 12,
   },
   bookContainer: {},
   containerButton: {
-    alignSelf: "flex-end",
-    justifyContent: "flex-end",
     alignItems: "center",
-    width: "40%",
-    flexDirection: "row",
     backgroundColor: "#5085A8",
     color: "#fff",
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 10,
-    paddingRight: 6,
+    paddingVertical: 14,
+    paddingHorizontal: 6,
     borderRadius: 12,
-  },
-  text2: {
-    flex: 1,
-    fontSize: 16,
-    fontWeight: "500",
-    color: "#fff",
-  },
+  }
 });

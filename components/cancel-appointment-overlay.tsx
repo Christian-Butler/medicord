@@ -42,25 +42,27 @@ export default function CancelAppointmentOverlay({
           </Text>
 
           <Pressable
-            onPress={onPostpone}
-            disabled={cancelling}
-            className="mb-5 h-[48px] items-center justify-center rounded-[12px] bg-[#5085A8]"
-          >
-            <Text className="text-[16px] font-medium text-white">
-              {t(`cancel-appointment-overlay.post`)}
-            </Text>
-          </Pressable>
-
-          <Pressable
             onPress={onCancelAppointment}
             disabled={cancelling}
-            className={`h-[48px] items-center justify-center rounded-[12px] border-[1.5px] border-[#0D5175] bg-white ${cancelling ? "opacity-60" : ""
+            className={`mb-5 h-[50px] items-center justify-center rounded-[12px] bg-white ${cancelling ? "opacity-60" : ""
               }`}
           >
             <Text className="text-[16px] font-medium text-[#0D5175]">
               {cancelling ? t(`cancel-appointment-overlay.cancelling`) : t(`cancel-appointment-overlay.cancel`)}
             </Text>
           </Pressable>
+
+          <Pressable
+            onPress={onPostpone}
+            disabled={cancelling}
+            className=" h-[50px] items-center justify-center rounded-[12px] bg-[#5085A8]"
+          >
+            <Text className="text-[16px] font-medium text-white">
+              {t(`cancel-appointment-overlay.post`)}
+            </Text>
+          </Pressable>
+
+
         </View>
       </View>
     </Modal>

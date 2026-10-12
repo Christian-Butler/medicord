@@ -214,7 +214,8 @@ export const en = {
     "book-appointment": {
         appointment: "Appointment",
         date: "Select date",
-        selected: "Month selected: ",
+        recap1: "For ",
+        recap2: " at",
         "January": "January",
         "February": "February",
         "March": "March",
@@ -310,7 +311,7 @@ export const en = {
         noDoctor: "No doctors found.",
         slots: "No slots available",
         closestSlot: "Closest available slot:",
-        details: "View details",
+        details: "Check doctor",
         search: "Search",
     },
     "latest-documents": {
@@ -490,7 +491,7 @@ export const en = {
         "Glasnevin, Dublin 11": "Glasnevin, Dublin 11",
         "Stillorgan, Co. Dublin": "Stillorgan, Co. Dublin",
         "Rathmines, Dublin 6": "Rathmines, Dublin 6",
-        book: "Book an apointment now",
+        book: "Book now",
         possible: "It is possible to obtain more information for follow-up consultations and for new patients through the messages service provided in Medicord.",
         services: "Services provided",
         consultation: "per consultation",

@@ -41,7 +41,7 @@ export default function MedicationReminder() {
     <View className="pt-8">
       <Text className="ml-6 text-[24px] font-normal text-black">{t(`medication-reminder.medication`)}</Text>
 
-      <View className="items-center ">
+      <View className="items-center">
         {loading ? (
           <Text className="mt-5 text-[15px] text-black">
             {t(`medication-reminder.loading`)}
@@ -55,12 +55,12 @@ export default function MedicationReminder() {
         {!loading && !error && sortedMedications.length === 0 ? (
           <TouchableOpacity
             onPress={() => router.push("/medication-formpage")}
-            className="h-[50px] flex-row items-center self-center justify-center rounded-2xl border-[3px] border-[#09516D] bg-white"
+            className="h-[50px] flex-row items-center self-center justify-center rounded-2xl bg-[#5085A8]"
           >
-            <Plus size={30} color="#09516D" />
-            <Text className="text-[18px] font-medium text-[#09516D]" />
+            <Plus size={30} color="white" />
+            <Text className="text-[16px] font-medium text-[#white]" />
 
-            <Text className="text-[18px] font-medium text-[#09516D]">
+            <Text className="text-[16px] font-medium text-[white]">
               {t(`medication-reminder.addRoutine`)}
             </Text>
           </TouchableOpacity>
@@ -88,25 +88,25 @@ export default function MedicationReminder() {
                       className="flex-row items-center"
                     >
                       <MaterialIcons name="medication" size={42} color="#075B7A" />
-                      <View className="flex-1">
+                      <View className="flex-1 ml-2">
                         <Text className="text-[18px] font-medium text-black">
                           {item.name ?? "Unnamed medication"}
                         </Text>
-                        <Text className="mt-1 text-[14px] font-regular text-black">
+                        <Text className="mt-1 text-[14px] font-regular text-gray-600">
                           {formatMedicationDuration(
                             item.months_duration,
                             item.weeks_duration,
                             item.days_duration
                           )}
                         </Text>
-                        <Text className="mt-1 text-[14px] font-regular text-black">
+                        <Text className="mt-1 text-[14px] font-regular text-gray-600">
                           {formatMedicationInstructions(
                             item.instructions,
                           )}
                         </Text>
                       </View>
                       <View className="mx-2 py-2 px-4 rounded-[12px] border-[2px] border-[#D3A000] bg-[#FFE9A8]">
-                        <Text className="text-[14px] font-medium text-black">
+                        <Text className="text-[14px] font-medium text-[black]">
                           {t(`medication-reminder.reminder`)}
                         </Text>
                       </View>

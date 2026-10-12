@@ -214,12 +214,11 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     navButton: {
-        width: 36,
-        height: 36,
+        width: 40,
+        height: 40,
         alignItems: 'center',
         justifyContent: 'center',
         borderRadius: 18,
-        backgroundColor: '#EFF7F8',
     },
     navText: {
         fontSize: 20,
@@ -260,7 +259,7 @@ const styles = StyleSheet.create({
     todayText: {
         borderRadius: '100%',
         color: 'white',
-        backgroundColor: "#0D5175"
+        backgroundColor: "#0D5175",
     },
     selectedCell: {
         color: 'white',
