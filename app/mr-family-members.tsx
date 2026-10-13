@@ -66,12 +66,12 @@ export default function FamilyMembersList() {
                         return (
                             <TouchableOpacity
                                 onPress={() => selectMember(item)}
-                                className="flex-row py-3 items-center border-b border-[#BEC9CA]">
+                                className="flex-row px-2 py-4 items-center bg-white my-2 h-[60px] rounded-xl">
 
 
                                 <MaterialIcons name={isChecked ? "check-box" : "check-box-outline-blank"}
                                     size={24}
-                                    color="#5085A8"
+                                    color="#0D5175"
                                 />
                                 <Text className="ml-3 text-[16px] text-black">{t(`mr-family-members.${item}`)}</Text>
                             </TouchableOpacity>
@@ -79,11 +79,10 @@ export default function FamilyMembersList() {
                     }}
                 />
             </View>
-            <View className="h-0.5 bg-[#09516D]" />
-            <View className="bg-white pb-6">
-                <View className="m-8">
+            <View className="border-t border-[#0D5175] bg-white pb-6">
+                <View className="p-8">
                     <TouchableOpacity
-                        className={`justify-center h-14 bg-[#5085A8] items-center rounded-2xl ${selectedMembers.length === 0 ? "bg-[#D6E0E0]" : "bg-[#5085A8]"
+                        className={`justify-center h-[50px] bg-[#5085A8] items-center rounded-2xl ${selectedMembers.length === 0 ? "bg-[#D6E0E0]" : "bg-[#5085A8]"
                             }`}
                         disabled={selectedMembers.length === 0}
                         onPress={handleSubmit}

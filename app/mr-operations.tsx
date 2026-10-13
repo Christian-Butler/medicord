@@ -30,7 +30,7 @@ export default function Operations() {
                 </View>
                 <View className="flex-1 pt-12">
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
+                        className="flex-1 flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
@@ -52,7 +52,7 @@ export default function Operations() {
                                         <View className="ml-4">
                                             <Text className="font-medium text-xl">{t(`mr-operations.${record.item}`)}</Text>
                                             {record.operation_date ? (
-                                                <Text className="text-[16px] text-gray-800">{record.operation_date}</Text>
+                                                <Text className="text-[14px] font-regular text-gray-600">{record.operation_date}</Text>
                                             ) : null}
                                         </View>
                                     </View>

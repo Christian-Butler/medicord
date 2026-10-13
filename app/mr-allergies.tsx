@@ -51,7 +51,7 @@ export default function Allergies() {
 
                 <View className="flex-1 m-2 pt-12">
                     <TouchableOpacity
-                        className="flex-row justify-center bg-[#5085A8] h-14 mb-6 items-center rounded-2xl"
+                        className="flex-row justify-center bg-[#5085A8] h-[50px] mb-6 items-center rounded-2xl"
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",

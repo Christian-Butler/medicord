@@ -611,7 +611,7 @@ export const en = {
         "High blood pressure": "High blood pressure",
         "Hypercholesterolemia": "Hypercholesterolemia",
         "Stroke": "Stroke",
-        diagnosed: "Diagnosed at:",
+        diagnosed: "Diagnosed at: ",
         years: "years old",
         relationship: "Relationship:",
         query2: "Any personal medical history?",

@@ -123,7 +123,7 @@ export default function Gynecology() {
                                 <MaterialIcons className="p-2" name={field.icon} size={48} color="#0D5175" />
                                 <View>
                                     <Text className="ml-2 text-[16px] text-xl font-medium">{t(`mr-gynecological.${field.title}`)}</Text>
-                                    <Text className="ml-2 pt-2 text-[16px]">{value.trim() ? value : t(`mr-gynecological.noSpec`)}</Text>
+                                    <Text className="ml-2 mt-2 text-[16px] text-gray-600">{value.trim() ? value : t(`mr-gynecological.noSpec`)}</Text>
                                 </View>
 
                             </TouchableOpacity>

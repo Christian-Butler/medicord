@@ -89,7 +89,7 @@ export default function MedicalRecordsSearchScreen() {
                 ListHeaderComponent={
                     <View>
 
-                        <View className="m-6 h-14 flex-row rounded-2xl border-2 items-center border-[#778888] bg-white px-4">
+                        <View className="m-6 h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-4">
                             <Search size={20} color="#778888" />
                             <TextInput
                                 placeholder="Search"

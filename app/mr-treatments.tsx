@@ -200,7 +200,7 @@ export default function Treatments() {
                 </View>
                 <View className="flex-1 mx-2 mt-2 mb-20 pt-12" >
                     <TouchableOpacity
-                        className="flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
+                        className="flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
                         accessibilityRole="button"
                         onPress={handleOpen}
                     >
@@ -239,12 +239,12 @@ export default function Treatments() {
                                     </Text>
 
                                     <View className="mb-1 flex-row">
-                                        <Text className="text-[16px] font-medium text-[16px]lack">{t(`mr-treatments.started`)} </Text>
-                                        <Text className="text-[16px] text-gray-800">{treatment.startDate}</Text>
+                                        <Text className="text-[14px] font-medium text-black">{t(`mr-treatments.started`)} </Text>
+                                        <Text className="text-[14px] text-gray-600">{treatment.startDate}</Text>
                                     </View>
                                     <View className="flex-row">
-                                        <Text className="text-[16px] font-medium text-[16px]lack">{t(`mr-treatments.frequency`)} </Text>
-                                        <Text className="text-[16px] text-gray-800">{treatment.frequency}</Text>
+                                        <Text className="text-[16px] font-medium text-black">{t(`mr-treatments.frequency`)} </Text>
+                                        <Text className="text-[16px] text-gray-600">{treatment.frequency}</Text>
                                     </View>
                                 </View>
                             </View>

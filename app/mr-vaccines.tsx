@@ -30,7 +30,7 @@ export default function Vaccines() {
 
                 <View className="flex-1 pt-12">
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl mb-20"
+                        className="flex-1 flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl mb-20"
                         accessibilityRole="button"
                         onPress={() =>
                             router.push({
@@ -68,7 +68,7 @@ export default function Vaccines() {
                                     {record.vaccine_date ? (
                                         <View className="flex-row">
                                             <Text className="text-[16px] font-medium text-black">Received: </Text>
-                                            <Text className="text-[16px] text-gray-800">{record.vaccine_date} </Text>
+                                            <Text className="text-[16px] font-regular text-gray-600">{record.vaccine_date} </Text>
                                         </View>
                                     ) : null}
                                 </View>

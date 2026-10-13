@@ -98,7 +98,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
     <View>
       <View
         style={styles.search}
-        className="h-14 flex-row rounded-2xl border-2 items-center border-[#7B8A91] bg-white px-5"
+        className="h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-5"
       >
         <Search size={18} color="#7B8A91" />
         <TextInput

@@ -22,24 +22,24 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
   return (
     <Pressable
       onPress={onPress}
-      className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3"
+      className="mx-4 mt-4 min-h-[72px] flex-row items-center bg-white rounded-2xl px-5 py-3"
     >
       {icon ? (
         <MaterialIcons
           name={icon}
-          size={22}
-          color={destructive ? "#E33434" : "#326F95"}
+          size={26}
+          color={destructive ? "#E33434" : "#0D5175"}
           style={{ marginRight: 14 }}
         />
       ) : null}
 
       <View className="flex-1">
-        <Text className={`text-[16px] font-normal ${destructive ? "text-[#E33434]" : "text-black"}`}>
+        <Text className={`text-[16px] font-regular ${destructive ? "text-[#E33434]" : "text-black"}`}>
           {t(`profile.${title}`)}
         </Text>
 
         {subtitle ? (
-          <Text className="mt-1 text-[14px] font-normal text-black">{subtitle}</Text>
+          <Text className="mt-1 text-[14px] font-regular text-gray-600">{subtitle}</Text>
         ) : null}
       </View>
 
@@ -50,8 +50,8 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <View className="border-b border-[#B9CBCD]  px-5 pb-3 pt-7">
-      <Text className="text-[19px] font-semibold text-black">{title}</Text>
+    <View className="pl-6 pt-7">
+      <Text className="text-[20px] font-medium text-black">{title}</Text>
     </View>
   );
 }
@@ -88,32 +88,34 @@ export default function ProfilePage() {
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
-        <Pressable onPress={handleEditAvatar}>
-          <View className="relative items-center border-b border-[#B9CBCD] pb-8 pt-9">
+        <View className="bg-white border-b border-[#0D5175]">
+          <Pressable onPress={handleEditAvatar}>
+            <View className="relative items-center pb-8 pt-9">
 
-            <View className="absolute right-6 top-6 flex-row items-center">
-              <MaterialIcons name="edit" size={16} color="#8A3F00" />
-              <Text className="ml-1 text-[16px] text-[#8A3F00]">{t(`profile.edit`)}</Text>
+              <View className="absolute right-6 top-6 flex-row items-center">
+                <MaterialIcons name="edit" size={16} color="#8A3F00" />
+                <Text className="ml-1 text-[16px] text-[#8A3F00]">{t(`profile.edit`)}</Text>
+              </View>
+
+              {avatarUrl ? (
+                <Image
+                  key={avatarUrl}
+                  source={{ uri: avatarUrl }}
+                  style={{ height: 74, width: 74, borderRadius: 37 }}
+                />
+              ) : (
+                <View
+                  style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
+                />
+
+              )}
+
+              <Text className="mt-6 text-[16px] font-normal text-black">{fullName}</Text>
+              <Text className="mt-2 text-[16px] font-normal text-gray-600">{dob}</Text>
+              <Text className="mt-2 text-[16px] font-normal text-gray-600">{location}</Text>
             </View>
-
-            {avatarUrl ? (
-              <Image
-                key={avatarUrl}
-                source={{ uri: avatarUrl }}
-                style={{ height: 74, width: 74, borderRadius: 37 }}
-              />
-            ) : (
-              <View
-                style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
-              />
-
-            )}
-
-            <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
-            <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
-            <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
-          </View>
-        </Pressable>
+          </Pressable>
+        </View>
 
         <SectionTitle title={t(`profile.Authentification`)} />
         <ProfileRow icon="phone" title="Phone number" subtitle={phone} onPress={() => router.push("/security-details")} />
@@ -132,7 +134,7 @@ export default function ProfilePage() {
           onPress={() => setShowDeleteModal(true)}
         />
 
-        <View className="h-[64px] border-b border-[#B9CBCD]" />
+        <View className="h-[48px]" />
 
         <ProfileRow
           icon="logout"

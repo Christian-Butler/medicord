@@ -24,7 +24,7 @@ export default function YourDoctors() {
     <SafeAreaProvider style={{ backgroundColor: "#EEF9FB" }}>
       <ScreenHeader title={t(`your-doctors.title`)} />
 
-      <View className="mx-4 mt-4 mb-2 h-14 flex-row rounded-2xl border-2 items-center border-[#778888] bg-white px-4">
+      <View className="mx-4 mt-4 mb-2 h-14 flex-row rounded-2xl border border-[#0D5175] items-center bg-white px-4">
         <Search size={20} color="#778888" />
         <TextInput
           placeholder={t(`your-doctors.search`)}

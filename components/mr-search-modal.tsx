@@ -20,6 +20,7 @@ export default function ItemDetailModal({
     onClose,
     onSubmit,
 }: MedicalRecordsSearchModalProps) {
+    const { t } = useTranslation();
     const [vaccineDate, setVaccineDate] = useState("");
     const [operationDate, setOperationDate] = useState("");
     const [diagnosis, setDiagnosis] = useState("");
@@ -50,7 +51,7 @@ export default function ItemDetailModal({
 
     };
 
-    const { t } = useTranslation();
+
 
     const conditionOptions = ["Ongoing", "In remission", "Cured"];
 

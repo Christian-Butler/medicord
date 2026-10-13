@@ -54,7 +54,7 @@ export default function FindDoctor() {
           {t(`find-doctor.find`)}
         </Text>
 
-        <Pressable className="h-14 w-20 items-center justify-center border border-[#0D5175] rounded-xl p-3 bg-white">
+        <Pressable className="h-14 w-20 items-center justify-center border-2 border-[#B10111] rounded-xl p-3 bg-white">
           <Siren fill="#B10111" size={22} color="#B10111" />
         </Pressable>
       </View>
@@ -65,14 +65,15 @@ export default function FindDoctor() {
           {t(`find-doctor.name`)}
         </Text>
       </View>
-      <View className="h-14 items-center flex-row rounded-2xl border-2 border-[#7B8A91] bg-white px-5">
+
+      <View className="h-14 items-center flex-row rounded-2xl border border-[#0D5175] bg-white px-4">
 
         <Search size={20} color="#7B8A91" />
 
         <TextInput
           placeholder={t(`find-doctor.search`)}
           placeholderTextColor="#7B8A91"
-          className="mb-1 ml-2 text-lg text-black"
+          className="mb-1 ml-2 text-lg text-black "
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCapitalize="words"
