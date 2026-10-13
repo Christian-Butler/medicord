@@ -55,6 +55,7 @@ export default function RootLayout() {
               <Stack.Screen name="security-details" options={{ headerShown: false }} />
               <Stack.Screen name="profile-preferences" options={{ headerShown: false }} />
               <Stack.Screen name="profile-legal" options={{ headerShown: false }} />
+              <Stack.Screen name="prescription-renewal" options={{ headerShown: false }} />
             </Stack>
           </AuthProvider>
           <StatusBar style="auto" />
