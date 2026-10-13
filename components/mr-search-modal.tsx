@@ -26,6 +26,7 @@ export default function ItemDetailModal({
     const [diagnosisDate, setDiagnosisDate] = useState("");
     const [conditionState, setConditionState] = useState<string | null>(null);
     const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const { t } = useTranslation();
 
     if (!itemLabel) return null;
 
@@ -49,8 +50,6 @@ export default function ItemDetailModal({
         onClose();
 
     };
-
-    const { t } = useTranslation();
 
     const conditionOptions = ["Ongoing", "In remission", "Cured"];
 

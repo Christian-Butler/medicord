@@ -59,10 +59,10 @@ export function useProfile() {
   }
 
   return {
-    fullName: fullName ?? "Philip Connally",
-    email: email ?? "John@Doe.com",
-    phone: phone ?? "XXX XXX XXX",
-    dob: dob ?? "19/04/53",
+    fullName: fullName ?? "",
+    email: email ?? "",
+    phone: phone ?? "Not set",
+    dob: dob ?? "Not set",
     location: location ?? "Address unspecified",
     avatarUrl,
     loading,

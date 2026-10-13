@@ -1,4 +1,4 @@
-import { signOut } from "@/src/api/auth/api";
+import { deleteMyAccount } from "@/src/api/auth/api";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -38,9 +38,13 @@ export default function DeleteModal({ visible, onCancel, onConfirm }: DeleteModa
 
           <Pressable
             onPress={async () => {
-              await signOut();
-              onConfirm();
-              router.replace("/login");
+              try {
+                await deleteMyAccount();
+                onConfirm();
+                router.replace("/login");
+              } catch (err) {
+                console.error("[DeleteModal] delete failed:", err);
+              }
             }}
             className="mt-4 h-[50px] items-center justify-center rounded-2xl bg-[#A81010]"
           >

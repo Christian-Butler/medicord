@@ -1,14 +1,13 @@
 import { supabase } from "@/supabase/supabase";
-import { setDemoSession } from "@/src/api/auth/demoSession";
+import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 
 export async function getFavouriteDoctors() {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("favourite_doctor_ids")
-    .eq("id", user.id)
+    .eq("id", userId)
     .single();
 
   if (profileError) throw new Error(profileError.message);
@@ -24,13 +23,12 @@ export async function getFavouriteDoctors() {
 }
 
 export async function toggleFavouriteDoctor(doctorId: string): Promise<boolean> {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
     .select("favourite_doctor_ids")
-    .eq("id", user.id)
+    .eq("id", userId)
     .single();
 
   if (profileError) throw new Error(profileError.message);
@@ -45,20 +43,19 @@ export async function toggleFavouriteDoctor(doctorId: string): Promise<boolean> 
   const { error } = await supabase
     .from("profiles")
     .update({ favourite_doctor_ids: updated })
-    .eq("id", user.id);
+    .eq("id", userId);
 
   if (error) throw new Error(error.message);
   return !isFavourite;
 }
 
 export async function isFavouriteDoctor(doctorId: string): Promise<boolean> {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { data: profile, error } = await supabase
     .from("profiles")
     .select("favourite_doctor_ids")
-    .eq("id", user.id)
+    .eq("id", userId)
     .single();
 
   if (error) throw new Error(error.message);

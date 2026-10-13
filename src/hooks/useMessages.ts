@@ -3,7 +3,6 @@ import {
   markAsRead,
   type Message,
 } from "@/src/api/messages/api";
-import { setDemoSession } from "@/src/api/auth/demoSession";
 import { supabase } from "@/supabase/supabase";
 import { useCallback, useEffect, useState } from "react";
 
