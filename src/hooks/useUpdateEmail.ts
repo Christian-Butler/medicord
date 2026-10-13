@@ -9,16 +9,19 @@ export function useUpdateEmail() {
 
     async function handleUpdateEmail() {
         if (!email.trim()) {
-            setError("Please enter an email address. ")
+            setError("Please enter an email address.");
             return;
         }
         try {
             setLoading(true);
-            setError(null)
-            await updateEmail(email.trim())
-            setShowConfirmation(true)
+            setError(null);
+            await updateEmail(email.trim());
+            setShowConfirmation(true);
         } catch (err) {
-            setError(err instanceof Error ? err.message : "Failed to update email address")
+            setError(err instanceof Error ? err.message : "Failed to update email.");
+            setEmail("");
+        } finally {
+            setLoading(false); // ← make sure this is in finally not try
         }
     }
     return { email, setEmail, loading, error, showConfirmation, setShowConfirmation, handleUpdateEmail };

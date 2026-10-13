@@ -13,6 +13,7 @@
       "bundleIdentifier": "com.butlrstudio.medicord",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
+        "NSUserNotificationsUsageDescription": "Medicord uses notifications to remind you to take your medication.",
         "NSCalendarsUsageDescription": "Medicord needs access to your calendar to add appointments.",
         "NSCalendarsFullAccessUsageDescription": "Medicord needs full access to your calendar to manage appointments.",
         "NSAppTransportSecurity": {
@@ -58,7 +59,8 @@
         }
       ],
       "@react-native-community/datetimepicker",
-      "expo-localization"
+      "expo-localization",
+      "expo-notifications"
     ],
     "experiments": {
       "typedRoutes": true,

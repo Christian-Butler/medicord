@@ -46,11 +46,12 @@ const isSameDay = (first: Date, second: Date) =>
     first.toDateString() === second.toDateString();
 
 const getWeekDays = (baseDate: Date): DayItem[] => {
-    const startOfWeek = new Date(baseDate);
-    startOfWeek.setDate(baseDate.getDate() - baseDate.getDay());
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  const startOfWeek = new Date(baseDate);
+  const day = baseDate.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  startOfWeek.setDate(baseDate.getDate() + diff);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
 
     return Array.from({ length: 7 }, (_, index) => {
         const date = new Date(startOfWeek);
