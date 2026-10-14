@@ -100,8 +100,10 @@ export default function ProfilePage() {
               {avatarUrl ? (
                 <Image
                   key={avatarUrl}
-                  source={{ uri: avatarUrl }}
+                  source={{ uri: `${avatarUrl}?t=${Date.now()}` }}
                   style={{ height: 74, width: 74, borderRadius: 37 }}
+                  onLoad={() => console.log('[ProfilePage] image loaded')}
+                  onError={(e) => console.log('[ProfilePage] image error:', e.nativeEvent.error)}
                 />
               ) : (
                 <View
@@ -110,31 +112,11 @@ export default function ProfilePage() {
 
               )}
 
-              <Text className="mt-6 text-[16px] font-normal text-black">{fullName}</Text>
+              <Text className="mt-2 text-[16px] font-normal text-black">{fullName}</Text>
               <Text className="mt-2 text-[16px] font-normal text-gray-600">{dob}</Text>
               <Text className="mt-2 text-[16px] font-normal text-gray-600">{location}</Text>
             </View>
           </Pressable>
-
-          {avatarUrl ? (
-            <Image
-              key={avatarUrl}
-              source={{ uri: `${avatarUrl}?t=${Date.now()}` }}
-              style={{ height: 74, width: 74, borderRadius: 37 }}
-              onLoad={() => console.log('[ProfilePage] image loaded')}
-              onError={(e) => console.log('[ProfilePage] image error:', e.nativeEvent.error)}
-            />
-          ) : (
-            <View
-              style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
-            />
-
-          )}
-
-          <Text className="mt-5 text-[17px] font-normal text-black">{fullName}</Text>
-          <Text className="mt-3 text-[16px] font-normal text-black">{dob}</Text>
-          <Text className="mt-3 text-[16px] font-normal text-black">{location}</Text>
-
         </View>
 
         <SectionTitle title={t(`profile.Authentification`)} />

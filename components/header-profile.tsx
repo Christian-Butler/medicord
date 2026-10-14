@@ -25,7 +25,7 @@ export default function ProfileHeader() {
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
-              className="text-4xl font-normal text-black"
+              className="text-[24px] font-normal text-black"
             >
               {t(`header-profile.welcome`)}, {fullName}
             </Text>
