@@ -24,21 +24,21 @@ export default function YourDoctors() {
     <SafeAreaProvider style={{ backgroundColor: "#EEF9FB" }}>
       <ScreenHeader title={t(`your-doctors.title`)} />
 
-      <View className="mx-4 mt-4 mb-2 h-14 flex-row rounded-2xl border-2 items-center border-[#778888] bg-white px-4">
+      <View className="mx-4 mt-4 mb-2 h-14 flex-row rounded-2xl border border-[#0D5175] items-center bg-white px-4">
         <Search size={20} color="#778888" />
         <TextInput
           placeholder={t(`your-doctors.search`)}
           placeholderTextColor="#7B8A91"
           value={searchQuery}
           onChangeText={setSearchQuery}
-          className="ml-3 flex-1 text-base text-black"
+          className="ml-3 flex-1 text-[16px] text-black"
         />
       </View>
 
       {loading ? (
-        <Text className="text-center mt-8 text-[15px] text-black">{t(`your-doctors.loading`)}</Text>
+        <Text className="text-center mt-8 text-[16px] text-black">{t(`your-doctors.loading`)}</Text>
       ) : error ? (
-        <Text className="text-center mt-8 text-[15px] text-[#B42318]">{error}</Text>
+        <Text className="text-center mt-8 text-[16px] text-[#B42318]">{error}</Text>
       ) : (
         <FlatList
           data={filtered}

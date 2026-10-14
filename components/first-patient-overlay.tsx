@@ -29,13 +29,13 @@ export default function FirstTimeBookingOverlay({
               <BriefcaseMedical size={48} color="white" strokeWidth={2} />
             </View>
 
-            <Text className="mb-10 text-center text-[21px] font-semibold leading-7 text-black">
+            <Text className="mb-10 text-center text-[20px] font-semibold leading-7 text-black">
               {t(`first-patient-overlay.query`)}
             </Text>
 
             <Pressable
               onPress={onNewPatient}
-              className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] border-2 border-[#07527B] bg-white">
+              className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] bg-white">
               <Text className="text-[15px] font-medium text-[#07527B]">
                 {t(`first-patient-overlay.yes`)}
               </Text>

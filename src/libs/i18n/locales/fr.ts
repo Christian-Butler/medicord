@@ -9,7 +9,9 @@ export const fr = {
     },
     "find-doctor": {
         find: "Trouver un médecin",
-        search: "Rechercher",
+        search: "Rechercher le nom d'un médecin",
+        name: "Par nom",
+
         searching: "Recherche en cours...",
         noDoctors: "Aucun médecin trouvé.",
         "GP": "Général",
@@ -27,6 +29,7 @@ export const fr = {
         noSearch: "La recherche ne médecins n'a pas pu aboutir",
     },
     "doctor-carousel": {
+        specialty: "Par catégorie",
         "GP": "Général",
         "Paediatrics": "Pédiatrie",
         "Psychiatry": "Psychiatrie",

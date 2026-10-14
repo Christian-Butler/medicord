@@ -20,6 +20,7 @@ export default function ItemDetailModal({
     onClose,
     onSubmit,
 }: MedicalRecordsSearchModalProps) {
+    const { t } = useTranslation();
     const [vaccineDate, setVaccineDate] = useState("");
     const [operationDate, setOperationDate] = useState("");
     const [diagnosis, setDiagnosis] = useState("");
@@ -51,6 +52,8 @@ export default function ItemDetailModal({
 
     };
 
+
+
     const conditionOptions = ["Ongoing", "In remission", "Cured"];
 
 
@@ -77,24 +80,24 @@ export default function ItemDetailModal({
 
                             {category === "vaccines" && (
                                 <View>
-                                    <Text className=" text-base font-medium mb-2 tex-[#000]">{t(`mr-search-modal.query`)}</Text>
+                                    <Text className=" text-[16px] font-medium mb-2 text-black">{t(`mr-search-modal.query`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place1`)}
                                         value={vaccineDate}
                                         onChangeText={setVaccineDate}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
                                     />
                                 </View>
                             )}
 
                             {category === "operations" && (
                                 <View>
-                                    <Text className="text-base font-medium mb-2 tex-[#000]">{t(`mr-search-modal.query2`)}</Text>
+                                    <Text className="text-[16px] font-medium mb-2 tex-black">{t(`mr-search-modal.query2`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place2`)}
                                         value={operationDate}
                                         onChangeText={setOperationDate}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px]ase text-black"
                                     />
 
                                 </View>
@@ -102,26 +105,26 @@ export default function ItemDetailModal({
 
                             {category === "family_medical_history" && (
                                 <View>
-                                    <Text className="text-base font-medium mb-2 text-[#000]">{t(`mr-search-modal.query3`)}</Text>
+                                    <Text className="text-[16px] font-medium mb-2 text-black">{t(`mr-search-modal.query3`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place3`)}
                                         value={diagnosis}
                                         onChangeText={setDiagnosis}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
                                     />
                                 </View>
                             )}
                             {category === "personal_medical_history" && (
                                 <View>
-                                    <Text className="text-base font-medium mb-2 text-[#000]">{t(`mr-search-modal.query4`)}</Text>
+                                    <Text className="text-[16px] font-medium mb-2 text-black">{t(`mr-search-modal.query4`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place4`)}
                                         value={diagnosisDate}
                                         onChangeText={setDiagnosisDate}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-base text-black"
+                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
                                     />
                                     <View className="mt-4 relative z-10">
-                                        <Text className="text-base font-medium mb-2 text-[#000]">
+                                        <Text className="text-[16px] font-medium mb-2 text-black">
                                             {t(`mr-search-modal.query5`)}
                                         </Text>
 
@@ -129,7 +132,7 @@ export default function ItemDetailModal({
                                             onPress={() => setDropdownVisible((prev) => !prev)}
                                             className="flex-row items-center justify-between border border-[#326F95] rounded-xl p-3 bg-[#fff]"
                                         >
-                                            <Text className="text-base text-black">
+                                            <Text className="text-[16px] text-[16px]black">
                                                 {conditionState ?? t(`mr-search-modal.select`)}
                                             </Text>
                                             <MaterialIcons
@@ -153,7 +156,7 @@ export default function ItemDetailModal({
                                                             }}
                                                             className="py-3 px-3 border-b border-[#E0E0E0] last:border-b-0"
                                                         >
-                                                            <Text className="text-base text-black">{t(`mr-search-modal.${item}`)}</Text>
+                                                            <Text className="text-[16px] text-[16px]black">{t(`mr-search-modal.${item}`)}</Text>
                                                         </TouchableOpacity>
                                                     )}
                                                 />
@@ -169,7 +172,7 @@ export default function ItemDetailModal({
                                 onPress={handleSave}
                                 className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
                             >
-                                <Text className="self-center text-white font-medium text-base">
+                                <Text className="self-center text-white font-medium text-[16px]">
                                     Add to medical records
                                 </Text>
                             </TouchableOpacity>

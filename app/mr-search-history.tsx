@@ -89,14 +89,14 @@ export default function MedicalRecordsSearchScreen() {
                 ListHeaderComponent={
                     <View>
 
-                        <View className="mr-6 ml-6 mt-6 mb-6 h-14 flex-row rounded-2xl border-2 items-center border-[#778888] bg-[#fff] px-4">
+                        <View className="m-6 h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-4">
                             <Search size={20} color="#778888" />
                             <TextInput
                                 placeholder="Search"
                                 placeholderTextColor="#7B8A91"
                                 value={searchQuery}
                                 onChangeText={setSearchQuery}
-                                className="ml-3 flex-1 text-base text-black"
+                                className="ml-3 flex-1 text-[16px] text-black"
                             />
                         </View>
                     </View>
@@ -104,7 +104,7 @@ export default function MedicalRecordsSearchScreen() {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() => handleItemPress(item)}
-                        className="ml-4 mr-6 items-center flex-row mb-10"
+                        className="bg-white rounded-[12px] mx-6 py-2 px-2 items-center flex-row mb-4"
                     >
                         <View className="w-16 h-16 items-center">
                             <MaterialIcons
@@ -114,7 +114,7 @@ export default function MedicalRecordsSearchScreen() {
                                 className="mt-1"
                             />
                         </View>
-                        <Text className="ml-6 text-base font-medium text-[#333]">
+                        <Text className="ml-6 text-[16px] font-medium text-black">
                             {t(`mr-search-history.${item}`)}
                         </Text>
                     </TouchableOpacity>

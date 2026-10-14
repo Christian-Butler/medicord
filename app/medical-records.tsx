@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import ScreenHeader from "@/components/screen-header";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
@@ -98,16 +98,20 @@ export default function MedicalRecordsScreen() {
         <SafeAreaProvider style={{ backgroundColor: '#EEF9FB' }}>
             <ScreenHeader title="Medical records" />
             <ScrollView>
-                <View style={styles.container}>
+                <View className="mt-[30px] mb-20">
                     {records.map((record, index) => (
-                        <TouchableOpacity key={`${record.name}-${index}`} style={styles.card} onPress={record.onPress}>
-
-                            <MaterialIcons name={record.icon} size={32} color="#5085A8" />
-                            <View>
-                                <Text>{t(`medical-records.${record.name}`)}</Text>
+                        <TouchableOpacity
+                            className="flex-row items-center justify-between rounded-2xl bg-white my-[6px] mx-4 py-4 px-2"
+                            key={`${record.name}-${index}`}
+                            onPress={record.onPress}
+                        >
+                            <View className="flex-row items-center">
+                                <MaterialIcons name={record.icon} size={42} color="#0D5175" />
+                                <Text className="mx-6">{t(`medical-records.${record.name}`)}</Text>
                             </View>
-
-                            <MaterialIcons name={record.button} size={24} color="#3f3128" />
+                            <View className="mr-2">
+                                <MaterialIcons name={record.button} size={26} color="#3f3128" />
+                            </View>
                         </TouchableOpacity>
                     ))}
                 </View>
@@ -115,21 +119,3 @@ export default function MedicalRecordsScreen() {
         </SafeAreaProvider >
     )
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        marginTop: '4%',
-        paddingLeft: '4%',
-        paddingRight: '4%',
-
-
-    },
-    card: {
-        flexDirection: 'row',
-        paddingTop: '4%',
-        marginBottom: '10%',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }
-})

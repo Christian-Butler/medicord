@@ -29,6 +29,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
   const snapPoints = useMemo(() => ['45%'], []);
 
   const { t } = useTranslation();
+  const numColumns = 3;
 
   const renderBackdrop = (props: any) => (
     <BottomSheetBackdrop
@@ -101,13 +102,14 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       <BottomSheetView style={styles.sheetContent}>
         <Text style={styles.title}>{t(`bottom-sheet.services`)}</Text>
         <FlatList
+          key={`services-${numColumns}`}
           style={{ width: "100%" }}
           data={services}
           renderItem={({ item }) => (
             <ServiceButton {...item} />
           )}
           keyExtractor={(item) => item.label}
-          numColumns={3}
+          numColumns={numColumns}
           columnWrapperStyle={styles.row}
           contentContainerStyle={styles.grid}
         />

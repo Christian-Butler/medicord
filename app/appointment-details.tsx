@@ -88,7 +88,7 @@ export default function AppointmentDetails() {
 
               </Text>
 
-              <Pressable className="h-[50] w-[100%] rounded-[12] items-center justify-center bg-[#5085A8]">
+              <Pressable className="h-[50] w-[100%] rounded-[12px] items-center justify-center bg-[#5085A8]">
                 <Text className="font-medium text-[16px] color-[white]">{t(`appointment-details.import`)}</Text>
               </Pressable>
             </View>
@@ -97,7 +97,7 @@ export default function AppointmentDetails() {
               <Text style={styles.sectionTitle}>{t(`appointment-details.when`)}</Text>
 
               <View style={styles.whenRow}>
-                <View style={styles.calendarIconWrap}>
+                <View>
                   <MaterialIcons
                     name="calendar-month"
                     size={48}
@@ -160,7 +160,7 @@ export default function AppointmentDetails() {
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t(`appointment-details.who`)}</Text>
 
-              <Text className="text-[16px] py-2">
+              <Text className="text-[16px] mb-2">
                 {t(`appointment-details.number`)}
               </Text>
               <Text className="text-[16px] mb-6">
@@ -280,15 +280,13 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#000",
     lineHeight: 24,
-    marginBottom: 20,
+    marginBottom: 10,
   },
 
   postpone: {
     flexDirection: "row",
     gap: 8,
     height: 50,
-    borderWidth: 2,
-    borderColor: "#0D5175",
     borderRadius: 12,
     backgroundColor: "#fff",
     paddingHorizontal: 24,
@@ -300,8 +298,7 @@ const styles = StyleSheet.create({
     gap: 8,
     height: 50,
     width: "100%",
-    borderWidth: 2,
-    borderColor: "#0D5175",
+
     borderRadius: 12,
     backgroundColor: "#fff",
     alignItems: "center",
@@ -319,13 +316,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  calendarIconWrap: {
-    width: 70,
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
-
   whenText: {
+    marginLeft: 8,
     fontSize: 16,
     fontWeight: "400",
     color: "#000",
@@ -333,19 +325,6 @@ const styles = StyleSheet.create({
 
   whenRight: {
     flex: 1,
-  },
-
-  addCalendarButton: {
-    flexDirection: "row",
-    gap: 8,
-    height: 50,
-    paddingHorizontal: 12,
-    borderWidth: 2,
-    borderColor: "#0D5175",
-    borderRadius: 12,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
   },
 
   primaryButton: {
@@ -368,8 +347,6 @@ const styles = StyleSheet.create({
   callButton: {
     height: 50,
     width: "100%",
-    borderWidth: 2,
-    borderColor: "#0D5175",
     borderRadius: 12,
     backgroundColor: "#fff",
     alignItems: "center",

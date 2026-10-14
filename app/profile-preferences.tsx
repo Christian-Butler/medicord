@@ -57,7 +57,7 @@ export default function ProfilePreferences() {
                     className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3">
                     <MaterialIcons name="location-pin" size={28} color="#326F95" />
                     <View className="flex-1">
-                        <Text className="ml-1 mt-1 text-[16px] text-black">Map</Text>
+                        <Text className="ml-1 mt-1 text-[16px] text-[16px]lack">Map</Text>
                     </View>
                     <MaterialIcons name="chevron-right" size={26} color="000" />
                 </Pressable>
@@ -68,7 +68,7 @@ export default function ProfilePreferences() {
                     className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3">
                     <MaterialIcons name="notifications" size={28} color="#326F95" />
                     <View className="flex-1">
-                        <Text className="ml-1 mt-1 text-[16px] text-black">Notifications</Text>
+                        <Text className="ml-1 mt-1 text-[16px] text-[16px]lack">Notifications</Text>
                     </View>
                     <MaterialIcons name="chevron-right" size={26} color="#000" />
                 </Pressable>

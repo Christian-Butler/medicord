@@ -40,7 +40,7 @@ export default function MedicationContainer() {
     <View className="px-6 pb-28 pt-8">
       <Pressable
         onPress={() => router.push("/medication-formpage")}
-        className="h-[56px] flex-row items-center justify-center rounded-[14px] border-[2px] border-[#0D5175] bg-white"
+        className="h-[50px] flex-row items-center justify-center rounded-[14px] bg-white"
       >
         <Plus size={20} color="#0D5175" />
 
@@ -82,15 +82,16 @@ export default function MedicationContainer() {
                 : t(`medication-container.instructions`);
 
             return (
-              <View key={medication.id} className="mb-12 flex-row items-start">
-                <MaterialIcons name="medication" size={58} color="#075B7A" />
+              <View key={medication.id} className="mb-6 flex-row items-start bg-[white] px-4 pb-6 pt-2 rounded-3xl">
 
-                <View className="ml-5 flex-1">
-                  <View className="flex-row items-start justify-between">
-                    <Text className="max-w-[150px] text-[20px] font-medium text-black">
-                      {medication.name ?? "Unnamed medication"}
-                    </Text>
-
+                <View className="mt-2 flex-1">
+                  <View className="flex-row items-center justify-between">
+                    <MaterialIcons name="medication" size={46} color="#075B7A" />
+                    <View className="">
+                      <Text className="text-[20px] font-medium text-black">
+                        {medication.name ?? "Unnamed medication"}
+                      </Text>
+                    </View>
                     <View className="flex-row items-center">
                       <Pressable
                         onPress={() =>
@@ -101,16 +102,17 @@ export default function MedicationContainer() {
                             },
                           })
                         }
-                        className="mr-5 flex-row items-center"
+                        className="mr-8 flex-row items-center"
                       >
                         <MaterialIcons name="edit" size={20} color="#8A3F00" />
 
-                        <Text className="ml-1 text-[18px] font-medium text-[#8A3F00]">
+                        <Text className="ml-1 text-[16px] font-medium text-[#8A3F00]">
                           {t(`medication-container.edit`)}
                         </Text>
                       </Pressable>
 
                       <Pressable
+                        className="items-center"
                         disabled={deleting}
                         onPress={() => handleDeleteMedication(medication.id)}
                       >
@@ -123,19 +125,19 @@ export default function MedicationContainer() {
                     </View>
                   </View>
 
-                  <Text className="mt-5 text-[20px] font-medium text-black">
+                  <Text className="ml-2 mt-2 text-[16px] font-medium text-black">
                     {t(`medication-container.duration`)}
                   </Text>
 
-                  <Text className="mt-1 text-[16px] font-normal text-gray-800">
+                  <Text className="ml-2 mt-1 text-[14px] font-normal text-gray-600">
                     {duration}
                   </Text>
 
-                  <Text className="mt-5 text-[20px] font-medium text-black">
+                  <Text className="ml-2 mt-4 text-[16px] font-medium text-black">
                     {instruction}
                   </Text>
 
-                  <View className="mt-2 flex-row flex-wrap gap-2">
+                  <View className="ml-2 mt-2 flex-row flex-wrap gap-2">
                     {weekDays.map((day) => {
                       const selected = medication.days_frequency?.includes(day);
 
@@ -156,9 +158,9 @@ export default function MedicationContainer() {
                     })}
                   </View>
 
-                  <View className="mt-14 flex-row justify-end">
-                    <Pressable className="mr-4 h-[48px] items-center justify-center rounded-[10px] border-[2px] border-[#2D7195] bg-white px-4">
-                      <Text className="text-[16px] font-medium text-[#2D7195]">
+                  <View className="mt-8 flex-row items-center justify-between">
+                    <Pressable className="px-6 py-4 items-center justify-center rounded-[12px] border-[2px] border-[#0D5175] bg-white">
+                      <Text className="text-[16px] font-medium text-[#0D5175]">
                         {t(`medication-container.calendar`)}
                       </Text>
                     </Pressable>

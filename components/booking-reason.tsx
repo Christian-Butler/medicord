@@ -39,7 +39,7 @@ export default function AppointmentReasonOverlay({
               <CalendarDays size={68} color="#2F7298" strokeWidth={2} />
             </View>
 
-            <Text className="mb-9 text-center text-[21px] font-semibold leading-7 text-black">
+            <Text className="mb-9 text-center text-[20px] font-semibold leading-7 text-black">
               {t(`booking-reason.query`)}
             </Text>
 
