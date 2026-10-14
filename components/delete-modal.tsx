@@ -18,7 +18,7 @@ export default function DeleteModal({ visible, onCancel, onConfirm }: DeleteModa
     <Modal transparent animationType="fade" visible={visible} onRequestClose={onCancel}>
       <View className="flex-1 justify-center bg-[#B8C8E8]/80 px-8">
 
-        <View className="w-full rounded-2xl border border-[#333] bg-[#EEF4FB] px-4 py-10">
+        <View className="w-full rounded-2xl bg-[#EEF4FB] px-4 py-10">
           <Text className="text-center text-[22px] font-semibold text-black">
             {t(`delete-modal.query`)}
           </Text>
@@ -29,7 +29,7 @@ export default function DeleteModal({ visible, onCancel, onConfirm }: DeleteModa
 
           <Pressable
             onPress={onCancel}
-            className="mt-8 mb-2 h-[50px] items-center justify-center rounded-2xl border-[2px] border-[#0D5175] bg-white"
+            className="mt-8 mb-2 h-[50px] items-center justify-center rounded-2xl bg-white"
           >
             <Text className="text-[16px] font-medium text-[#0D5175]">
               {t(`delete-modal.stay`)}

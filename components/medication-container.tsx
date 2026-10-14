@@ -37,7 +37,7 @@ export default function MedicationContainer() {
     <View className="px-6 pb-28 pt-8">
       <Pressable
         onPress={() => router.push("/medication-formpage")}
-        className="h-[56px] flex-row items-center justify-center rounded-[14px] border-[2px] border-[#0D5175] bg-white"
+        className="h-[50px] flex-row items-center justify-center rounded-[14px] bg-white"
       >
         <Plus size={20} color="#0D5175" />
 

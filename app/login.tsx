@@ -25,7 +25,7 @@ export default function LoginPage() {
           {t(`login.name`)}
         </Text>
 
-        <Text className="mt-3 text-center text-[22px] font-medium text-black">
+        <Text className="mt-3 text-center text-[20px] font-medium text-black">
           {t(`login.login`)}
         </Text>
 
@@ -35,7 +35,7 @@ export default function LoginPage() {
           </Text>
         ) : null}
 
-        <Text className="mt-8 text-[17px] font-medium text-black">{t(`login.email`)}</Text>
+        <Text className="mt-8 text-[16px] font-medium text-black">{t(`login.email`)}</Text>
         <TextInput
           value={email}
           onChangeText={setEmail}
@@ -43,42 +43,42 @@ export default function LoginPage() {
           keyboardType="email-address"
           placeholder={t(`login.placeholderE`)}
           placeholderTextColor="#7A8A8D"
-          className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+          className="mt-2 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
 
-        <Text className="mt-5 text-[17px] font-medium text-black">{t(`login.password`)}</Text>
+        <Text className="mt-5 text-[16px] font-medium text-black">{t(`login.password`)}</Text>
         <TextInput
           value={password}
           onChangeText={setPassword}
           secureTextEntry
           placeholder={t(`login.placeholderP`)}
           placeholderTextColor="#7A8A8D"
-          className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+          className="mt-2 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
 
         <Pressable
           disabled={loading}
           onPress={handleLogin}
-          className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${loading ? "opacity-60" : ""
+          className={`mt-10 h-[50px] items-center justify-center rounded-[13px] bg-[#5085A8] ${loading ? "opacity-60" : ""
             }`}
         >
-          <Text className="text-[17px] font-semibold text-white">
+          <Text className="text-[16px] font-semibold text-white">
             {loading ? t(`login.logging`) : t(`login.confirm`)}
           </Text>
         </Pressable>
 
         <Pressable
           onPress={() => router.push("/forgot-password")}
-          className="mt-4 items-center"
+          className="mt-10 items-center"
         >
-          <Text className="text-[15px] text-[#075B7A]">{t(`login.forgot`)}</Text>
+          <Text className="text-[14px] text-[#075B7A]">{t(`login.forgot`)}</Text>
         </Pressable>
 
         <Pressable
           onPress={() => router.push("/register")}
           className="mt-6 items-center"
         >
-          <Text className="text-[16px] text-[#075B7A]">
+          <Text className="text-[14px] text-[#075B7A]">
             {t(`login.register`)}
           </Text>
         </Pressable>

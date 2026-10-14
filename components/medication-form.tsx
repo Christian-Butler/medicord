@@ -1,8 +1,6 @@
-import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
-import { MaterialIcons } from "@expo/vector-icons";
+import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 import { Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Pressable, Text, TextInput, View } from "react-native";
 
 type MedicationFormProps = {
@@ -14,88 +12,64 @@ type MedicationFormProps = {
 
 const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
-function numberToString(value?: number | null) {
-  return value === null || value === undefined ? "0" : String(value);
-}
-
-function toNumber(value: string) {
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : 0;
-}
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max);
-}
-
-function incrementValue(value: string, max: number) {
-  return String(clamp(toNumber(value) + 1, 0, max));
-}
-
-function decrementValue(value: string, max: number) {
-  return String(clamp(toNumber(value) - 1, 0, max));
-}
-
-function formatHour(value: string) {
-  const safeHour = clamp(toNumber(value), 0, 23);
-  return `${String(safeHour).padStart(2, "0")}:00`;
-}
+const daily = ["Morning", "Noon", "Evening"];
 
 
+const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
+  { label: "Once daily", value: "once_daily" },
+  { label: "Twice daily", value: "twice_daily" },
+  { label: "Three times daily", value: "three_times_daily" },
+  { label: "Multiple times daily", value: "long_term" },
+];
 
 export default function MedicationForm({
-
   medication,
   saving = false,
   error,
   onSubmit,
 }: MedicationFormProps) {
   const [name, setName] = useState("");
-  const [monthsDuration, setMonthsDuration] = useState("0");
-  const [weeksDuration, setWeeksDuration] = useState("0");
-  const [daysDuration, setDaysDuration] = useState("0");
+  const [monthsDuration, setMonthsDuration] = useState(0);
+  const [weeksDuration, setWeeksDuration] = useState(0);
+  const [daysDuration, setDaysDuration] = useState(0);
+  const [selectedTime, setSelectedTime] = useState<string[]>([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [morningFrequency, setMorningFrequency] = useState("0");
-  const [noonFrequency, setNoonFrequency] = useState("0");
-  const [eveningFrequency, setEveningFrequency] = useState("0");
+  const [morningFrequency, setMorningFrequency] = useState(0);
+  const [noonFrequency, setNoonFrequency] = useState(0);
+  const [eveningFrequency, setEveningFrequency] = useState(0);
   const [noSpecificTime, setNoSpecificTime] = useState(false);
-  const [hours, setHours] = useState<string[]>(["0"]);
-  const [noSpecificHour, setNoSpecificHour] = useState(false);
+  const [frequency, setFrequency] = useState<MedicationFrequency | null>(null);
   const [instructions, setInstructions] = useState<string[]>([""]);
   const [localError, setLocalError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!medication) {
       setName("");
-      setMonthsDuration("0");
-      setWeeksDuration("0");
-      setDaysDuration("0");
+      setMonthsDuration(0);
+      setWeeksDuration(0);
+      setDaysDuration(0);
       setSelectedDays([]);
-      setMorningFrequency("0");
-      setNoonFrequency("0");
-      setEveningFrequency("0");
+      setMorningFrequency(0);
+      setNoonFrequency(0);
+      setEveningFrequency(0);
       setNoSpecificTime(false);
-      setHours(["0"]);
-      setNoSpecificHour(false);
+      setFrequency(null);
       setInstructions([""]);
       setLocalError(null);
       return;
     }
 
     setName(medication.name ?? "");
-    setMonthsDuration(numberToString(medication.months_duration));
-    setWeeksDuration(numberToString(medication.weeks_duration));
-    setDaysDuration(numberToString(medication.days_duration));
+    setMonthsDuration(medication.months_duration ?? 0);
+    setWeeksDuration(medication.weeks_duration ?? 0);
+    setDaysDuration(medication.days_duration ?? 0);
     setSelectedDays(medication.days_frequency ?? []);
-    setMorningFrequency(numberToString(medication.morning_frequency));
-    setNoonFrequency(numberToString(medication.noon_frequency));
-    setEveningFrequency(numberToString(medication.evening_frequency));
+    setMorningFrequency(medication.morning_frequency ?? 0);
+    setNoonFrequency(medication.noon_frequency ?? 0);
+    setEveningFrequency(medication.evening_frequency ?? 0);
     setNoSpecificTime(medication.no_specific_time ?? false);
-    setHours(
-      medication.hours && medication.hours.length > 0
-        ? medication.hours.map((hour) => String(hour))
-        : ["0"]
-    );
-    setNoSpecificHour(medication.no_specific_hour ?? false);
+    setSelectedTime([""]);
+    setFrequency((medication.frequency as MedicationFrequency) ?? null);
     setInstructions(
       medication.instructions && medication.instructions.length > 0
         ? medication.instructions
@@ -105,28 +79,20 @@ export default function MedicationForm({
   }, [medication]);
 
   function toggleDay(day: string) {
-    setSelectedDays((current) => {
-      if (current.includes(day)) {
-        return current.filter((item) => item !== day);
-      }
-
-      return [...current, day];
-    });
-  }
-
-  function updateHour(index: number, value: string) {
-    setHours((current) =>
-      current.map((item, itemIndex) => (itemIndex === index ? value : item))
+    setSelectedDays((current) =>
+      current.includes(day) ? current.filter((d) => d !== day) : [...current, day]
     );
   }
 
-  function addHour() {
-    setHours((current) => [...current, "0"]);
+  function toggleTime(time: string) {
+    setSelectedTime((current) =>
+      current.includes(time) ? current.filter((t) => t !== time) : [...current, time]
+    );
   }
 
   function updateInstruction(index: number, value: string) {
     setInstructions((current) =>
-      current.map((item, itemIndex) => (itemIndex === index ? value : item))
+      current.map((item, i) => (i === index ? value : item))
     );
   }
 
@@ -136,324 +102,196 @@ export default function MedicationForm({
 
   async function handleSubmit() {
     const trimmedName = name.trim();
-
     if (!trimmedName) {
-      setLocalError(t(`medication-form.nameMed`));
+      setLocalError("Please enter a medication name.");
       return;
     }
-
     setLocalError(null);
 
     await onSubmit({
       name: trimmedName,
-      monthsDuration: toNumber(monthsDuration),
-      weeksDuration: toNumber(weeksDuration),
-      daysDuration: toNumber(daysDuration),
+      monthsDuration,
+      weeksDuration,
+      daysDuration,
       daysFrequency: selectedDays,
-      morningFrequency: toNumber(morningFrequency),
-      noonFrequency: toNumber(noonFrequency),
-      eveningFrequency: toNumber(eveningFrequency),
+      morningFrequency,
+      noonFrequency,
+      eveningFrequency,
       noSpecificTime,
-      noSpecificHour,
-      hours: noSpecificHour ? [] : hours.map(toNumber),
-      instructions: instructions.map((item) => item.trim()).filter(Boolean),
+      noSpecificHour: true,
+      hours: [],
+      frequency,
+      instructions: instructions.map((i) => i.trim()).filter(Boolean),
     });
   }
 
   const visibleError = localError ?? error;
 
-  const [frequency, setFrequency] = useState<MedicationFrequency | null>(null);
-  const { t } = useTranslation();
-
   return (
-    <View className="px-6 pb-16 pt-8">
-      <View className="items-center">
-        <MaterialIcons name="medication" size={80} color="#075B7A" />
+    <View className="mx-6 pb-16 pt-8">
 
-        <Text className="mt-2 text-[20px] font-medium text-black">
-          {t(`medication-form.type`)}
-        </Text>
-
-        <Text className="mt-1 text-[14px] text-gray-500">
-          {t(`medication-form.image`)}
-        </Text>
-      </View>
-
-      {visibleError ? (
-        <Text className="mt-6 text-[16px] text-[#B42318]">
-          {visibleError}
-        </Text>
-      ) : null}
-
-      <Text className="mt-8 text-[20px] font-medium text-black">{t(`medication-form.name`)}</Text>
+      {/* Name */}
+      <Text className="mr-4 text-[20px] font-medium text-black">Name</Text>
 
       <TextInput
         value={name}
-        onChangeText={(value) => {
-          setName(value);
-          setLocalError(null);
-        }}
-        placeholder={(t(`medication-form.enter`))}
+        onChangeText={(v) => { setName(v); setLocalError(null); }}
+        placeholder="Enter a name"
         placeholderTextColor="#7A8A8D"
-        className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+        className="mt-3 h-[56px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
       />
+      {visibleError ? (
+        <Text className="mt-2 text-[16px] text-[#B42318]">{visibleError}</Text>
+      ) : null}
 
-      <Text className="mt-7 text-[20px] font-medium text-black">{t(`medication-form.duration`)}</Text>
-
-      <View className="mt-3 flex-row gap-3 justify-between">
-        <StepperBox
-          widthClassName="w-[120px]"
-          value={`${monthsDuration} Month(s)`}
-          onIncrement={() =>
-            setMonthsDuration((current) => incrementValue(current, 24))
-          }
-          onDecrement={() =>
-            setMonthsDuration((current) => decrementValue(current, 24))
-          }
-        />
-
-        <StepperBox
-          widthClassName="w-[118px]"
-          value={`${weeksDuration} Week(s)`}
-          onIncrement={() =>
-            setWeeksDuration((current) => incrementValue(current, 52))
-          }
-          onDecrement={() =>
-            setWeeksDuration((current) => decrementValue(current, 52))
-          }
-        />
-
-        <StepperBox
-          widthClassName="w-[110px]"
-          value={`${daysDuration} Day(s)`}
-          onIncrement={() =>
-            setDaysDuration((current) => incrementValue(current, 31))
-          }
-          onDecrement={() =>
-            setDaysDuration((current) => decrementValue(current, 31))
-          }
-        />
+      {/* Duration */}
+      <Text className="mt-7 text-[21px] font-medium text-black">Duration</Text>
+      <View className="mt-3 flex-row gap-3">
+        {/* 
+        <View className="flex-1">
+          <SpinnerPickerField label="Month(s)" value={monthsDuration} max={24} onChange={setMonthsDuration} />
+        </View>
+        <View className="flex-1">
+          <SpinnerPickerField label="Week(s)" value={weeksDuration} max={52} onChange={setWeeksDuration} />
+        </View>
+        <View className="flex-1">
+          <SpinnerPickerField label="Day(s)" value={daysDuration} max={31} onChange={setDaysDuration} />
+        </View>
+        */}
       </View>
 
-      <Text className="mt-7 text-[20px] font-medium text-black">
-        {t(`medication-form.frequency`)}
-      </Text>
-
+      {/* Days */}
+      <Text className="mt-7 text-[20px] font-medium text-black">Weekly</Text>
       <View className="mt-3 flex-row flex-wrap gap-2">
         {weekDays.map((day) => {
           const selected = selectedDays.includes(day);
-
           return (
             <Pressable
               key={day}
+              onPress={() => toggleDay(day)}
               disabled={noSpecificTime}
-              onPress={() => !noSpecificTime && setFrequency(option.value)}
-              className={`h-[43px] min-w-[45px] items-center justify-center rounded-[7px] border-[2px] border-[#0D5175] px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
-                } ${noSpecificTime ? "opacity-50" : ""}`}
+              className={`h-[43px] min-w-[45px] items-center justify-center rounded-xl px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
+                } `}
             >
-              <Text
-                className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"
-                  }`}
-              >
-                {t(`medication-form.${day}`)}
+              <Text className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
+                {day}
               </Text>
             </Pressable>
           );
         })}
       </View>
 
-      <View className="mt-7 flex-row justify-between">
-        <View className="items-center">
-          <StepperBox
-            widthClassName="w-[80px]"
-            value={morningFrequency}
-            disabled={noSpecificTime}
-            onIncrement={() =>
-              setMorningFrequency((current) => incrementValue(current, 10))
-            }
-            onDecrement={() =>
-              setMorningFrequency((current) => decrementValue(current, 10))
-            }
-          />
 
-          <Text className="mt-2 text-center text-[14px] text-black">
-            {t(`medication-form.morning`)}
-          </Text>
+      {/* Time */}
+      <Text className="mt-7 text-[20px] font-medium text-black">Daily</Text>
+
+      <View className="mt-4 flex-row flex-wrap gap-4">
+        {frequencyOptions.map((option) => (
+          <Pressable
+            key={option.value}
+            disabled={noSpecificTime}
+            onPress={() => !noSpecificTime && setFrequency(option.value)}
+            className={`h-[40px] items-center justify-center rounded-[10px] px-6 ${frequency === option.value ? "bg-[#0D5175]" : "bg-white"
+              } ${noSpecificTime ? "opacity-50" : ""}`}
+          >
+            <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
+              {option.label}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
+
+      {/* Morning / Noon / Evening */}
+      <View className="mt-5 flex-row gap-3">
+        <View className="flex-1">
+
+          {/* 
+          <Text className="mb-2 text-[14px] text-[#555]">Morning Intake</Text>
+          <SpinnerPickerField label="pills" value={morningFrequency} max={10} onChange={setMorningFrequency} disabled={noSpecificTime} />
         </View>
-
-        <View className="items-center">
-          <StepperBox
-            widthClassName="w-[80px]"
-            value={noonFrequency}
-            disabled={noSpecificTime}
-            onIncrement={() =>
-              setNoonFrequency((current) => incrementValue(current, 10))
-            }
-            onDecrement={() =>
-              setNoonFrequency((current) => decrementValue(current, 10))
-            }
-          />
-
-          <Text className="mt-2 text-center text-[14px] text-black">
-            {t(`medication-form.noon`)}
-          </Text>
+        <View className="flex-1">
+          <Text className="mb-2 text-[14px] text-[#555]">Noon Intake</Text>
+          <SpinnerPickerField label="pills" value={noonFrequency} max={10} onChange={setNoonFrequency} disabled={noSpecificTime} />
         </View>
-
-        <View className="items-center">
-          <StepperBox
-            widthClassName="w-[80px]"
-            value={eveningFrequency}
-            disabled={noSpecificTime}
-            onIncrement={() =>
-              setEveningFrequency((current) => incrementValue(current, 10))
-            }
-            onDecrement={() =>
-              setEveningFrequency((current) => decrementValue(current, 10))
-            }
-          />
-
-          <Text className="mt-2 text-center text-[14px] text-black">
-            {t(`medication-form.evening`)}
-          </Text>
+        <View className="flex-1">
+          <Text className="mb-2 text-[14px] text-[#555]">Evening Intake</Text>
+          <SpinnerPickerField label="pills" value={eveningFrequency} max={10} onChange={setEveningFrequency} disabled={noSpecificTime} />
+          */}
         </View>
       </View>
 
-      <Pressable
-        onPress={() => setNoSpecificTime((current) => !current)}
-        className="mt-7 flex-row items-center"
-      >
-        <View
-          className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"
-            }`}
-        />
+      {/* Intake Frequency */}
+      <Text className="mt-4 text-[20px] font-medium text-black">Time window</Text>
+      <View className="mt-3 flex-row flex-wrap gap-4">
+        {daily.map((time) => {
+          const selected = selectedDays.includes(time);
+          return (
+            <Pressable
+              key={time}
+              onPress={() => toggleDay(time)}
+              disabled={noSpecificTime}
+              className={`px-6 h-[40px] items-center justify-center rounded-xl ${selected ? "bg-[#0D5175]" : "bg-white"
+                } `}
+            >
+              <Text className={`text-[16px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
+                {time}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
 
-        <Text className="ml-3 text-[16px] text-black">
-          {t(`medication-form.noTimeDay`)}
-        </Text>
-      </Pressable>
-
-      <Text className="mt-7 text-[20px] font-medium text-black">{t(`medication-form.hours`)}</Text>
-
-      <View className="mt-4 flex-row flex-wrap items-center gap-4">
-        {hours.map((hour, index) => (
-          <StepperBox
-            key={index}
-            widthClassName="w-[105px]"
-            disabled={noSpecificHour}
-            value={formatHour(hour)}
-            onIncrement={() => updateHour(index, incrementValue(hour, 23))}
-            onDecrement={() => updateHour(index, decrementValue(hour, 23))}
-          />
-        ))}
+      <View className="mt-6 justify-between flex-row items-center">
+        {/* No specific time */}
+        <Pressable
+          onPress={() => setNoSpecificTime((p) => !p)}
+          className="flex-row items-center"
+        >
+          <View className={`h-[20px] w-[20px] rounded-[4px] border border-[#0D5175] ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"}`} />
+          <Text className="ml-2 text-[14px] text-black">No time window needed.</Text>
+        </Pressable>
 
         <Pressable
-          onPress={addHour}
-          disabled={noSpecificHour}
-          className={`h-[46px] flex-row items-center justify-center rounded-[10px] border-[2px] border-[#0D5175] bg-white px-5 ${noSpecificHour ? "opacity-50" : ""
-            }`}
+          onPress={addInstruction}
+          className="h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
         >
-          <Plus size={20} color="#0D5175" />
-
-          <Text className="ml-2 text-[16px] font-medium text-[#0D5175]">
-            {t(`medication-form.addHour`)}
-          </Text>
+          <Plus size={20} color="white" />
+          <Text className="ml-2 text-[16px] font-medium text-white">Specify hour</Text>
         </Pressable>
       </View>
 
-      <Pressable
-        onPress={() => setNoSpecificHour((current) => !current)}
-        className="mt-7 flex-row items-center"
-      >
-        <View
-          className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${noSpecificHour ? "bg-[#0D5175]" : "bg-transparent"
-            }`}
-        />
 
-        <Text className="ml-3 text-[16px] text-black">
-          {t(`medication-form.noHour`)}
-        </Text>
-      </Pressable>
-
-      <Text className="mt-8 text-[21px] font-medium text-black">
-        {t(`medication-form.other`)}
-      </Text>
-
+      {/* Instructions */}
+      <Text className="mt-8 text-[21px] font-medium text-black">Instructions</Text>
       {instructions.map((instruction, index) => (
         <TextInput
           key={index}
           value={instruction}
-          onChangeText={(value) => updateInstruction(index, value)}
-          placeholder={t(`medication-form.placeholder`)}
+          onChangeText={(v) => updateInstruction(index, v)}
+          placeholder="ex. Take with food"
           placeholderTextColor="#7A8A8D"
-          className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+          className="mt-3 h-[56px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
       ))}
 
       <Pressable
         onPress={addInstruction}
-        className="mt-4 h-[50px] flex-row items-center justify-center self-end rounded-[12px] border-[2px] border-[#0D5175] bg-white px-6"
+        className="mt-4 h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
       >
-        <Plus size={20} color="#0D5175" />
-
-        <Text className="ml-2 text-[17px] font-medium text-[#0D5175]">
-          {t(`medication-form.addInstr`)}
-        </Text>
+        <Plus size={20} color="white" />
+        <Text className="ml-2 text-[16px] font-medium text-white">Add instruction</Text>
       </Pressable>
 
       <Pressable
         disabled={saving}
         onPress={handleSubmit}
-        className={`mt-10 mb-10 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${saving ? "opacity-60" : ""
-          }`}
+        className={`mt-10  mb-20 h-[50px] items-center justify-center rounded-[14px] bg-[#17A633] ${saving ? "opacity-60" : ""}`}
       >
         <Text className="text-[16px] font-medium text-white">
-          {saving
-            ? t(`medication-form.saving`)
-            : medication
-              ? t(`medication-form.update`)
-              : t(`medication-form.creation`)}
+          {saving ? "Saving..." : medication ? "Confirm update" : "Confirm routine creation"}
         </Text>
       </Pressable>
-    </View>
-  );
-}
-
-type StepperBoxProps = {
-  value: string;
-  disabled?: boolean;
-  widthClassName?: string;
-  onIncrement: () => void;
-  onDecrement: () => void;
-};
-
-function StepperBox({
-  value,
-  disabled = false,
-  widthClassName = "flex-1",
-  onIncrement,
-  onDecrement,
-}: StepperBoxProps) {
-  return (
-    <View
-      className={`h-[44px] ${widthClassName} flex-row items-center justify-center rounded-[10px] border-[2px] border-[#97A5A8] bg-white ${disabled ? "opacity-50" : ""
-        }`}
-    >
-      <Text className="text-[16px] text-black">{value}</Text>
-
-      <View className="ml-2">
-        <Pressable disabled={disabled} onPress={onIncrement} hitSlop={8}>
-          <MaterialIcons name="keyboard-arrow-up" size={16} color="#000" />
-        </Pressable>
-
-        <Pressable disabled={disabled} onPress={onDecrement} hitSlop={8}>
-          <MaterialIcons
-            name="keyboard-arrow-down"
-            size={16}
-            color="#000"
-            style={{ marginTop: -8 }}
-          />
-        </Pressable>
-      </View>
     </View>
   );
 }

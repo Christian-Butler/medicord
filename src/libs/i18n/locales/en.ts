@@ -79,7 +79,7 @@ export const en = {
         details: "Check notes",
         calendar: "Add to Calendar",
         modify: "Modify",
-        prescription: "Prescription",
+        prescription: "View prescription",
         appointments: "Appointments",
         loading: "Loading appointments",
         "Failed to load appointments": "Failed to load appointments",

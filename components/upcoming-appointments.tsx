@@ -117,7 +117,7 @@ export default function UpcomingAppointments() {
                     params: { appointmentId: item.id },
                   })
                 }>
-                  <View className="mt-6 border-2 border-[#0D5175] rounded-xl px-8 py-4">
+                  <View className="mt-6 border-2 border-[#0D5175] rounded-2xl px-8 py-4">
                     <Text className="font-medium color-[#0D5175] text-[16px]">Reschedule</Text>
                   </View>
                 </TouchableOpacity>
@@ -127,7 +127,7 @@ export default function UpcomingAppointments() {
                     params: { appointmentId: item.id },
                   })
                 }>
-                  <View className="mt-6 bg-[#5085A8] border-2 border-[#5085A8] px-8 py-4 rounded-xl">
+                  <View className="mt-6 bg-[#5085A8] border-2 border-[#5085A8] px-8 py-4 rounded-2xl">
                     <Text className="color-[white] font-medium text-[16px]">Check details</Text>
                   </View>
                 </TouchableOpacity>
@@ -231,12 +231,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   emptyCard: {
-    minHeight: 50,
-    marginTop: 26,
-    marginLeft: 18,
+    minHeight: 30,
+    marginTop: 20,
+    marginLeft: 20
   },
   emptyText: {
-    textAlign: "center",
     fontSize: 16,
     color: "#333",
   },

@@ -32,7 +32,7 @@ export default function LatestDocuments() {
 
             <View className="ml-4 flex-1">
               <View className="flex-row items-end">
-                <Text className="text-lg font-medium text-black">
+                <Text className="text-[16px] font-medium text-black">
                   {t(`latest-documents.document`)}
                 </Text>
                 <View className="mx-2 py-1 px-4 rounded-[10px] border-[2px] border-[#54B85D] bg-[#B1EDB1]">
@@ -41,7 +41,7 @@ export default function LatestDocuments() {
                   </Text>
                 </View>
               </View>
-              <Text className="mt-1 text-[16px] text-gray-600">
+              <Text className="mt-2 text-[14px] text-gray-600">
                 {t(`latest-documents.received`)}
               </Text>
             </View>
