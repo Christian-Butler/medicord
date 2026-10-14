@@ -42,7 +42,7 @@ export function useProfile() {
 
   async function handleEditAvatar() {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: "images",
       allowsEditing: true,
       aspect: [1, 1],
       quality: 0.8,
@@ -59,10 +59,10 @@ export function useProfile() {
   }
 
   return {
-    fullName: fullName ?? "Philip Connally",
-    email: email ?? "John@Doe.com",
-    phone: phone ?? "XXX XXX XXX",
-    dob: dob ?? "19/04/53",
+    fullName: fullName ?? "",
+    email: email ?? "",
+    phone: phone ?? "Not set",
+    dob: dob ?? "Not set",
     location: location ?? "Address unspecified",
     avatarUrl,
     loading,

@@ -72,3 +72,10 @@ export async function updatePhone(newPhone: string) {
     .eq("id", (await supabase.auth.getUser()).data.user?.id);
   if (error) throw error;
 }
+export async function deleteMyAccount() {
+  const { error } = await supabase.rpc("delete_my_account");
+  if (error) throw error;
+
+  // user no longer exists server-side, so only clear the local session
+  await supabase.auth.signOut({ scope: "local" });
+}

@@ -5,11 +5,16 @@ export function formatMedicationDuration(
 ) {
   const parts: string[] = [];
 
-  if (months) parts.push(`${months} month${months === 1 ? "" : "s"}`);
-  if (weeks) parts.push(`${weeks} week${weeks === 1 ? "" : "s"}`);
-  if (days) parts.push(`${days} day${days === 1 ? "" : "s"}`);
+  const totalDays =
+    (months ?? 0) * 30 +
+    (weeks ?? 0) * 7 +
+    (days ?? 0);
+  if (totalDays <= 0) return "No duration set";
+  if (totalDays >= 30) return `${Math.round(totalDays / 30)} month${Math.round(totalDays / 30) === 1 ? "" : "s"} remaining`;
+  if (totalDays >= 7) return `${Math.round(totalDays / 7)} week${Math.round(totalDays / 7) === 1 ? "" : "s"} remaining`;
+  return `${totalDays} day${totalDays === 1 ? "" : "s"} remaining`;
 
-  return parts.length > 0 ? parts.join(" ") : "No duration set";
+
 }
 
 export function formatMedicationFrequency(daysFrequency?: string[] | null) {

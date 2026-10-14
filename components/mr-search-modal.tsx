@@ -27,6 +27,7 @@ export default function ItemDetailModal({
     const [diagnosisDate, setDiagnosisDate] = useState("");
     const [conditionState, setConditionState] = useState<string | null>(null);
     const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const { t } = useTranslation();
 
     if (!itemLabel) return null;
 

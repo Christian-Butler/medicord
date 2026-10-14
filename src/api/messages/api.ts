@@ -1,5 +1,5 @@
 import { supabase } from "@/supabase/supabase";
-import { setDemoSession } from "@/src/api/auth/demoSession";
+import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 
 const messageSelect = `
   id,
@@ -31,13 +31,12 @@ export type Conversation = Message & {
 };
 
 export async function getMessages(doctorId: string): Promise<Message[]> {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { data, error } = await supabase
     .from("messages")
     .select(messageSelect)
-    .eq("sender_id", user.id)
+    .eq("sender_id", userId)
     .eq("doctor_id", doctorId)
     .order("created_at", { ascending: true });
 
@@ -46,27 +45,25 @@ export async function getMessages(doctorId: string): Promise<Message[]> {
 }
 
 export async function getConversations(): Promise<Conversation[]> {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { data, error } = await supabase
     .from("messages")
     .select(`${messageSelect}, doctors(id, full_name, avatar_url, specialty)`)
-    .eq("sender_id", user.id)
+    .eq("sender_id", userId)
     .order("created_at", { ascending: false });
 
   if (error) throw new Error(`Failed to fetch conversations: ${error.message}`);
-  return (data ?? []) as Conversation[];
+  return (data ?? []) as unknown as Conversation[];
 }
 
 export async function sendMessage(doctorId: string, content: string): Promise<Message> {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { data, error } = await supabase
     .from("messages")
     .insert({
-      sender_id: user.id,
+      sender_id: userId,
       doctor_id: doctorId,
       content,
       sent_by: "user",
@@ -79,13 +76,12 @@ export async function sendMessage(doctorId: string, content: string): Promise<Me
 }
 
 export async function markAsRead(doctorId: string): Promise<void> {
-  const user = await setDemoSession();
-  if (!user) throw new Error("No user session");
+  const userId = await getCurrentAppUserId();
 
   const { error } = await supabase
     .from("messages")
     .update({ is_read: true })
-    .eq("sender_id", user.id)
+    .eq("sender_id", userId)
     .eq("doctor_id", doctorId)
     .eq("sent_by", "doctor")
     .eq("is_read", false);

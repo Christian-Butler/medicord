@@ -1,6 +1,6 @@
 import { getMyMedications } from "@/src/api/medications/api";
 import type { Medication } from "@/src/types/medicationTypes";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 export function useMedicationList() {
   const [medications, setMedications] = useState<Medication[]>([]);
@@ -26,10 +26,6 @@ export function useMedicationList() {
       setLoading(false);
     }
   }, []);
-
-  useEffect(() => {
-    refetch();
-  }, [refetch]);
 
   return {
     medications,

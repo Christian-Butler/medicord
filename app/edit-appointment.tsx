@@ -178,7 +178,7 @@ export default function EditAppointment() {
         onAddToCalendar={() => { }}
         onGoHome={() => {
           setShowSuccessOverlay(false);
-          router.replace("/index");
+          router.replace("/(tabs)");
         }}
         onClose={() => setShowSuccessOverlay(false)}
       />

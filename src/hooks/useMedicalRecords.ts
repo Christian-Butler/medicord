@@ -12,25 +12,24 @@ export function useMedicalRecords(category?: MedicalRecordsCategory) {
 
   const { t } = useTranslation();
 
-
   const fetchRecords = useCallback(async () => {
-
     try {
       setLoading(true);
       setError(null);
-      const data = await getMyMedicalRecords();
-      const filtered = category ? data.filter((r) => r.category === category) : data;
-      setRecords(filtered);
+      const data = await getMyMedicalRecords(category);
+      setRecords(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : t(`useMedicalRecords.fail`));
     } finally {
       setLoading(false);
-    } [fetchRecords];
-  }, [category]);
+    }
+  }, [category, t]);
 
-  useFocusEffect(() => {
-    fetchRecords();
-  });
+  useFocusEffect(
+    useCallback(() => {
+      fetchRecords();
+    }, [fetchRecords])
+  );
 
   return { records, loading, error, refetch: fetchRecords };
 }
