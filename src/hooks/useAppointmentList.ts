@@ -33,7 +33,7 @@ export function useAppointmentList() {
   }, []);
 
   useEffect(() => {
-    refetch();
+    refetch().catch(() => {});
   }, [refetch]);
 
   const upcomingAppointments = useMemo(() => {

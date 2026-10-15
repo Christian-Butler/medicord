@@ -35,7 +35,7 @@ export function useAppointment(appointmentId?: string) {
   }, [appointmentId]);
 
   useEffect(() => {
-    refetch();
+    refetch().catch(() => {});
   }, [refetch]);
 
   return {
