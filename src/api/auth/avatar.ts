@@ -22,11 +22,12 @@ export async function uploadAvatar(userId: string, uri: string): Promise<string>
   if (error) throw new Error(`Avatar upload failed: ${error.message}`);
 
   const { data } = supabase.storage.from("avatars").getPublicUrl(path);
+  const versionedUrl = `${data.publicUrl}?t=${Date.now()}`;
 
   await supabase
     .from("profiles")
-    .update({ avatar_url: `${data.publicUrl}?t=${Date.now()}` })
+    .update({ avatar_url: versionedUrl  })
     .eq("id", userId);
 
-  return data.publicUrl;
+  return versionedUrl;
 }
