@@ -54,7 +54,7 @@ export function useDoctor(doctorId?: string) {
   }, [doctorId]);
 
   useEffect(() => {
-    refetch();
+    refetch().catch(() => {});
   }, [refetch]);
 
   return {

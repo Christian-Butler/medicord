@@ -2,8 +2,8 @@ import { useDoctor } from "@/src/hooks/useDoctor";
 import { MaterialIcons } from "@expo/vector-icons";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import {  StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
 type DoctorHeaderProps = {
     name: string;
     profession: string;

@@ -48,7 +48,7 @@ export function useDoctorsBySpecialty(specialty?: string) {
   }, [specialty]);
 
   useEffect(() => {
-    refetch();
+    refetch().catch(() => {});
   }, [refetch]);
 
   return {
