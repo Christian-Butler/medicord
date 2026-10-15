@@ -1,44 +1,10 @@
-import { uploadAvatar } from "@/src/api/auth/avatar";
-import { getMyUser } from "@/src/api/auth/getUser";
+import { uploadAvatar } from "@/src/api/profile/api";
 import { useAuth } from "@/src/context/AuthContext";
 import { formatDob } from "@/src/utils/dateTime";
 import * as ImagePicker from "expo-image-picker";
-import { useEffect, useState } from "react";
 
 export function useProfile() {
-  const { userId } = useAuth();
-  const [fullName, setFullName] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
-  const [phone, setPhone] = useState<string | null>(null);
-  const [dob, setDob] = useState<string | null>(null);
-  const [location, setLocation] = useState<string | null>(null);
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let mounted = true;
-    async function load() {
-      try {
-        const data = await getMyUser(userId);
-        if (!mounted) return;
-        setFullName(data.full_name);
-        setEmail(data.email);
-        setPhone(data.phone);
-        setDob(formatDob(data.date_of_birth));
-        setLocation(data.gp_practice_location);
-        setAvatarUrl(data.avatar_url ?? null);
-      } catch (err) {
-        console.error("[useProfile] failed:", err);
-        if (!mounted) return;
-        setError(err instanceof Error ? err.message : "Failed to load profile");
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    }
-    load();
-    return () => { mounted = false; };
-  }, [userId]);
+  const { userId, profile, profileLoading, profileError, setProfile } = useAuth();
 
   async function handleEditAvatar() {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -51,7 +17,7 @@ export function useProfile() {
     if (!result.canceled && result.assets[0]) {
       try {
         const url = await uploadAvatar(userId, result.assets[0].uri);
-        setAvatarUrl(url);
+        setProfile((prev) => (prev ? { ...prev, avatar_url: url } : prev));
       } catch (err) {
         console.error("[useProfile] avatar upload failed:", err);
       }
@@ -59,14 +25,14 @@ export function useProfile() {
   }
 
   return {
-    fullName: fullName ?? "",
-    email: email ?? "",
-    phone: phone ?? "Not set",
-    dob: dob ?? "Not set",
-    location: location ?? "Address unspecified",
-    avatarUrl,
-    loading,
-    error,
+    fullName: profile?.full_name ?? "",
+    email: profile?.email ?? "",
+    phone: profile?.phone ?? "Not set",
+    dob: profile?.date_of_birth ? formatDob(profile.date_of_birth) : "Not set",
+    location: profile?.gp?.practice_location ?? "Address unspecified",
+    avatarUrl: profile?.avatar_url ?? null,
+    loading: profileLoading,
+    error: profileError,
     handleEditAvatar,
   };
 }
