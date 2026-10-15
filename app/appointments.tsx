@@ -57,52 +57,54 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
 
   return (
     <View style={styles.appointmentRow}>
-      <Image source={{ uri: avatar }} style={styles.avatar} />
 
-      <View style={styles.appointmentContent}>
-        <View style={styles.topLine}>
-          <View>
-            <Text style={styles.doctorName}>{doctorName}</Text>
-            <Text style={styles.specialty}>{t(`appointments.${specialty}`)}</Text>
+      <View style={styles.appointmentContent} className="mx-4 my-2 px-2 py-6 rounded-2xl bg-white">
+        <View className="flex-row">
+          <Image source={{ uri: avatar }} style={styles.avatar} />
+          <View className="px-2 flex-1 flex-row justify-between">
+            <View className="mb-4">
+              <Text className="mb-1 text-[16px] font-medium text-black">{doctorName}</Text>
+              <Text className="mb-1 text-gray-600 text-[16px] font-regular">{t(`appointments.${specialty}`)}</Text>
+              <Text className="mb-1 text-gray-600 text-[16px] font-regular">
+                {formatDateTime(appointment.starts_at)}
+              </Text>
+              <Text className="text-gray-600 text-[16px] font-regular">{location}</Text>
+            </View>
+            <Pressable
+              className=""
+              onPress={() =>
+                router.push({
+                  pathname: "/appointment-details",
+                  params: {
+                    appointmentId: appointment.id,
+                  },
+                })
+              }
+            >
+              <Text className="text-[16px] font-medium text-[#5085A8]">{t(`appointments.details`)}</Text>
+            </Pressable>
           </View>
 
-          <Pressable
-            onPress={() =>
-              router.push({
-                pathname: "/appointment-details",
-                params: {
-                  appointmentId: appointment.id,
-                },
-              })
-            }
-          >
-            <Text style={styles.viewDetails}>{t(`appointments.details`)}</Text>
-          </Pressable>
         </View>
 
-        <Text style={styles.appointmentDate}>
-          {formatDateTime(appointment.starts_at)}
-        </Text>
-
-        <Text style={styles.location}>{location}</Text>
-
-        <View style={styles.buttonRow}>
+        <View>
           {type === "upcoming" ? (
             <>
-              <Pressable style={styles.outlineButton}>
-                <Text style={styles.outlineButtonText}>{t(`appointments.calendar`)}</Text>
+              <Pressable className=" h-[50px] px-6 py-2 bg-white rounded-xl">
+                <Text className="text-[16px] font-medium text-[#0D5175]">{t(`appointments.calendar`)}</Text>
               </Pressable>
 
-              <Pressable style={styles.filledButton} onPress={onModify}>
-                <Text style={styles.filledButtonText}>{t(`appointments.modify`)}</Text>
+              <Pressable className="h-[50px] px-6 py-2 rounded-xl bg-[#5085A8]" onPress={onModify}>
+                <Text className="text-[16px] font-medium text-white">{t(`appointments.modify`)}</Text>
               </Pressable>
             </>
           ) : (
-            <Pressable style={styles.outlineButton}>
-              <Text style={styles.outlineButtonText}>{t(`appointments.prescription`)}</Text>
+            <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]">
+              <Text className="text-[16px] font-medium text-white">{t(`appointments.prescription`)}</Text>
             </Pressable>
           )}
         </View>
+
       </View>
     </View>
   );
@@ -248,22 +250,19 @@ const styles = StyleSheet.create({
   },
 
   sectionHeader: {
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: "#C9DDE3",
-    paddingHorizontal: 12,
-    paddingVertical: 14,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
     backgroundColor: "#EEF9FB",
   },
 
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "500",
     color: "#000",
   },
 
   emptyText: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 20,
     paddingVertical: 18,
     color: "#333",
     fontSize: 15,
@@ -271,10 +270,6 @@ const styles = StyleSheet.create({
 
   appointmentRow: {
     flexDirection: "row",
-    paddingHorizontal: 12,
-    paddingVertical: 22,
-    borderBottomWidth: 1,
-    borderBottomColor: "#D0E2E7",
   },
 
   avatar: {
@@ -288,79 +283,4 @@ const styles = StyleSheet.create({
   appointmentContent: {
     flex: 1,
   },
-
-  topLine: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-start",
-  },
-
-  doctorName: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: "#000",
-  },
-
-  specialty: {
-    fontSize: 16,
-    color: "#000",
-  },
-
-  viewDetails: {
-    fontSize: 14,
-    color: "#0D5175",
-    fontWeight: "500",
-  },
-
-  appointmentDate: {
-    marginTop: 8,
-    fontSize: 16,
-    color: "#000",
-  },
-
-  location: {
-    marginTop: 2,
-    fontSize: 14,
-    color: "#000",
-    lineHeight: 19,
-  },
-
-  buttonRow: {
-    marginTop: 14,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-    gap: 12,
-  },
-
-  outlineButton: {
-    height: 36,
-    paddingHorizontal: 14,
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: "#0D5175",
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  outlineButtonText: {
-    color: "#0D5175",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-
-  filledButton: {
-    height: 36,
-    paddingHorizontal: 18,
-    borderRadius: 8,
-    backgroundColor: "#5085A8",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  filledButtonText: {
-    color: "#fff",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-});
+})

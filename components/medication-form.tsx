@@ -1,8 +1,7 @@
-import { Picker } from "@react-native-picker/picker";
+import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 import { Plus } from "lucide-react-native";
 import { useEffect, useState } from "react";
-import { Modal, Pressable, Text, TextInput, View } from "react-native";
-import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
+import { Pressable, Text, TextInput, View } from "react-native";
 
 type MedicationFormProps = {
   medication?: Medication | null;
@@ -13,66 +12,15 @@ type MedicationFormProps = {
 
 const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
+const daily = ["Morning", "Noon", "Evening"];
+
+
 const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
-  { label: "As needed", value: "as_needed" },
   { label: "Once daily", value: "once_daily" },
   { label: "Twice daily", value: "twice_daily" },
   { label: "Three times daily", value: "three_times_daily" },
-  { label: "Long term / Ongoing", value: "long_term" },
+  { label: "Multiple times daily", value: "long_term" },
 ];
-
-function SpinnerPickerField({
-  label,
-  value,
-  max,
-  onChange,
-  disabled = false,
-}: {
-  label: string;
-  value: number;
-  max: number;
-  onChange: (v: number) => void;
-  disabled?: boolean;
-}) {
-  const [open, setOpen] = useState(false);
-  const [temp, setTemp] = useState(value);
-
-  return (
-    <>
-      <Pressable
-        disabled={disabled}
-        onPress={() => { setTemp(value); setOpen(true); }}
-        className={`flex-row items-center justify-between rounded-[10px] border-[2px] border-[#9BA8AB] bg-white px-3 h-[44px] ${disabled ? "opacity-50" : ""}`}
-      >
-        <Text className="text-[15px] text-black">{value} {label}</Text>
-        <Text className="text-[13px] text-[#9BA8AB]">▼</Text>
-      </Pressable>
-
-      <Modal visible={open} transparent animationType="slide">
-        <View className="flex-1 justify-end bg-black/30">
-          <View className="bg-white">
-            <View className="flex-row justify-between px-4 py-3 border-b border-[#E0E0E0]">
-              <Pressable onPress={() => setOpen(false)}>
-                <Text className="text-[16px] text-[#5085A8]">Cancel</Text>
-              </Pressable>
-              <Pressable onPress={() => { onChange(temp); setOpen(false); }}>
-                <Text className="text-[16px] font-semibold text-[#5085A8]">Done</Text>
-              </Pressable>
-            </View>
-            <Picker
-              selectedValue={temp}
-              onValueChange={(v) => setTemp(Number(v))}
-            >
-              {Array.from({ length: max + 1 }, (_, i) => (
-                <Picker.Item key={i} label={`${i} ${label}`} value={i} />
-              ))}
-            </Picker>
-          </View>
-        </View>
-      </Modal>
-    </>
-  );
-}
 
 export default function MedicationForm({
   medication,
@@ -84,6 +32,7 @@ export default function MedicationForm({
   const [monthsDuration, setMonthsDuration] = useState(0);
   const [weeksDuration, setWeeksDuration] = useState(0);
   const [daysDuration, setDaysDuration] = useState(0);
+  const [selectedTime, setSelectedTime] = useState<string[]>([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [morningFrequency, setMorningFrequency] = useState(0);
   const [noonFrequency, setNoonFrequency] = useState(0);
@@ -119,6 +68,7 @@ export default function MedicationForm({
     setNoonFrequency(medication.noon_frequency ?? 0);
     setEveningFrequency(medication.evening_frequency ?? 0);
     setNoSpecificTime(medication.no_specific_time ?? false);
+    setSelectedTime([""]);
     setFrequency((medication.frequency as MedicationFrequency) ?? null);
     setInstructions(
       medication.instructions && medication.instructions.length > 0
@@ -131,6 +81,12 @@ export default function MedicationForm({
   function toggleDay(day: string) {
     setSelectedDays((current) =>
       current.includes(day) ? current.filter((d) => d !== day) : [...current, day]
+    );
+  }
+
+  function toggleTime(time: string) {
+    setSelectedTime((current) =>
+      current.includes(time) ? current.filter((t) => t !== time) : [...current, time]
     );
   }
 
@@ -172,24 +128,26 @@ export default function MedicationForm({
   const visibleError = localError ?? error;
 
   return (
-    <View className="px-6 pb-16 pt-8">
-      {visibleError ? (
-        <Text className="mt-6 text-[15px] text-[#B42318]">{visibleError}</Text>
-      ) : null}
+    <View className="mx-6 pb-16 pt-8">
 
       {/* Name */}
-      <Text className="mt-8 text-[21px] font-medium text-black">Name</Text>
+      <Text className="mr-4 text-[20px] font-medium text-black">Name</Text>
+
       <TextInput
         value={name}
         onChangeText={(v) => { setName(v); setLocalError(null); }}
         placeholder="Enter a name"
         placeholderTextColor="#7A8A8D"
-        className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+        className="mt-3 h-[56px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
       />
+      {visibleError ? (
+        <Text className="mt-2 text-[16px] text-[#B42318]">{visibleError}</Text>
+      ) : null}
 
       {/* Duration */}
       <Text className="mt-7 text-[21px] font-medium text-black">Duration</Text>
       <View className="mt-3 flex-row gap-3">
+        {/* 
         <View className="flex-1">
           <SpinnerPickerField label="Month(s)" value={monthsDuration} max={24} onChange={setMonthsDuration} />
         </View>
@@ -199,10 +157,11 @@ export default function MedicationForm({
         <View className="flex-1">
           <SpinnerPickerField label="Day(s)" value={daysDuration} max={31} onChange={setDaysDuration} />
         </View>
+        */}
       </View>
 
       {/* Days */}
-      <Text className="mt-7 text-[21px] font-medium text-black">Days</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">Weekly</Text>
       <View className="mt-3 flex-row flex-wrap gap-2">
         {weekDays.map((day) => {
           const selected = selectedDays.includes(day);
@@ -211,9 +170,8 @@ export default function MedicationForm({
               key={day}
               onPress={() => toggleDay(day)}
               disabled={noSpecificTime}
-              className={`h-[43px] min-w-[45px] items-center justify-center rounded-[7px] border-[2px] border-[#0D5175] px-2 ${
-                selected ? "bg-[#0D5175]" : "bg-white"
-              } ${noSpecificTime ? "opacity-50" : ""}`}
+              className={`h-[43px] min-w-[45px] items-center justify-center rounded-xl px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
+                } `}
             >
               <Text className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
                 {day}
@@ -223,18 +181,32 @@ export default function MedicationForm({
         })}
       </View>
 
-      {/* No specific time */}
-      <Pressable
-        onPress={() => setNoSpecificTime((p) => !p)}
-        className="mt-5 flex-row items-center"
-      >
-        <View className={`h-[22px] w-[22px] rounded-[4px] border-[2px] border-black ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"}`} />
-        <Text className="ml-3 text-[16px] text-black">No specific time of the day.</Text>
-      </Pressable>
+
+      {/* Time */}
+      <Text className="mt-7 text-[20px] font-medium text-black">Daily</Text>
+
+      <View className="mt-4 flex-row flex-wrap gap-4">
+        {frequencyOptions.map((option) => (
+          <Pressable
+            key={option.value}
+            disabled={noSpecificTime}
+            onPress={() => !noSpecificTime && setFrequency(option.value)}
+            className={`h-[40px] items-center justify-center rounded-[10px] px-6 ${frequency === option.value ? "bg-[#0D5175]" : "bg-white"
+              } ${noSpecificTime ? "opacity-50" : ""}`}
+          >
+            <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
+              {option.label}
+            </Text>
+          </Pressable>
+        ))}
+      </View>
+
 
       {/* Morning / Noon / Evening */}
       <View className="mt-5 flex-row gap-3">
         <View className="flex-1">
+
+          {/* 
           <Text className="mb-2 text-[14px] text-[#555]">Morning Intake</Text>
           <SpinnerPickerField label="pills" value={morningFrequency} max={10} onChange={setMorningFrequency} disabled={noSpecificTime} />
         </View>
@@ -245,56 +217,79 @@ export default function MedicationForm({
         <View className="flex-1">
           <Text className="mb-2 text-[14px] text-[#555]">Evening Intake</Text>
           <SpinnerPickerField label="pills" value={eveningFrequency} max={10} onChange={setEveningFrequency} disabled={noSpecificTime} />
+          */}
         </View>
       </View>
 
       {/* Intake Frequency */}
-      <Text className="mt-7 text-[21px] font-medium text-black">Intake Frequency</Text>
-      <View className="mt-4 flex-row flex-wrap gap-3">
-        {frequencyOptions.map((option) => (
-          <Pressable
-            key={option.value}
-            disabled={noSpecificTime}
-            onPress={() => !noSpecificTime && setFrequency(option.value)}
-            className={`h-[43px] items-center justify-center rounded-[10px] border-[2px] border-[#0D5175] px-4 ${
-              frequency === option.value ? "bg-[#0D5175]" : "bg-white"
-            } ${noSpecificTime ? "opacity-50" : ""}`}
-          >
-            <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
-              {option.label}
-            </Text>
-          </Pressable>
-        ))}
+      <Text className="mt-4 text-[20px] font-medium text-black">Time window</Text>
+      <View className="mt-3 flex-row flex-wrap gap-4">
+        {daily.map((time) => {
+          const selected = selectedDays.includes(time);
+          return (
+            <Pressable
+              key={time}
+              onPress={() => toggleDay(time)}
+              disabled={noSpecificTime}
+              className={`px-6 h-[40px] items-center justify-center rounded-xl ${selected ? "bg-[#0D5175]" : "bg-white"
+                } `}
+            >
+              <Text className={`text-[16px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
+                {time}
+              </Text>
+            </Pressable>
+          );
+        })}
       </View>
 
+      <View className="mt-6 justify-between flex-row items-center">
+        {/* No specific time */}
+        <Pressable
+          onPress={() => setNoSpecificTime((p) => !p)}
+          className="flex-row items-center"
+        >
+          <View className={`h-[20px] w-[20px] rounded-[4px] border border-[#0D5175] ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"}`} />
+          <Text className="ml-2 text-[14px] text-black">No time window needed.</Text>
+        </Pressable>
+
+        <Pressable
+          onPress={addInstruction}
+          className="h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
+        >
+          <Plus size={20} color="white" />
+          <Text className="ml-2 text-[16px] font-medium text-white">Specify hour</Text>
+        </Pressable>
+      </View>
+
+
       {/* Instructions */}
-      <Text className="mt-8 text-[21px] font-medium text-black">Other instructions</Text>
+      <Text className="mt-8 text-[21px] font-medium text-black">Instructions</Text>
       {instructions.map((instruction, index) => (
         <TextInput
           key={index}
           value={instruction}
           onChangeText={(v) => updateInstruction(index, v)}
-          placeholder="ex. Number of pills a day"
+          placeholder="ex. Take with food"
           placeholderTextColor="#7A8A8D"
-          className="mt-3 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+          className="mt-3 h-[56px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
       ))}
 
       <Pressable
         onPress={addInstruction}
-        className="mt-4 h-[50px] flex-row items-center justify-center self-end rounded-[12px] border-[2px] border-[#0D5175] bg-white px-6"
+        className="mt-4 h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
       >
-        <Plus size={20} color="#0D5175" />
-        <Text className="ml-2 text-[17px] font-medium text-[#0D5175]">Add Instruction</Text>
+        <Plus size={20} color="white" />
+        <Text className="ml-2 text-[16px] font-medium text-white">Add instruction</Text>
       </Pressable>
 
       <Pressable
         disabled={saving}
         onPress={handleSubmit}
-        className={`mt-8 h-[58px] items-center justify-center rounded-[13px] bg-[#5085A8] ${saving ? "opacity-60" : ""}`}
+        className={`mt-10  mb-20 h-[50px] items-center justify-center rounded-[14px] bg-[#17A633] ${saving ? "opacity-60" : ""}`}
       >
-        <Text className="text-[17px] font-semibold text-white">
-          {saving ? "Saving..." : medication ? "Confirm update" : "Confirm creation"}
+        <Text className="text-[16px] font-medium text-white">
+          {saving ? "Saving..." : medication ? "Confirm update" : "Confirm routine creation"}
         </Text>
       </Pressable>
     </View>

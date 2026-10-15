@@ -45,16 +45,16 @@ export default function BookingSuccessOverlay({
 
             <Pressable
               onPress={onAddToCalendar}
-              className="mb-5 h-[46px] w-full items-center justify-center rounded-[10px] border-2 border-[#07527B] bg-white">
-              <Text className="text-[15px] font-medium text-[#07527B]">
+              className="mb-5 h-[50px] w-full items-center justify-center rounded-[10px] bg-white">
+              <Text className="text-[16px] font-medium text-[#07527B]">
                 {t(`success-booking.add`)}
               </Text>
             </Pressable>
 
             <Pressable
               onPress={onGoHome}
-              className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
-              <Text className="text-[15px] font-medium text-white">
+              className="h-[50px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
+              <Text className="text-[16px] font-medium text-white">
                 {t(`success-booking.home`)}
               </Text>
             </Pressable>

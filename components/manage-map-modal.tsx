@@ -31,7 +31,7 @@ export default function ManageMapModal({
 
                 <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
                     <View className="items-center">
-                        <Text className="mb-2 text-center text-[24px] font-semibold leading-7 text-black">{t(`manage-map-modal.title`)}</Text>
+                        <Text className="mb-2 text-center text-[22px] font-semibold leading-7 text-black">{t(`manage-map-modal.title`)}</Text>
                         <Text className="mb-9 text-center text-[20px] font-medium leading-7 text-black">
                             {t(`manage-map-modal.query`)}
                         </Text>

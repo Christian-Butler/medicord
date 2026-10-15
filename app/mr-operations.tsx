@@ -24,13 +24,13 @@ export default function Operations() {
                     <Text className="text-2xl text-center">{t(`mr-operations.query`)}</Text>
                 </View>
                 <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-base text-center">
+                    <Text className="text-[16px] text-center">
                         {t(`mr-operations.keepTrace`)}
                     </Text>
                 </View>
                 <View className="flex-1 pt-12">
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-14 items-center rounded-2xl"
+                        className="flex-1 flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
@@ -38,21 +38,21 @@ export default function Operations() {
                         })}
                     >
                         <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-base text-center text-[#fff] font-medium">{t(`mr-operations.add`)}</Text>
+                        <Text className="text-[16px] text-center text-[#fff] font-medium">{t(`mr-operations.add`)}</Text>
                     </TouchableOpacity>
                 </View>
 
                 {records.length > 0 && (
                     <View className="mt-2">
                         {records.map((record) => (
-                            <View key={record.id} className="mt-4 h- px-4 py-4 bg-[#E1F9FF] rounded-2xl border-2 border-[#326F95]">
+                            <View key={record.id} className="mt-4 h- px-4 py-4 bg-white rounded-2xl">
                                 <View className="my-4 flex-row items-center justify-between">
                                     <View className="flex-row items-center">
                                         <MaterialIcons name="local-hospital" size={36} color="#0D5175" />
                                         <View className="ml-4">
                                             <Text className="font-medium text-xl">{t(`mr-operations.${record.item}`)}</Text>
                                             {record.operation_date ? (
-                                                <Text className="text-base text-gray-800">{record.operation_date}</Text>
+                                                <Text className="text-[14px] font-regular text-gray-600">{record.operation_date}</Text>
                                             ) : null}
                                         </View>
                                     </View>

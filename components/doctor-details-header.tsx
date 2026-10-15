@@ -1,6 +1,7 @@
 import { useDoctor } from "@/src/hooks/useDoctor";
+import { useIsFavourite } from "@/src/hooks/useIsFavourite";
+import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
-import React from "react";
 import { useTranslation } from "react-i18next";
 import {  StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
@@ -9,6 +10,26 @@ type DoctorHeaderProps = {
     profession: string;
     doctorId?: string;
 };
+
+function StarButton({ doctorId }: { doctorId: string }) {
+    const { isFavourite, setIsFavourite } = useIsFavourite(doctorId);
+    const { toggle } = useToggleFavourite();
+
+    return (
+        <TouchableOpacity
+            onPress={async () => {
+                const result = await toggle(doctorId);
+                setIsFavourite(result);
+            }}
+        >
+            <MaterialIcons
+                name={isFavourite ? "star" : "star-border"}
+                size={28}
+                color="#E7BF3C"
+            />
+        </TouchableOpacity>
+    );
+}
 
 export default function DoctorHeader({ name, profession, doctorId }: DoctorHeaderProps) {
     const { doctor } = useDoctor(doctorId);
@@ -29,9 +50,7 @@ export default function DoctorHeader({ name, profession, doctorId }: DoctorHeade
                         <Text className="ml-7 mr-7 text-2xl font-regular text-black">
                             {name}
                         </Text>
-                        <TouchableOpacity >
-                            <MaterialIcons name="star-border" size={24} color="#3f3128" />
-                        </TouchableOpacity>
+                        {doctorId ? <StarButton doctorId={String(doctorId)} /> : null}
                     </View>
                     <Text className="ml-7 mr-7 text-xl font-medium text-black">
                         {t(`doctor-details-header.${profession}`)}

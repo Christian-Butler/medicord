@@ -14,16 +14,16 @@ type HoursBookingProps = {
 };
 
 const hoursData: DayHours[] = [
-  { id: "1", time: "09:00 AM", value: "09:00", isAvailable: true },
-  { id: "2", time: "10:00 AM", value: "10:00", isAvailable: true },
-  { id: "3", time: "11:00 AM", value: "11:00", isAvailable: false },
-  { id: "4", time: "12:00 PM", value: "12:00", isAvailable: true },
-  { id: "5", time: "01:00 PM", value: "13:00", isAvailable: true },
-  { id: "6", time: "02:00 PM", value: "14:00", isAvailable: true },
-  { id: "7", time: "03:00 PM", value: "15:00", isAvailable: true },
-  { id: "8", time: "04:00 PM", value: "16:00", isAvailable: false },
-  { id: "9", time: "05:00 PM", value: "17:00", isAvailable: true },
-  { id: "10", time: "06:00 PM", value: "18:00", isAvailable: true },
+  { id: "1", time: "09:00", value: "09:00", isAvailable: true },
+  { id: "2", time: "10:00", value: "10:00", isAvailable: true },
+  { id: "3", time: "11:00", value: "11:00", isAvailable: false },
+  { id: "4", time: "12:00", value: "12:00", isAvailable: true },
+  { id: "5", time: "13:00", value: "13:00", isAvailable: true },
+  { id: "6", time: "14:00", value: "14:00", isAvailable: true },
+  { id: "7", time: "15:00", value: "15:00", isAvailable: true },
+  { id: "8", time: "16:00", value: "16:00", isAvailable: false },
+  { id: "9", time: "17:00", value: "17:00", isAvailable: true },
+  { id: "10", time: "18:00", value: "18:00", isAvailable: true },
 ];
 
 const HoursBooking = ({ selectedTime, onSelectTime }: HoursBookingProps) => {
@@ -90,21 +90,19 @@ const styles = StyleSheet.create({
   },
   buttonUnselected: {
     backgroundColor: "#fff",
-    borderColor: "#000",
   },
   textUnselected: {
     color: "#000",
   },
   buttonUnavailable: {
-    backgroundColor: "#989898",
-    borderColor: "#989898",
+    backgroundColor: "",
+    opacity: 1,
   },
   textUnavailable: {
-    color: "#d9d9d9",
+    color: "#A1A1A1",
   },
   buttonSelected: {
     backgroundColor: "#0D5175",
-    borderColor: "#0D5175",
   },
   textSelected: {
     color: "#fff",
@@ -117,7 +115,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 12,
     borderRadius: 14,
-    borderWidth: 1.5,
     alignItems: "center",
     justifyContent: "center",
   },

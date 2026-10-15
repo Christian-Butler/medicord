@@ -84,7 +84,7 @@ export default function DoctorDetails() {
           <DoctorHeader name={doctorName} profession={doctorProfession} doctorId={doctorId} />
         </View>
 
-        <View style={{ padding: 20, paddingBottom: 220 }}>
+        <View className="pt-4 pb-60 px-6">
           {loading ? (
             <Text style={{ color: "#333", paddingBottom: 12 }}>{t(`doctor-details.loading`)}</Text>
           ) : null}
@@ -186,7 +186,7 @@ export default function DoctorDetails() {
 
 const styles = StyleSheet.create({
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "400",
     paddingBottom: 10,
   },
@@ -228,15 +228,12 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   day: {
-    fontSize: 12,
+    fontSize: 14,
     fontWeight: "500",
-    backgroundColor: "#fff",
     paddingTop: 6,
     paddingBottom: 6,
     paddingLeft: 12,
     paddingRight: 12,
-    borderWidth: 2,
-    borderColor: "#0D5175",
     borderRadius: 14,
   },
   dayContainer: {

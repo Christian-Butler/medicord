@@ -24,16 +24,16 @@ export default function ForgotPasswordPage() {
           {t(`forgot-password.name`)}
         </Text>
 
-        <Text className="mt-3 text-center text-[22px] font-medium text-black">
+        <Text className="mt-3 text-center text-[20px] font-medium text-black">
           {t(`forgot-password.resetP`)}
         </Text>
 
-        <Text className="mt-3 text-center text-[15px] font-normal text-[#555]">
+        <Text className="mt-3 text-center text-[14px] font-normal text-[#555]">
           {t(`forgot-password.askR`)}
         </Text>
 
         {error ? (
-          <Text className="mt-6 text-center text-[15px] text-[#B42318]">
+          <Text className="mt-6 text-center text-[14px] text-[#B42318]">
             {error}
           </Text>
         ) : null}
