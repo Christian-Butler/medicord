@@ -21,7 +21,7 @@ export default function MedicationContainer() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch();
+      refetch().catch(() => {});
     }, [refetch])
   );
 

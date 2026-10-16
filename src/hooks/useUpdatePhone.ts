@@ -1,8 +1,9 @@
 import { updatePhone } from "@/src/api/auth/api";
-import { router } from "expo-router"
+import { useAuth } from "@/src/context/AuthContext";
 import { useState } from "react" 
 
 export function useUpdatePhone() {
+    const { refreshProfile } = useAuth();
     const [phone, setPhone] = useState("")
     const [loading, setLoading] = useState(false); 
     const [error, setError] = useState<string | null>(null);
@@ -18,6 +19,7 @@ export function useUpdatePhone() {
       setLoading(true);
       setError(null);
       await updatePhone(phone.trim());
+      await refreshProfile();
       setShowConfirmation(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to update phone.");

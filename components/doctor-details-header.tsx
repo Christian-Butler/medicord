@@ -3,8 +3,8 @@ import { useIsFavourite } from "@/src/hooks/useIsFavourite";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-
+import {  StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
 type DoctorHeaderProps = {
     name: string;
     profession: string;

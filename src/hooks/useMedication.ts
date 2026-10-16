@@ -34,7 +34,7 @@ export function useMedication(medicationId?: number) {
   }, [medicationId]);
 
   useEffect(() => {
-    refetch();
+    refetch().catch(() => {});
   }, [refetch]);
 
   return {

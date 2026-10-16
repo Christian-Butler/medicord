@@ -17,7 +17,7 @@ export default function MedicationReminder() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch();
+      refetch().catch(() => {});
     }, [refetch])
   );
 

@@ -1,63 +1,52 @@
-import { supabase } from "@/supabase/supabase";
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
+import { supabase } from "@/supabase/supabase";
 
 export async function getFavouriteDoctors() {
   const userId = await getCurrentAppUserId();
 
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("favourite_doctor_ids")
-    .eq("id", userId)
-    .single();
-
-  if (profileError) throw new Error(profileError.message);
-  if (!profile?.favourite_doctor_ids?.length) return [];
-
   const { data, error } = await supabase
-    .from("doctors")
-    .select("*")
-    .in("id", profile.favourite_doctor_ids);
+    .from("favourite_doctors")
+    .select("doctor:doctors (*)")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
 
   if (error) throw new Error(error.message);
-  return data ?? [];
-}
 
-export async function toggleFavouriteDoctor(doctorId: string): Promise<boolean> {
-  const userId = await getCurrentAppUserId();
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("favourite_doctor_ids")
-    .eq("id", userId)
-    .single();
-
-  if (profileError) throw new Error(profileError.message);
-
-  const current: string[] = profile?.favourite_doctor_ids ?? [];
-  const isFavourite = current.includes(doctorId);
-
-  const updated = isFavourite
-    ? current.filter((id) => id !== doctorId)
-    : [...current, doctorId];
-
-  const { error } = await supabase
-    .from("profiles")
-    .update({ favourite_doctor_ids: updated })
-    .eq("id", userId);
-
-  if (error) throw new Error(error.message);
-  return !isFavourite;
+  return ((data ?? []) as unknown as { doctor: any }[]).map((row) => row.doctor);
 }
 
 export async function isFavouriteDoctor(doctorId: string): Promise<boolean> {
   const userId = await getCurrentAppUserId();
 
-  const { data: profile, error } = await supabase
-    .from("profiles")
-    .select("favourite_doctor_ids")
-    .eq("id", userId)
-    .single();
+  const { count, error } = await supabase
+    .from("favourite_doctors")
+    .select("doctor_id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("doctor_id", doctorId);
 
   if (error) throw new Error(error.message);
-  return (profile?.favourite_doctor_ids ?? []).includes(doctorId);
+  return (count ?? 0) > 0;
+}
+
+export async function toggleFavouriteDoctor(doctorId: string): Promise<boolean> {
+  const userId = await getCurrentAppUserId();
+
+  // try to remove it; if a row was removed, it was a favourite
+  const { data: removed, error: deleteError } = await supabase
+    .from("favourite_doctors")
+    .delete()
+    .eq("user_id", userId)
+    .eq("doctor_id", doctorId)
+    .select("doctor_id");
+
+  if (deleteError) throw new Error(deleteError.message);
+  if (removed && removed.length > 0) return false;
+
+  // nothing removed, so add it
+  const { error: insertError } = await supabase
+    .from("favourite_doctors")
+    .insert({ user_id: userId, doctor_id: doctorId });
+
+  if (insertError) throw new Error(insertError.message);
+  return true;
 }
