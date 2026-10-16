@@ -87,14 +87,14 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
 
         </View>
 
-        <View>
+        <View className="flex-row">
           {type === "upcoming" ? (
             <>
-              <Pressable className=" h-[50px] px-6 py-2 bg-white rounded-xl">
+              <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]">
                 <Text className="text-[16px] font-medium text-[#0D5175]">{t(`appointments.calendar`)}</Text>
               </Pressable>
 
-              <Pressable className="h-[50px] px-6 py-2 rounded-xl bg-[#5085A8]" onPress={onModify}>
+              <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]" onPress={onModify}>
                 <Text className="text-[16px] font-medium text-white">{t(`appointments.modify`)}</Text>
               </Pressable>
             </>

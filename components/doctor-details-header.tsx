@@ -38,7 +38,7 @@ export default function DoctorHeader({ name, profession, doctorId }: DoctorHeade
     const { t } = useTranslation();
 
     return (
-        <View className="bg-white">
+        <View className="bg-white border-b border-[#09516D]">
             <View className="items-center justify-between px-3 pt-8 pb-4">
                 <View className="items-center">
                     {avatar ? (
@@ -56,28 +56,25 @@ export default function DoctorHeader({ name, profession, doctorId }: DoctorHeade
                         {t(`doctor-details-header.${profession}`)}
                     </Text>
                 </View>
-                <View style={styles.iconsHeader}>
+                <View style={styles.iconsHeader} className="justify-between mt-6 px-4 mb-2 items-center">
                     <View style={styles.newPatient}>
-                        <TouchableOpacity style={{ padding: 8 }}>
-                            <MaterialIcons name="person-add" size={44} color="#0D5175" />
+                        <TouchableOpacity>
+                            <MaterialIcons name="person-add" size={44} color="#0D5175" className="pr-2" />
                         </TouchableOpacity>
                         <Text>{t(`doctor-details-header.accepts`)}</Text>
                     </View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginStart: 30 }}>
-                        <View style={{ width: 16 }} />
                         <View style={{ width: 1, height: 40, backgroundColor: '#000404' }} />
-                        <View style={{ width: 16 }} />
                     </View>
                     <View style={styles.videoCall}>
-                        <TouchableOpacity style={{ padding: 8 }}>
-                            <MaterialIcons name="video-camera-front" size={44} color="#0D5175" />
+                        <TouchableOpacity>
+                            <MaterialIcons name="video-camera-front" size={44} color="#0D5175" className="pr-2" />
                         </TouchableOpacity>
                         <Text>{t(`doctor-details-header.videocalls`)}</Text>
                     </View>
 
                 </View>
             </View>
-            <View className="h-1 bg-[#09516D]" />
         </View >
     );
 }
@@ -90,17 +87,17 @@ const styles = StyleSheet.create({
     iconsHeader: {
         flexDirection: 'row',
         width: '100%',
-
         justifyContent: 'space-between',
     },
     newPatient: {
         flexDirection: 'row',
         alignItems: 'center',
+        paddingHorizontal: 4,
         width: '30%',
     },
     videoCall: {
         flexDirection: 'row',
         alignItems: 'center',
-
+        paddingHorizontal: 4
     },
 })

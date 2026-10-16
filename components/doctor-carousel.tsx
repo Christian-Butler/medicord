@@ -50,7 +50,7 @@ const specialties = [
   {
     id: "Gyneacology",
     title: "Gynecology",
-    icon: "",
+    icon: "gynecology",
     library: "MaterialCommunityIcons",
   },
 ] as const;
