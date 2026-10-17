@@ -155,7 +155,7 @@ export default function ItemDetailModal({
                                                             }}
                                                             className="py-3 px-3 border-b border-[#E0E0E0] last:border-b-0"
                                                         >
-                                                            <Text className="text-[16px] text-[16px]black">{t(`mr-search-modal.${item}`)}</Text>
+                                                            <Text className="text-[16px] text-black">{t(`mr-search-modal.${item}`)}</Text>
                                                         </TouchableOpacity>
                                                     )}
                                                 />
@@ -169,7 +169,7 @@ export default function ItemDetailModal({
                         <View className="mt-4">
                             <TouchableOpacity
                                 onPress={handleSave}
-                                className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
+                                className="h-[50px] bg-[#5085A8] rounded-xl content-center justify-center"
                             >
                                 <Text className="self-center text-white font-medium text-[16px]">
                                     Add to medical records

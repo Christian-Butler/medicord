@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: 12,
         paddingVertical: 8,
-        marginBottom: 16,
+        marginBottom: 10,
     },
     header: {
         flexDirection: 'row',
@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 500,
         color: '#1A1A1A',
-        marginBottom: 8,
+        marginBottom: 4,
     },
     daysRow: {
         alignItems: 'center',
@@ -264,19 +264,17 @@ const styles = StyleSheet.create({
     selectedCell: {
         color: 'white',
         backgroundColor: "#0D5175",
-        borderRadius: 16,
-        paddingVertical: 4,
+        borderRadius: 14,
     },
     inactiveCell: {
         opacity: 0.5
     },
     dayNumber: {
-        fontSize: 20,
+        fontSize: 18,
         width: 28,
         height: 28,
         textAlign: 'center',
-        textAlignVertical: 'center',
-        includeFontPadding: false,
+        paddingTop: 3,
         color: 'black',
         fontWeight: '500',
     },

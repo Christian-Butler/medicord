@@ -19,7 +19,7 @@ const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
   { label: "Once daily", value: "once_daily" },
   { label: "Twice daily", value: "twice_daily" },
   { label: "Three times daily", value: "three_times_daily" },
-  { label: "Multiple times daily", value: "long_term" },
+  { label: "Multiple times daily", value: "multiple_times_daily" },
 ];
 
 export default function MedicationForm({
@@ -29,14 +29,11 @@ export default function MedicationForm({
   onSubmit,
 }: MedicationFormProps) {
   const [name, setName] = useState("");
-  const [monthsDuration, setMonthsDuration] = useState(0);
-  const [weeksDuration, setWeeksDuration] = useState(0);
-  const [daysDuration, setDaysDuration] = useState(0);
   const [selectedTime, setSelectedTime] = useState<string[]>([]);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [morningFrequency, setMorningFrequency] = useState(0);
-  const [noonFrequency, setNoonFrequency] = useState(0);
-  const [eveningFrequency, setEveningFrequency] = useState(0);
+  const [morningIntake, setMorningIntake] = useState<string[]>([]);
+  const [noonIntake, setNoonIntake] = useState<string[]>([]);
+  const [eveningIntake, setEveningIntake] = useState<string[]>([]);
   const [noSpecificTime, setNoSpecificTime] = useState(false);
   const [frequency, setFrequency] = useState<MedicationFrequency | null>(null);
   const [instructions, setInstructions] = useState<string[]>([""]);
@@ -45,13 +42,10 @@ export default function MedicationForm({
   useEffect(() => {
     if (!medication) {
       setName("");
-      setMonthsDuration(0);
-      setWeeksDuration(0);
-      setDaysDuration(0);
       setSelectedDays([]);
-      setMorningFrequency(0);
-      setNoonFrequency(0);
-      setEveningFrequency(0);
+      setMorningIntake([]);
+      setNoonIntake([]);
+      setEveningIntake([]);
       setNoSpecificTime(false);
       setFrequency(null);
       setInstructions([""]);
@@ -60,13 +54,10 @@ export default function MedicationForm({
     }
 
     setName(medication.name ?? "");
-    setMonthsDuration(medication.months_duration ?? 0);
-    setWeeksDuration(medication.weeks_duration ?? 0);
-    setDaysDuration(medication.days_duration ?? 0);
     setSelectedDays(medication.days_frequency ?? []);
-    setMorningFrequency(medication.morning_frequency ?? 0);
-    setNoonFrequency(medication.noon_frequency ?? 0);
-    setEveningFrequency(medication.evening_frequency ?? 0);
+    setMorningIntake(medication.morning_intake ?? []);
+    setNoonIntake(medication.noon_intake ?? []);
+    setEveningIntake(medication.evening_intake ?? []);
     setNoSpecificTime(medication.no_specific_time ?? false);
     setSelectedTime([""]);
     setFrequency((medication.frequency as MedicationFrequency) ?? null);
@@ -110,13 +101,10 @@ export default function MedicationForm({
 
     await onSubmit({
       name: trimmedName,
-      monthsDuration,
-      weeksDuration,
-      daysDuration,
       daysFrequency: selectedDays,
-      morningFrequency,
-      noonFrequency,
-      eveningFrequency,
+      morningIntake,
+      noonIntake,
+      eveningIntake,
       noSpecificTime,
       noSpecificHour: true,
       hours: [],
@@ -138,14 +126,14 @@ export default function MedicationForm({
         onChangeText={(v) => { setName(v); setLocalError(null); }}
         placeholder="Enter a name"
         placeholderTextColor="#7A8A8D"
-        className="mt-3 h-[56px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
+        className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
       />
       {visibleError ? (
         <Text className="mt-2 text-[16px] text-[#B42318]">{visibleError}</Text>
       ) : null}
 
       {/* Duration */}
-      <Text className="mt-7 text-[21px] font-medium text-black">Duration</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">Duration</Text>
       <View className="mt-3 flex-row gap-3">
         {/* 
         <View className="flex-1">
@@ -170,7 +158,7 @@ export default function MedicationForm({
               key={day}
               onPress={() => toggleDay(day)}
               disabled={noSpecificTime}
-              className={`h-[43px] min-w-[45px] items-center justify-center rounded-xl px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
+              className={`h-[40px] min-w-[45px] items-center justify-center rounded-xl px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
                 } `}
             >
               <Text className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
@@ -263,7 +251,7 @@ export default function MedicationForm({
 
 
       {/* Instructions */}
-      <Text className="mt-8 text-[21px] font-medium text-black">Instructions</Text>
+      <Text className="mt-8 text-[20px] font-medium text-black">Instructions</Text>
       {instructions.map((instruction, index) => (
         <TextInput
           key={index}
@@ -271,7 +259,7 @@ export default function MedicationForm({
           onChangeText={(v) => updateInstruction(index, v)}
           placeholder="ex. Take with food"
           placeholderTextColor="#7A8A8D"
-          className="mt-3 h-[56px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
+          className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
       ))}
 

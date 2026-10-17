@@ -11,6 +11,8 @@ export type MedicalRecord = {
   family_diagnosis: string | null;
   diagnosis: string | null;
   family_member: string | null;
+  treatment_date: string | null;
+  treatment_frequency: string | null;
   condition_state: string | null;
   updated_at: string;
 };
@@ -24,4 +26,6 @@ export type MedicalRecordInput = {
   operationDate?: string | null;
   diagnosis?: string | null;
   conditionState?: string | null;
+  treatmentDate?: string | null;
+  treatmentFrequency?: string | null;
 };

@@ -1,23 +1,28 @@
 import ScreenHeader from "@/components/screen-header";
+import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
+import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
+import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Keyboard, Modal, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 interface TreatmentsModalProps {
     visible: boolean;
+    submitting: boolean;
     onClose: () => void;
-    onSubmit: (data: { treatmentName: string; startDate: string; frequency: string }) => void;
+    onSubmit: (data: { treatmentName: string; startDate: string; frequency: string }) => Promise<void>;
 }
 
 {/* Seperate modal for internal use only applying to treatments*/ }
-function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
+function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsModalProps) {
     const [date, setDate] = useState<Date>(new Date());
     const [showPicker, setShowPicker] = useState(false);
     const [treatmentName, setTreatmentName] = useState("");
     const [frequency, setFrequency] = useState("");
+    const [saveError, setSaveError] = useState<string | null>(null);
 
     {/* Picker dismissal on each change, no better event done yet to improve this feature */ }
     const handleDateChange = (_: DateTimePickerEvent, date?: Date) => {
@@ -27,20 +32,25 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
         }
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!treatmentName.trim()) return;
 
-        onSubmit({
-            treatmentName: treatmentName.trim(),
-            startDate: date.toLocaleDateString(),
-            frequency: frequency.trim(),
-        });
+        setSaveError(null);
+        try {
+            await onSubmit({
+                treatmentName: treatmentName.trim(),
+                startDate: toDateOnly(date),
+                frequency: frequency.trim(),
+            });
 
-        setTreatmentName("");
-        setDate(new Date());
-        setFrequency("");
-        setShowPicker(false);
-        onClose();
+            setTreatmentName("");
+            setDate(new Date());
+            setFrequency("");
+            setShowPicker(false);
+            onClose();
+        } catch (error) {
+            setSaveError(error instanceof Error ? error.message : "Failed to save treatment");
+        }
     };
 
     const { t } = useTranslation();
@@ -65,7 +75,7 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                                 placeholder={t(`mr-treatments.eg`)}
                                 value={treatmentName}
                                 onChangeText={setTreatmentName}
-                                className="border border-[#0D5175] rounded-xl p-3 bg-white text-[16px] text-black"
+                                className="border border-[#0D5175] rounded-xl p-3 bg-white text-[16px] text-black items-center"
                             />
                         </View>
 
@@ -102,15 +112,17 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
                                     placeholder="e.g. 2 pills morning and evening"
                                     value={frequency}
                                     onChangeText={setFrequency}
-                                    className="border border-[#0D5175] rounded-xl px-4 py-4 bg-white text-[16px] text-black"
+                                    className="h-[42px] border border-[#0D5175] rounded-xl px-4 py-4 bg-white text-[16px] items-center text-black"
                                 />
                             </View>
 
                         </View>
+                        {saveError && <Text className="mb-2 text-red-700">{saveError}</Text>}
                         <View className="mt-4">
                             <TouchableOpacity
                                 onPress={handleSave}
-                                className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
+                                disabled={submitting}
+                                className="h-[50px] bg-[#5085A8] rounded-[14px] content-center justify-center"
                             >
                                 <Text className="self-center text-white font-medium text-[16px]">{t(`mr-treatments.add`)}</Text>
                             </TouchableOpacity>
@@ -123,66 +135,69 @@ function TreatmentsModal({ visible, onClose, onSubmit }: TreatmentsModalProps) {
     )
 
 }
-interface Treatment {
-    id: string;
-    treatmentName: string;
-    startDate: string;
-    frequency: string;
+function toDateOnly(date: Date): string {
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${date.getFullYear()}-${month}-${day}`;
+}
+
+function formatDate(date: string | null): string {
+    if (!date) return "";
+    const [year, month, day] = date.split("-").map(Number);
+    return new Date(year, month - 1, day).toLocaleDateString();
 }
 
 export default function Treatments() {
 
+    const { create, creating } = useCreateMedicalRecord();
+    const { deleteRecord } = useDeleteMedicalRecord();
+    const { records, loading, error, refetch } = useMedicalRecords("treatments");
+
     const params = useLocalSearchParams<{ addedTreatment?: string }>();
-    const [treatmentsList, setTreatmentsList] = useState<Treatment[]>([]);
+    const handledAddedTreatment = useRef<string | null>(null);
+    const [screenError, setScreenError] = useState<string | null>(null);
 
     const { t } = useTranslation();
 
     useEffect(() => {
-        if (params.addedTreatment) {
-            setTreatmentsList((prev) => {
-                if (!prev.some((t) => t.treatmentName === params.addedTreatment)) {
-                    return [
-                        ...prev,
-                        {
-                            id: Date.now().toString(),
-                            treatmentName: params.addedTreatment!,
-                            startDate: "",
-                            frequency: "",
-                        },
-                    ];
-                }
-                return prev;
-            });
-        }
-    }, [params.addedTreatment]);
+        const treatmentName = params.addedTreatment?.trim();
+        if (loading || !treatmentName || handledAddedTreatment.current === treatmentName) return;
+        handledAddedTreatment.current = treatmentName;
+        if (records.some((record) => record.item === treatmentName)) return;
 
-    const handleRemoveTreatment = (id: string) => {
-        setTreatmentsList((prev) => prev.filter((item) => item.id !== id));
+        void create({ category: "treatments", item: treatmentName })
+            .then(() => refetch())
+            .catch((createError: unknown) => {
+                setScreenError(createError instanceof Error ? createError.message : "Failed to save treatment");
+            });
+    }, [create, loading, params.addedTreatment, records, refetch]);
+
+    const handleRemoveTreatment = async (id: string) => {
+        setScreenError(null);
+        try {
+            await deleteRecord(id);
+            await refetch();
+        } catch (deleteError) {
+            setScreenError(deleteError instanceof Error ? deleteError.message : "Failed to delete treatment");
+        }
     }
 
     const [modalVisible, setModalVisible] = useState(false);
     const handleOpen = () => setModalVisible(true);
     const handleClose = () => setModalVisible(false);
 
-    {/* Ensures that there no duplicates by checking the name only */ }
-    const handleSubmit = (data: { treatmentName: string; startDate: string; frequency: string }) => {
-        setTreatmentsList((prev) => {
-            const name = data.treatmentName.trim();
-            if (!name) return prev;
-            if (!prev.some((t) => t.treatmentName === name)) {
-                return [
-                    ...prev,
-                    {
-                        id: Date.now().toString(),
-                        treatmentName: name,
-                        startDate: data.startDate,
-                        frequency: data.frequency,
-                    },
-                ];
-            }
-            return prev;
+    const handleSubmit = async (data: { treatmentName: string; startDate: string; frequency: string }) => {
+        const name = data.treatmentName.trim();
+        if (!name || records.some((record) => record.item === name)) return;
+
+        setScreenError(null);
+        await create({
+            category: "treatments",
+            item: name,
+            treatmentDate: data.startDate,
+            treatmentFrequency: data.frequency,
         });
-        handleClose();
+        await refetch();
     };
 
 
@@ -223,34 +238,43 @@ export default function Treatments() {
 
             {/*   <View className="mx-4 mt-10 h-0.5 bg-[#BEC9CA] rounded-full" />*/}
 
-            {treatmentsList.length > 0 && (
+            {(error || screenError) && (
+                <Text className="mx-6 mb-4 text-red-700">{screenError ?? error}</Text>
+            )}
+            {loading && <Text className="mx-6 text-gray-600">Loading treatments...</Text>}
+
+            {records.length > 0 && (
 
                 <View className="mx-6 ">
 
-                    {treatmentsList.map((treatment) => (
+                    {records.map((record) => (
                         <View
-                            key={treatment.id}
+                            key={record.id}
                             className="mt-10 px-2 py-6 mb-4 flex-row items-center justify-between rounded-2xl bg-white">
                             <View className="flex-row ">
                                 <MaterialIcons name="medication" size={44} color="#0D5175" className="self-center" />
                                 <View className="justify-start mx-8">
                                     <Text className="font-medium text-xl mb-1">
-                                        {treatment.treatmentName}
+                                        {record.item}
                                     </Text>
 
                                     <View className="mb-1 flex-row">
-                                        <Text className="text-[14px] font-medium text-black">{t(`mr-treatments.started`)} </Text>
-                                        <Text className="text-[14px] text-gray-600">{treatment.startDate}</Text>
+                                        <Text className="text-[16px] font-medium text-black">{t(`mr-treatments.started`)} </Text>
+                                        <Text className="text-[16px] text-gray-600">{formatDate(record.treatment_date)}</Text>
                                     </View>
+
                                     <View className="flex-row">
-                                        <Text className="text-[16px] font-medium text-black">{t(`mr-treatments.frequency`)} </Text>
-                                        <Text className="text-[16px] text-gray-600">{treatment.frequency}</Text>
+                                        <View className="max-w-[220px]">
+                                            <Text className="text-[16px] font-medium text-black">{t(`mr-treatments.frequency`)} </Text>
+
+                                            <Text className="text-[16px] text-gray-600">{record.treatment_frequency ?? ""}</Text>
+                                        </View>
                                     </View>
                                 </View>
                             </View>
 
                             <TouchableOpacity
-                                onPress={() => handleRemoveTreatment(treatment.id)}
+                                onPress={() => handleRemoveTreatment(record.id)}
                                 className="mr-4"
                             >
                                 <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
@@ -264,6 +288,7 @@ export default function Treatments() {
 
             <TreatmentsModal
                 visible={modalVisible}
+                submitting={creating}
                 onClose={handleClose}
                 onSubmit={handleSubmit}
             />

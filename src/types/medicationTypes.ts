@@ -1,26 +1,21 @@
 export type MedicationFrequency =
-  | "as_needed"
   | "once_daily"
   | "twice_daily"
   | "three_times_daily"
-  | "long_term";
+  | "multiple_times_daily";
 
-  export type Medication = {
+export type Medication = {
   id: number;
   created_at: string;
   name: string | null;
   no_specific_time: boolean | null;
-  no_specific_hour: boolean | null;
   instructions: string[] | null;
   user_id: string | null;
   hours: number[] | null;
   days_frequency: string[] | null;
-  months_duration: number | null;
-  weeks_duration: number | null;
-  days_duration: number | null;
-  morning_frequency: number | null;
-  noon_frequency: number | null;
-  evening_frequency: number | null;
+  morning_intake: string[] | null;
+  noon_intake: string[] | null;
+  evening_intake: string[] | null;
   frequency: string | null;
 };
 export type MedicationInput = {
@@ -30,11 +25,8 @@ export type MedicationInput = {
   instructions?: string[];
   hours?: number[];
   daysFrequency?: string[];
-  monthsDuration?: number | null;
-  weeksDuration?: number | null;
-  daysDuration?: number | null;
-  morningFrequency?: number | null;
-  noonFrequency?: number | null;
-  eveningFrequency?: number | null;
+  morningIntake: string[] | null;
+  noonIntake: string[] | null;
+  eveningIntake: string[] | null;
   frequency?: MedicationFrequency | null;
 };

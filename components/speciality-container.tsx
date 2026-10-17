@@ -158,7 +158,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
                   <Text style={styles.day}>{closestDay}</Text>
                 </View>
 
-                <View style={styles.bookContainer}>
+                <View>
                   <View>
                     <WeeklyCalendar />
 
@@ -245,18 +245,17 @@ const styles = StyleSheet.create({
   },
   slot: {
     paddingTop: 10,
-    paddingBottom: 8,
+    paddingBottom: 6,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
-  bookContainer: {},
   containerButton: {
     alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#5085A8",
     color: "#fff",
-    paddingVertical: 14,
-    paddingHorizontal: 6,
-    borderRadius: 12,
+    height: 50,
+    borderRadius: 14,
   }
 });

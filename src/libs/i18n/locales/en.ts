@@ -245,7 +245,7 @@ export const en = {
         "Ophthalmology": "Ophthalmology",
         "Dermatology": "Dermatology",
         "Gastroenterology": "Gastroenterology",
-        "Gynaecology": "Gynaecology",
+        "Gynecology": "Gynecology",
         "Endocrinology": "Endocrinology",
     },
     "edit-appointment": {
