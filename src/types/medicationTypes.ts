@@ -16,6 +16,8 @@ export type Medication = {
   morning_intake: string[] | null;
   noon_intake: string[] | null;
   evening_intake: string[] | null;
+  date_start: Date | null;
+  date_end: Date | null;
   frequency: string | null;
 };
 export type MedicationInput = {
@@ -28,5 +30,7 @@ export type MedicationInput = {
   morningIntake: string[] | null;
   noonIntake: string[] | null;
   eveningIntake: string[] | null;
+  dateStart: Date | null;
+  dateEnd: Date | null;
   frequency?: MedicationFrequency | null;
 };

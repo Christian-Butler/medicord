@@ -1,7 +1,8 @@
 import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
+import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Plus } from "lucide-react-native";
-import { useEffect, useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Platform, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 type MedicationFormProps = {
   medication?: Medication | null;
@@ -14,6 +15,7 @@ const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const daily = ["Morning", "Noon", "Evening"];
 
+type DatePickerTarget = "start" | "end";
 
 const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
   { label: "Once daily", value: "once_daily" },
@@ -21,6 +23,7 @@ const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
   { label: "Three times daily", value: "three_times_daily" },
   { label: "Multiple times daily", value: "multiple_times_daily" },
 ];
+
 
 export default function MedicationForm({
   medication,
@@ -30,6 +33,9 @@ export default function MedicationForm({
 }: MedicationFormProps) {
   const [name, setName] = useState("");
   const [selectedTime, setSelectedTime] = useState<string[]>([]);
+  const [showPicker, setShowPicker] = useState<DatePickerTarget | null>(null);
+  const [dateStart, setDateStart] = useState<Date>(new Date());
+  const [dateEnd, setDateEnd] = useState<Date>(new Date());
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [morningIntake, setMorningIntake] = useState<string[]>([]);
   const [noonIntake, setNoonIntake] = useState<string[]>([]);
@@ -50,6 +56,8 @@ export default function MedicationForm({
       setFrequency(null);
       setInstructions([""]);
       setLocalError(null);
+      setShowPicker(null);
+
       return;
     }
 
@@ -60,6 +68,8 @@ export default function MedicationForm({
     setEveningIntake(medication.evening_intake ?? []);
     setNoSpecificTime(medication.no_specific_time ?? false);
     setSelectedTime([""]);
+    setDateStart(medication.date_start ?? new Date);
+    setDateEnd(medication.date_end ?? new Date());
     setFrequency((medication.frequency as MedicationFrequency) ?? null);
     setInstructions(
       medication.instructions && medication.instructions.length > 0
@@ -68,6 +78,23 @@ export default function MedicationForm({
     );
     setLocalError(null);
   }, [medication]);
+
+  const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (event.type === "dismissed") {
+      setShowPicker(null);
+      return;
+    }
+
+    if (selectedDate && showPicker === "start") {
+      setDateStart(selectedDate);
+    } else if (selectedDate && showPicker === "end") {
+      setDateEnd(selectedDate);
+    }
+
+    if (Platform.OS !== "ios") {
+      setShowPicker(null);
+    }
+  };
 
   function toggleDay(day: string) {
     setSelectedDays((current) =>
@@ -106,6 +133,8 @@ export default function MedicationForm({
       noonIntake,
       eveningIntake,
       noSpecificTime,
+      dateStart,
+      dateEnd,
       noSpecificHour: true,
       hours: [],
       frequency,
@@ -133,8 +162,45 @@ export default function MedicationForm({
       ) : null}
 
       {/* Duration */}
-      <Text className="mt-7 text-[20px] font-medium text-black">Duration</Text>
-      <View className="mt-3 flex-row gap-3">
+      <Text className="mt-7 mb-3 text-[20px] font-medium text-black">Duration</Text>
+      <View className="px-10 gap-3 items-center justify-between">
+        <TouchableOpacity
+          onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
+          className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
+        >
+          <Text className="text-[16px] text-black">
+            {dateStart.toLocaleDateString()}
+          </Text>
+        </TouchableOpacity>
+
+        {showPicker === "start" && (
+          <DateTimePicker
+            value={dateStart}
+            mode="date"
+            display="spinner"
+            onChange={handleDateChange}
+            maximumDate={new Date()}
+          />
+        )}
+        <Text className="mt-7 text-[16px] font-regular text-black mb-6">until</Text>
+        <TouchableOpacity
+          onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
+          className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
+        >
+          <Text className="text-[16px] text-black">
+            {dateEnd.toLocaleDateString()}
+          </Text>
+        </TouchableOpacity>
+
+        {showPicker === "end" && (
+          <DateTimePicker
+            value={dateEnd}
+            mode="date"
+            display="spinner"
+            onChange={handleDateChange}
+            maximumDate={new Date()}
+          />
+        )}
         {/* 
         <View className="flex-1">
           <SpinnerPickerField label="Month(s)" value={monthsDuration} max={24} onChange={setMonthsDuration} />

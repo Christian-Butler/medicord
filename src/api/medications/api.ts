@@ -1,6 +1,6 @@
-import { supabase } from "@/supabase/supabase";
-import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
+import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
+import { supabase } from "@/supabase/supabase";
 
 const medicationSelect = `
   id,
@@ -12,12 +12,11 @@ const medicationSelect = `
   user_id,
   hours,
   days_frequency,
-  months_duration,
-  weeks_duration,
-  days_duration,
-  morning_frequency,
-  noon_frequency,
-  evening_frequency,
+  morning_intake,
+  noon_intake,
+  evening_intake,
+  date_start,
+  date_end,
   frequency
 `;
 
@@ -35,6 +34,8 @@ export type UpdateMedicationInput = {
   morningFrequency?: number | null;
   noonFrequency?: number | null;
   eveningFrequency?: number | null;
+  dateStart?: Date | null;
+  dateEnd?: Date | null;
   frequency?: string | null;
 };
 
@@ -78,12 +79,9 @@ export async function createMedication(input: MedicationInput): Promise<Medicati
     instructions: input.instructions ?? [],
     hours: input.hours ?? [],
     days_frequency: input.daysFrequency ?? [],
-    months_duration: input.monthsDuration ?? 0,
-    weeks_duration: input.weeksDuration ?? 0,
-    days_duration: input.daysDuration ?? 0,
-    morning_frequency: input.morningFrequency ?? 0,
-    noon_frequency: input.noonFrequency ?? 0,
-    evening_frequency: input.eveningFrequency ?? 0,
+    morning_intake: input.morningIntake ?? [],
+    noon_intake: input.noonIntake ?? [],
+    evening_intake: input.eveningIntake ?? [],
     frequency: input.frequency ?? null,
   };
 
