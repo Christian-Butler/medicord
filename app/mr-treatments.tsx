@@ -7,7 +7,7 @@ import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/dat
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Keyboard, Modal, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, Modal, Platform, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 
 interface TreatmentsModalProps {
     visible: boolean;
@@ -24,12 +24,14 @@ function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsM
     const [frequency, setFrequency] = useState("");
     const [saveError, setSaveError] = useState<string | null>(null);
 
-    {/* Picker dismissal on each change, no better event done yet to improve this feature */ }
-    const handleDateChange = (_: DateTimePickerEvent, date?: Date) => {
-        setShowPicker(false);
-        if (date) {
-            setDate(date);
+    const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        if (event.type === "dismissed") {
+            setShowPicker(false);
+            return;
         }
+
+        if (selectedDate) setDate(selectedDate);
+        if (Platform.OS !== "ios") setShowPicker(false);
     };
 
     const handleSave = async () => {
@@ -97,8 +99,9 @@ function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsM
                                     <DateTimePicker
                                         value={date}
                                         mode="date"
-                                        display={"spinner"}
+                                        display="spinner"
                                         onChange={handleDateChange}
+                                        minimumDate={new Date(1950, 1, 1)}
                                         maximumDate={new Date()}
                                     />
                                 )}

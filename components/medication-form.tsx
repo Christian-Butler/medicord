@@ -1,8 +1,8 @@
 import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import { Plus } from "lucide-react-native";
+import { Check, ChevronDown, Plus } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
-import { Platform, Pressable, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 type MedicationFormProps = {
   medication?: Medication | null;
@@ -24,6 +24,9 @@ const frequencyOptions: { label: string; value: MedicationFrequency }[] = [
   { label: "Multiple times daily", value: "multiple_times_daily" },
 ];
 
+const specifyHours = Array.from({ length: 24 }, (_, i) => {
+  return `${String(i).padStart(2, "0")}:00`;
+});
 
 export default function MedicationForm({
   medication,
@@ -32,7 +35,6 @@ export default function MedicationForm({
   onSubmit,
 }: MedicationFormProps) {
   const [name, setName] = useState("");
-  const [selectedTime, setSelectedTime] = useState<string[]>([]);
   const [showPicker, setShowPicker] = useState<DatePickerTarget | null>(null);
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [dateEnd, setDateEnd] = useState<Date>(new Date());
@@ -44,6 +46,9 @@ export default function MedicationForm({
   const [frequency, setFrequency] = useState<MedicationFrequency | null>(null);
   const [instructions, setInstructions] = useState<string[]>([""]);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [hours, setHours] = useState<string[]>([]);
+  const [showHourSelector, setShowHourSelector] = useState(false);
+  const [showHourDropdown, setShowHourDropdown] = useState(false);
 
   useEffect(() => {
     if (!medication) {
@@ -57,6 +62,9 @@ export default function MedicationForm({
       setInstructions([""]);
       setLocalError(null);
       setShowPicker(null);
+      setHours([]);
+      setShowHourSelector(false);
+      setShowHourDropdown(false);
 
       return;
     }
@@ -67,10 +75,12 @@ export default function MedicationForm({
     setNoonIntake(medication.noon_intake ?? []);
     setEveningIntake(medication.evening_intake ?? []);
     setNoSpecificTime(medication.no_specific_time ?? false);
-    setSelectedTime([""]);
-    setDateStart(medication.date_start ?? new Date);
+    setDateStart(medication.date_start ?? new Date());
     setDateEnd(medication.date_end ?? new Date());
     setFrequency((medication.frequency as MedicationFrequency) ?? null);
+    setHours(medication.hours ?? []);
+    setShowHourSelector((medication.hours ?? []).length > 0);
+    setShowHourDropdown(false);
     setInstructions(
       medication.instructions && medication.instructions.length > 0
         ? medication.instructions
@@ -102,9 +112,11 @@ export default function MedicationForm({
     );
   }
 
-  function toggleTime(time: string) {
-    setSelectedTime((current) =>
-      current.includes(time) ? current.filter((t) => t !== time) : [...current, time]
+  function toggleHour(hour: string) {
+    setHours((current) =>
+      current.includes(hour)
+        ? current.filter((selectedHour) => selectedHour !== hour)
+        : [...current, hour].sort()
     );
   }
 
@@ -136,7 +148,7 @@ export default function MedicationForm({
       dateStart,
       dateEnd,
       noSpecificHour: true,
-      hours: [],
+      hours: hours,
       frequency,
       instructions: instructions.map((i) => i.trim()).filter(Boolean),
     });
@@ -148,12 +160,12 @@ export default function MedicationForm({
     <View className="mx-6 pb-16 pt-8">
 
       {/* Name */}
-      <Text className="mr-4 text-[20px] font-medium text-black">Name</Text>
+      <Text className="mr-4 text-[20px] font-medium text-black">Medicine's name</Text>
 
       <TextInput
         value={name}
         onChangeText={(v) => { setName(v); setLocalError(null); }}
-        placeholder="Enter a name"
+        placeholder="Write the medication's name"
         placeholderTextColor="#7A8A8D"
         className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
       />
@@ -163,7 +175,7 @@ export default function MedicationForm({
 
       {/* Duration */}
       <Text className="mt-7 mb-3 text-[20px] font-medium text-black">Duration</Text>
-      <View className="px-10 gap-3 items-center justify-between">
+      <View className="px-10 gap-3 mt-3 items-center justify-between flex-row">
         <TouchableOpacity
           onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
           className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
@@ -172,7 +184,17 @@ export default function MedicationForm({
             {dateStart.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
-
+        <Text className="text-[16px] font-regular text-black">until</Text>
+        <TouchableOpacity
+          onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
+          className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
+        >
+          <Text className="text-[16px] text-black">
+            {dateEnd.toLocaleDateString()}
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <View className="items-center">
         {showPicker === "start" && (
           <DateTimePicker
             value={dateStart}
@@ -182,39 +204,20 @@ export default function MedicationForm({
             maximumDate={new Date()}
           />
         )}
-        <Text className="mt-7 text-[16px] font-regular text-black mb-6">until</Text>
-        <TouchableOpacity
-          onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
-          className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
-        >
-          <Text className="text-[16px] text-black">
-            {dateEnd.toLocaleDateString()}
-          </Text>
-        </TouchableOpacity>
-
+      </View>
+      <View className="items-center">
         {showPicker === "end" && (
           <DateTimePicker
             value={dateEnd}
             mode="date"
             display="spinner"
             onChange={handleDateChange}
-            maximumDate={new Date()}
+            maximumDate={new Date(2050, 11, 31)}
           />
         )}
-        {/* 
-        <View className="flex-1">
-          <SpinnerPickerField label="Month(s)" value={monthsDuration} max={24} onChange={setMonthsDuration} />
-        </View>
-        <View className="flex-1">
-          <SpinnerPickerField label="Week(s)" value={weeksDuration} max={52} onChange={setWeeksDuration} />
-        </View>
-        <View className="flex-1">
-          <SpinnerPickerField label="Day(s)" value={daysDuration} max={31} onChange={setDaysDuration} />
-        </View>
-        */}
       </View>
 
-      {/* Days */}
+      {/* Week */}
       <Text className="mt-7 text-[20px] font-medium text-black">Weekly</Text>
       <View className="mt-3 flex-row flex-wrap gap-2">
         {weekDays.map((day) => {
@@ -223,7 +226,6 @@ export default function MedicationForm({
             <Pressable
               key={day}
               onPress={() => toggleDay(day)}
-              disabled={noSpecificTime}
               className={`h-[40px] min-w-[45px] items-center justify-center rounded-xl px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
                 } `}
             >
@@ -236,42 +238,22 @@ export default function MedicationForm({
       </View>
 
 
-      {/* Time */}
-      <Text className="mt-7 text-[20px] font-medium text-black">Daily</Text>
-
-      <View className="mt-4 flex-row flex-wrap gap-4">
-        {frequencyOptions.map((option) => (
-          <Pressable
-            key={option.value}
-            disabled={noSpecificTime}
-            onPress={() => !noSpecificTime && setFrequency(option.value)}
-            className={`h-[40px] items-center justify-center rounded-[10px] px-6 ${frequency === option.value ? "bg-[#0D5175]" : "bg-white"
-              } ${noSpecificTime ? "opacity-50" : ""}`}
-          >
-            <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
-              {option.label}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
-
-
-      {/* Morning / Noon / Evening */}
-      <View className="mt-5 flex-row gap-3">
-        <View className="flex-1">
-
-          {/* 
-          <Text className="mb-2 text-[14px] text-[#555]">Morning Intake</Text>
-          <SpinnerPickerField label="pills" value={morningFrequency} max={10} onChange={setMorningFrequency} disabled={noSpecificTime} />
-        </View>
-        <View className="flex-1">
-          <Text className="mb-2 text-[14px] text-[#555]">Noon Intake</Text>
-          <SpinnerPickerField label="pills" value={noonFrequency} max={10} onChange={setNoonFrequency} disabled={noSpecificTime} />
-        </View>
-        <View className="flex-1">
-          <Text className="mb-2 text-[14px] text-[#555]">Evening Intake</Text>
-          <SpinnerPickerField label="pills" value={eveningFrequency} max={10} onChange={setEveningFrequency} disabled={noSpecificTime} />
-          */}
+      {/* Daily */}
+      <View>
+        <Text className="mt-7 text-[20px] font-medium text-black">Daily</Text>
+        <View className="mt-4 flex-row flex-wrap gap-4">
+          {frequencyOptions.map((option) => (
+            <Pressable
+              key={option.value}
+              onPress={() => setFrequency(option.value)}
+              className={`h-[40px] items-center justify-center rounded-[10px] px-6 ${frequency === option.value ? "bg-[#0D5175]" : "bg-white"
+                }`}
+            >
+              <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
+                {option.label}
+              </Text>
+            </Pressable>
+          ))}
         </View>
       </View>
 
@@ -283,10 +265,10 @@ export default function MedicationForm({
           return (
             <Pressable
               key={time}
-              onPress={() => toggleDay(time)}
+              onPress={() => !noSpecificTime && toggleDay(time)}
               disabled={noSpecificTime}
               className={`px-6 h-[40px] items-center justify-center rounded-xl ${selected ? "bg-[#0D5175]" : "bg-white"
-                } `}
+                } ${noSpecificTime ? "opacity-50" : ""}`}
             >
               <Text className={`text-[16px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
                 {time}
@@ -296,8 +278,56 @@ export default function MedicationForm({
         })}
       </View>
 
-      <View className="mt-6 justify-between flex-row items-center">
-        {/* No specific time */}
+      {/* Hours specify */}
+      <View className="mt-3 flex-row items-center gap-2">
+        {showHourSelector && (
+          <Pressable
+            disabled={noSpecificTime}
+            onPress={() => setShowHourDropdown((previous) => !previous)}
+            className={`mt-4 min-w-0 flex-1 h-[46px] flex-row items-center rounded-[12px] border border-[#0D5175] bg-white px-3 ${noSpecificTime ? "opacity-50" : ""}`}
+          >
+            <Text numberOfLines={1} className="mr-2 flex-1 text-[14px] text-black">
+              {hours.length > 0 ? hours.join(", ") : "Select hours"}
+            </Text>
+            <ChevronDown size={20} color="#0D5175" />
+          </Pressable>
+        )}
+
+        <Pressable
+          disabled={noSpecificTime}
+          onPress={() => setShowHourSelector(true)}
+          className={`mt-4 h-[46px] w-[160px] flex-row items-center justify-center rounded-[12px] bg-[#5085A8] px-4 ${noSpecificTime ? "opacity-50" : ""}`}
+        >
+          <Plus size={18} color="white" />
+          <Text className="ml-1 text-[16px] font-medium text-white">Specify hours</Text>
+        </Pressable>
+
+      </View>
+
+      {/* Dropdown hours */}
+      {showHourDropdown && !noSpecificTime && (
+        <ScrollView
+          nestedScrollEnabled
+          className="mt-2 max-h-[240px] rounded-[14px] border border-[#0D5175] bg-white"
+        >
+          {specifyHours.map((hour) => {
+            const selected = hours.includes(hour);
+            return (
+              <Pressable
+                key={hour}
+                onPress={() => toggleHour(hour)}
+                className={`min-h-[44px] flex-row items-center justify-between border-b border-[#E3EBEF] px-4 ${selected ? "bg-[#EAF3F7]" : ""}`}
+              >
+                <Text className="text-[16px] text-black">{hour}</Text>
+                {selected ? <Check size={18} color="#0D5175" /> : null}
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+      )}
+
+      {/* No specific time */}
+      <View className="mt-6 flex-row items-center">
         <Pressable
           onPress={() => setNoSpecificTime((p) => !p)}
           className="flex-row items-center"
@@ -306,15 +336,7 @@ export default function MedicationForm({
           <Text className="ml-2 text-[14px] text-black">No time window needed.</Text>
         </Pressable>
 
-        <Pressable
-          onPress={addInstruction}
-          className="h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
-        >
-          <Plus size={20} color="white" />
-          <Text className="ml-2 text-[16px] font-medium text-white">Specify hour</Text>
-        </Pressable>
       </View>
-
 
       {/* Instructions */}
       <Text className="mt-8 text-[20px] font-medium text-black">Instructions</Text>

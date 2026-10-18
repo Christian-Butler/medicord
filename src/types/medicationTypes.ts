@@ -11,7 +11,7 @@ export type Medication = {
   no_specific_time: boolean | null;
   instructions: string[] | null;
   user_id: string | null;
-  hours: number[] | null;
+  hours: string[] | null;
   days_frequency: string[] | null;
   morning_intake: string[] | null;
   noon_intake: string[] | null;
@@ -25,7 +25,7 @@ export type MedicationInput = {
   noSpecificTime?: boolean;
   noSpecificHour?: boolean;
   instructions?: string[];
-  hours?: number[];
+  hours?: string[];
   daysFrequency?: string[];
   morningIntake: string[] | null;
   noonIntake: string[] | null;

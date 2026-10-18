@@ -7,7 +7,6 @@ const medicationSelect = `
   created_at,
   name,
   no_specific_time,
-  no_specific_hour,
   instructions,
   user_id,
   hours,
@@ -24,9 +23,8 @@ export type UpdateMedicationInput = {
   id: number;
   name?: string;
   noSpecificTime?: boolean;
-  noSpecificHour?: boolean;
   instructions?: string[];
-  hours?: number[];
+  hours?: string[];
   daysFrequency?: string[];
   monthsDuration?: number | null;
   weeksDuration?: number | null;
@@ -75,7 +73,6 @@ export async function createMedication(input: MedicationInput): Promise<Medicati
     user_id: userId,
     name: input.name,
     no_specific_time: input.noSpecificTime ?? false,
-    no_specific_hour: input.noSpecificHour ?? false,
     instructions: input.instructions ?? [],
     hours: input.hours ?? [],
     days_frequency: input.daysFrequency ?? [],
@@ -103,7 +100,6 @@ export async function updateMedication(input: UpdateMedicationInput): Promise<Me
 
   if (input.name !== undefined) patch.name = input.name;
   if (input.noSpecificTime !== undefined) patch.no_specific_time = input.noSpecificTime;
-  if (input.noSpecificHour !== undefined) patch.no_specific_hour = input.noSpecificHour;
   if (input.instructions !== undefined) patch.instructions = input.instructions;
   if (input.hours !== undefined) patch.hours = input.hours;
   if (input.daysFrequency !== undefined) patch.days_frequency = input.daysFrequency;
