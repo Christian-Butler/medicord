@@ -1,23 +1,21 @@
-import { supabase } from "@/supabase/supabase";
-import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
+import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
+import { supabase } from "@/supabase/supabase";
 
 const medicationSelect = `
   id,
   created_at,
   name,
   no_specific_time,
-  no_specific_hour,
   instructions,
   user_id,
   hours,
   days_frequency,
-  months_duration,
-  weeks_duration,
-  days_duration,
-  morning_frequency,
-  noon_frequency,
-  evening_frequency,
+  morning_intake,
+  noon_intake,
+  evening_intake,
+  date_start,
+  date_end,
   frequency
 `;
 
@@ -25,9 +23,8 @@ export type UpdateMedicationInput = {
   id: number;
   name?: string;
   noSpecificTime?: boolean;
-  noSpecificHour?: boolean;
   instructions?: string[];
-  hours?: number[];
+  hours?: string[];
   daysFrequency?: string[];
   monthsDuration?: number | null;
   weeksDuration?: number | null;
@@ -35,6 +32,8 @@ export type UpdateMedicationInput = {
   morningFrequency?: number | null;
   noonFrequency?: number | null;
   eveningFrequency?: number | null;
+  dateStart?: Date | null;
+  dateEnd?: Date | null;
   frequency?: string | null;
 };
 
@@ -74,16 +73,12 @@ export async function createMedication(input: MedicationInput): Promise<Medicati
     user_id: userId,
     name: input.name,
     no_specific_time: input.noSpecificTime ?? false,
-    no_specific_hour: input.noSpecificHour ?? false,
     instructions: input.instructions ?? [],
     hours: input.hours ?? [],
     days_frequency: input.daysFrequency ?? [],
-    months_duration: input.monthsDuration ?? 0,
-    weeks_duration: input.weeksDuration ?? 0,
-    days_duration: input.daysDuration ?? 0,
-    morning_frequency: input.morningFrequency ?? 0,
-    noon_frequency: input.noonFrequency ?? 0,
-    evening_frequency: input.eveningFrequency ?? 0,
+    morning_intake: input.morningIntake ?? [],
+    noon_intake: input.noonIntake ?? [],
+    evening_intake: input.eveningIntake ?? [],
     frequency: input.frequency ?? null,
   };
 
@@ -105,7 +100,6 @@ export async function updateMedication(input: UpdateMedicationInput): Promise<Me
 
   if (input.name !== undefined) patch.name = input.name;
   if (input.noSpecificTime !== undefined) patch.no_specific_time = input.noSpecificTime;
-  if (input.noSpecificHour !== undefined) patch.no_specific_hour = input.noSpecificHour;
   if (input.instructions !== undefined) patch.instructions = input.instructions;
   if (input.hours !== undefined) patch.hours = input.hours;
   if (input.daysFrequency !== undefined) patch.days_frequency = input.daysFrequency;

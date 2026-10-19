@@ -17,7 +17,7 @@ export default function MedicationReminder() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch().catch(() => {});
+      refetch().catch(() => { });
     }, [refetch])
   );
 
@@ -94,9 +94,6 @@ export default function MedicationReminder() {
                         </Text>
                         <Text className="mt-1 text-[14px] font-regular text-gray-600">
                           {formatMedicationDuration(
-                            item.months_duration,
-                            item.weeks_duration,
-                            item.days_duration
                           )}
                         </Text>
                         <Text className="mt-1 text-[14px] font-regular text-gray-600">

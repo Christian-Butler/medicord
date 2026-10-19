@@ -45,12 +45,9 @@ export default function MedicationFormContainer() {
         instructions: input.instructions ?? [],
         hours: input.hours ?? [],
         days_frequency: input.daysFrequency ?? [],
-        months_duration: input.monthsDuration ?? 0,
-        weeks_duration: input.weeksDuration ?? 0,
-        days_duration: input.daysDuration ?? 0,
-        morning_frequency: input.morningFrequency ?? 0,
-        noon_frequency: input.noonFrequency ?? 0,
-        evening_frequency: input.eveningFrequency ?? 0,
+        morning_intake: input.morningIntake ?? [],
+        noon_intake: input.noonIntake ?? [],
+        evening: input.eveningIntake ?? [],
         frequency: input.frequency ?? null,
       });
     }
@@ -66,7 +63,7 @@ export default function MedicationFormContainer() {
   return (
     <View>
       {loading && isEditing ? (
-        <Text className="mx-6 mt-5 text-[15px] text-black">
+        <Text className="mx-6 mt-5 text-[16px] text-black">
           {t(`medication-form-container.loading`)}
         </Text>
       ) : null}

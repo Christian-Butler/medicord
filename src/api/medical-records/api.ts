@@ -1,9 +1,9 @@
+import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 import type {
   MedicalRecord,
   MedicalRecordInput,
 } from "@/src/types/medicalRecordTypes";
 import { supabase } from "@/supabase/supabase";
-import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 
 const medicalRecordsSelect = `
   id,
@@ -16,6 +16,8 @@ const medicalRecordsSelect = `
   diagnosis,
   family_diagnosis,
   family_member,
+  treatment_date,
+  treatment_frequency,
   condition_state,
   updated_at
 `;
@@ -35,6 +37,8 @@ export async function createMedicalRecord(input: MedicalRecordInput): Promise<Me
     diagnosis: input.diagnosis ?? null,
     condition_state: input.conditionState ?? null,
     family_member: input.familyMember ?? null,
+    treatment_date: input.treatmentDate ?? null,
+    treatment_frequency: input.treatmentFrequency ?? null,
     created_at: now,
     updated_at: now,
   };

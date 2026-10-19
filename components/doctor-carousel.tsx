@@ -1,3 +1,4 @@
+import { MaterialIcons } from "@expo/vector-icons";
 import Fontisto from "@expo/vector-icons/Fontisto";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
@@ -42,23 +43,50 @@ const specialties = [
     library: "MaterialCommunityIcons",
   },
   {
+    id: "Gyneacology",
+    title: "Gynecology",
+    icon: "female",
+    library: "MaterialIcons",
+  },
+  {
+    id: "Orthopaedics",
+    title: "Orthopaedics",
+    icon: "record-voice-over",
+    library: "MaterialIcons",
+  },
+  {
+    id: "Gastroenterology",
+    title: "Gastroenterology",
+    icon: "stomach",
+    library: "MaterialCommunityIcons",
+  },
+  {
+    id: "Psychiatry",
+    title: "Psychiatry",
+    icon: "psychology",
+    library: "MaterialIcons",
+  },
+  {
     id: "Neurology",
     title: "Neurology",
     icon: "brain",
     library: "MaterialCommunityIcons",
   },
   {
-    id: "Gyneacology",
-    title: "Gynecology",
-    icon: "",
-    library: "MaterialCommunityIcons",
+    id: "Endocrinology",
+    title: "Endocrinology",
+    icon: "fingerprint",
+    library: "MaterialIcons",
   },
 ] as const;
 
 function SpecialtyIcon({ icon, library, size, color }: { icon: string; library: string; size: number; color: string }) {
   if (library === "Fontisto") {
     return <Fontisto name={icon as any} size={size} color={color} />;
+  } else if (library === "MaterialIcons") {
+    return <MaterialIcons name={icon as any} size={size} color={color} />;
   }
+
   return <MaterialCommunityIcons name={icon as any} size={size} color={color} />;
 }
 

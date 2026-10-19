@@ -9,7 +9,7 @@ export function formatMedicationDuration(
     (months ?? 0) * 30 +
     (weeks ?? 0) * 7 +
     (days ?? 0);
-  if (totalDays <= 0) return "No duration set";
+  if (totalDays <= 0) return "No date available";
   if (totalDays >= 30) return `${Math.round(totalDays / 30)} month${Math.round(totalDays / 30) === 1 ? "" : "s"} remaining`;
   if (totalDays >= 7) return `${Math.round(totalDays / 7)} week${Math.round(totalDays / 7) === 1 ? "" : "s"} remaining`;
   return `${totalDays} day${totalDays === 1 ? "" : "s"} remaining`;

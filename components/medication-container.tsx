@@ -1,6 +1,6 @@
+import { useCreateAlarm } from "@/src/hooks/useCreateAlarm";
 import { useDeleteMedication } from "@/src/hooks/useDeleteMedication";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
-import { useCreateAlarm } from "@/src/hooks/useCreateAlarm";
 import { formatMedicationDuration } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
@@ -21,7 +21,7 @@ export default function MedicationContainer() {
 
   useFocusEffect(
     useCallback(() => {
-      refetch().catch(() => {});
+      refetch().catch(() => { });
     }, [refetch])
   );
 
@@ -40,29 +40,29 @@ export default function MedicationContainer() {
     <View className="px-6 pb-28 pt-8">
       <Pressable
         onPress={() => router.push("/medication-formpage")}
-        className="h-[50px] flex-row items-center justify-center rounded-[14px] bg-white"
+        className="h-[50px] flex-row items-center justify-center rounded-[14px] bg-[#5085A8]"
       >
-        <Plus size={20} color="#0D5175" />
+        <Plus size={20} color="white" />
 
-        <Text className="ml-2 text-[16px] font-medium text-[#0D5175]">
+        <Text className="ml-2 text-[16px] font-medium text-white">
           {t(`medication-container.addRoutine`)}
         </Text>
       </Pressable>
 
       {loading ? (
-        <Text className="mt-5 text-[15px] text-black">
+        <Text className="mt-5 text-[16px] text-black">
           {t(`medication-container.loading`)}
         </Text>
       ) : null}
 
       {visibleError ? (
-        <Text className="mt-5 text-[15px] text-[#B42318]">
+        <Text className="mt-5 text-[16px] text-[#B42318]">
           {t(`medication-container.${visibleError}`)}
         </Text>
       ) : null}
 
       {!loading && !visibleError && sortedMedications.length === 0 ? (
-        <Text className="mt-5 text-[15px] text-black">
+        <Text className="mt-5 text-[16px] text-black">
           {t(`medication-container.noRoutine`)}
         </Text>
       ) : null}
@@ -71,9 +71,7 @@ export default function MedicationContainer() {
         <View className="mt-8">
           {sortedMedications.map((medication) => {
             const duration = formatMedicationDuration(
-              medication.months_duration,
-              medication.weeks_duration,
-              medication.days_duration
+
             );
 
             const instruction =
@@ -129,11 +127,11 @@ export default function MedicationContainer() {
                     {t(`medication-container.duration`)}
                   </Text>
 
-                  <Text className="ml-2 mt-1 text-[14px] font-normal text-gray-600">
+                  <Text className="ml-2 mt-1 text-[16px] font-regular text-gray-600">
                     {duration}
                   </Text>
 
-                  <Text className="ml-2 mt-4 text-[16px] font-medium text-black">
+                  <Text className="ml-2 mt-4 text-[16px] font-regular text-black">
                     {instruction}
                   </Text>
 
