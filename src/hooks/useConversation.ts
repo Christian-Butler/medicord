@@ -13,20 +13,13 @@ export function useConversations() {
     try {
       setLoading(true);
       setError(null);
-      const data = await getConversations();
-      const seen = new Set();
-      const deduped = data.filter((msg) => {
-        if (seen.has(msg.doctor_id)) return false;
-        seen.add(msg.doctor_id);
-        return true;
-      });
-      setConversations(deduped);
+      setConversations(await getConversations());
     } catch (err) {
       setError(err instanceof Error ? err.message : t(`useConversations.error`));
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     fetchConversations();

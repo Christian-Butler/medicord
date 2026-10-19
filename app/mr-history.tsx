@@ -9,10 +9,15 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function MedicalHistory() {
-    const { records: familyRecords, refetch: refetchFamily } = useMedicalRecords("family_medical_history");
-    const { records: personalRecords, refetch: refetchPersonal } = useMedicalRecords("personal_medical_history");
-    const { deleteRecord: deleteFamilyRecord } = useDeleteMedicalRecord(refetchFamily);
-    const { deleteRecord: deletePersonalRecord } = useDeleteMedicalRecord(refetchPersonal);
+       // both halves of the screen in one request
+    const { records, refetch } = useMedicalRecords([
+        "family_medical_history",
+        "personal_medical_history",
+    ]);
+    const { deleteRecord } = useDeleteMedicalRecord(refetch);
+
+    const familyRecords = records.filter((r) => r.category === "family_medical_history");
+    const personalRecords = records.filter((r) => r.category === "personal_medical_history");
 
     const { t } = useTranslation();
 
@@ -66,7 +71,7 @@ export default function MedicalHistory() {
                                             ) : null}
                                         </View>
                                     </View>
-                                    <TouchableOpacity onPress={() => deleteFamilyRecord(record.id)}>
+                                    <TouchableOpacity onPress={() => deleteRecord(record.id)}>
                                         <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
                                     </TouchableOpacity>
                                 </View>
@@ -117,7 +122,7 @@ export default function MedicalHistory() {
                                             ) : null}
                                         </View>
                                     </View>
-                                    <TouchableOpacity onPress={() => deletePersonalRecord(record.id)}>
+                                    <TouchableOpacity onPress={() => deleteRecord(record.id)}>
                                         <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
                                     </TouchableOpacity>
                                 </View>

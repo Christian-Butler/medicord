@@ -1,3 +1,4 @@
+import type { MedicalRecordsCategory } from "@/components/mr-search-lists";
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 import type {
   MedicalRecord,
@@ -22,12 +23,14 @@ const medicalRecordsSelect = `
   updated_at
 `;
 
-export async function createMedicalRecord(input: MedicalRecordInput): Promise<MedicalRecord> {
-  const userId = await getCurrentAppUserId();
+// Save one or more records in a single request.
+export async function createMedicalRecords(inputs: MedicalRecordInput[]): Promise<MedicalRecord[]> {
+  if (inputs.length === 0) return [];
 
+  const userId = await getCurrentAppUserId();
   const now = new Date().toISOString();
 
-  const payload = {
+  const rows = inputs.map((input) => ({
     user_id: userId,
     category: input.category,
     item: input.item,
@@ -41,34 +44,44 @@ export async function createMedicalRecord(input: MedicalRecordInput): Promise<Me
     treatment_frequency: input.treatmentFrequency ?? null,
     created_at: now,
     updated_at: now,
-  };
+  }));
 
   const { data, error } = await supabase
     .from("medical_records")
-    .insert(payload)
-    .select(medicalRecordsSelect)
-    .single();
+    .insert(rows)
+    .select(medicalRecordsSelect);
 
   if (error) throw new Error(error.message);
 
-  return data as unknown as MedicalRecord;
+  return (data ?? []) as unknown as MedicalRecord[];
 }
 
-export async function getMyMedicalRecords(category?: string): Promise<MedicalRecord[]> {
+export async function createMedicalRecord(input: MedicalRecordInput): Promise<MedicalRecord> {
+  const [record] = await createMedicalRecords([input]);
+  return record;
+}
+
+// One category, or several at once (e.g. family + personal history in one request).
+export async function getMyMedicalRecords(
+  categories?: MedicalRecordsCategory | MedicalRecordsCategory[]
+): Promise<MedicalRecord[]> {
   const userId = await getCurrentAppUserId();
 
   let query = supabase
     .from("medical_records")
     .select(medicalRecordsSelect)
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .order("created_at", { ascending: true });
 
-  if (category) query = query.eq("category", category);
+  if (categories) {
+    query = query.in("category", Array.isArray(categories) ? categories : [categories]);
+  }
 
   const { data, error } = await query;
 
   if (error) throw error;
 
-  return data as unknown as MedicalRecord[];
+  return (data ?? []) as unknown as MedicalRecord[];
 }
 
 export async function deleteMedicalRecord(id: string): Promise<void> {

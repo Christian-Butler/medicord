@@ -17,7 +17,9 @@ export function useMessages(doctorId: string) {
       setError(null);
       const data = await getMessages(doctorId);
       setMessages(data);
-      await markAsRead(doctorId);
+      if (data.some((m) => m.sent_by === "doctor" && !m.is_read)) {
+        await markAsRead(doctorId);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load messages");
     } finally {

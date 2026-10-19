@@ -18,11 +18,10 @@ export default function FamilyMembersList() {
 
     const { t } = useTranslation();
 
-    const params = useLocalSearchParams<{
+    const { createMany, creating } = useCreateMedicalRecord();
+      const params = useLocalSearchParams<{
         item: string;
         diagnosis: string;
-        previousFamilyHistory?: string;
-
     }>();
 
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
@@ -37,17 +36,18 @@ export default function FamilyMembersList() {
     };
 
     const handleSubmit = async () => {
-        try {
-            await Promise.all(
-                selectedMembers.map((member) => create({
+      try {
+            // one request for all selected relatives
+            await createMany(
+                selectedMembers.map((member) => ({
                     category: "family_medical_history",
                     item: params.item,
                     familyDiagnosis: params.diagnosis,
                     familyMember: member,
-                })
-                )
-            )
-            router.push("/mr-history");
+                }))
+            );
+            // back to the existing history screen instead of stacking a new one
+            router.dismissTo("/mr-history");
         } catch (error) {
             console.error("Failed to save family records", error);
         }
@@ -84,7 +84,7 @@ export default function FamilyMembersList() {
                     <TouchableOpacity
                         className={`justify-center h-[50px] bg-[#5085A8] items-center rounded-2xl ${selectedMembers.length === 0 ? "bg-[#D6E0E0]" : "bg-[#5085A8]"
                             }`}
-                        disabled={selectedMembers.length === 0}
+                        disabled={selectedMembers.length === 0 || creating}
                         onPress={handleSubmit}
                     >
                         <Text className="text-[16px] font-medium text-white">{t(`mr-family-members.continue`)}</Text>

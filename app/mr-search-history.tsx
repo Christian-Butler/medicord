@@ -10,15 +10,7 @@ import { categories, MedicalRecordsCategory } from "../components/mr-search-list
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
 
 export default function MedicalRecordsSearchScreen() {
-    const params = useLocalSearchParams<{
-        category: MedicalRecordsCategory;
-        previousAllergies: string[];
-        previousOperations?: string;
-        previousVaccines?: string;
-        previousFamilyHistory?: string;
-        previousPersonalHistory?: string;
-    }>();
-
+     const params = useLocalSearchParams<{ category: MedicalRecordsCategory }>();
     const category = params.category;
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -34,19 +26,23 @@ export default function MedicalRecordsSearchScreen() {
             .sort((a, b) => a.localeCompare(b));
     }, [currentCategoryConfig, searchQuery]);
 
-    const handleItemPress = (label: string) => {
-        if (category === "allergies") {
-            router.push({
-                pathname: "/mr-allergies",
-                params: { addedAllergy: label, previousAllergies: params.previousAllergies },
-            });
-        } else {
-            setSelectedItem(label);
-            setModalVisible(true);
-        }
-    };
-    const { create, creating, createError } = useCreateMedicalRecord();
+     const { create } = useCreateMedicalRecord();
 
+    const handleItemPress = async (label: string) => {
+        // allergies need no extra details, so save straight away
+        if (category === "allergies") {
+            try {
+                await create({ category: "allergies", item: label });
+                router.back();
+            } catch (err) {
+                console.error("[MedicalRecordsSearchScreen] save failed:", err);
+            }
+            return;
+        }
+
+        setSelectedItem(label);
+        setModalVisible(true);
+    };
     const handleFormSubmit = async (formData: Record<string, string>) => {
 
         if (category === "family_medical_history") {

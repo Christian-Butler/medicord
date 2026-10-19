@@ -1,5 +1,5 @@
-import { supabase } from "@/supabase/supabase";
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
+import { supabase } from "@/supabase/supabase";
 
 const messageSelect = `
   id,
@@ -44,13 +44,11 @@ export async function getMessages(doctorId: string): Promise<Message[]> {
   return data ?? [];
 }
 
+// One row per doctor: the latest message in each conversation (worked out in the database).
 export async function getConversations(): Promise<Conversation[]> {
-  const userId = await getCurrentAppUserId();
-
   const { data, error } = await supabase
-    .from("messages")
+    .rpc("get_conversations")
     .select(`${messageSelect}, doctors(id, full_name, avatar_url, specialty)`)
-    .eq("sender_id", userId)
     .order("created_at", { ascending: false });
 
   if (error) throw new Error(`Failed to fetch conversations: ${error.message}`);
