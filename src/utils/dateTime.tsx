@@ -4,6 +4,12 @@ export function pad(value: number) {
   return String(value).padStart(2, "0");
 }
 
+// Always "HH:MM" (24h), for logic rather than display.
+export function toTimeValue(value: string) {
+  const date = new Date(value);
+  return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 export function toLocalIsoDate(value: string) {
   const date = new Date(value);
   const year = date.getFullYear();

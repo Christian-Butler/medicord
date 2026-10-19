@@ -2,9 +2,6 @@ export type AppointmentInput = {
   doctorId: string;
   gpId?: string | null;
   referralRequired?: boolean;
-  patientName: string;
-  patientEmail: string;
-  patientPhone?: string;
   reason?: string;
   startsAt: string;
   endsAt: string;
@@ -25,9 +22,6 @@ export type Appointment = {
   ends_at: string;
   status: "pending" | "confirmed" | "cancelled";
   reason: string | null;
-  patient_name: string | null;
-  patient_email: string | null;
-  patient_phone: string | null;
   created_at: string;
   updated_at: string;
   doctors?: {

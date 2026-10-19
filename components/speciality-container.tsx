@@ -1,11 +1,11 @@
-import { getClosestAvailableSlotsForDoctors } from "@/src/api/appointments/availability";
 import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
+import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -22,13 +22,6 @@ import WeeklyCalendar from "./calendar";
 type SpecialityContainerProps = {
   specialty: string;
 };
-
-const fallbackAvatars = [
-  "https://images.pexels.com/photos/6129452/pexels-photo-6129452.jpeg",
-  "https://images.pexels.com/photos/8460094/pexels-photo-8460094.jpeg",
-  "https://images.pexels.com/photos/8376300/pexels-photo-8376300.jpeg",
-  "https://images.pexels.com/photos/5738735/pexels-photo-5738735.jpeg",
-];
 
 function StarButton({ doctorId }: { doctorId: string }) {
   const { isFavourite, setIsFavourite } = useIsFavourite(doctorId);
@@ -53,46 +46,10 @@ function StarButton({ doctorId }: { doctorId: string }) {
 export default function SpecialityContainer({ specialty }: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
 
-  const [availabilityByDoctorId, setAvailabilityByDoctorId] = useState<Record<string, string>>({});
-
-  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
+  const { slots: availabilityByDoctorId, error: availabilityError } =
+    useNextAvailableSlots(doctors.map((doctor) => doctor.id));
 
   const { t } = useTranslation();
-
-  useEffect(() => {
-    async function loadAvailability() {
-      if (doctors.length === 0) {
-        setAvailabilityByDoctorId({});
-        return;
-      }
-
-      try {
-        setAvailabilityError(null);
-
-        const slots = await getClosestAvailableSlotsForDoctors(
-          doctors.map((doctor) => doctor.id)
-        );
-
-        const formattedSlots: Record<string, string> = {};
-
-        doctors.forEach((doctor) => {
-          formattedSlots[doctor.id] =
-            slots[doctor.id]?.label ?? t(`speciality-container.slots`);
-        });
-
-        setAvailabilityByDoctorId(formattedSlots);
-      } catch (err) {
-        console.error("[SpecialityContainer] availability failed:", err);
-        setAvailabilityError(
-          err instanceof Error ? err.message : t(`speciality-container.error`)
-        );
-      }
-    }
-
-    loadAvailability();
-  }, [doctors]);
-
-
 
   return (
     <View>
@@ -122,7 +79,6 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
             const avatar =
               doctor.avatar_url || null;
-            console.log(`[Doctor] ${doctor.full_name} avatar:`, avatar);
             return (
               <View key={doctor.id} style={styles.card}>
                 <View style={styles.doctorInfo}>

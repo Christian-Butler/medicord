@@ -3,11 +3,12 @@ import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
 import { useAppointment } from "@/src/hooks/useAppointment";
+import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useUpdateAppointment } from "@/src/hooks/useUpdateAppointment";
 import {
   buildLocalIsoDateTime,
   toLocalIsoDate,
-  toLocalTimeValue,
+  toTimeValue,
 } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
@@ -45,8 +46,21 @@ export default function EditAppointment() {
     if (!appointment) return;
 
     setSelectedDate(toLocalIsoDate(appointment.starts_at));
-    setSelectedTime(toLocalTimeValue(appointment.starts_at));
+    setSelectedTime(toTimeValue(appointment.starts_at));
   }, [appointment]);
+
+  const {
+    times: freeTimes,
+    refetch: refetchTimes,
+  } = useAvailableTimes(appointment?.doctor_id ?? undefined, selectedDate || null);
+
+  // the appointment's own slot is "booked" by itself, so add it back on its original day
+  const originalDate = appointment ? toLocalIsoDate(appointment.starts_at) : null;
+  const originalTime = appointment ? toTimeValue(appointment.starts_at) : null;
+  const availableTimes =
+    originalTime && selectedDate === originalDate && !freeTimes.includes(originalTime)
+      ? [...freeTimes, originalTime].sort()
+      : freeTimes;
 
   const { t } = useTranslation();
 
@@ -89,6 +103,8 @@ export default function EditAppointment() {
       setShowSuccessOverlay(true);
     } catch (err) {
       console.error("[EditAppointment] update failed:", err);
+      setSelectedTime("");
+      refetchTimes();
     }
   }
 
@@ -119,6 +135,7 @@ export default function EditAppointment() {
             selectedDate={selectedDate || undefined}
             onSelectDate={(date) => {
               setSelectedDate(date);
+              setSelectedTime("");
               setFormError(null);
             }}
           />
@@ -127,6 +144,7 @@ export default function EditAppointment() {
         <View style={styles.hoursContainer}>
           <HoursBooking
             selectedTime={selectedTime || undefined}
+            availableTimes={selectedDate ? availableTimes : undefined}
             onSelectTime={(time) => {
               setSelectedTime(time);
               setFormError(null);

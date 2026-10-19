@@ -19,9 +19,6 @@ const appointmentSelect = `
   ends_at,
   status,
   reason,
-  patient_name,
-  patient_email,
-  patient_phone,
   created_at,
   updated_at,
   doctors (
@@ -39,11 +36,18 @@ const appointmentSelect = `
   )
 `;
 
+// turn database errors into messages a patient can act on
+function toAppointmentError(error: { code?: string; message: string }) {
+  if (error.code === "23505") {
+    // appointments_doctor_slot_unique: someone booked this slot first
+    return new Error("That time has just been booked. Please choose another.");
+  }
+  return new Error(error.message);
+}
+
 export async function createAppointment(
   input: AppointmentInput
 ): Promise<Appointment> {
-  console.log("[createAppointment] input:", input);
-
   const userId = await getCurrentAppUserId();
 
   const now = new Date().toISOString();
@@ -62,7 +66,7 @@ export async function createAppointment(
         : "missing"
       : "not_required",
 
-    title: `Appointment for ${input.patientName}`,
+    title: input.reason ?? "Consultation",
     appointment_type: "consultation",
     location: input.location ?? null,
 
@@ -73,15 +77,9 @@ export async function createAppointment(
     reason: input.reason ?? null,
     notes: null,
 
-    patient_name: input.patientName,
-    patient_email: input.patientEmail,
-    patient_phone: input.patientPhone ?? null,
-
     created_at: now,
     updated_at: now,
   };
-
-  console.log("[createAppointment] payload:", payload);
 
   const { data, error } = await supabase
     .from("appointments")
@@ -89,10 +87,7 @@ export async function createAppointment(
     .select(appointmentSelect)
     .single();
 
-  console.log("[createAppointment] insert data:", data);
-  console.log("[createAppointment] insert error:", error);
-
-  if (error) throw new Error(error.message);
+  if (error) throw toAppointmentError(error);
 
   return data as unknown as Appointment;
 }
@@ -133,9 +128,6 @@ export type UpdateAppointmentInput = {
   endsAt?: string;
   reason?: string;
   location?: string | null;
-  patientName?: string;
-  patientEmail?: string;
-  patientPhone?: string;
 };
 
 export async function updateAppointment(
@@ -151,9 +143,6 @@ export async function updateAppointment(
   if (input.endsAt !== undefined) patch.ends_at = input.endsAt;
   if (input.reason !== undefined) patch.reason = input.reason;
   if (input.location !== undefined) patch.location = input.location;
-  if (input.patientName !== undefined) patch.patient_name = input.patientName;
-  if (input.patientEmail !== undefined) patch.patient_email = input.patientEmail;
-  if (input.patientPhone !== undefined) patch.patient_phone = input.patientPhone;
 
   const { data, error } = await supabase
     .from("appointments")
@@ -163,26 +152,7 @@ export async function updateAppointment(
     .select(appointmentSelect)
     .single();
 
-  if (error) throw error;
-
-  return data as unknown as Appointment;
-}
-
-export async function cancelAppointment(id: string): Promise<Appointment> {
-  const userId = await getCurrentAppUserId();
-
-  const { data, error } = await supabase
-    .from("appointments")
-    .update({
-      status: "cancelled",
-      updated_at: new Date().toISOString(),
-    })
-    .eq("id", id)
-    .eq("user_id", userId)
-    .select(appointmentSelect)
-    .single();
-
-  if (error) throw error;
+  if (error) throw toAppointmentError(error);
 
   return data as unknown as Appointment;
 }

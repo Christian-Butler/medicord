@@ -2,6 +2,7 @@ import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
+import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
 import { useDoctor } from "@/src/hooks/useDoctor";
 import {
@@ -38,6 +39,11 @@ export default function Booking() {
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
+    const {
+        times: availableTimes,
+        refetch: refetchTimes,
+    } = useAvailableTimes(doctorId ? String(doctorId) : undefined, selectedDate);
 
     async function handleConfirmBooking() {
         if (!doctor && !doctorId) {
@@ -93,6 +99,9 @@ export default function Booking() {
             setShowSuccessOverlay(true);
         } catch (err) {
             console.error("[BookAppointment] create appointment failed:", err);
+            // the slot may have just been taken: clear it and reload what's free
+            setSelectedTime(null);
+            refetchTimes();
         }
     }
 
@@ -122,6 +131,7 @@ export default function Booking() {
                         selectedDate={selectedDate ?? undefined}
                         onSelectDate={(date) => {
                             setSelectedDate(date);
+                            setSelectedTime(null);
                             setFormError(null);
                         }}
                     />
@@ -130,6 +140,7 @@ export default function Booking() {
                 <View>
                     <HoursBooking
                         selectedTime={selectedTime ?? undefined}
+                        availableTimes={selectedDate ? availableTimes : undefined}
                         onSelectTime={(time) => {
                             setSelectedTime(time);
                             setFormError(null);
