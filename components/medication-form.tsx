@@ -156,6 +156,8 @@ export default function MedicationForm({
 
   const visibleError = localError ?? error;
 
+  const confirm = Boolean(name && selectedDays && dateStart && dateEnd && frequency);
+
   return (
     <View className="mx-6 pb-16 pt-8">
 
@@ -360,9 +362,9 @@ export default function MedicationForm({
       </Pressable>
 
       <Pressable
-        disabled={saving}
+        disabled={!confirm || saving}
         onPress={handleSubmit}
-        className={`mt-10  mb-20 h-[50px] items-center justify-center rounded-[14px] bg-[#17A633] ${saving ? "opacity-60" : ""}`}
+        className={`mt-10  mb-20 h-[50px] items-center justify-center rounded-[14px] bg-[#17A633] ${saving ? "opacity-60" : !confirm ? "opacity-60 bg-[gray]" : ""}`}
       >
         <Text className="text-[16px] font-medium text-white">
           {saving ? "Saving..." : medication ? "Confirm update" : "Confirm routine creation"}
