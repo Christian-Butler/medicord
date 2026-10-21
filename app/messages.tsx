@@ -3,7 +3,7 @@ import ScreenHeader from "@/components/screen-header";
 import { Search } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function Messages() {
@@ -17,8 +17,10 @@ export default function Messages() {
         style={styles.search}
         className="h-14 flex-row rounded-2xl border border-[#0D5175] items-center bg-white px-5"
       >
-        <Search size={18} color="#778888" />
+        <Search size={20} color="#778888" />
+        <Text className="ml-2 text-[16px] font-regular text-gray-500">Search a doctor or content</Text>
       </View>
+      <Text className="text-center text-[14px] font-regular">Contact your GP or doctors with whom you have an appointment here!</Text>
       <ChatList />
     </SafeAreaProvider>
   );

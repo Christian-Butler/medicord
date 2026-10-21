@@ -38,18 +38,7 @@ export default function MedicationFormContainer() {
     if (isEditing && medicationIdNumber) {
       await update({ id: medicationIdNumber, ...input });
     } else {
-      await create({
-        name: input.name,
-        no_specific_time: input.noSpecificTime ?? false,
-        no_specific_hour: input.noSpecificHour ?? false,
-        instructions: input.instructions ?? [],
-        hours: input.hours ?? [],
-        days_frequency: input.daysFrequency ?? [],
-        morning_intake: input.morningIntake ?? [],
-        noon_intake: input.noonIntake ?? [],
-        evening: input.eveningIntake ?? [],
-        frequency: input.frequency ?? null,
-      });
+      await create(input);
     }
     router.back();
   }
