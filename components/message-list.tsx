@@ -15,7 +15,7 @@ export default function MessageList({ doctorId }: { doctorId: string }) {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[15px] text-black">Loading...</Text>
+        <Text className="text-[16px] text-black">Loading...</Text>
       </View>
     );
   }
@@ -23,7 +23,7 @@ export default function MessageList({ doctorId }: { doctorId: string }) {
   if (error) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[15px] text-[#B42318]">{error}</Text>
+        <Text className="text-[16px] text-[#B42318]">{error}</Text>
       </View>
     );
   }
@@ -41,23 +41,20 @@ export default function MessageList({ doctorId }: { doctorId: string }) {
       }
       renderItem={({ item }) => (
         <View
-          className={`mx-4 my-1 max-w-[75%] rounded-2xl px-4 py-2 ${
-            item.sent_by === "user"
-              ? "self-end bg-[#5085A8]"
-              : "self-start bg-white"
-          }`}
+          className={`mx-4 my-1 max-w-[75%] rounded-2xl px-4 py-2 ${item.sent_by === "user"
+            ? "self-end bg-[#5085A8]"
+            : "self-start bg-white"
+            }`}
         >
           <Text
-            className={`text-[15px] ${
-              item.sent_by === "user" ? "text-white" : "text-black"
-            }`}
+            className={`text-[16px] ${item.sent_by === "user" ? "text-white" : "text-black"
+              }`}
           >
             {item.content}
           </Text>
           <Text
-            className={`mt-1 text-[11px] ${
-              item.sent_by === "user" ? "text-white/70" : "text-[#888]"
-            }`}
+            className={`mt-1 text-[12px] ${item.sent_by === "user" ? "text-white/70" : "text-[#888]"
+              }`}
           >
             {new Date(item.created_at).toLocaleTimeString([], {
               hour: "2-digit",

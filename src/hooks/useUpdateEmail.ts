@@ -1,5 +1,5 @@
-import { updateEmail } from "@/src/api/auth/api"
-import { useState } from "react"
+import { updateEmail } from "@/src/api/auth/api";
+import { useState } from "react";
 
 export function useUpdateEmail() {
     const [email, setEmail] = useState("")
@@ -21,7 +21,7 @@ export function useUpdateEmail() {
             setError(err instanceof Error ? err.message : "Failed to update email.");
             setEmail("");
         } finally {
-            setLoading(false); // ← make sure this is in finally not try
+            setLoading(false);
         }
     }
     return { email, setEmail, loading, error, showConfirmation, setShowConfirmation, handleUpdateEmail };

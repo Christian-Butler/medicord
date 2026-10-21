@@ -26,6 +26,9 @@ export type UpdateMedicationInput = {
   instructions?: string[];
   hours?: string[];
   daysFrequency?: string[];
+  morningIntake?: string[] | null;
+  noonIntake?: string[] | null;
+  eveningIntake?: string[] | null;
   monthsDuration?: number | null;
   weeksDuration?: number | null;
   daysDuration?: number | null;
@@ -103,6 +106,11 @@ export async function updateMedication(input: UpdateMedicationInput): Promise<Me
   if (input.instructions !== undefined) patch.instructions = input.instructions;
   if (input.hours !== undefined) patch.hours = input.hours;
   if (input.daysFrequency !== undefined) patch.days_frequency = input.daysFrequency;
+  if (input.morningIntake !== undefined) patch.morning_intake = input.morningIntake;
+  if (input.noonIntake !== undefined) patch.noon_intake = input.noonIntake;
+  if (input.eveningIntake !== undefined) patch.evening_intake = input.eveningIntake;
+  if (input.dateStart !== undefined) patch.date_start = input.dateStart;
+  if (input.dateEnd !== undefined) patch.date_end = input.dateEnd;
   if (input.monthsDuration !== undefined) patch.months_duration = input.monthsDuration;
   if (input.weeksDuration !== undefined) patch.weeks_duration = input.weeksDuration;
   if (input.daysDuration !== undefined) patch.days_duration = input.daysDuration;

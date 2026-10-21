@@ -1,8 +1,7 @@
 import {
     createMedication,
-    type CreateMedicationInput,
 } from "@/src/api/medications/api";
-import type { Medication } from "@/src/types/medicationTypes";
+import type { Medication, MedicationInput } from "@/src/types/medicationTypes";
 import { useCallback, useState } from "react";
 
 export function useCreateMedication() {
@@ -10,7 +9,7 @@ export function useCreateMedication() {
     const [createError, setCreateError] = useState<string | null>(null);
 
     const create = useCallback(
-        async (input: CreateMedicationInput): Promise<Medication> => {
+        async (input: MedicationInput): Promise<Medication> => {
             setCreating(true);
             setCreateError(null);
             try {
