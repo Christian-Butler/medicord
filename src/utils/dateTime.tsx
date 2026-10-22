@@ -4,7 +4,6 @@ export function pad(value: number) {
   return String(value).padStart(2, "0");
 }
 
-// Always "HH:MM" (24h), for logic rather than display.
 export function toTimeValue(value: string) {
   const date = new Date(value);
   return `${pad(date.getHours())}:${pad(date.getMinutes())}`;
@@ -79,14 +78,14 @@ export function formatDob(value: string | null) {
 export function formatAppointmentDateTime(startsAt: string) {
   const date = new Date(startsAt);
 
-  const datePart = date.toLocaleDateString("en-US", {
+  const datePart = date.toLocaleDateString("en-GB", {
     weekday: "short",
     month: "long",
     day: "numeric",
   });
 
   const timePart = date
-    .toLocaleTimeString("en-US", {
+    .toLocaleTimeString("en-UK", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: true,
@@ -97,9 +96,9 @@ export function formatAppointmentDateTime(startsAt: string) {
   return `${datePart} - ${timePart}`;
 }
 
-export function formatAppointmentDate(value: string) {
+export function formatAppointmentDate(value: string | null) {
   const deviceLanguage = getLocales()[0].languageCode;
-
+  if (!value) return null;
   if (deviceLanguage == "en") {
     return new Date(value).toLocaleDateString("en-GB", {
       weekday: "long",

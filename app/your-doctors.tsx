@@ -62,8 +62,8 @@ export default function YourDoctors() {
                   <View className="h-14 w-14 rounded-full bg-[#D7E8ED]" />
                 )}
                 <View className="ml-4">
-                  <Text className="text-[16px] font-bold text-black">{item.full_name}</Text>
-                  <Text className="text-[14px] text-[#555]">{t(`your-doctors.${item.specialty}`)}</Text>
+                  <Text className="text-[16px] font-medium text-black">{item.full_name}</Text>
+                  <Text className="text-[14px] text-gray-600">{t(`your-doctors.${item.specialty}`)}</Text>
                 </View>
               </View>
 

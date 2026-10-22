@@ -7,7 +7,8 @@ import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
 import { useDoctor } from "@/src/hooks/useDoctor";
 import {
     buildLocalIsoDateTime,
-    getMonthLabel,
+    formatAppointmentDate,
+    getMonthLabel
 } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
@@ -181,9 +182,9 @@ export default function Booking() {
                     </View>
                     <View className="flex-row pt-6 px-6 justify-center items-center">
                         <View>
-                            <Text className="font-regular text-[16px]">{t(`book-appointment.recap1`)}</Text>
+                            <Text className="font-regular text-[16px]">{t(`book-appointment.recap1`)} {formatAppointmentDate(selectedDate)} </Text>
                         </View>
-                        <Text className="font-regular text-[16px]">{t(`book-appointment.recap2`)}</Text>
+                        <Text className="font-regular text-[16px]">{t(`book-appointment.recap2`)}  {selectedTime}</Text>
                     </View>
                     <View
                         style={[
