@@ -1,3 +1,4 @@
+import {ensureNotificationPermission} from "@/src/libs/notifications"
 import type { Medication } from "@/src/types/medicationTypes";
 import * as Notifications from "expo-notifications";
 import { Alert } from "react-native";
@@ -22,13 +23,12 @@ export function useCreateAlarm() {
       setLoading(true);
       setError(null);
 
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
+     if (!(await ensureNotificationPermission())) {
         setError("Notification permission denied.");
         return;
       }
 
-      const hour = medication.hours?.[0] ?? 9;
+      const hour = parseInt(medication.hours?.[0] ?? "09:00", 10);
       const days = medication.days_frequency ?? [];
       const dayMap: Record<string, number> = {
         Sun: 1, Mon: 2, Tue: 3, Wed: 4, Thu: 5, Fri: 6, Sat: 7,

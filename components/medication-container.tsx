@@ -1,6 +1,7 @@
 import { useCreateAlarm } from "@/src/hooks/useCreateAlarm";
 import { useDeleteMedication } from "@/src/hooks/useDeleteMedication";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
+import { useAddMedicationToCalendar } from "@/src/hooks/useAddMedicationToCalendar";
 import { formatMedicationDuration } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
@@ -16,7 +17,7 @@ export default function MedicationContainer() {
   const { deleteById, deleting, deleteError } = useDeleteMedication(refetch);
 
   const { t } = useTranslation();
-
+  const { addToCalendar, adding } = useAddMedicationToCalendar();
   const { handleCreateAlarm } = useCreateAlarm();
 
   useFocusEffect(
@@ -157,7 +158,8 @@ export default function MedicationContainer() {
                   </View>
 
                   <View className="mt-8 flex-row items-center justify-between">
-                    <Pressable className="px-6 py-4 items-center justify-center rounded-[12px] border-[2px] border-[#0D5175] bg-white">
+                    <Pressable disabled={adding}
+                      onPress={() => addToCalendar(medication)} className="px-6 py-4 items-center justify-center rounded-[12px] border-[2px] border-[#0D5175] bg-white">
                       <Text className="text-[16px] font-medium text-[#0D5175]">
                         {t(`medication-container.calendar`)}
                       </Text>

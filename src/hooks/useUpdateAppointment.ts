@@ -2,6 +2,7 @@ import {
   updateAppointment,
   type UpdateAppointmentInput,
 } from "@/src/api/appointments/api";
+import { syncAppointmentCalendar } from "@/src/libs/appointmentCalendar";
 import type { Appointment } from "@/src/types/appointmentTypes";
 import { useCallback, useState } from "react";
 
@@ -16,6 +17,11 @@ export function useUpdateAppointment(refetch?: () => Promise<Appointment[]>) {
         setUpdateError(null);
 
         const row = await updateAppointment(input);
+
+        // keep the phone's calendar event and reminders in step (if it has any)
+        await syncAppointmentCalendar(row).catch((err) =>
+          console.warn("[useUpdateAppointment] calendar sync failed:", err)
+        );
 
         if (refetch) {
           await refetch();

@@ -2,6 +2,8 @@ import {
   updateMedication,
   type UpdateMedicationInput,
 } from "@/src/api/medications/api";
+import { syncMedicationCalendar } from "@/src/libs/medicationCalender";
+import { syncMedicationAlarms } from "@/src/libs/medicationAlarm"
 import type { Medication } from "@/src/types/medicationTypes";
 import { useCallback, useState } from "react";
 
@@ -16,7 +18,10 @@ export function useUpdateMedication(refetch?: () => Promise<Medication[]>) {
         setUpdateError(null);
 
         const row = await updateMedication(input);
-
+         await syncMedicationCalendar(row).catch((err) =>
+          console.warn("Calendar sync failed", err)
+         );
+        await syncMedicationAlarms(row).catch((err) => console.warn("Alarm sync failed", err));
         if (refetch) await refetch();
 
         return row;
