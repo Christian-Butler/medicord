@@ -1,5 +1,6 @@
 import CancelAppointmentOverlay from "@/components/cancel-appointment-overlay";
 import ScreenHeader from "@/components/screen-header";
+import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import { useAppointmentList } from "@/src/hooks/useAppointmentList";
 import { useCancelAppointment } from "@/src/hooks/useCancelAppointment";
 import type { Appointment } from "@/src/types/appointmentTypes";
@@ -39,9 +40,10 @@ type AppointmentRowProps = {
   appointment: Appointment;
   type: "upcoming" | "past";
   onModify?: () => void;
+  onAddToCalendar?: () => void;
 };
 
-function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
+function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: AppointmentRowProps) {
   const doctor = appointment.doctors;
   const doctorName = doctor?.full_name ?? "Unknown doctor";
   const specialty = doctor?.specialty ?? appointment.appointment_type ?? "";
@@ -90,7 +92,7 @@ function AppointmentRow({ appointment, type, onModify }: AppointmentRowProps) {
         <View className="flex-row">
           {type === "upcoming" ? (
             <>
-              <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]">
+              <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]" onPress={onAddToCalendar}>
                 <Text className="text-[16px] font-medium text-[#0D5175]">{t(`appointments.calendar`)}</Text>
               </Pressable>
 
@@ -120,6 +122,7 @@ export default function Appointments() {
   } = useAppointmentList();
 
   const { cancelById, cancelling, cancelError } = useCancelAppointment(refetch);
+  const { addToCalendar } = useAddAppointmentToCalendar();
 
   const [selectedAppointmentForAction, setSelectedAppointmentForAction] =
     useState<Appointment | null>(null);
@@ -190,6 +193,7 @@ export default function Appointments() {
             appointment={appointment}
             type="upcoming"
             onModify={() => setSelectedAppointmentForAction(appointment)}
+            onAddToCalendar={() => addToCalendar(appointment)}
           />
         ))}
 

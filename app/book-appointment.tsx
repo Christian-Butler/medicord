@@ -4,6 +4,8 @@ import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
+import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
+import type { Appointment } from "@/src/types/appointmentTypes";
 import { useDoctor } from "@/src/hooks/useDoctor";
 import {
     buildLocalIsoDateTime,
@@ -32,6 +34,8 @@ export default function Booking() {
     } = useDoctor(doctorId ? String(doctorId) : undefined);
 
     const { create, creating, createError } = useCreateAppointment();
+    const { addToCalendar } = useAddAppointmentToCalendar();
+    const [bookedAppointment, setBookedAppointment] = useState<Appointment | null>(null);
 
     const [isChecked, setChecked] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
@@ -93,6 +97,7 @@ export default function Booking() {
             console.log("[BookAppointment] create appointment input:", input);
 
             const created = await create(input);
+             setBookedAppointment(created);
 
             console.log("[BookAppointment] created appointment:", created);
 
@@ -208,7 +213,7 @@ export default function Booking() {
 
             <BookingSuccessOverlay
                 visible={showSuccessOverlay}
-                onAddToCalendar={() => { }}
+                onAddToCalendar={() => { if (bookedAppointment) addToCalendar(bookedAppointment); }}
                 onGoHome={() => {
                     setShowSuccessOverlay(false);
                     router.replace("/(tabs)");

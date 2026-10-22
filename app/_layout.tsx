@@ -1,5 +1,6 @@
 import { AuthProvider } from "@/src/context/AuthContext";
 import '@/src/libs/i18n';
+import '@/src/libs/notifications'
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
