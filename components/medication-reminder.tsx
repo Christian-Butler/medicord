@@ -147,7 +147,7 @@ export default function MedicationReminder() {
 
       <View className="items-center">
         {loading ? (
-          <Text className="mt-5 text-[15px] text-black">
+          <Text className="mt-5 text-[16px] text-black">
             {t(`medication-reminder.loading`)}
           </Text>
         ) : null}
@@ -237,8 +237,8 @@ export default function MedicationReminder() {
                             <Text className="text-[16px] font-semibold text-white">
                               {waitForNextIntake
                                 ? remainingMs > 24 * 60 * 60 * 1000
-                                  ? `Next reminder in ${daysRemaining} day${daysRemaining === 1 ? "" : "s"}`
-                                  : `Next intake in ${adjustCountdown(remainingMs)}`
+                                  ? `Next dose in ${daysRemaining} day${daysRemaining === 1 ? "" : "s"}`
+                                  : `Next dose in ${adjustCountdown(remainingMs)}`
                                 : t(`medication-reminder.confirm`)}
                             </Text>
                           </TouchableOpacity>
