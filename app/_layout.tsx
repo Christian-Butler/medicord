@@ -1,9 +1,12 @@
 import { AuthProvider } from "@/src/context/AuthContext";
 import '@/src/libs/i18n';
-import '@/src/libs/notifications'
+import '@/src/libs/notifications';
+import { clearExpiredMedicationAlarms } from "@/src/libs/medicationAlarms";
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
+import * as Notifications from 'expo-notifications';
+import { router, Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
@@ -15,7 +18,17 @@ export const unstable_settings = {
 };
 
 export default function RootLayout() {
+ useEffect(() => {
+    clearExpiredMedicationAlarms().catch(() => {});
+  }, []);
 
+  // Tapping one of our banners or reminders opens the notification centre.
+  useEffect(() => {
+    const subscription = Notifications.addNotificationResponseReceivedListener(() => {
+      router.push("/notifications");
+    });
+    return () => subscription.remove();
+  }, []);
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>

@@ -1,6 +1,6 @@
 import ScreenHeader from "@/components/screen-header";
 import { getCalendarLink, removeCalendarLink, saveCalendarLink } from "@/src/libs/calenderLinks";
-import { ensureNotificationPermission, type ReminderData } from "@/src/libs/notifications";
+import { clearNotificationsUnseen, ensureNotificationPermission, type ReminderData } from "@/src/libs/notifications";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import * as Notifications from "expo-notifications";
 import { useFocusEffect } from "expo-router";
@@ -61,9 +61,11 @@ export default function NotificationsScreen() {
     setScheduled(all);
   }, []);
 
+  // Opening the centre counts as having seen what's new, so the bell dot clears.
   useFocusEffect(
     useCallback(() => {
       loadScheduled();
+      clearNotificationsUnseen();
     }, [loadScheduled])
   );
 

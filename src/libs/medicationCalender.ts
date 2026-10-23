@@ -14,12 +14,15 @@ export const WEEKDAYS: Record<string, Calendar.DayOfTheWeek> = {
   Sun: Calendar.DayOfTheWeek.Sunday,
 };
 
-// What each time-of-day chip means on the calendar (start hour, end hour).
+// What each time-of-day chip means (start hour, end hour). Shared by the calendar, alarms and home countdown.
 const TIME_WINDOWS: Record<string, [number, number]> = {
   Morning: [8, 11],
   Noon: [12, 14],
-  Evening: [18, 21],
+  Evening: [19, 21],
 };
+
+// "No time window needed" defaults to the same hour as the home screen countdown.
+export const NO_TIME_HOUR = 8;
 
 export type Slot = { label: string | null; startHour: number; endHour: number } | "allDay";
 
@@ -42,7 +45,7 @@ export function readRoutine(medication: Medication) {
   return { days, windows, hours };
 }
 
-// Specific hours win, then time windows, otherwise one all-day event, mirroring the form.
+// Specific hours win, then time windows, otherwise one all-day slot, mirroring the form.
 export function slotsFor(medication: Medication): Slot[] {
   const { windows, hours } = readRoutine(medication);
   if (medication.no_specific_time) return ["allDay"];

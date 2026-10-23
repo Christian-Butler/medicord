@@ -20,6 +20,7 @@ export default function MedicationContainer() {
   const { addToCalendar, adding } = useAddMedicationToCalendar();
   const { handleCreateAlarm } = useCreateAlarm();
 
+
   useFocusEffect(
     useCallback(() => {
       refetch().catch(() => { });
