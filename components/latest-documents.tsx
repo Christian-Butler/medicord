@@ -1,5 +1,5 @@
 import { useLatestDocument } from "@/src/hooks/useLatestDocument";
-import { categoryLabel } from "@/src/libs/documentPicker";
+import { categoryLabel } from "@/src/libs/documentLabel";
 import { MaterialIcons } from "@expo/vector-icons";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { router, useFocusEffect } from "expo-router";

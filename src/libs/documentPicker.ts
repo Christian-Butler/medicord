@@ -1,3 +1,4 @@
+import { categoryLabel } from "@/src/libs/documentLabel";
 import i18n from "@/src/libs/i18n";
 import {
   ALLOWED_DOCUMENT_TYPES,
@@ -7,17 +8,6 @@ import {
 } from "@/src/types/documentTypes";
 import * as DocumentPicker from "expo-document-picker";
 import { ActionSheetIOS, Alert, Platform } from "react-native";
-
-export const CATEGORY_LABELS: Record<DocumentCategory, string> = {
-  prescription: "Prescription",
-  lab_result: "Lab result",
-  referral: "Referral",
-  other: "Other",
-};
-
-export function categoryLabel(category: DocumentCategory): string {
-  return i18n.t(`documents.${category}`, { defaultValue: CATEGORY_LABELS[category] });
-}
 
 // Asks what the document is before picking it, using the phone's own action sheet (no custom UI).
 // Resolves to null if the user cancels.
