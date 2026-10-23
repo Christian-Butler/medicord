@@ -1,4 +1,6 @@
 import { deleteMedication } from "@/src/api/medications/api";
+import { removeMedicationAlarms } from "@/src/libs/medicationAlarms";
+import { removeMedicationFromCalendar } from "@/src/libs/medicationCalender";
 import type { Medication } from "@/src/types/medicationTypes";
 import { useCallback, useState } from "react";
 
@@ -13,6 +15,14 @@ export function useDeleteMedication(refetch?: () => Promise<Medication[]>) {
         setDeleteError(null);
 
         await deleteMedication(id);
+
+        // Clean up anything this medication put on the phone.
+        await removeMedicationFromCalendar(id).catch((err) =>
+          console.warn("Calendar cleanup failed", err)
+        );
+        await removeMedicationAlarms(id).catch((err) =>
+          console.warn("Alarm cleanup failed", err)
+        );
 
         if (refetch) await refetch();
       } catch (err) {

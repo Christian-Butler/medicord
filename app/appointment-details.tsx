@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import {
   formatAppointmentDate,
@@ -33,6 +34,8 @@ export default function AppointmentDetails() {
     loading,
     error,
   } = useAppointment(appointmentId ? String(appointmentId) : undefined);
+
+   const { addToCalendar, adding } = useAddAppointmentToCalendar();
 
   const doctor = appointment?.doctors;
   const doctorName = doctor?.full_name ?? "Unknown doctor";
@@ -115,7 +118,8 @@ export default function AppointmentDetails() {
 
               <View className="mt-4 flex-row justify-between">
 
-                <Pressable style={styles.primaryButton}>
+                <Pressable style={styles.primaryButton} disabled={!appointment || adding}
+                  onPress={() => appointment && addToCalendar(appointment)}>
                   <MaterialIcons name="today" size={20} color="#fff" />
                   <Text style={styles.primaryButtonText}>
                     {t(`appointment-details.calendar`)}

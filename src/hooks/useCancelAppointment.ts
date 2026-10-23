@@ -1,4 +1,5 @@
 import { deleteAppointment } from "@/src/api/appointments/api";
+import { removeAppointmentFromCalendar } from "@/src/libs/appointmentCalendar";
 import type { Appointment } from "@/src/types/appointmentTypes";
 import { useCallback, useState } from "react";
 
@@ -13,6 +14,11 @@ export function useCancelAppointment(refetch?: () => Promise<Appointment[]>) {
         setCancelError(null);
 
         await deleteAppointment(id);
+
+        // remove its calendar event and reminders from this phone (if any)
+        await removeAppointmentFromCalendar(id).catch((err) =>
+          console.warn("[useCancelAppointment] calendar cleanup failed:", err)
+        );
 
         if (refetch) {
           await refetch();

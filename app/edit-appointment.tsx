@@ -5,6 +5,8 @@ import BookingSuccessOverlay from "@/components/success-booking";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useUpdateAppointment } from "@/src/hooks/useUpdateAppointment";
+import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
+import type { Appointment } from "@/src/types/appointmentTypes";
 import {
   buildLocalIsoDateTime,
   toLocalIsoDate,
@@ -33,6 +35,8 @@ export default function EditAppointment() {
     loading,
     error: appointmentError,
   } = useAppointment(appointmentId ? String(appointmentId) : undefined);
+  const { addToCalendar } = useAddAppointmentToCalendar();
+  const [updatedAppointment, setUpdatedAppointment] = useState<Appointment | null>(null);
 
   const { update, updating, updateError } = useUpdateAppointment();
 
@@ -94,12 +98,12 @@ export default function EditAppointment() {
         new Date(startsAt).getTime() + 30 * 60 * 1000
       ).toISOString();
 
-      await update({
+      const updated = await update({
         id: String(appointmentId),
         startsAt,
         endsAt,
       });
-
+     setUpdatedAppointment(updated);
       setShowSuccessOverlay(true);
     } catch (err) {
       console.error("[EditAppointment] update failed:", err);
@@ -193,7 +197,7 @@ export default function EditAppointment() {
 
       <BookingSuccessOverlay
         visible={showSuccessOverlay}
-        onAddToCalendar={() => { }}
+        onAddToCalendar={() => {if (updatedAppointment) addToCalendar(updatedAppointment); }}
         onGoHome={() => {
           setShowSuccessOverlay(false);
           router.replace("/(tabs)");

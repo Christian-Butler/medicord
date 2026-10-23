@@ -1,77 +1,53 @@
+import { getCalendarLink } from "@/src/libs/calenderLinks";
+import { createMedicationAlarms } from "@/src/libs/medicationAlarms";
+import { ensureNotificationPermission, showBanner } from "@/src/libs/notifications";
 import type { Medication } from "@/src/types/medicationTypes";
-import * as Notifications from "expo-notifications";
+import { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Alert } from "react-native";
-import { useState } from "react";
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
 
 export function useCreateAlarm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useTranslation();
 
-  async function handleCreateAlarm(medication: Medication) {
-    try {
+  const fail = useCallback(
+    (message: string) => {
+      setError(message);
+      Alert.alert(t("alarm.failedTitle", "Couldn't set alarm"), message);
+    },
+    [t]
+  );
+
+  const handleCreateAlarm = useCallback(
+    async (medication: Medication) => {
       setLoading(true);
       setError(null);
-
-      const { status } = await Notifications.requestPermissionsAsync();
-      if (status !== "granted") {
-        setError("Notification permission denied.");
-        return;
-      }
-
-      const hour = medication.hours?.[0] ?? 9;
-      const days = medication.days_frequency ?? [];
-      const dayMap: Record<string, number> = {
-        Sun: 1, Mon: 2, Tue: 3, Wed: 4, Thu: 5, Fri: 6, Sat: 7,
-      };
-
-      if (days.length === 0) {
-        await Notifications.scheduleNotificationAsync({
-          content: {
-            title: `Take ${medication.name ?? "medication"}`,
-            body: medication.instructions?.join(", ") ?? "Time to take your medication.",
-            sound: true,
-          },
-          trigger: {
-            type: Notifications.SchedulableTriggerInputTypes.DAILY,
-            hour,
-            minute: 0,
-          },
-        });
-      } else {
-        for (const day of days) {
-          await Notifications.scheduleNotificationAsync({
-            content: {
-              title: `Take ${medication.name ?? "medication"}`,
-              body: medication.instructions?.join(", ") ?? "Time to take your medication.",
-              sound: true,
-            },
-            trigger: {
-              type: Notifications.SchedulableTriggerInputTypes.WEEKLY,
-              weekday: dayMap[day],
-              hour,
-              minute: 0,
-            },
-          });
+      try {
+        // Error prevention: these need reading before carrying on, so they stay as popups.
+        if (await getCalendarLink("medication-alarm", medication.id)) {
+          Alert.alert(t("alarm.alreadySet", "Alarm already set"));
+          return;
         }
-      }
+        if (!(await ensureNotificationPermission())) {
+          fail(t("alarm.permissionOff", "Notifications are off. You can turn them on in Settings."));
+          return;
+        }
 
-      Alert.alert("Alarm Created", "Your medication reminder has been set.", [{ text: "OK" }]);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create alarm.");
-    } finally {
-      setLoading(false);
-    }
-  }
+        // Success is a banner, the same kind the reminders arrive as. Tapping it opens the notification centre.
+        const schedule = await createMedicationAlarms(medication);
+        await showBanner(
+          t("alarm.createdFor", { defaultValue: "Alarm set for {{name}}", name: medication.name ?? "" }),
+          schedule
+        );
+      } catch (err) {
+        fail(err instanceof Error ? err.message : t("alarm.failed", "Something went wrong. Please try again."));
+      } finally {
+        setLoading(false);
+      }
+    },
+    [t, fail]
+  );
 
   return { handleCreateAlarm, loading, error };
 }
