@@ -1,11 +1,12 @@
-import { SafeAreaView } from "react-native-safe-area-context";
-import { ScrollView, View } from "react-native";
-import ProfileHeader from "@/components/header-profile";
 import DoctorCarousel from "@/components/doctor-carousel";
-import UpcomingAppointments from "@/components/upcoming-appointments";
 import FindDoctor from "@/components/find-doctor";
-import MedicationReminder from "@/components/medication-reminder";
+import ProfileHeader from "@/components/header-profile";
 import LatestDocuments from "@/components/latest-documents";
+import MedicationReminder from "@/components/medication-reminder";
+import UpcomingAppointments from "@/components/upcoming-appointments";
+import React from "react";
+import { ScrollView, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   return (

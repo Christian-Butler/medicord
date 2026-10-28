@@ -49,7 +49,7 @@ export function useRegister() {
         await uploadAvatar(data.user.id, avatarUri);
       }
 
-      router.replace("/(tabs)");
+      router.replace("/onboarding");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create account.");
     } finally {
