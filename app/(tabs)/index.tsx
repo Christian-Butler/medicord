@@ -4,14 +4,18 @@ import ProfileHeader from "@/components/header-profile";
 import LatestDocuments from "@/components/latest-documents";
 import MedicationReminder from "@/components/medication-reminder";
 import UpcomingAppointments from "@/components/upcoming-appointments";
+import { Colors } from "@/constants/theme";
 import React from "react";
 import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Home() {
   return (
-    <View className="flex-1 bg-[#EEF9FB]">
-      <SafeAreaView edges={["top"]} className="bg-white">
+    <View style={{
+      backgroundColor: Colors.bg1
+    }}
+      className="flex-1">
+      <SafeAreaView edges={["top"]} style={{ backgroundColor: Colors.bg2 }}>
         <ProfileHeader />
       </SafeAreaView>
 

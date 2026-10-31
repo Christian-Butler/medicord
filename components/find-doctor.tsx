@@ -4,6 +4,7 @@ import { Search, Siren } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, Text, TextInput, View } from "react-native";
+import { Colors, Inputs, Sizes } from '../constants/theme';
 
 type DoctorSearchResult = {
   id: string;
@@ -50,30 +51,53 @@ export default function FindDoctor() {
     <View className="px-6 pt-6">
       {/* Title row */}
       <View className="mb-2 flex-row items-center justify-between">
-        <Text className="text-3xl font-semibold text-[#000000]">
+        <Text style={{
+          fontWeight: 500,
+          fontSize: Sizes.h1,
+          color: Colors.text,
+        }}>
           {t(`find-doctor.find`)}
         </Text>
 
-        <Pressable className="h-14 w-20 items-center justify-center border-2 border-[#B10111] rounded-xl p-3 bg-white">
+        <Pressable className="h-14 w-20 items-center justify-center border border-[#d31f1f] rounded-xl bg-white">
           <Siren fill="#B10111" size={22} color="#B10111" />
         </Pressable>
       </View>
 
       {/* Search input */}
       <View className="mb-4">
-        <Text className="text-2xl font-regular text-gray-600">
+        <Text
+          style={{
+            fontWeight: 400,
+            fontSize: Sizes.h3,
+            color: Colors.textMuted,
+          }}
+        >
           {t(`find-doctor.name`)}
         </Text>
       </View>
 
-      <View className="h-14 items-center flex-row rounded-2xl border border-[#0D5175] bg-white px-4">
+      <View
+        style={{
+          backgroundColor: Colors.bg2,
+          borderColor: Colors.secondary,
+          borderRadius: Sizes.xs,
+          height: Inputs.normal.height,
+          paddingHorizontal: Sizes.p2,
+          borderWidth: Inputs.normal.width,
+        }}
+        className="items-center flex-row">
 
         <Search size={20} color="#7B8A91" />
 
         <TextInput
           placeholder={t(`find-doctor.search`)}
-          placeholderTextColor="#7B8A91"
-          className="mb-1 ml-2 text-lg text-black "
+          placeholderTextColor={Colors.textMuted}
+          style={{
+            fontSize: Sizes.paragraph,
+            color: Colors.text
+          }}
+          className=" ml-2"
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCapitalize="words"
@@ -116,8 +140,16 @@ export default function FindDoctor() {
               <View className="mr-3 h-12 w-12 rounded-full bg-[#7B8A91]" />
             )}
             <View>
-              <Text className="font-medium text-[16px] text-black">{doctor.full_name}</Text>
-              <Text className="text-[#7B8A91]">{t(`find-doctor.${doctor.specialty ?? "Doctor"}`)}</Text>
+              <Text style={{
+                fontWeight: 'medium',
+                fontSize: Sizes.paragraph,
+                color: Colors.text,
+              }}
+              >{doctor.full_name}</Text>
+              <Text
+                style={{
+                  color: Colors.textMuted,
+                }}>{t(`find-doctor.${doctor.specialty ?? "Doctor"}`)}</Text>
             </View>
           </Pressable>
         ))

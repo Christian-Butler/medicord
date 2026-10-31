@@ -4,6 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
+import { Colors, Icons, Sizes } from '../constants/theme';
 
 const specialties = [
   {
@@ -102,7 +103,12 @@ export default function DoctorSpecialtyCarousel() {
     <View>
 
       <View className="mt-6 ml-6">
-        <Text className="text-2xl font-regular text-zinc-600">
+        <Text
+          style={{
+            fontSize: Sizes.h3,
+            color: Colors.textMuted,
+            fontWeight: "regular"
+          }}>
           {t(`doctor-carousel.specialty`)}
         </Text>
       </View>
@@ -113,7 +119,8 @@ export default function DoctorSpecialtyCarousel() {
             {row.map((item) => (
               <Pressable
                 key={item.id}
-                className="w-1/4 items-center pb-6"
+                style={{ paddingBottom: Sizes.p1 }}
+                className="items-center"
                 onPress={() =>
                   router.push({
                     pathname: "/specialist-page",
@@ -123,12 +130,19 @@ export default function DoctorSpecialtyCarousel() {
                   })
                 }
               >
-                <View className="h-[70px] w-[70px] items-center justify-center rounded-[16px] bg-[white]">
+                <View
+                  style={{
+                    width: Sizes.boxW,
+                    height: Sizes.boxH,
+                    borderRadius: Sizes.sm,
+                    backgroundColor: Colors.bg2,
+                  }}
+                  className="items-center justify-center">
                   <SpecialtyIcon
                     icon={item.icon}
                     library={item.library}
-                    size={34}
-                    color="#09516D"
+                    size={Icons.normal.size}
+                    color={Colors.secondary}
                   />
                 </View>
 
@@ -136,7 +150,11 @@ export default function DoctorSpecialtyCarousel() {
                   numberOfLines={1}
                   adjustsFontSizeToFit
                   minimumFontScale={0.65}
-                  className="mt-2 w-[96px] text-center text-[14px] leading-[16px] text-black"
+                  style={{
+                    fontSize: Sizes.sm,
+                    color: Colors.text,
+                  }}
+                  className="mt-2 w-[96px] text-center leading-[16px]"
                 >
                   {t(`doctor-carousel.${item.title}`)}
                 </Text>

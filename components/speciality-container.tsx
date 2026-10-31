@@ -1,11 +1,12 @@
+import { Colors, Inputs, Sizes } from "@/constants/theme";
 import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
-import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
+import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Image,
@@ -45,23 +46,59 @@ function StarButton({ doctorId }: { doctorId: string }) {
 
 export default function SpecialityContainer({ specialty }: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [timedQuery, setTimedQuery] = useState("");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTimedQuery(searchQuery);
+    }, 250);
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
 
   const { slots: availabilityByDoctorId, error: availabilityError } =
     useNextAvailableSlots(doctors.map((doctor) => doctor.id));
 
   const { t } = useTranslation();
 
+  const querySpecialtyDoctors = useMemo(() => {
+    const trimmedSearchQuery = timedQuery.trim().toLowerCase();
+    if (!trimmedSearchQuery) return doctors;
+    return doctors.filter((doc) =>
+      doc.full_name?.toLowerCase().includes(trimmedSearchQuery)
+    );
+  }, [doctors, timedQuery]);
+
+
+
   return (
     <View>
       <View
-        style={styles.search}
-        className="h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-5"
+        style={{
+          backgroundColor: Colors.bg2,
+          borderColor: Colors.secondary,
+          borderRadius: Sizes.xs,
+          height: Inputs.normal.height,
+          marginHorizontal: Sizes.p2,
+          paddingHorizontal: Sizes.p2,
+          marginVertical: Sizes.p3,
+          borderWidth: Inputs.normal.width,
+        }}
+        className="flex-row items-center"
       >
         <Search size={18} color="#7B8A91" />
         <TextInput
           placeholder={t(`speciality-container.search`)}
-          placeholderTextColor="#7B8A91"
-          className="ml-4 flex-1 text-lg text-black"
+          placeholderTextColor={Colors.textMuted}
+          style={{
+            fontSize: Sizes.paragraph,
+            color: Colors.text
+          }}
+          className="mb-1 ml-2"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoCapitalize="words"
+          returnKeyType="search"
         />
       </View>
       <ScrollView>
@@ -72,8 +109,15 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
           <Text style={styles.statusText}>{t(`speciality-container.noDoctor`)}</Text>
         ) : null}
 
+        {!loading && !error && querySpecialtyDoctors.length === 0 ? (
+          <Text style={styles.statusText}>
+            {searchQuery.trim() ? t(`specialty-container.noDoctors`, "No doctors found matching your search.")
+              : t(`speciality-container.noDoctor`)}
+          </Text>
+        ) : null}
+
         <View style={styles.containerMain}>
-          {doctors.map((doctor, index) => {
+          {querySpecialtyDoctors.map((doctor) => {
             const closestDay =
               availabilityByDoctorId[doctor.id] ?? t(`speciality-container.availability`);
 
@@ -147,12 +191,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 }
 
 const styles = StyleSheet.create({
-  search: {
-    width: 380,
-    marginTop: 18,
-    marginBottom: 20,
-    alignSelf: "center",
-  },
+
   statusText: {
     alignSelf: "center",
     marginBottom: 12,

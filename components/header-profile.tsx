@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { useProfile } from "@/src/hooks/useProfile";
 import { hasUnseenNotifications } from "@/src/libs/notifications";
 import { router, useFocusEffect } from "expo-router";
@@ -19,37 +20,50 @@ export default function ProfileHeader() {
   );
 
   return (
-    <View className="bg-white">
-      <View className="flex-row items-center justify-between px-6 pb-6 pt-5">
+    <View style={{
+      backgroundColor: Colors.bg2,
+      borderBottomWidth: 1.5,
+      borderBottomColor: Colors.secondary
+    }}>
+      <View
+        style={{
+          paddingBottom: Sizes.p3,
+          paddingHorizontal: Sizes.p3
+
+        }}
+        className="flex-row items-center justify-between pt-5">
         <View className="flex-1 flex-row items-center">
           {avatarUrl ? (
             <Image
               source={{ uri: avatarUrl }}
-              style={{ height: 64, width: 64, borderRadius: 32 }}
+              style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.h1 }}
             />
           ) : (
-            <View style={{ height: 64, width: 64, borderRadius: 32, backgroundColor: '#D7E8ED' }} />
+            <View style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }} />
           )}
 
           <View className="ml-7 mr-4 flex-1">
             <Text
               numberOfLines={1}
               adjustsFontSizeToFit
-              className="text-[24px] font-normal text-black"
+              style={{
+                fontSize: Sizes.h2,
+                color: Colors.text
+              }}
             >
               {t(`header-profile.welcome`)}, {fullName}
             </Text>
           </View>
         </View>
 
-        <TouchableOpacity className="relative h-12 w-12 items-center justify-center rounded-full bg-[#0D5175]"
+        <TouchableOpacity
+          style={{ backgroundColor: Colors.secondary }}
+          className="relative h-12 w-12 items-center justify-center rounded-full bg-[#0D5175]"
           onPress={() => router.push({ pathname: "/notifications" })}>
-          <Bell size={26} color="white" />
+          <Bell size={Sizes.h2} color={Colors.bg2} />
           {unseen ? <View className="absolute -right-0 -top-1 h-4 w-4 rounded-full bg-[#E7BF3C]" /> : null}
         </TouchableOpacity>
       </View>
-
-      <View className="h-1 bg-[#09516D]" />
     </View>
   );
 }

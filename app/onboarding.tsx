@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import React from "react";
 import { Image, Text, View } from "react-native";
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { COLORS, SIZES } from '../constants/theme';
+import { Colors, Sizes } from '../constants/theme';
 
 const slides = [
     {
@@ -35,9 +35,9 @@ export default function OnboardingScreen() {
             }}>
                 <Text style={{
                     paddingRight: 12,
-                    color: COLORS.primary || "#5085A8",
+                    color: Colors.primary || "#5085A8",
                     fontWeight: 500,
-                    fontSize: SIZES.h4 || 16,
+                    fontSize: Sizes.h5 || 18,
                 }}>
                     {label}
                 </Text>
@@ -60,7 +60,7 @@ export default function OnboardingScreen() {
                             source={item.image}
                             style={{
                                 marginBottom: 25,
-                                width: SIZES.width - 80,
+                                width: Sizes.width - 80,
                                 height: 150,
                             }}
                             resizeMode="contain"
@@ -68,7 +68,7 @@ export default function OnboardingScreen() {
                         <Text style={{
                             fontWeight: 500,
                             color: 'black',
-                            fontSize: SIZES.h1,
+                            fontSize: Sizes.h1,
                         }}>
                             {item.title}
                         </Text>
@@ -77,7 +77,7 @@ export default function OnboardingScreen() {
                                 textAlign: 'center',
                                 fontWeight: 400,
                                 color: 'black',
-                                fontSize: SIZES.h4,
+                                fontSize: Sizes.h4,
                                 paddingTop: 14
                             }}>
                             {item.description}
@@ -86,7 +86,7 @@ export default function OnboardingScreen() {
                 )
             }}
             activeDotStyle={{
-                backgroundColor: COLORS.primary,
+                backgroundColor: Colors.primary,
                 width: 30,
             }}
             renderNextButton={() => buttonLabel("Next")}
