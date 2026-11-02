@@ -16,9 +16,11 @@ export const Colors = {
   primary: '#5085A8',
   secondary: '#0D5175',
   text: '#11181C',
-  textMuted: '#7B8A91',
+  textMuted: '#67757c',
   success: '#17A633',
-  warning: '#e7b709',
+  successMuted: '#a2e5b0',
+  info: '#e7bf3c',
+  infoMuted: '#FFE9A8',
   error: '#B10111',
   delete: '#d31f1f',
   edit: '#8A3F00',
@@ -49,11 +51,13 @@ export const Sizes = {
   h5: 18,
   paragraph: 16,
   sm: 14,
-  xs: 12,
   imgNm: 64,
-  imgApt: 58,
-  boxW: 70,
-  boxH: 70,
+  imgApt: 56,
+  IconNml: 34,
+  IconLg: 46,
+  IconXL: 64,
+  BtnP: 50,
+  boxS: 70,
   p0: 4,
   p1: 6,
   p2: 10,
@@ -63,71 +67,17 @@ export const Sizes = {
 }
 
 export const Buttons = {
-  primary: {
-    background: Colors.primary,
-    textColor: '#fff',
-    borderRadius: 14,
-    height: 50,
-  },
-  secondary: {
-    textColor: Colors.secondary,
-    borderWidth: 2,
-    borderColor: Colors.secondary,
-    borderRadius: 12,
-  },
-  tertiary: {
-    textColor: Colors.primary,
-  },
-  primaryVariant: {
-    background: Colors.success,
-    textColor: '#fff',
-    borderRadius: 14,
-    height: 50,
-  },
-  secondaryVariant: {
-  },
-  delete: {
-
-  },
-  deleteVariant: {
-    icon: Colors.delete,
-    background: '#fff',
-    radius: 14,
-  }
-}
-
-export const Icons = {
-  normal: {
-    size: 34
-  },
-  small: {
-
-  },
-  large: {
-
-  },
-  extraLarge: {
-
-  },
-  warning: {
-    icon: 'red',
-  },
-  modify: {
-
-  }
+  imgW: 40,
+  height: 50,
+  w0: 1,
+  w1: 1.5,
+  w2: 2
 }
 
 export const Inputs = {
-  normal: {
-    height: 50,
-    width: 1,
-  },
-  small: {
-
-  },
-  large: {
-
-  }
+  height: 50,
+  w0: 1,
+  w1: 2,
 }
 
 

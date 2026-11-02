@@ -36,7 +36,7 @@ export default function ProfileHeader() {
           {avatarUrl ? (
             <Image
               source={{ uri: avatarUrl }}
-              style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.h1 }}
+              style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.imgNm }}
             />
           ) : (
             <View style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }} />
@@ -57,11 +57,21 @@ export default function ProfileHeader() {
         </View>
 
         <TouchableOpacity
-          style={{ backgroundColor: Colors.secondary }}
-          className="relative h-12 w-12 items-center justify-center rounded-full bg-[#0D5175]"
+          style={{
+            backgroundColor: Colors.secondary,
+            height: Sizes.IconLg,
+            width: Sizes.IconLg,
+          }}
+          className="relative items-center justify-center rounded-full bg-[#0D5175]"
           onPress={() => router.push({ pathname: "/notifications" })}>
           <Bell size={Sizes.h2} color={Colors.bg2} />
-          {unseen ? <View className="absolute -right-0 -top-1 h-4 w-4 rounded-full bg-[#E7BF3C]" /> : null}
+          {unseen ? <View
+            style={{
+              backgroundColor: Colors.info,
+              height: Sizes.p0,
+              width: Sizes.p0,
+            }}
+            className="absolute -right-0 -top-1 rounded-full" /> : null}
         </TouchableOpacity>
       </View>
     </View>

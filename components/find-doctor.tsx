@@ -4,7 +4,7 @@ import { Search, Siren } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Image, Pressable, Text, TextInput, View } from "react-native";
-import { Colors, Inputs, Sizes } from '../constants/theme';
+import { Buttons, Colors, Inputs, Sizes } from '../constants/theme';
 
 type DoctorSearchResult = {
   id: string;
@@ -60,7 +60,7 @@ export default function FindDoctor() {
         </Text>
 
         <Pressable className="h-14 w-20 items-center justify-center border border-[#d31f1f] rounded-xl bg-white">
-          <Siren fill="#B10111" size={22} color="#B10111" />
+          <Siren fill="#B10111" size={Sizes.h3} color={Colors.delete} />
         </Pressable>
       </View>
 
@@ -81,10 +81,10 @@ export default function FindDoctor() {
         style={{
           backgroundColor: Colors.bg2,
           borderColor: Colors.secondary,
-          borderRadius: Sizes.xs,
-          height: Inputs.normal.height,
+          borderRadius: Sizes.p3,
+          height: Inputs.height,
           paddingHorizontal: Sizes.p2,
-          borderWidth: Inputs.normal.width,
+          borderWidth: Inputs.w0,
         }}
         className="items-center flex-row">
 
@@ -119,7 +119,13 @@ export default function FindDoctor() {
         doctors.map((doctor) => (
           <Pressable
             key={doctor.id}
-            className="flex-row items-center rounded-xl bg-white my-2 py-4 px-2"
+            style={{
+              borderRadius: Sizes.p3,
+              paddingVertical: Sizes.p3,
+              paddingHorizontal: Sizes.p2,
+              backgroundColor: Colors.bg2
+            }}
+            className="flex-row items-center my-2"
             onPress={() =>
               router.push({
                 pathname: "/doctor-details",
@@ -134,10 +140,20 @@ export default function FindDoctor() {
             {doctor.avatar_url ? (
               <Image
                 source={{ uri: doctor.avatar_url }}
-                className="mr-3 h-12 w-12 rounded-full"
+                style={{
+                  height: Buttons.imgW,
+                  width: Buttons.imgW
+                }}
+                className="mr-3 rounded-full"
               />
             ) : (
-              <View className="mr-3 h-12 w-12 rounded-full bg-[#7B8A91]" />
+              <View
+                style={{
+                  height: Buttons.imgW,
+                  width: Buttons.imgW,
+                  backgroundColor: Colors.textMuted
+                }}
+                className="mr-3 rounded-full" />
             )}
             <View>
               <Text style={{

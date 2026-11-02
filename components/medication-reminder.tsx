@@ -1,6 +1,5 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
-import { NO_TIME_HOUR, slotsFor } from "@/src/libs/medicationCalender";
-import type { Medication } from "@/src/types/medicationTypes";
 import { formatMedicationDuration, formatMedicationInstructions } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -144,36 +143,76 @@ export default function MedicationReminder() {
   const { t } = useTranslation();
 
   return (
-    <View className="pt-8">
-      <Text className="ml-6 text-[24px] font-normal text-black">{t(`medication-reminder.medication`)}</Text>
+    <View style={{ paddingTop: Sizes.h3 }}>
+      <Text
+        style={{
+          fontSize: Sizes.h2,
+          fontWeight: "medium",
+          color: Colors.text,
+          marginLeft: Sizes.h5,
+          marginBottom: Sizes.p0,
+        }}>{t(`medication-reminder.medication`)}</Text>
 
       <View className="items-center">
         {loading ? (
-          <Text className="mt-5 text-[16px] text-black">
+          <Text
+            style={{
+              fontSize: Sizes.paragraph,
+              color: Colors.text,
+              marginTop: Sizes.p1
+            }}>
             {t(`medication-reminder.loading`)}
           </Text>
         ) : null}
 
         {error ? (
-          <Text className="mt-5 text-[15px] text-[#B42318]">{t(`medication-reminder.${error}`)}</Text>
+          <Text
+            style={{
+              fontSize: Sizes.paragraph,
+              color: Colors.error,
+              marginTop: Sizes.p1
+            }} >{t(`medication-reminder.${error}`)}</Text>
         ) : null}
 
         {!loading && !error && sortedMedications.length === 0 ? (
           <TouchableOpacity
             onPress={() => router.push("/medication-formpage")}
-            className="mt-8 px-24 h-[50px] flex-row items-center self-center justify-center rounded-2xl bg-[#5085A8]"
+            style={{
+              backgroundColor: Colors.primary,
+              height: Sizes.BtnP,
+              borderRadius: Sizes.p3,
+              paddingHorizontal: Sizes.h2 - 2,
+              marginTop: Sizes.p1 + 2,
+            }}
+            className="flex-row items-center self-center justify-center"
           >
-            <Plus size={20} color="white" />
-            <Text className="ml-2 text-[16px] font-medium text-[#white]" />
+            <Plus size={Sizes.h4} color={Colors.bg2} />
+            <Text style={{
+              marginLeft: Sizes.p0 - 2,
+              color: Colors.bg2,
+              fontSize: Sizes.paragraph
+            }} className="font-medium" />
 
-            <Text className="text-[16px] font-medium text-[white]">
+            <Text
+              style={{
+                fontSize: Sizes.paragraph,
+                color: Colors.bg2
+              }}
+              className="font-medium">
               {t(`medication-reminder.addRoutine`)}
             </Text>
           </TouchableOpacity>
         ) : null}
 
         {!loading && !error && sortedMedications.length > 0 ? (
-          <View className="mt-5 bg-[white] py-4 px-2 rounded-2xl">
+          <View
+            style={{
+              backgroundColor: Colors.bg2,
+              borderRadius: Sizes.p3,
+              paddingHorizontal: Sizes.p2,
+              paddingVertical: Sizes.h5,
+              marginTop: Sizes.p1,
+            }}>
             <View style={{ width: cardWidth, overflow: "hidden" }}>
               <FlatList
                 horizontal
@@ -208,23 +247,52 @@ export default function MedicationReminder() {
                             onPress={() => router.push("/medications")}
                             className="flex-row items-center"
                           >
-                            <MaterialIcons name="medication" size={42} color="#075B7A" />
+                            <MaterialIcons name="medication" size={Sizes.IconLg} color="#075B7A" />
                             <View className="flex-1 ml-2">
-                              <Text className="text-[18px] font-medium text-black">
+                              <Text
+                                style={{
+                                  fontSize: Sizes.h5,
+                                  color: Colors.text
+                                }}
+                                className="font-medium">
                                 {item.name ?? "Unnamed medication"}
                               </Text>
-                              <Text className="mt-1 text-[14px] font-regular text-gray-600">
+                              <Text
+                                style={{
+                                  fontSize: Sizes.sm,
+                                  color: Colors.textMuted
+                                }}
+                                className="mt-2">
                                 {formatMedicationDuration(
                                 )}
                               </Text>
-                              <Text className="mt-1 text-[14px] font-regular text-gray-600">
+                              <Text
+                                style={{
+                                  fontSize: Sizes.sm,
+                                  color: Colors.textMuted
+                                }}
+                                className="mt-1">
                                 {formatMedicationInstructions(
                                   item.instructions,
                                 )}
                               </Text>
                             </View>
-                            <View className="mx-2 py-2 px-4 rounded-[12px] border-[2px] border-[#D3A000] bg-[#FFE9A8]">
-                              <Text className="text-[14px] font-medium text-[black]">
+                            <View
+                              style={{
+                                borderRadius: Sizes.p3,
+                                paddingHorizontal: Sizes.p2,
+                                borderWidth: Sizes.p0 - 2,
+                                borderColor: Colors.info,
+                                paddingVertical: Sizes.p2,
+                                backgroundColor: Colors.infoMuted
+                              }}
+                              className="mx-2">
+                              <Text
+                                style={{
+                                  fontSize: Sizes.sm,
+                                  color: Colors.text
+                                }}
+                                className="font-medium">
                                 {t(`medication-reminder.reminder`)}
                               </Text>
                             </View>
@@ -234,9 +302,19 @@ export default function MedicationReminder() {
                           <TouchableOpacity
                             onPress={() => confirmMedication(item.id).catch(() => { })}
                             disabled={!confirmationsLoaded || waitForNextIntake}
-                            className={`mx-2 mt-5 h-[50px] items-center justify-center rounded-[12px] ${waitForNextIntake || !confirmationsLoaded ? "bg-[#8A9BA3]" : "bg-[#5085A8]"}`}
+                            style={{
+                              height: Sizes.BtnP,
+                              marginTop: Sizes.p1,
+                              borderRadius: Sizes.p3,
+                            }}
+                            className={`mx-2 items-center justify-center ${waitForNextIntake || !confirmationsLoaded ? "bg-[#7B8A91]" : "bg-[#5085A8]"}`}
                           >
-                            <Text className="text-[16px] font-semibold text-white">
+                            <Text
+                              style={{
+                                fontSize: Sizes.paragraph,
+                                color: Colors.bg2
+                              }}
+                              className="font-semibold">
                               {waitForNextIntake
                                 ? remainingMs > 24 * 60 * 60 * 1000
                                   ? `Next dose in ${daysRemaining} day${daysRemaining === 1 ? "" : "s"}`

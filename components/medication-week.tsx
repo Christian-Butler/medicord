@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
@@ -35,36 +36,36 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 20,
-        marginBottom: 12,
+        fontSize: Sizes.h4,
+        marginBottom: Sizes.p3,
         fontWeight: '500'
     },
     daysContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        gap: 10,
-        marginBottom: 28,
+        gap: Sizes.p2,
+        marginBottom: Sizes.h2,
     },
     dayButton: {
-        height: 44,
-        width: 44,
+        height: Sizes.IconLg,
+        width: Sizes.IconLg,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
-        backgroundColor: '#fff',
-        borderWidth: 2,
-        borderColor: '#326F95'
+        borderRadius: Sizes.p2,
+        backgroundColor: Colors.bg2,
+        borderWidth: Buttons.w1,
+        borderColor: Colors.primary
     },
     dayButtonSelected: {
-        backgroundColor: '#326F95'
+        backgroundColor: Colors.primary
     },
     textLight: {
-        color: '#fff',
+        color: Colors.bg2,
         fontWeight: 'medium'
     },
     text: {
-        color: '#326F95',
+        color: Colors.primary,
         fontWeight: '500',
     },
 })

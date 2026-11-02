@@ -1,5 +1,6 @@
 import ScreenHeader from "@/components/screen-header";
 import SpecialityContainer from "@/components/speciality-container";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -14,7 +15,11 @@ export default function SpecialistPage() {
 
   if (!specialty) {
     return (
-      <View className="flex-1 items-center justify-center bg-[#EEF9FB]">
+      <View
+        style={{
+          backgroundColor: Colors.bg1
+        }}
+        className="flex-1 items-center justify-center">
         <Text>{t(`book-appointment.missing`)}</Text>
       </View>
     );
@@ -34,31 +39,31 @@ export default function SpecialistPage() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: "#EEF9FB",
+    backgroundColor: Colors.bg1,
   },
   header: {
     height: 110,
-    backgroundColor: "#fff",
-    borderBottomWidth: 2,
-    borderBottomColor: "#0D5175",
+    backgroundColor: Colors.bg2,
+    borderBottomWidth: Buttons.w1,
+    borderBottomColor: Colors.secondary,
     flexDirection: "row",
     alignItems: "center",
-    paddingTop: 28,
-    paddingHorizontal: 22,
+    paddingTop: Sizes.h2,
+    paddingHorizontal: Sizes.h3,
   },
   backButton: {
-    width: 44,
+    width: Sizes.IconLg - 2,
     alignItems: "flex-start",
     justifyContent: "center",
   },
   headerTitle: {
     flex: 1,
     textAlign: "center",
-    fontSize: 24,
+    fontSize: Sizes.h3,
     fontWeight: "400",
-    color: "#000",
+    color: Colors.text,
   },
   headerSpacer: {
-    width: 44,
+    width: Sizes.IconLg - 2,
   },
 });

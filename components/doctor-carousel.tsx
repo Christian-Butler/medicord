@@ -4,7 +4,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
-import { Colors, Icons, Sizes } from '../constants/theme';
+import { Colors, Sizes } from '../constants/theme';
 
 const specialties = [
   {
@@ -102,7 +102,11 @@ export default function DoctorSpecialtyCarousel() {
   return (
     <View>
 
-      <View className="mt-6 ml-6">
+      <View
+        style={{
+          marginTop: Sizes.paragraph,
+          marginLeft: Sizes.paragraph
+        }}>
         <Text
           style={{
             fontSize: Sizes.h3,
@@ -132,8 +136,8 @@ export default function DoctorSpecialtyCarousel() {
               >
                 <View
                   style={{
-                    width: Sizes.boxW,
-                    height: Sizes.boxH,
+                    width: Sizes.boxS,
+                    height: Sizes.boxS,
                     borderRadius: Sizes.sm,
                     backgroundColor: Colors.bg2,
                   }}
@@ -141,7 +145,7 @@ export default function DoctorSpecialtyCarousel() {
                   <SpecialtyIcon
                     icon={item.icon}
                     library={item.library}
-                    size={Icons.normal.size}
+                    size={Sizes.IconNml}
                     color={Colors.secondary}
                   />
                 </View>
@@ -153,8 +157,9 @@ export default function DoctorSpecialtyCarousel() {
                   style={{
                     fontSize: Sizes.sm,
                     color: Colors.text,
+                    marginTop: Sizes.p0
                   }}
-                  className="mt-2 w-[96px] text-center leading-[16px]"
+                  className="w-[96px] text-center leading-[16px]"
                 >
                   {t(`doctor-carousel.${item.title}`)}
                 </Text>

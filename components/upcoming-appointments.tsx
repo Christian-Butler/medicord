@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useAppointmentList } from "@/src/hooks/useAppointmentList";
 import { formatAppointmentDateTime } from "@/src/utils/dateTime";
 import { router } from "expo-router";
@@ -156,37 +157,37 @@ export default function UpcomingAppointments() {
 
 const styles = StyleSheet.create({
   section: {
-    marginTop: 18,
+    marginTop: Sizes.h3,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "400",
-    color: "#000",
-    marginLeft: 16,
-    marginBottom: 18,
+    fontSize: Sizes.h2,
+    fontWeight: "medium",
+    color: Colors.text,
+    marginLeft: Sizes.paragraph,
+    marginBottom: Sizes.h5,
   },
   carouselContent: {
-    paddingLeft: 18,
+    paddingLeft: Sizes.h5,
   },
   card: {
     minHeight: 134,
-    borderRadius: 18,
-    backgroundColor: "white",
-    paddingHorizontal: 18,
-    paddingTop: 18,
-    paddingBottom: 22,
+    borderRadius: Sizes.h5,
+    backgroundColor: Colors.bg2,
+    paddingHorizontal: Sizes.h5,
+    paddingTop: Sizes.h5,
+    paddingBottom: Sizes.h3,
   },
   topRow: {
     flexDirection: "row",
     alignItems: "center",
   },
   avatarWrapper: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    width: Sizes.imgApt,
+    height: Sizes.imgApt,
+    borderRadius: Sizes.h2,
     overflow: "hidden",
-    backgroundColor: "#D7E8ED",
-    marginRight: 10,
+    backgroundColor: Colors.bg1,
+    marginRight: Sizes.p2,
   },
   avatar: {
     width: "100%",
@@ -196,64 +197,64 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   doctorName: {
-    fontSize: 18,
+    fontSize: Sizes.h5,
     fontWeight: "500",
-    color: "#000",
+    color: Colors.text,
   },
   doctorSpecialty: {
-    fontSize: 16,
+    fontSize: Sizes.paragraph,
     fontWeight: "400",
-    color: "#000",
-    marginTop: 2,
+    color: Colors.text,
+    marginTop: Buttons.w2,
   },
   datePill: {
-    height: 38,
-    borderRadius: 12,
-    backgroundColor: "#0D5A7C",
+    height: Sizes.IconNml - 4,
+    borderRadius: Sizes.p3,
+    backgroundColor: Colors.secondary,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 12,
-    paddingHorizontal: 16,
+    marginTop: Sizes.p3,
+    paddingHorizontal: Sizes.paragraph,
   },
   dateText: {
-    color: "#fff",
-    fontSize: 16,
+    color: Colors.bg2,
+    fontSize: Sizes.paragraph,
     fontWeight: "500",
   },
   statusText: {
-    marginLeft: 10,
-    color: "#333",
-    fontSize: 14,
+    marginLeft: Sizes.p2,
+    color: Colors.text,
+    fontSize: Sizes.sm,
   },
   errorText: {
-    marginLeft: 10,
-    color: "#B42318",
-    fontSize: 15,
+    marginLeft: Sizes.p2,
+    color: Colors.error,
+    fontSize: Sizes.paragraph,
   },
   emptyCard: {
-    minHeight: 30,
-    marginTop: 20,
-    marginLeft: 20
+    minHeight: Sizes.h1,
+    marginTop: Sizes.h4,
+    marginLeft: Sizes.h4
   },
   emptyText: {
-    fontSize: 16,
-    color: "#333",
+    fontSize: Sizes.paragraph,
+    color: Colors.text,
   },
   dotsContainer: {
-    marginTop: 16,
+    marginTop: Sizes.paragraph,
     flexDirection: "row",
     justifyContent: "center",
   },
   dot: {
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
+    height: Sizes.p1 + 2,
+    borderRadius: Sizes.p0,
+    marginHorizontal: Sizes.p0,
   },
   dotActive: {
-    width: 22,
+    width: Sizes.h3,
   },
   dotInactive: {
-    width: 8,
-    backgroundColor: "white",
+    width: Sizes.p1 + 2,
+    backgroundColor: Colors.bg2,
   },
 });
