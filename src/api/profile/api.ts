@@ -1,3 +1,4 @@
+import type {Gp} from "@/src/types/gpTypes"
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 import { supabase } from "@/supabase/supabase";
 
@@ -8,12 +9,7 @@ export type Profile = {
   phone: string | null;
   date_of_birth: string | null;
   avatar_url: string | null;
-  gp: {
-    id: string;
-    full_name: string;
-    practice_name: string | null;
-    practice_location: string | null;
-  } | null;
+  gp: Gp | null;
 };
 
 const profileSelect = `
@@ -27,7 +23,9 @@ const profileSelect = `
     id,
     full_name,
     practice_name,
-    practice_location
+    practice_location,
+    phone,
+    email
   )
 `;
 
@@ -42,6 +40,17 @@ export async function getMyProfile(userId: string): Promise<Profile> {
   if (!data) throw new Error(`No profile found for user ${userId}`);
 
   return data as unknown as Profile;
+}
+
+export async function updateGp(gpId: string) {
+  const userId = await getCurrentAppUserId();
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({ gp_id: gpId })
+    .eq("id", userId);
+
+  if (error) throw error;
 }
 
 export async function updatePhone(newPhone: string) {

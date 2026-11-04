@@ -1,5 +1,6 @@
 import ScreenHeader from "@/components/screen-header";
 import SpecialityContainer from "@/components/speciality-container";
+import GpContainer from "@/components/gp-container";
 import { useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -26,7 +27,12 @@ export default function SpecialistPage() {
   return (
     <ScrollView style={styles.page}>
       <ScreenHeader title={t(`book-appointment.${specialtyTitle}`)} />
-      <SpecialityContainer specialty={String(specialty)} />
+      {/* GPs are gatekeepers, not bookable specialists, so the GP card gets its own list on the same route. */}
+      {specialtyTitle === "GP" ? (
+        <GpContainer />
+      ) : (
+        <SpecialityContainer specialty={String(specialty)} />
+      )}
     </ScrollView>
   );
 }

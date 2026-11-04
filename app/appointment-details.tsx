@@ -118,6 +118,48 @@ export default function AppointmentDetails() {
 
               <View className="mt-4 flex-row justify-between">
 
+                <Pressable style={styles.callButton}>
+                <MaterialIcons name="phone" size={18} color="#0D5175" />
+                <Text style={styles.callButtonText}>{t(`Message`)}</Text>
+              </Pressable>
+
+              
+             <Pressable style={styles.callButton}>
+                <MaterialIcons name="phone" size={18} color="#0D5175" />
+                <Text style={styles.callButtonText}>{t(`appointment-details.Message`)}</Text>
+              </Pressable>
+
+              <Pressable
+                style={styles.messageButton}
+                accessibilityRole="button"
+                onPress={() => router.push("/messages")}
+              >
+                <MaterialIcons name="chat-bubble-outline" size={18} color="#0D5175" />
+                <Text style={styles.callButtonText}>{t(`appointment-details.message`)}</Text>
+              </Pressable>
+
+
+              </View>
+
+            </View>
+
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>{t(`appointment-details.where`)}</Text>
+
+              <Text className="text-[16px] font-regular mb-6">{t(`appointment-details.${location}`)}</Text>
+
+              <Pressable style={styles.outlineButton}>
+                <MaterialIcons name="place" size={20} color="#0D5175" />
+                <Text style={styles.outlineButtonText}>{t(`appointment-details.map`)}</Text>
+              </Pressable>
+            </View>
+
+                        <View style={styles.section}>
+         
+
+
+              <View className="mt-4 flex-row justify-between">
+
                 <Pressable style={styles.primaryButton} disabled={!appointment || adding}
                   onPress={() => appointment && addToCalendar(appointment)}>
                   <MaterialIcons name="today" size={20} color="#fff" />
@@ -144,38 +186,16 @@ export default function AppointmentDetails() {
                   </Text>
                 </Pressable>
 
-
-
               </View>
 
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t(`appointment-details.where`)}</Text>
-
-              <Text className="text-[16px] font-regular mb-6">{t(`appointment-details.${location}`)}</Text>
-
-              <Pressable style={styles.outlineButton}>
-                <MaterialIcons name="place" size={20} color="#0D5175" />
-                <Text style={styles.outlineButtonText}>{t(`appointment-details.map`)}</Text>
-              </Pressable>
+            
+             
             </View>
 
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t(`appointment-details.who`)}</Text>
-
-              <Text className="text-[16px] mb-2">
-                {t(`appointment-details.number`)}
-              </Text>
-              <Text className="text-[16px] mb-6">
-                01 678 9123
-              </Text>
-
-              <Pressable style={styles.callButton}>
-                <MaterialIcons name="phone" size={18} color="#0D5175" />
-                <Text style={styles.callButtonText}>{t(`appointment-details.call`)}</Text>
-              </Pressable>
-            </View>
+           
           </>
         ) : null}
       </ScrollView>
@@ -363,5 +383,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "500",
     color: "#0D5175",
+  },
+    messageButton: {
+    height: 50,
+    width: "100%",
+    marginTop: 12,
+    borderRadius: 12,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    gap: 8,
   },
 });

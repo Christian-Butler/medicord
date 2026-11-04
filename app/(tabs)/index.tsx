@@ -2,6 +2,7 @@ import DoctorCarousel from "@/components/doctor-carousel";
 import FindDoctor from "@/components/find-doctor";
 import ProfileHeader from "@/components/header-profile";
 import LatestDocuments from "@/components/latest-documents";
+import LockedSection from "@/components/locked-section";
 import MedicationReminder from "@/components/medication-reminder";
 import UpcomingAppointments from "@/components/upcoming-appointments";
 import React from "react";
@@ -21,11 +22,15 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-1">
-          <FindDoctor />
+          <LockedSection>
+            <FindDoctor />
+          </LockedSection>
           <DoctorCarousel />
-          <UpcomingAppointments />
-          <MedicationReminder />
-          <LatestDocuments />
+          <LockedSection>
+            <UpcomingAppointments />
+            <MedicationReminder />
+            <LatestDocuments />
+          </LockedSection>
         </View>
       </ScrollView>
     </View>
