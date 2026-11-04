@@ -8,7 +8,7 @@ type SlotRow = {
 
 // Next free slot for each doctor, as a display label (doctor list).
 export async function getNextAvailableSlots(
-  doctorIds: string[]
+  doctorIds: string[],
 ): Promise<Record<string, string>> {
   if (doctorIds.length === 0) return {};
 
@@ -29,7 +29,7 @@ export async function getNextAvailableSlots(
 // Free times ("HH:MM") for one doctor on one date (booking picker).
 export async function getAvailableTimes(
   doctorId: string,
-  date: string
+  date: string,
 ): Promise<string[]> {
   const { data, error } = await supabase.rpc("get_available_slots", {
     p_doctor_ids: [doctorId],

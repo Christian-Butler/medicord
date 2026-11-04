@@ -44,15 +44,48 @@ export async function getMessages(doctorId: string): Promise<Message[]> {
   return data ?? [];
 }
 
-// One row per doctor: the latest message in each conversation (worked out in the database).
 export async function getConversations(): Promise<Conversation[]> {
-  const { data, error } = await supabase
-    .rpc("get_conversations")
-    .select(`${messageSelect}, doctors(id, full_name, avatar_url, specialty)`)
-    .order("created_at", { ascending: false });
+  const userId = await getCurrentAppUserId();
 
-  if (error) throw new Error(`Failed to fetch conversations: ${error.message}`);
-  return (data ?? []) as unknown as Conversation[];
+  const [conversationsResult, appointmentsResult] = await Promise.all([
+    supabase
+      .rpc("get_conversations")
+      .select(`${messageSelect}, doctors(id, full_name, avatar_url, specialty)`)
+      .order("created_at", { ascending: false }),
+    supabase
+      .from("appointments")
+      .select("doctor_id, doctors(id, full_name, avatar_url, specialty)")
+      .eq("user_id", userId),
+  ]);
+
+  if (conversationsResult.error) {
+    throw new Error(`Failed to fetch conversations: ${conversationsResult.error.message}`);
+  }
+  if (appointmentsResult.error) {
+    throw new Error(`Failed to fetch conversations: ${appointmentsResult.error.message}`);
+  }
+
+  const conversations = (conversationsResult.data ?? []) as unknown as Conversation[];
+  const listedDoctorIds = new Set(conversations.map((conversation) => conversation.doctor_id));
+
+  const newConversations: Conversation[] = [];
+  for (const appointment of (appointmentsResult.data ?? []) as any[]) {
+    if (!appointment.doctor_id || listedDoctorIds.has(appointment.doctor_id)) continue;
+    listedDoctorIds.add(appointment.doctor_id);
+
+    newConversations.push({
+      id: `new-${appointment.doctor_id}`,
+      created_at: "",
+      sender_id: userId,
+      doctor_id: appointment.doctor_id,
+      content: "",
+      is_read: true,
+      sent_by: "user",
+      doctors: appointment.doctors,
+    });
+  }
+
+  return [...conversations, ...newConversations];
 }
 
 export async function sendMessage(doctorId: string, content: string): Promise<Message> {
