@@ -118,8 +118,22 @@ export default function UpcomingAppointments() {
                     params: { appointmentId: item.id },
                   })
                 }>
-                  <View className="mt-6 border-2 border-[#0D5175] rounded-2xl px-8 py-4">
-                    <Text className="font-medium color-[#0D5175] text-[16px]">Reschedule</Text>
+                  <View
+                    style={{
+                      marginTop: Sizes.p3,
+                      backgroundColor: Colors.bg2,
+                      borderColor: Colors.secondary,
+                      borderWidth: Buttons.w2,
+                      paddingHorizontal: Sizes.paragraph,
+                      paddingVertical: Sizes.p3,
+                      borderRadius: Sizes.p3
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: Sizes.paragraph,
+                        color: Colors.secondary
+                      }}
+                      className="font-medium">Reschedule</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() =>
@@ -128,8 +142,23 @@ export default function UpcomingAppointments() {
                     params: { appointmentId: item.id },
                   })
                 }>
-                  <View className="mt-6 bg-[#5085A8] border-2 border-[#5085A8] px-8 py-4 rounded-2xl">
-                    <Text className="color-[white] font-medium text-[16px]">Check details</Text>
+                  <View
+                    style={{
+                      marginTop: Sizes.p3,
+                      backgroundColor: Colors.primary,
+                      borderColor: Colors.primary,
+                      borderWidth: Buttons.w2,
+                      paddingHorizontal: Sizes.paragraph,
+                      paddingVertical: Sizes.p3,
+                      borderRadius: Sizes.p3
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: Sizes.paragraph,
+                        color: Colors.bg2
+                      }}
+                      className="font-medium">Check details</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -208,8 +237,8 @@ const styles = StyleSheet.create({
     marginTop: Buttons.w2,
   },
   datePill: {
-    height: Sizes.IconNml - 4,
-    borderRadius: Sizes.p3,
+    height: Sizes.IconLg,
+    borderRadius: Sizes.h1,
     backgroundColor: Colors.secondary,
     alignItems: "center",
     justifyContent: "center",

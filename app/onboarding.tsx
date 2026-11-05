@@ -35,9 +35,9 @@ export default function OnboardingScreen() {
             }}>
                 <Text style={{
                     paddingRight: Sizes.p3,
-                    color: Colors.primary || "#5085A8",
+                    color: Colors.primary,
                     fontWeight: 500,
-                    fontSize: Sizes.h5 || 18,
+                    fontSize: Sizes.h5,
                 }}>
                     {label}
                 </Text>

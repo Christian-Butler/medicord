@@ -1,3 +1,4 @@
+import { toLocalDay } from "@/src/libs/medicationCalender";
 import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Check, ChevronDown, Plus } from "lucide-react-native";
@@ -75,8 +76,8 @@ export default function MedicationForm({
     setNoonIntake(medication.noon_intake ?? []);
     setEveningIntake(medication.evening_intake ?? []);
     setNoSpecificTime(medication.no_specific_time ?? false);
-    setDateStart(medication.date_start ?? new Date());
-    setDateEnd(medication.date_end ?? new Date());
+    setDateStart(toLocalDay(medication.date_start ?? new Date()));
+    setDateEnd(toLocalDay(medication.date_end ?? new Date()));
     setFrequency((medication.frequency as MedicationFrequency) ?? null);
     setHours(medication.hours ?? []);
     setShowHourSelector((medication.hours ?? []).length > 0);
@@ -156,7 +157,13 @@ export default function MedicationForm({
 
   const visibleError = localError ?? error;
 
-  const confirm = Boolean(name && selectedDays && dateStart && dateEnd && frequency);
+  const confirm = Boolean(
+    name.trim() &&
+    selectedDays.some((day) => weekDays.includes(day)) &&
+    dateStart &&
+    dateEnd &&
+    frequency
+  );
 
   return (
     <View className="mx-6 pb-16 pt-8">

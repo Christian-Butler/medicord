@@ -64,14 +64,13 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
       <View style={styles.appointmentContent}>
         <View className="flex-row">
           <Image source={{ uri: avatar }} style={styles.avatar} />
+
           <View
-            style={{
-              paddingHorizontal: Buttons.w2,
-            }}
             className="flex-1 flex-row justify-between">
             <View
               style={{
                 marginBottom: Sizes.p0,
+                maxWidth: 182
               }}
             >
               <Text
@@ -106,7 +105,9 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
                 className="font-regular">{location}</Text>
             </View>
             <Pressable
-              className=""
+              style={{
+                marginRight: Sizes.p2
+              }}
               onPress={() =>
                 router.push({
                   pathname: "/appointment-details",
@@ -119,15 +120,14 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
               <Text
                 style={{
                   color: Colors.primary,
-                  fontSize: Sizes.paragraph
+                  fontSize: Sizes.paragraph,
                 }}
                 className="font-medium">{t(`appointments.details`)}</Text>
             </Pressable>
           </View>
-
         </View>
 
-        <View className="flex-row">
+        <View className="flex-row justify-between">
           {type === "upcoming" ? (
             <>
               <Pressable
@@ -137,7 +137,7 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
                   borderColor: Colors.secondary,
                   borderWidth: Buttons.w1,
                   borderRadius: Sizes.p3,
-                  paddingHorizontal: Sizes.p3,
+                  paddingHorizontal: Sizes.h2,
                   paddingVertical: Buttons.w2,
                   marginRight: Sizes.paragraph,
                 }}
@@ -153,9 +153,9 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
               <Pressable
                 style={{
                   height: Buttons.height,
-                  paddingHorizontal: Sizes.h4,
+                  paddingHorizontal: Sizes.h2,
                   paddingVertical: Buttons.w2,
-                  borderRadius: Sizes.sm,
+                  borderRadius: Sizes.p3,
                   backgroundColor: Colors.primary
                 }}
                 className="self-end items-center justify-center" onPress={onModify}>
@@ -171,9 +171,9 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
             <Pressable
               style={{
                 height: Buttons.height,
-                paddingHorizontal: Sizes.h4,
+                paddingHorizontal: Sizes.h2,
                 paddingVertical: Buttons.w2,
-                borderRadius: Sizes.sm,
+                borderRadius: Sizes.p3,
                 backgroundColor: Colors.primary
               }}
               className="self-end items-center justify-center">

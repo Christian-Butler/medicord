@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useDeleteDocument } from "@/src/hooks/useDeleteDocument";
 import { useDocuments } from "@/src/hooks/useDocuments";
 import { useOpenDocument } from "@/src/hooks/useOpenDocument";
@@ -119,62 +120,80 @@ export default function Documents() {
 
     return (
 
-        <View className="flex-1 bg-[#EEF9FB]">
+        <View
+            style={{ backgroundColor: Colors.bg1 }}
+            className="flex-1">
 
             <ScrollView className="flex-1">
 
                 <ScreenHeader title='Documents' />
 
+                <View
+                    style={{ margin: Sizes.h5, paddingBottom: Sizes.h2 }}>
 
-                <View className="m-6 pb-24">
-
-                    <View className="pt-4">
-                        <Text className="text-xl">You’re the only one having access to the files and able to manage them.</Text>
+                    <View style={{ paddingTop: Sizes.p2, paddingBottom: Sizes.p2 }}>
+                        <Text style={{ fontSize: Sizes.paragraph }}>You’re the only one having access to the files and able to manage them.</Text>
                     </View>
 
                     {!loading && documents.length === 0 ? (
-                        <Text className="pt-6 text-[#3C4D4D]">
+                        <Text
+                            style={{ paddingTop: Sizes.p2, color: Colors.textMuted }}
+                        >
                             {t("documents.empty", "No documents yet. Add a prescription, lab result or referral to keep it here.")}
                         </Text>
                     ) : null}
 
                     {years.map(([year, yearDocuments]) => (
                         <View key={year}>
-                            <View className="pt-6 justify-between flex-row items-center">
-                                <Text>{year} </Text>
-                                <View className="w-80 h-0.5 bg-[#BEC9CA] rounded-full self-endline" />
+                            <View
+                                style={{ paddingTop: Sizes.paragraph }}
+                                className="justify-between flex-row items-center">
+                                <Text
+                                    style={{ fontSize: Sizes.h5 }}
+                                >{year} </Text>
+                                <View
+                                    style={{ width: Sizes.width - 100, backgroundColor: Colors.textMuted }}
+                                    className="h-0.5 rounded-full self-endline" />
                             </View>
 
                             {yearDocuments.map((document) => (
-                                <View key={document.id} className="flex-1 pt-6 flex-row items-center" >
+                                <View key={document.id} style={{ paddingTop: Sizes.h4 }}
+                                    className="flex-1 flex-row items-center" >
                                     <TouchableOpacity
                                         className="flex-1 flex-row items-center"
                                         accessibilityRole="button"
                                         disabled={openingId === document.id}
                                         onPress={() => open(document)}
                                     >
-                                        <MaterialIcons name={CATEGORY_ICONS[document.category]} size={44} color="#0D5175" />
-                                        <View className="pl-4 flex-1">
+                                        <MaterialIcons name={CATEGORY_ICONS[document.category]} size={Sizes.IconLg} color={Colors.secondary} />
+                                        <View
+                                            style={{ paddingLeft: Sizes.p1 }}
+                                            className="flex-1">
                                             <Text numberOfLines={1}>{document.title}</Text>
-                                            <View className="flex-row items-center  pt-2">
-                                                <Text className="text-[#3C4D4D]">
+                                            <View
+                                                style={{ paddingTop: Sizes.p1 }}
+                                                className="flex-row items-center">
+                                                <Text style={{ color: Colors.textMuted }}>
                                                     {document.doctors?.full_name ?? categoryLabel(document.category)}{" "}
                                                 </Text>
-                                                <MaterialIcons name="circle" size={6} color="#3C4D4D" />
-                                                <Text className="text-[#3C4D4D]"> {formatDate(document.created_at)}</Text>
+                                                <MaterialIcons name="circle" size={Sizes.p1} color={Colors.textMuted} />
+                                                <Text style={{ color: Colors.textMuted }}> {formatDate(document.created_at)}</Text>
                                             </View>
                                         </View>
                                     </TouchableOpacity>
 
-                                    <View className="self-center pl-4">
+                                    <View
+                                        style={{ paddingLeft: Sizes.paragraph }}
+                                        className="self-center">
                                         <TouchableOpacity
-                                            className="justify-center p-1 border-2 border-[#0D5175] items-center rounded-full"
+                                            style={{ borderWidth: Buttons.w2, borderColor: Colors.secondary }}
+                                            className="justify-center p-1 items-center rounded-full"
                                             accessibilityRole="button"
                                             accessibilityLabel={t("documents.options", "Document options")}
                                             disabled={sharingId === document.id}
                                             onPress={() => showOptions(document)}
                                         >
-                                            <MaterialIcons name="more-horiz" size={18} color="#0D5175" ></MaterialIcons>
+                                            <MaterialIcons name="more-horiz" size={Sizes.h5} color={Colors.secondary} ></MaterialIcons>
                                         </TouchableOpacity>
                                     </View>
                                 </View>
@@ -187,12 +206,27 @@ export default function Documents() {
 
             </ScrollView>
 
-            <TouchableOpacity className="absolute bottom-8 self-center flex-row px-5 mdc-fab flex-row bg-[#5085A8] h-14 items-center rounded-2xl elevation-5 shadow-md"
+            <TouchableOpacity
+                style={{ backgroundColor: Colors.primary, height: Buttons.height, paddingHorizontal: Sizes.h5, borderRadius: Sizes.p3 }}
+                className="absolute bottom-16 self-center flex-row mdc-fab flex-row items-center elevation-5 shadow-md"
                 accessibilityRole="button"
                 disabled={uploading}
                 onPress={handleAddDocument}>
-                <MaterialIcons className="border-2 rounded-full p-1 items-center border-[#fff]" name="add" color="#fff" />
-                <Text className="text-[#fff] font-medium ml-2">Add a document</Text>
+                <MaterialIcons
+                    style={{
+                        borderColor: Colors.bg2,
+                        borderWidth: Buttons.w2,
+                        paddingHorizontal: Sizes.p0,
+                        paddingVertical: Sizes.p0
+                    }}
+                    className="rounded-full items-center " name="add" color={Colors.bg2} />
+                <Text
+                    style={{
+                        fontSize: Sizes.paragraph,
+                        color: Colors.bg2,
+                        marginLeft: Sizes.p2
+                    }}
+                    className="font-medium">Add a document</Text>
             </TouchableOpacity>
 
         </View>

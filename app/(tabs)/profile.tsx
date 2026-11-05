@@ -64,7 +64,11 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 
 function SectionTitle({ title }: { title: string }) {
   return (
-    <View className="pl-6 pt-7">
+    <View
+      style={{
+        paddingLeft: Sizes.paragraph,
+        paddingTop: Sizes.h5
+      }}>
       <Text
         style={{
           fontSize: Sizes.h4,
@@ -105,9 +109,10 @@ export default function ProfilePage() {
           paddingBottom: Sizes.paragraph,
           borderBottomWidth: Buttons.w1,
           backgroundColor: Colors.bg2,
-          borderBottomColor: Colors.secondary
+          borderBottomColor: Colors.secondary,
+          height: Sizes.boxS
         }}
-        className="h-[72px] justify-end">
+        className="justify-end">
         <Text
           style={{
             fontSize: Sizes.h3,
@@ -133,9 +138,12 @@ export default function ProfilePage() {
           }}
           className="border-b">
           <Pressable onPress={handleEditAvatar}>
-            <View className="relative items-center pb-8 pt-9">
+            <View
+              style={{ paddingBottom: Sizes.h4, paddingTop: Sizes.h4 }}
+              className="relative items-center">
 
-              <View className="absolute right-6 top-6 flex-row items-center">
+              <View
+                className="absolute right-6 top-6 flex-row items-center">
                 <MaterialIcons name="edit" size={Sizes.paragraph} color={Colors.edit} />
                 <Text
                   style={{
@@ -149,13 +157,13 @@ export default function ProfilePage() {
                 <Image
                   key={avatarUrl}
                   source={{ uri: `${avatarUrl}?t=${Date.now()}` }}
-                  style={{ height: 74, width: 74, borderRadius: Sizes.IconLg }}
+                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.IconLg }}
                   onLoad={() => console.log('[ProfilePage] image loaded')}
                   onError={(e) => console.log('[ProfilePage] image error:', e.nativeEvent.error)}
                 />
               ) : (
                 <View
-                  style={{ height: 74, width: 74, borderRadius: 30, backgroundColor: '#D7E8ED' }}
+                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }}
                 />
 
               )}
@@ -165,8 +173,7 @@ export default function ProfilePage() {
                   fontSize: Sizes.paragraph,
                   color: Colors.text,
                   marginTop: Buttons.w2
-                }}
-                className="mt-2">{fullName}</Text>
+                }}>{fullName}</Text>
               <Text
                 style={{
                   fontSize: Sizes.paragraph,

@@ -1,6 +1,7 @@
-import { Colors, Sizes } from "@/constants/theme";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
-import { formatMedicationDuration, formatMedicationInstructions } from "@/src/utils/medicationFormat";
+import { readRoutine } from "@/src/libs/medicationCalender";
+import { formatMedicationDuration, formatMedicationInstructions, getMedicationDaysRemaining } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
@@ -101,6 +102,20 @@ export default function MedicationReminder() {
     () => [...medications].sort((a, b) => a.id - b.id),
     [medications]
   );
+  const activeMedications = useMemo(
+    () => sortedMedications.filter((medication) =>
+      medication.date_end
+        ? getMedicationDaysRemaining(medication.date_end, new Date(now)) > 0
+        : false
+    ),
+    [now, sortedMedications]
+  );
+
+  useEffect(() => {
+    setActiveIndex((current) =>
+      Math.min(current, Math.max(activeMedications.length - 1, 0))
+    );
+  }, [activeMedications.length]);
 
   useEffect(() => {
     let mounted = true;
@@ -136,7 +151,7 @@ export default function MedicationReminder() {
     const nextIndex = Math.round(offsetX / cardWidth);
 
     setActiveIndex(
-      Math.max(0, Math.min(nextIndex, sortedMedications.length - 1))
+      Math.max(0, Math.min(nextIndex, activeMedications.length - 1))
     );
   }
 
@@ -174,15 +189,16 @@ export default function MedicationReminder() {
             }} >{t(`medication-reminder.${error}`)}</Text>
         ) : null}
 
-        {!loading && !error && sortedMedications.length === 0 ? (
+        {!loading && !error && activeMedications.length === 0 ? (
           <TouchableOpacity
             onPress={() => router.push("/medication-formpage")}
             style={{
               backgroundColor: Colors.primary,
-              height: Sizes.BtnP,
+              height: Buttons.height,
+              width: Sizes.width - 30,
               borderRadius: Sizes.p3,
               paddingHorizontal: Sizes.h2 - 2,
-              marginTop: Sizes.p1 + 2,
+              marginTop: Sizes.h4,
             }}
             className="flex-row items-center self-center justify-center"
           >
@@ -204,7 +220,7 @@ export default function MedicationReminder() {
           </TouchableOpacity>
         ) : null}
 
-        {!loading && !error && sortedMedications.length > 0 ? (
+        {!loading && !error && activeMedications.length > 0 ? (
           <View
             style={{
               backgroundColor: Colors.bg2,
@@ -218,7 +234,7 @@ export default function MedicationReminder() {
                 horizontal
                 pagingEnabled
                 showsHorizontalScrollIndicator={false}
-                data={sortedMedications}
+                data={activeMedications}
                 keyExtractor={(item) => String(item.id)}
                 onMomentumScrollEnd={handleScroll}
                 snapToInterval={cardWidth}
@@ -229,6 +245,10 @@ export default function MedicationReminder() {
                 renderItem={({ item }) => (
                   <View style={{ width: cardWidth }}>
                     {(() => {
+                      const { days, windows, hours } = readRoutine(item);
+                      const selectedWindows = item.no_specific_time ? [] : windows;
+                      const selectedHours = item.no_specific_time ? [] : hours;
+                      const instructions = (item.instructions ?? []).filter(Boolean);
                       const confirmedAt = confirmations[item.id];
                       const nextIntake = confirmedAt
                         ? getNextIntakeTime(
@@ -264,18 +284,33 @@ export default function MedicationReminder() {
                                 }}
                                 className="mt-2">
                                 {formatMedicationDuration(
+                                  item.date_start ?? new Date(),
+                                  item.date_end ?? new Date()
                                 )}
                               </Text>
-                              <Text
-                                style={{
-                                  fontSize: Sizes.sm,
-                                  color: Colors.textMuted
-                                }}
-                                className="mt-1">
-                                {formatMedicationInstructions(
-                                  item.instructions,
-                                )}
+                              {days.length > 0 ? (
+                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
+                                  {days.map((day) => t(`medication-reminder.${day}`)).join(", ")}
+                                </Text>
+                              ) : null}
+                              <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
+                                {item.frequency ? t(`medication-reminder.${item.frequency}`) : ""}
                               </Text>
+                              {selectedWindows.length > 0 ? (
+                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
+                                  {selectedWindows.map((window) => t(`medication-reminder.${window}`)).join(", ")}
+                                </Text>
+                              ) : null}
+                              {selectedHours.length > 0 ? (
+                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
+                                  {selectedHours.join(", ")}
+                                </Text>
+                              ) : null}
+                              {instructions.length > 0 ? (
+                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
+                                  {formatMedicationInstructions(instructions)}
+                                </Text>
+                              ) : null}
                             </View>
                             <View
                               style={{
@@ -329,10 +364,9 @@ export default function MedicationReminder() {
                 )}
               />
             </View>
-
-            {sortedMedications.length > 1 ? (
+            {activeMedications.length > 1 ? (
               <View className="mt-4 flex-row justify-center">
-                {sortedMedications.map((medication, index) => (
+                {activeMedications.map((medication, index) => (
                   <View
                     key={medication.id}
                     className={`mx-1 h-[8px] rounded-full ${index === activeIndex
