@@ -104,11 +104,10 @@ export default function MedicationContainer() {
                 className="flex-row items-start">
 
                 <View
-                  style={{ marginTop: Sizes.p2 }}
+                  style={{ marginTop: Sizes.paragraph }}
                   className="flex-1">
                   <View className="flex-row items-center justify-between">
-                    <MaterialIcons name="medication" size={Sizes.IconLg} color={Colors.secondary} />
-                    <View className="">
+                    <View style={{ marginLeft: Sizes.p1 }}>
                       <Text
                         style={{ fontSize: Sizes.h4, color: Colors.text }}
                         className="font-medium">
@@ -151,63 +150,82 @@ export default function MedicationContainer() {
                     </View>
                   </View>
 
-                  <Text
-                    style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1, fontSize: Sizes.paragraph, color: Colors.text }}
-                    className="font-medium">
-                    {t(`medication-container.duration`)}
-                  </Text>
-
-                  <Text
-                    style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1, fontSize: Sizes.paragraph, color: Colors.textMuted }}
-                    className="font-regular">
-                    {duration}
-                  </Text>
-
-                  {days.length > 0 ? (
-                    <View
-                      style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1 }}
-                      className="flex-row flex-wrap gap-2">
-                      {days.map((day) => (
-                        <View
-                          key={day}
-                          style={{ height: Buttons.imgW, borderRadius: Sizes.p2, borderWidth: Buttons.w1, borderColor: Colors.secondary, paddingHorizontal: Sizes.p1 }}
-                          className="min-w-[42px] items-center justify-center bg-[#0D5175]"
-                        >
-                          <Text
-                            style={{ fontSize: Sizes.sm }}
-                            className="font-medium text-white"
-                          >
-                            {t(`medication-container.${day}`)}
-                          </Text>
-                        </View>
-                      ))}
-                    </View>
-                  ) : null}
-
-                  <Text style={{ marginLeft: Sizes.p1, marginTop: Sizes.p2, fontSize: Sizes.paragraph, color: Colors.text }}>
-                    {medication.frequency ? t(`medication-container.${medication.frequency}`) : ""}
-                  </Text>
-
-                  {selectedWindows.length > 0 ? (
-                    <Text style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1, fontSize: Sizes.paragraph, color: Colors.text }}>
-                      {selectedWindows.map((window) => t(`medication-container.${window}`)).join(", ")}
-                    </Text>
-                  ) : null}
-
-                  {selectedHours.length > 0 ? (
-                    <Text style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1, fontSize: Sizes.paragraph, color: Colors.text }}>
-                      {selectedHours.join(", ")}
-                    </Text>
-                  ) : null}
-
-                  {instructions.length > 0 ? (
-                    <Text style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1, fontSize: Sizes.paragraph, color: Colors.text }}>
-                      {instructions.join("\n")}
-                    </Text>
-                  ) : null}
-
                   <View
-                    style={{ marginTop: Sizes.h2 }}
+                    style={{ marginTop: Sizes.p0 }}
+                    className="flex-row">
+                    <View>
+                      <Text
+                        style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1, fontSize: Sizes.paragraph, color: Colors.textMuted }}
+                        className="font-regular">
+                        {duration}
+                      </Text>
+
+                      {days.length > 0 ? (
+                        <View
+                          style={{ marginLeft: Sizes.p1, marginTop: Sizes.p1 }}
+                          className="flex-row flex-wrap gap-2">
+                          {days.map((day) => (
+                            <View
+                              key={day}
+                              style={{ height: Sizes.h4, borderRadius: Sizes.p2, borderWidth: Buttons.w1, borderColor: Colors.secondary, paddingHorizontal: Sizes.p1 }}
+                              className="min-w-[40px] items-center justify-center bg-[#0D5175]"
+                            >
+                              <Text
+                                style={{ fontSize: Sizes.sm }}
+                                className="font-medium text-white"
+                              >
+                                {t(`medication-container.${day}`)}
+                              </Text>
+                            </View>
+                          ))}
+                        </View>
+                      ) : null}
+
+                      <View
+                        style={{ marginTop: Sizes.p1 }}
+                        className="flex-row">
+                        <Text style={{ marginLeft: Sizes.p1, fontSize: Sizes.sm, color: Colors.textMuted }}>
+                          {medication.frequency ? t(`medication-container.${medication.frequency}`) : ""}
+                        </Text>
+
+                        <View style={{ paddingHorizontal: Sizes.p0 }}>
+                          {selectedWindows.length > 0 ? (
+                            <Text>
+                              /
+                            </Text>
+                          ) : null}
+                        </View>
+
+                        {selectedWindows.length > 0 ? (
+                          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}>
+                            {selectedWindows.map((window) => t(`medication-container.${window}`)).join(", ")}
+                          </Text>
+                        ) : null}
+
+                        <View style={{ paddingHorizontal: Sizes.p0 }}>
+                          {selectedHours.length > 0 ? (
+                            <Text>
+                              /
+                            </Text>
+                          ) : null}
+                        </View>
+
+                        {selectedHours.length > 0 ? (
+                          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}>
+                            {selectedHours.join(", ")}
+                          </Text>
+                        ) : null}
+                      </View>
+
+                      {instructions.length > 0 ? (
+                        <Text style={{ marginLeft: Sizes.p1, marginTop: Sizes.p0, fontSize: Sizes.paragraph, color: Colors.text }}>
+                          {instructions.join("\n")}
+                        </Text>
+                      ) : null}
+                    </View>
+                  </View>
+                  <View
+                    style={{ marginTop: Sizes.p3 }}
                     className="flex-row items-center justify-between">
                     <Pressable disabled={adding}
                       onPress={() => addToCalendar(medication)}
@@ -245,7 +263,8 @@ export default function MedicationContainer() {
             );
           })}
         </View>
-      ) : null}
-    </View>
+      ) : null
+      }
+    </View >
   );
 }

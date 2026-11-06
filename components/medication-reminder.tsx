@@ -1,7 +1,7 @@
-import { Buttons, Colors, Sizes } from "@/constants/theme";
+import { Buttons, Colors, Inputs, Sizes } from "@/constants/theme";
 import { useMedicationList } from "@/src/hooks/useMedicationList";
 import { readRoutine } from "@/src/libs/medicationCalender";
-import { formatMedicationDuration, formatMedicationInstructions, getMedicationDaysRemaining } from "@/src/utils/medicationFormat";
+import { formatMedicationInstructions, getMedicationDaysRemaining } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router, useFocusEffect } from "expo-router";
@@ -74,11 +74,10 @@ function getNextIntakeTime(times: number[], selectedDays: string[], after: numbe
 }
 
 function adjustCountdown(remainingMs: number) {
-  const totalSeconds = Math.ceil(remainingMs / 1000);
-  const hours = Math.floor(totalSeconds / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+  const totalMinutes = Math.ceil(remainingMs / (60 * 1000));
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 }
 
 export default function MedicationReminder() {
@@ -265,71 +264,90 @@ export default function MedicationReminder() {
                         <>
                           <Pressable
                             onPress={() => router.push("/medications")}
-                            className="flex-row items-center"
+                            className="flex-1"
                           >
-                            <MaterialIcons name="medication" size={Sizes.IconLg} color="#075B7A" />
-                            <View className="flex-1 ml-2">
+                            <View className="flex-row items-center">
                               <Text
                                 style={{
                                   fontSize: Sizes.h5,
-                                  color: Colors.text
+                                  color: Colors.text,
+                                  marginLeft: Sizes.BtnP,
+                                  paddingHorizontal: Sizes.p3
                                 }}
                                 className="font-medium">
                                 {item.name ?? "Unnamed medication"}
                               </Text>
-                              <Text
+                              <View
                                 style={{
-                                  fontSize: Sizes.sm,
-                                  color: Colors.textMuted
-                                }}
-                                className="mt-2">
-                                {formatMedicationDuration(
-                                  item.date_start ?? new Date(),
-                                  item.date_end ?? new Date()
-                                )}
-                              </Text>
-                              {days.length > 0 ? (
-                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
-                                  {days.map((day) => t(`medication-reminder.${day}`)).join(", ")}
+                                  borderRadius: Sizes.imgApt,
+                                  paddingHorizontal: Sizes.p2,
+                                  borderWidth: Buttons.w0,
+                                  borderColor: Colors.info,
+                                  paddingVertical: Sizes.p0,
+                                  backgroundColor: Colors.infoMuted,
+                                }}>
+                                <Text
+                                  style={{
+                                    fontSize: Sizes.p3,
+                                    color: Colors.text
+                                  }}
+                                  className="font-medium">
+                                  {t(`medication-reminder.reminder`)}
                                 </Text>
-                              ) : null}
-                              <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
-                                {item.frequency ? t(`medication-reminder.${item.frequency}`) : ""}
-                              </Text>
-                              {selectedWindows.length > 0 ? (
-                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
-                                  {selectedWindows.map((window) => t(`medication-reminder.${window}`)).join(", ")}
-                                </Text>
-                              ) : null}
-                              {selectedHours.length > 0 ? (
-                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
-                                  {selectedHours.join(", ")}
-                                </Text>
-                              ) : null}
-                              {instructions.length > 0 ? (
-                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }} className="mt-1">
-                                  {formatMedicationInstructions(instructions)}
-                                </Text>
-                              ) : null}
+                              </View>
                             </View>
+
                             <View
-                              style={{
-                                borderRadius: Sizes.p3,
-                                paddingHorizontal: Sizes.p2,
-                                borderWidth: Sizes.p0 - 2,
-                                borderColor: Colors.info,
-                                paddingVertical: Sizes.p2,
-                                backgroundColor: Colors.infoMuted
-                              }}
-                              className="mx-2">
-                              <Text
-                                style={{
-                                  fontSize: Sizes.sm,
-                                  color: Colors.text
-                                }}
-                                className="font-medium">
-                                {t(`medication-reminder.reminder`)}
-                              </Text>
+                              className={`flex-row items-start ${!instructions || !selectedWindows ? "items-center" : "items-center"}`}>
+                              <MaterialIcons
+                                style={{ marginTop: Buttons.w2 }}
+                                name="medication"
+                                size={Sizes.IconXL}
+                                color={Colors.secondary}
+                              />
+                              <View>
+                                {days.length > 0 ? (
+                                  <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted, marginTop: Inputs.w0 }}>
+                                    {days.map((day) => t(`medication-reminder.${day}`)).join(", ")}
+                                  </Text>
+                                ) : null}
+                                <View className="flex-row">
+                                  <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted, marginTop: Inputs.w0 }}>
+                                    {item.frequency ? t(`medication-reminder.${item.frequency}`) : ""}
+                                  </Text>
+                                  <View style={{ paddingHorizontal: Sizes.p0 }}>
+                                    {selectedWindows.length > 0 ? (
+                                      <Text>
+                                        /
+                                      </Text>
+                                    ) : null}
+                                  </View>
+                                  {selectedWindows.length > 0 ? (
+                                    <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted, marginTop: Inputs.w0 }}>
+                                      {selectedWindows.map((window) => t(`medication-reminder.${window}`)).join(", ")}
+                                    </Text>
+                                  ) : null}
+                                </View>
+                                <View className="flex-row">
+                                  {selectedHours.length > 0 ? (
+                                    <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted, marginTop: Inputs.w0 }}>
+                                      {selectedHours.join(", ")}
+                                    </Text>
+                                  ) : null}
+                                  <View style={{ paddingHorizontal: Sizes.p0 }}>
+                                    {instructions.length > 0 ? (
+                                      <Text>
+                                        /
+                                      </Text>
+                                    ) : null}
+                                  </View>
+                                  {instructions.length > 0 ? (
+                                    <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted, marginTop: Inputs.w0 }}>
+                                      {formatMedicationInstructions(instructions)}
+                                    </Text>
+                                  ) : null}
+                                </View>
+                              </View>
                             </View>
                           </Pressable>
 
@@ -339,7 +357,7 @@ export default function MedicationReminder() {
                             disabled={!confirmationsLoaded || waitForNextIntake}
                             style={{
                               height: Sizes.BtnP,
-                              marginTop: Sizes.p1,
+                              marginTop: Sizes.p3,
                               borderRadius: Sizes.p3,
                             }}
                             className={`mx-2 items-center justify-center ${waitForNextIntake || !confirmationsLoaded ? "bg-[#7B8A91]" : "bg-[#5085A8]"}`}

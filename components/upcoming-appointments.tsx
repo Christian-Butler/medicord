@@ -103,14 +103,13 @@ export default function UpcomingAppointments() {
                   <Text numberOfLines={1} style={styles.doctorSpecialty}>
                     {t(`upcoming-appointments.${doctorSpecialty}`)}
                   </Text>
+                  <Text numberOfLines={1} style={styles.dateText}>
+                    {formatAppointmentDateTime(item.starts_at)}
+                  </Text>
                 </View>
               </View>
 
-              <View style={styles.datePill}>
-                <Text numberOfLines={1} style={styles.dateText}>
-                  {formatAppointmentDateTime(item.starts_at)}
-                </Text>
-              </View>
+
               <View className="flex-row justify-between">
                 <TouchableOpacity onPress={() =>
                   router.push({
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
   avatarWrapper: {
     width: Sizes.imgApt,
     height: Sizes.imgApt,
-    borderRadius: Sizes.h2,
+    borderRadius: Sizes.IconLg,
     overflow: "hidden",
     backgroundColor: Colors.bg1,
     marginRight: Sizes.p2,
@@ -234,21 +233,11 @@ const styles = StyleSheet.create({
     fontSize: Sizes.paragraph,
     fontWeight: "400",
     color: Colors.text,
-    marginTop: Buttons.w2,
-  },
-  datePill: {
-    height: Sizes.IconLg,
-    borderRadius: Sizes.h1,
-    backgroundColor: Colors.secondary,
-    alignItems: "center",
-    justifyContent: "center",
-    marginTop: Sizes.p3,
-    paddingHorizontal: Sizes.paragraph,
   },
   dateText: {
-    color: Colors.bg2,
-    fontSize: Sizes.paragraph,
-    fontWeight: "500",
+    color: Colors.textMuted,
+    fontSize: Sizes.sm,
+    marginTop: Buttons.w0
   },
   statusText: {
     marginLeft: Sizes.p2,

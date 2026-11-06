@@ -36,7 +36,7 @@ export default function ProfileHeader() {
           {avatarUrl ? (
             <Image
               source={{ uri: avatarUrl }}
-              style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.imgNm }}
+              style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.IconLg }}
             />
           ) : (
             <View style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }} />
@@ -68,8 +68,8 @@ export default function ProfileHeader() {
           {unseen ? <View
             style={{
               backgroundColor: Colors.info,
-              height: Sizes.p0,
-              width: Sizes.p0,
+              height: Sizes.p3,
+              width: Sizes.p3,
             }}
             className="absolute -right-0 -top-1 rounded-full" /> : null}
         </TouchableOpacity>
