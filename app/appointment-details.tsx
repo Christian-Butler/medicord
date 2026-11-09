@@ -115,30 +115,23 @@ export default function AppointmentDetails() {
 
                 </View>
               </View>
-
               <View className="mt-4 flex-row justify-between">
 
-                <Pressable style={styles.callButton}>
-                <MaterialIcons name="phone" size={18} color="#0D5175" />
-                <Text style={styles.callButtonText}>{t(`Message`)}</Text>
-              </Pressable>
+                <Pressable
+                  style={styles.callButton}
+                  accessibilityRole="button"
+                  onPress={() =>
+                    router.push({
+                      pathname: "/chat-room",
+                      params: { doctorId: appointment.doctor_id },
+                    })
+                  }
+                >
+                  <MaterialIcons name="phone" size={18} color="#0D5175" />
+                  <Text style={styles.callButtonText}>{t(`Message`)}</Text>
+                </Pressable>
 
-              
-             <Pressable style={styles.callButton}>
-                <MaterialIcons name="phone" size={18} color="#0D5175" />
-                <Text style={styles.callButtonText}>{t(`appointment-details.Message`)}</Text>
-              </Pressable>
-
-              <Pressable
-                style={styles.messageButton}
-                accessibilityRole="button"
-                onPress={() => router.push("/messages")}
-              >
-                <MaterialIcons name="chat-bubble-outline" size={18} color="#0D5175" />
-                <Text style={styles.callButtonText}>{t(`appointment-details.message`)}</Text>
-              </Pressable>
-
-
+            
               </View>
 
             </View>
