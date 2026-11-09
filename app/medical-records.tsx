@@ -97,7 +97,7 @@ export default function MedicalRecordsScreen() {
 
     return (
         <SafeAreaProvider style={{ backgroundColor: Colors.bg1 }}>
-            <ScreenHeader title="Medical records" />
+            <ScreenHeader title={t("medical-records.title")} />
             <ScrollView>
                 <View
                     style={{ marginTop: Sizes.h4, paddingBottom: Sizes.width - 250 }}

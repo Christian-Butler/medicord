@@ -39,7 +39,7 @@ export default function ResetPasswordPage() {
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          placeholder="Enter new password"
+          placeholder={t("reset-password.newPlaceholder")}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[56px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-[16px]lack"
         />

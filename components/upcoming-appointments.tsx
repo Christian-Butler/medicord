@@ -132,7 +132,7 @@ export default function UpcomingAppointments() {
                         fontSize: Sizes.paragraph,
                         color: Colors.secondary
                       }}
-                      className="font-medium">Reschedule</Text>
+                      className="font-medium">{t("upcoming-appointments.reschedule")}</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() =>
@@ -157,7 +157,7 @@ export default function UpcomingAppointments() {
                         fontSize: Sizes.paragraph,
                         color: Colors.bg2
                       }}
-                      className="font-medium">Check details</Text>
+                      className="font-medium">{t("upcoming-appointments.details")}</Text>
                   </View>
                 </TouchableOpacity>
               </View>

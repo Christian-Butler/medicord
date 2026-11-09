@@ -20,8 +20,8 @@ export default function DoctorDetails() {
 
   const { doctor, loading, error } = useDoctor(doctorId ? String(doctorId) : undefined);
 
-  const doctorName = doctor?.full_name || name || "Doctor";
-  const doctorProfession = doctor?.specialty || specialty || "Specialist";
+  const doctorName = doctor?.full_name || name || t("doctor-details.doctor");
+  const doctorProfession = doctor?.specialty || specialty || t("doctor-details.specialist");
   const availableDate = closestDay || t(`doctor-details.noSlot`);
   const bio = doctor?.bio ?? null;
   const yearsExperience = doctor?.years_experience ?? null;
@@ -102,7 +102,7 @@ export default function DoctorDetails() {
 
           {(yearsExperience || qualifiedYear) ? (
             <>
-              <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Experience</Text>
+              <Text style={[styles.sectionTitle, { marginTop: 20 }]}>{t("doctor-details.experience")}</Text>
               {yearsExperience ? (
                 <Text style={styles.bodyText}>
                   {yearsExperience} {t(`doctor-details.years`)}

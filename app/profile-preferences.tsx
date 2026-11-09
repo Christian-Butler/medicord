@@ -1,11 +1,14 @@
 import ManageMapModal from "@/components/manage-map-modal";
 import ManageNotificationsModal from "@/components/manage-notifications-modal";
 import ScreenHeader from "@/components/screen-header";
+import { Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, Text, View } from "react-native";
 
 export default function ProfilePreferences() {
+    const { t } = useTranslation();
 
     const [NotificationsModal, setNotificationsModal] = useState(false);
     const [selectedPreferences, setSelectedPreferences] = useState<string[]>([]);
@@ -26,7 +29,7 @@ export default function ProfilePreferences() {
 
     return (
         <View className="flex-1 bg-[#fff]">
-            <ScreenHeader title="My preferences" />
+            <ScreenHeader title={t("profile-preferences.preferences")} />
 
 
             <ManageNotificationsModal
@@ -55,9 +58,9 @@ export default function ProfilePreferences() {
                     accessibilityRole="button"
                     onPress={() => setMapModal(true)}
                     className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3">
-                    <MaterialIcons name="location-pin" size={28} color="#326F95" />
+                    <MaterialIcons name="location-pin" size={Sizes.h2} color={Colors.primary} />
                     <View className="flex-1">
-                        <Text className="ml-1 mt-1 text-[16px] text-[16px]lack">Map</Text>
+                        <Text className="ml-1 mt-1 text-[16px] text-[16px]lack">{t("profile-preferences.map")}</Text>
                     </View>
                     <MaterialIcons name="chevron-right" size={26} color="000" />
                 </Pressable>
@@ -66,11 +69,11 @@ export default function ProfilePreferences() {
                     accessibilityRole="button"
                     onPress={() => setNotificationsModal(true)}
                     className="min-h-[74px] flex-row items-center border-b border-[#B9CBCD] px-5 py-3">
-                    <MaterialIcons name="notifications" size={28} color="#326F95" />
+                    <MaterialIcons name="notifications" size={Sizes.h2} color={Colors.primary} />
                     <View className="flex-1">
-                        <Text className="ml-1 mt-1 text-[16px] text-[16px]lack">Notifications</Text>
+                        <Text className="ml-1 mt-1 text-[16px] text-[16px]lack">{t("profile-preferences.notifications")}</Text>
                     </View>
-                    <MaterialIcons name="chevron-right" size={26} color="#000" />
+                    <MaterialIcons name="chevron-right" size={Sizes.h2} color={Colors.text} />
                 </Pressable>
 
 

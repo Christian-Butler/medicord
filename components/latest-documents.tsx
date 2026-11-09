@@ -81,7 +81,7 @@ export default function LatestDocuments() {
                     color: Colors.text
                   }}
                   numberOfLines={1} className="shrink font-medium">
-                  {document ? categoryLabel(document.category) : t("latest-documents.documents", "Documents")}
+                  {document ? categoryLabel(document.category) : t(`latest-documents.documents`, `Documents`)}
                 </Text>
                 {isNew ? (
                   <View

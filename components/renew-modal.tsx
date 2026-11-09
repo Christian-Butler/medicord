@@ -1,5 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, TextInput, View } from "react-native";
 
 type RenewModalProps = {
@@ -9,6 +10,7 @@ type RenewModalProps = {
 };
 
 export default function RenewModal({ visible, onConfirm, onClose }: RenewModalProps) {
+    const { t } = useTranslation();
 
     const [reason, setReason] = useState('');
     const [start, setStart] = useState('');
@@ -24,14 +26,14 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                     </Pressable>
                     <View className="mt-4">
                         <Text className="text-center text-[20px] font-medium leading-7 text-black">
-                            Why do you want to renew your prescription ?
+                            {t("renew-modal.question")}
                         </Text>
                     </View>
                     <View>
                         <TextInput
                             value={reason}
                             onChangeText={setReason}
-                            placeholder="Reason"
+                            placeholder={t("renew-modal.reason")}
                             placeholderTextColor={"#8F9D9E"}
                             keyboardType="phone-pad"
                             className="mt-8 h-[50px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
@@ -41,7 +43,7 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                         <TextInput
                             value={start}
                             onChangeText={setStart}
-                            placeholder="Start"
+                            placeholder={t("renew-modal.start")}
                             placeholderTextColor={"#8F9D9E"}
                             keyboardType="phone-pad"
                             className="h-[50px] w-40 rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
@@ -49,7 +51,7 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                         <TextInput
                             value={end}
                             onChangeText={setEnd}
-                            placeholder="End"
+                            placeholder={t("renew-modal.end")}
                             placeholderTextColor={"#8F9D9E"}
                             keyboardType="phone-pad"
                             className="h-[50px] w-40 rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
@@ -59,7 +61,7 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                         onPress={onConfirm}
                         className="mt-8 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8]"
                     >
-                        <Text className="text-[16px] font-semibold text-white">Ask 'Doctor Name'</Text>
+                        <Text className="text-[16px] font-semibold text-white">{t("renew-modal.askDoctor")}</Text>
                     </Pressable>
                 </View>
             </View>

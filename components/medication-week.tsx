@@ -1,5 +1,6 @@
 import { Buttons, Colors, Sizes } from "@/constants/theme";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DaysSelectorProps {
@@ -8,13 +9,13 @@ interface DaysSelectorProps {
 }
 
 export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelectorProps) {
-
+    const { t } = useTranslation();
 
     const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     return (
         <View>
-            <Text style={styles.label}>Days of the Week</Text>
+            <Text style={styles.label}>{t("medication-form.daysOfWeek")}</Text>
             <View style={styles.daysContainer}>
                 {weekDays.map((day) => (
                     <TouchableOpacity
@@ -25,7 +26,7 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
                         ]}
                         onPress={() => onToggleDay(day)}>
                         <Text style={selectedDays.includes(day) ? styles.textLight : styles.text}>
-                            {day}
+                            {t(`medication-container.${day}`)}
                         </Text>
                     </TouchableOpacity>
                 ))}

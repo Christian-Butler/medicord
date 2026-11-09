@@ -3,6 +3,7 @@ import type { Medication, MedicationFrequency, MedicationInput } from "@/src/typ
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import { Check, ChevronDown, Plus } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Platform, Pressable, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 type MedicationFormProps = {
@@ -50,6 +51,7 @@ export default function MedicationForm({
   const [hours, setHours] = useState<string[]>([]);
   const [showHourSelector, setShowHourSelector] = useState(false);
   const [showHourDropdown, setShowHourDropdown] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!medication) {
@@ -134,7 +136,7 @@ export default function MedicationForm({
   async function handleSubmit() {
     const trimmedName = name.trim();
     if (!trimmedName) {
-      setLocalError("Please enter a medication name.");
+      setLocalError(t(`medication-form.nameMed`));
       return;
     }
     setLocalError(null);
@@ -169,12 +171,12 @@ export default function MedicationForm({
     <View className="mx-6 pb-16 pt-8">
 
       {/* Name */}
-      <Text className="mr-4 text-[20px] font-medium text-black">Medicine's name</Text>
+      <Text className="mr-4 text-[20px] font-medium text-black">{t(`medication-form.title`)}</Text>
 
       <TextInput
         value={name}
         onChangeText={(v) => { setName(v); setLocalError(null); }}
-        placeholder="Write the medication's name"
+        placeholder={t(`medication-form.placeholderName`)}
         placeholderTextColor="#7A8A8D"
         className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
       />
@@ -183,7 +185,7 @@ export default function MedicationForm({
       ) : null}
 
       {/* Duration */}
-      <Text className="mt-7 mb-3 text-[20px] font-medium text-black">Duration</Text>
+      <Text className="mt-7 mb-3 text-[20px] font-medium text-black">{t("medication-form.duration")}</Text>
       <View className="px-10 gap-3 mt-3 items-center justify-between flex-row">
         <TouchableOpacity
           onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
@@ -193,7 +195,7 @@ export default function MedicationForm({
             {dateStart.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
-        <Text className="text-[16px] font-regular text-black">until</Text>
+        <Text className="text-[16px] font-regular text-black">{t(`medication-form.until`)}</Text>
         <TouchableOpacity
           onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
           className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
@@ -227,7 +229,7 @@ export default function MedicationForm({
       </View>
 
       {/* Week */}
-      <Text className="mt-7 text-[20px] font-medium text-black">Weekly</Text>
+      <Text className="mt-7 text-[20px] font-medium text-black">{t(`medication-form.weekly`)}</Text>
       <View className="mt-3 flex-row flex-wrap gap-2">
         {weekDays.map((day) => {
           const selected = selectedDays.includes(day);
@@ -239,7 +241,7 @@ export default function MedicationForm({
                 } `}
             >
               <Text className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
-                {day}
+                {t(`medication-container.${day}`)}
               </Text>
             </Pressable>
           );
@@ -249,7 +251,7 @@ export default function MedicationForm({
 
       {/* Daily */}
       <View>
-        <Text className="mt-7 text-[20px] font-medium text-black">Daily</Text>
+        <Text className="mt-7 text-[20px] font-medium text-black">{t("medication-form.daily")}</Text>
         <View className="mt-4 flex-row flex-wrap gap-4">
           {frequencyOptions.map((option) => (
             <Pressable
@@ -259,7 +261,7 @@ export default function MedicationForm({
                 }`}
             >
               <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
-                {option.label}
+                {t(`medication-container.${option.value}`)}
               </Text>
             </Pressable>
           ))}
@@ -267,7 +269,7 @@ export default function MedicationForm({
       </View>
 
       {/* Intake Frequency */}
-      <Text className="mt-4 text-[20px] font-medium text-black">Time window</Text>
+      <Text className="mt-4 text-[20px] font-medium text-black">{t("medication-form.timeWindow")}</Text>
       <View className="mt-3 flex-row flex-wrap gap-4">
         {daily.map((time) => {
           const selected = selectedDays.includes(time);
@@ -280,7 +282,7 @@ export default function MedicationForm({
                 } ${noSpecificTime ? "opacity-50" : ""}`}
             >
               <Text className={`text-[16px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
-                {time}
+                {t(`medication-container.${time}`)}
               </Text>
             </Pressable>
           );
@@ -296,7 +298,7 @@ export default function MedicationForm({
             className={`mt-4 min-w-0 flex-1 h-[46px] flex-row items-center rounded-[12px] border border-[#0D5175] bg-white px-3 ${noSpecificTime ? "opacity-50" : ""}`}
           >
             <Text numberOfLines={1} className="mr-2 flex-1 text-[14px] text-black">
-              {hours.length > 0 ? hours.join(", ") : "Select hours"}
+              {hours.length > 0 ? hours.join(", ") : t("medication-form.selectHours")}
             </Text>
             <ChevronDown size={20} color="#0D5175" />
           </Pressable>
@@ -308,7 +310,7 @@ export default function MedicationForm({
           className={`mt-4 h-[46px] w-[160px] flex-row items-center justify-center rounded-[12px] bg-[#5085A8] px-4 ${noSpecificTime ? "opacity-50" : ""}`}
         >
           <Plus size={18} color="white" />
-          <Text className="ml-1 text-[16px] font-medium text-white">Specify hours</Text>
+          <Text className="ml-1 text-[16px] font-medium text-white">{t("medication-form.specifyHours")}</Text>
         </Pressable>
 
       </View>
@@ -342,19 +344,19 @@ export default function MedicationForm({
           className="flex-row items-center"
         >
           <View className={`h-[20px] w-[20px] rounded-[4px] border border-[#0D5175] ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"}`} />
-          <Text className="ml-2 text-[14px] text-black">No time window needed.</Text>
+          <Text className="ml-2 text-[14px] text-black">{t("medication-form.noTimeWindow")}</Text>
         </Pressable>
 
       </View>
 
       {/* Instructions */}
-      <Text className="mt-8 text-[20px] font-medium text-black">Instructions</Text>
+      <Text className="mt-8 text-[20px] font-medium text-black">{t("medication-form.instructionsTitle")}</Text>
       {instructions.map((instruction, index) => (
         <TextInput
           key={index}
           value={instruction}
           onChangeText={(v) => updateInstruction(index, v)}
-          placeholder="ex. Take with food"
+          placeholder={t("medication-form.instructionPlaceholder")}
           placeholderTextColor="#7A8A8D"
           className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
@@ -365,7 +367,7 @@ export default function MedicationForm({
         className="mt-4 h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
       >
         <Plus size={20} color="white" />
-        <Text className="ml-2 text-[16px] font-medium text-white">Add instruction</Text>
+        <Text className="ml-2 text-[16px] font-medium text-white">{t("medication-form.addInstruction")}</Text>
       </Pressable>
 
       <Pressable
@@ -374,7 +376,7 @@ export default function MedicationForm({
         className={`mt-10  mb-20 h-[50px] items-center justify-center rounded-[14px] bg-[#17A633] ${saving ? "opacity-60" : !confirm ? "opacity-60 bg-[gray]" : ""}`}
       >
         <Text className="text-[16px] font-medium text-white">
-          {saving ? "Saving..." : medication ? "Confirm update" : "Confirm routine creation"}
+          {saving ? t("medication-form.saving") : medication ? t("medication-form.update") : t("medication-form.confirm")}
         </Text>
       </Pressable>
     </View>

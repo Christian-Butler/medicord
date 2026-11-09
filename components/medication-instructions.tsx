@@ -1,5 +1,6 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 interface Instruction {
@@ -15,16 +16,17 @@ interface InstructionListProps {
 }
 
 export default function InstructionList({ instructions, onChangeInstruction, onAddInstruction, onRemoveInstruction }: InstructionListProps) {
+    const { t } = useTranslation();
     return (
 
         <View>
             <View>
-                <Text style={styles.title}>Other instructions</Text>
+                <Text style={styles.title}>{t("medication-instructions.title")}</Text>
                 {instructions.map((instruction) => (
                     <View key={instruction.id} style={styles.row}>
                         <TextInput
                             style={styles.input}
-                            placeholder="ex. Number of pills a day"
+                            placeholder={t("medication-instructions.placeholder")}
                             value={instruction.text}
                             onChangeText={(text) => onChangeInstruction(text, instruction.id)}
                         />
@@ -41,7 +43,7 @@ export default function InstructionList({ instructions, onChangeInstruction, onA
             </View>
 
             <TouchableOpacity style={styles.addButton} onPress={onAddInstruction}>
-                <Text style={styles.addButtonText}>+ Add Instruction</Text>
+                <Text style={styles.addButtonText}>{t("medication-instructions.add")}</Text>
             </TouchableOpacity>
         </View>
 

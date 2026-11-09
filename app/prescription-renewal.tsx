@@ -16,7 +16,7 @@ export default function PrescriptionRenewal() {
     return (
 
         <View className="flex-1 bg-[#fff]">
-            <ScreenHeader title="Prescription renewal" />
+            <ScreenHeader title={t("prescription-renewal.title")} />
 
             <RenewModal
                 visible={renewalModal}
@@ -31,7 +31,7 @@ export default function PrescriptionRenewal() {
             >
 
                 <View className="px-6 py-8">
-                    <Text className="text-xl">You’re the only one having access to the files and able to manage them.</Text>
+                    <Text className="text-xl">{t("prescription-renewal.privacy")}</Text>
                 </View>
 
                 <View className="px-4">
@@ -43,7 +43,7 @@ export default function PrescriptionRenewal() {
                     <View className="flex-1 pt-6 flex-row items-center" >
                         <MaterialIcons name="assignment" size={44} color="#0D5175" />
                         <View className="px-4">
-                            <Text>Medication prescription</Text>
+                            <Text>{t("prescription-renewal.prescription")}</Text>
                             <View className="flex-row items-center  pt-2">
                                 <Text className="text-[#3C4D4D]">Dr. John Doe </Text>
                                 <MaterialIcons name="circle" size={6} color="#3C4D4D" />
@@ -58,7 +58,7 @@ export default function PrescriptionRenewal() {
                             >
                                 <TouchableOpacity>
                                     <Text className="font-medium text-[16px] color-white">
-                                        Ask
+                                        {t("prescription-renewal.ask")}
                                     </Text>
                                 </TouchableOpacity>
                             </TouchableOpacity>
@@ -68,7 +68,7 @@ export default function PrescriptionRenewal() {
                     <View className="flex-1 pt-6 flex-row items-center" >
                         <MaterialIcons name="assignment" size={44} color="#0D5175" />
                         <View className="px-4">
-                            <Text>Medication prescription</Text>
+                            <Text>{t("prescription-renewal.prescription")}</Text>
                             <View className="flex-row items-center  pt-2">
                                 <Text className="text-[#3C4D4D]">Dr. John Doe </Text>
                                 <MaterialIcons name="circle" size={6} color="#3C4D4D" />
@@ -92,7 +92,7 @@ export default function PrescriptionRenewal() {
                     <View className="flex-1 pt-6 flex-row items-center" >
                         <MaterialIcons name="assignment" size={44} color="#0D5175" />
                         <View className="px-4">
-                            <Text>Medication prescription</Text>
+                            <Text>{t("prescription-renewal.prescription")}</Text>
                             <View className="flex-row items-center  pt-2">
                                 <Text className="text-[#3C4D4D]">Dr. John Doe </Text>
                                 <MaterialIcons name="circle" size={6} color="#3C4D4D" />

@@ -125,7 +125,7 @@ export default function SecurityDetails() {
             </Pressable>
           </View>
 
-          <Text className="mt-4 text-[14px] text-black">Confirm password</Text>
+          <Text className="mt-4 text-[14px] text-black">{t("security-details.confirmP")}</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border border-[#0D5175] bg-white px-4">
             <TextInput
               value={confirm}

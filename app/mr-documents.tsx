@@ -65,8 +65,8 @@ export default function Documents() {
             await upload({ ...file, category });
         } catch (err) {
             Alert.alert(
-                t("documents.failedTitle", "Couldn't add document"),
-                err instanceof Error ? err.message : t("documents.failed", "Something went wrong. Please try again.")
+                t("mr-documents.failedTitle", "Couldn't add document"),
+                err instanceof Error ? err.message : t("mr-documents.failed", "Something went wrong. Please try again.")
             );
         }
     }
@@ -74,17 +74,17 @@ export default function Documents() {
     // Deleting a medical document can't be undone, so it always asks first.
     function confirmDelete(document: MedicalDocument) {
         Alert.alert(
-            t("documents.deleteTitle", "Delete this document?"),
-            t("documents.deleteBody", { defaultValue: "\"{{title}}\" will be removed for good.", title: document.title }),
+            t("mr-documents.deleteTitle", "Delete this document?"),
+            t("mr-documents.deleteBody", { defaultValue: "\"{{title}}\" will be removed for good.", title: document.title }),
             [
-                { text: t("documents.cancel", "Cancel"), style: "cancel" },
+                { text: t("mr-documents.cancel", "Cancel"), style: "cancel" },
                 {
-                    text: t("documents.delete", "Delete"),
+                    text: t("mr-documents.delete", "Delete"),
                     style: "destructive",
                     onPress: () => {
                         remove(document).catch((err) =>
                             Alert.alert(
-                                t("documents.deleteFailed", "Couldn't delete document"),
+                                t("mr-documents.deleteFailed", "Couldn't delete document"),
                                 err instanceof Error ? err.message : undefined
                             )
                         );
@@ -96,9 +96,9 @@ export default function Documents() {
 
     // The "…" button: Share or Delete, using the phone's own action sheet.
     function showOptions(document: MedicalDocument) {
-        const shareLabel = t("documents.share", "Share");
-        const deleteLabel = t("documents.delete", "Delete");
-        const cancelLabel = t("documents.cancel", "Cancel");
+        const shareLabel = t("mr-documents.share", "Share");
+        const deleteLabel = t("mr-documents.delete", "Delete");
+        const cancelLabel = t("mr-documents.cancel", "Cancel");
 
         if (Platform.OS === "ios") {
             ActionSheetIOS.showActionSheetWithOptions(
@@ -126,20 +126,20 @@ export default function Documents() {
 
             <ScrollView className="flex-1">
 
-                <ScreenHeader title='Documents' />
+                <ScreenHeader title={t("mr-documents.title")} />
 
                 <View
                     style={{ margin: Sizes.h5, paddingBottom: Sizes.h2 }}>
 
                     <View style={{ paddingTop: Sizes.p2, paddingBottom: Sizes.p2 }}>
-                        <Text style={{ fontSize: Sizes.paragraph }}>You’re the only one having access to the files and able to manage them.</Text>
+                        <Text style={{ fontSize: Sizes.paragraph }}>{t("mr-documents.privacy")}</Text>
                     </View>
 
                     {!loading && documents.length === 0 ? (
                         <Text
                             style={{ paddingTop: Sizes.p2, color: Colors.textMuted }}
                         >
-                            {t("documents.empty", "No documents yet. Add a prescription, lab result or referral to keep it here.")}
+                            {t("mr-documents.empty", "No documents yet. Add a prescription, lab result or referral to keep it here.")}
                         </Text>
                     ) : null}
 
@@ -189,7 +189,7 @@ export default function Documents() {
                                             style={{ borderWidth: Buttons.w2, borderColor: Colors.secondary }}
                                             className="justify-center p-1 items-center rounded-full"
                                             accessibilityRole="button"
-                                            accessibilityLabel={t("documents.options", "Document options")}
+                                            accessibilityLabel={t("mr-documents.options", "Document options")}
                                             disabled={sharingId === document.id}
                                             onPress={() => showOptions(document)}
                                         >
@@ -226,7 +226,7 @@ export default function Documents() {
                         color: Colors.bg2,
                         marginLeft: Sizes.p2
                     }}
-                    className="font-medium">Add a document</Text>
+                    className="font-medium">{t("mr-documents.add")}</Text>
             </TouchableOpacity>
 
         </View>
