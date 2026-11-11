@@ -125,7 +125,7 @@ export default function SecurityDetails() {
             </Pressable>
           </View>
 
-          <Text className="mt-4 text-[14px] text-black">Confirm password</Text>
+          <Text className="mt-4 text-[14px] text-black">{t("security-details.confirmP")}</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border border-[#0D5175] bg-white px-4">
             <TextInput
               value={confirm}
@@ -144,22 +144,22 @@ export default function SecurityDetails() {
             onPress={() => setVerifyByEmail((p) => !p)}
             className="mt-4 flex-row items-center"
           >
-            <View className={`h-[18px] w-[18px] rounded-full border-2 ${verifyByEmail ? "border-[#0D5175]" : "border-[#0D5175] bg-white"}`} />
-            <Text className="ml-3 text-[15px] text-black">{t(`security-details.requestE`)}</Text>
+            <View className={`h-[18px] w-[18px] rounded-full border-2 ${verifyByEmail ? "border-[#0D5175]" : "border-[#0D5175] bg-[#0D5175]"}`} />
+            <Text className="ml-3 text-[14px] text-black">{t(`security-details.requestE`)}</Text>
           </Pressable>
 
           <Pressable
             onPress={() => setVerifyByMessage((p) => !p)}
             className="mt-3 flex-row items-center"
           >
-            <View className={`h-[18px] w-[18px] rounded-full border-[2px] ${verifyByMessage ? "border-[#0D5175]" : "border-[#0D5175] bg-white"}`} />
-            <Text className="ml-3 text-[15px] text-black">{t(`security-details.requestM`)}</Text>
+            <View className={`h-[18px] w-[18px] rounded-full border-[2px] ${verifyByMessage ? "border-[#0D5175]" : "border-[#0D5175] bg-[#0D5175]"}`} />
+            <Text className="ml-3 text-[14px] text-black">{t(`security-details.requestM`)}</Text>
           </Pressable>
 
           <Pressable
             onPress={handleReset}
             disabled={passwordLoading}
-            className={`mt-6 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8] ${passwordLoading ? "opacity-60" : ""}`}
+            className={`mt-6 h-[50px] items-center justify-center rounded-[14px] bg-[#5085A8] ${passwordLoading ? "opacity-60" : ""}`}
           >
             <Text className="text-[16px] font-medium text-white">
               {passwordLoading ? t(`security-details.update`) : t(`security-details.confirm`)}

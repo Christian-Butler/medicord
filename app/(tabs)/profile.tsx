@@ -1,5 +1,6 @@
 import DeleteModal from "@/components/delete-modal";
 import LogoutModal from "@/components/logout-modal";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useProfile } from "@/src/hooks/useProfile";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -23,28 +24,45 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
   return (
     <Pressable
       onPress={onPress}
-      className="mx-4 mt-4 min-h-[72px] flex-row items-center bg-white rounded-2xl px-5 py-3"
+      style={{
+        marginHorizontal: Sizes.p3,
+        marginTop: Sizes.p2,
+        backgroundColor: Colors.bg2,
+        borderRadius: Sizes.p3,
+        paddingHorizontal: Sizes.p2,
+        paddingVertical: Buttons.w1,
+      }}
+      className="min-h-[64px] flex-row items-center"
     >
       {icon ? (
         <MaterialIcons
           name={icon}
-          size={26}
-          color={destructive ? "#E33434" : "#0D5175"}
+          size={Sizes.h2}
+          color={destructive ? Colors.delete : Colors.secondary}
           style={{ marginRight: 14 }}
         />
       ) : null}
 
       <View className="flex-1">
-        <Text className={`text-[16px] font-regular ${destructive ? "text-[#E33434]" : "text-black"}`}>
+        <Text
+          style={{
+            fontSize: Sizes.paragraph,
+          }}
+          className={`font-regular ${destructive ? Colors.delete : Colors.text}`}>
           {t(`profile.${title}`)}
         </Text>
 
         {subtitle ? (
-          <Text className="mt-1 text-[14px] font-regular text-gray-600">{subtitle}</Text>
+          <Text
+            style={{
+              fontSize: Sizes.sm,
+              color: Colors.textMuted
+            }}
+            className="mt-1 font-regular">{subtitle}</Text>
         ) : null}
       </View>
 
-      <MaterialIcons name="chevron-right" size={26} color={destructive ? "#E33434" : "#000"} />
+      <MaterialIcons name="chevron-right" size={Sizes.h2} color={destructive ? Colors.delete : Colors.text} />
     </Pressable>
   );
 }
@@ -52,8 +70,17 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 function SectionTitle({ title }: { title: string }) {
   
   return (
-    <View className="pl-6 pt-7">
-      <Text className="text-[20px] font-medium text-black">{title}</Text>
+    <View
+      style={{
+        paddingLeft: Sizes.paragraph,
+        paddingTop: Sizes.h5
+      }}>
+      <Text
+        style={{
+          fontSize: Sizes.h4,
+          color: Colors.text
+        }}
+        className="font-medium">{title}</Text>
     </View>
   );
 }
@@ -66,7 +93,11 @@ export default function ProfilePage() {
   console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
   return (
-    <SafeAreaView edges={["top"]} className="flex-1 bg-[#fff]">
+    <SafeAreaView edges={["top"]}
+      style={{
+        backgroundColor: Colors.bg2
+      }}
+      className="flex-1">
       <LogoutModal
         visible={showLogoutModal}
         onCancel={() => setShowLogoutModal(false)}
@@ -79,44 +110,90 @@ export default function ProfilePage() {
         onConfirm={() => setShowDeleteModal(false)}
       />
 
-      <View className="h-[72px] justify-end border-b-[2px] border-[#0D5175] bg-white pb-4">
-        <Text className="text-center text-[24px] font-normal text-black">
+      <View
+        style={{
+          paddingBottom: Sizes.paragraph,
+          borderBottomWidth: Buttons.w1,
+          backgroundColor: Colors.bg2,
+          borderBottomColor: Colors.secondary,
+          height: Sizes.boxS
+        }}
+        className="justify-end">
+        <Text
+          style={{
+            fontSize: Sizes.h3,
+            color: Colors.text
+          }}
+          className="text-center">
           {t(`profile.profile`)}
         </Text>
       </View>
 
       <ScrollView
-        className="flex-1 bg-[#EEF9FB]"
+        style={{
+          backgroundColor: Colors.bg1
+        }}
+        className="flex-1"
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
-        <View className="bg-white border-b border-[#0D5175]">
+        <View
+          style={{
+            backgroundColor: Colors.bg2,
+            borderBottomColor: Colors.secondary
+          }}
+          className="border-b">
           <Pressable onPress={handleEditAvatar}>
-            <View className="relative items-center pb-8 pt-9">
+            <View
+              style={{ paddingBottom: Sizes.h4, paddingTop: Sizes.h4 }}
+              className="relative items-center">
 
-              <View className="absolute right-6 top-6 flex-row items-center">
-                <MaterialIcons name="edit" size={16} color="#8A3F00" />
-                <Text className="ml-1 text-[16px] text-[#8A3F00]">{t(`profile.edit`)}</Text>
+              <View
+                className="absolute right-6 top-6 flex-row items-center">
+                <MaterialIcons name="edit" size={Sizes.paragraph} color={Colors.edit} />
+                <Text
+                  style={{
+                    fontSize: Sizes.paragraph,
+                    color: Colors.edit
+                  }}
+                  className="ml-1">{t(`profile.edit`)}</Text>
               </View>
 
               {avatarUrl ? (
                 <Image
                   key={avatarUrl}
                   source={{ uri: `${avatarUrl}?t=${Date.now()}` }}
-                  style={{ height: 74, width: 74, borderRadius: 37 }}
+                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.IconLg }}
                   onLoad={() => console.log('[ProfilePage] image loaded')}
                   onError={(e) => console.log('[ProfilePage] image error:', e.nativeEvent.error)}
                 />
               ) : (
                 <View
-                  style={{ height: 74, width: 74, borderRadius: 37, backgroundColor: '#D7E8ED' }}
+                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }}
                 />
 
               )}
 
-              <Text className="mt-2 text-[16px] font-normal text-black">{fullName}</Text>
-              <Text className="mt-2 text-[16px] font-normal text-gray-600">{dob}</Text>
-              <Text className="mt-2 text-[16px] font-normal text-gray-600">{location}</Text>
+              <Text
+                style={{
+                  fontSize: Sizes.paragraph,
+                  color: Colors.text,
+                  marginTop: Buttons.w2
+                }}>{fullName}</Text>
+              <Text
+                style={{
+                  fontSize: Sizes.paragraph,
+                  color: Colors.textMuted,
+                  marginTop: Buttons.w2
+                }}
+              >{dob}</Text>
+              <Text
+                style={{
+                  fontSize: Sizes.paragraph,
+                  color: Colors.textMuted,
+                  marginTop: Buttons.w2
+                }}
+                className="mt-2">{email}</Text>
             </View>
           </Pressable>
         </View>
@@ -133,8 +210,42 @@ export default function ProfilePage() {
           onPress={() => router.push("/choose-gp")}
         />
         <SectionTitle title={t(`profile.Other settings`)} />
-        <ProfileRow icon="language" title="Language (Local detection)" subtitle={t(`profile.English (UK)`)} />
-        <ProfileRow title="Encrypted documents" subtitle={t(`profile.Active`)} />
+        <View
+          className="min-h-[64px] justify-center"
+          style={{
+            marginHorizontal: Sizes.p3,
+            marginTop: Sizes.p3,
+            borderRadius: Sizes.p3,
+            paddingHorizontal: Sizes.p2,
+            paddingVertical: Buttons.w2,
+          }}>
+          <Text
+            style={{ fontSize: Sizes.paragraph }}>
+            {t(`profile.languageTitle`)}
+          </Text>
+          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
+            className="mt-1 font-regular">
+            {t(`profile.languageText`)}
+          </Text>
+        </View>
+        <View
+          className="min-h-[64px] justify-center"
+          style={{
+            marginHorizontal: Sizes.p3,
+            marginTop: Sizes.p3,
+            borderRadius: Sizes.p3,
+            paddingHorizontal: Sizes.p2,
+            paddingVertical: Buttons.w2,
+          }}>
+          <Text
+            style={{ fontSize: Sizes.paragraph }}>
+            {t(`profile.Encrypted documents`)}
+          </Text>
+          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
+            className="mt-1 font-regular">
+            {t(`profile.Active`)}
+          </Text>
+        </View>
 
         <SectionTitle title={t(`profile.Confidentiality`)} />
         <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
@@ -144,7 +255,9 @@ export default function ProfilePage() {
           onPress={() => setShowDeleteModal(true)}
         />
 
-        <View className="h-[48px]" />
+        <View style={{
+          height: Buttons.height
+        }} />
 
         <ProfileRow
           icon="logout"

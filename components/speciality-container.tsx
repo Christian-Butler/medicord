@@ -1,11 +1,12 @@
+import { Buttons, Colors, Inputs, Sizes } from "@/constants/theme";
 import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
-import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
+import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useProfile } from "@/src/hooks/useProfile";
 import {
@@ -36,8 +37,8 @@ function StarButton({ doctorId }: { doctorId: string }) {
       }}>
       <MaterialIcons
         name={isFavourite ? "star" : "star-border"}
-        size={28}
-        color="#E7BF3C"
+        size={Sizes.h1}
+        color={Colors.info}
       />
     </TouchableOpacity>
   );
@@ -48,22 +49,59 @@ export default function SpecialityContainer({
 }: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
   const { gp } = useProfile();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [timedQuery, setTimedQuery] = useState("");
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setTimedQuery(searchQuery);
+    }, 250);
+    return () => clearTimeout(timeout);
+  }, [searchQuery]);
 
   const { slots: availabilityByDoctorId, error: availabilityError } =
     useNextAvailableSlots(doctors.map((doctor) => doctor.id));
 
   const { t } = useTranslation();
 
+  const querySpecialtyDoctors = useMemo(() => {
+    const trimmedSearchQuery = timedQuery.trim().toLowerCase();
+    if (!trimmedSearchQuery) return doctors;
+    return doctors.filter((doc) =>
+      doc.full_name?.toLowerCase().includes(trimmedSearchQuery)
+    );
+  }, [doctors, timedQuery]);
+
+
+
   return (
     <View>
       <View
-        style={styles.search}
-        className="h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-5">
-        <Search size={18} color="#7B8A91" />
+        style={{
+          backgroundColor: Colors.bg2,
+          borderColor: Colors.secondary,
+          borderRadius: Sizes.p3,
+          height: Inputs.height,
+          marginHorizontal: Sizes.p2,
+          paddingHorizontal: Sizes.p2,
+          marginVertical: Sizes.p3,
+          borderWidth: Inputs.w0,
+        }}
+        className="flex-row items-center"
+      >
+        <Search size={Sizes.h5} color={Colors.textMuted} />
         <TextInput
           placeholder={t(`speciality-container.search`)}
-          placeholderTextColor="#7B8A91"
-          className="ml-4 flex-1 text-lg text-black"
+          placeholderTextColor={Colors.textMuted}
+          style={{
+            fontSize: Sizes.paragraph,
+            color: Colors.text
+          }}
+          className="ml-2"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+          autoCapitalize="words"
+          returnKeyType="search"
         />
       </View>
       <ScrollView>
@@ -82,8 +120,15 @@ export default function SpecialityContainer({
           </Text>
         ) : null}
 
+        {!loading && !error && querySpecialtyDoctors.length === 0 ? (
+          <Text style={styles.statusText}>
+            {searchQuery.trim() ? t(`specialty-container.noDoctors`, "No doctors found matching your search.")
+              : t(`speciality-container.noDoctor`)}
+          </Text>
+        ) : null}
+
         <View style={styles.containerMain}>
-          {doctors.map((doctor, index) => {
+          {querySpecialtyDoctors.map((doctor) => {
             const closestDay =
               availabilityByDoctorId[doctor.id] ??
               t(`speciality-container.availability`);
@@ -97,9 +142,7 @@ export default function SpecialityContainer({
                     {avatar ? (
                       <Image source={{ uri: avatar }} style={styles.avatar} />
                     ) : (
-                      <View
-                        style={[styles.avatar, { backgroundColor: "#D7E8ED" }]}
-                      />
+                      <View style={[styles.avatar, { backgroundColor: Colors.textMuted }]} />
                     )}
                   </View>
 
@@ -142,10 +185,14 @@ export default function SpecialityContainer({
                             specialty: doctor.specialty ?? specialty,
                           },
                         })
-                      }>
-                      <Text className="color-[white] font-medium text-[16px]">
-                        {t(`speciality-container.details`)}
-                      </Text>
+                      }
+                    >
+                      <Text
+                        style={{
+                          color: Colors.bg2,
+                          fontSize: Sizes.paragraph
+                        }}
+                        className="font-medium">{t(`speciality-container.details`)}</Text>
                     </Pressable>
                   </View>
                 </View>
@@ -159,61 +206,56 @@ export default function SpecialityContainer({
 }
 
 const styles = StyleSheet.create({
-  search: {
-    width: 380,
-    marginTop: 18,
-    marginBottom: 20,
-    alignSelf: "center",
-  },
+
   statusText: {
     alignSelf: "center",
-    marginBottom: 12,
-    fontSize: 14,
-    color: "#333",
+    marginBottom: Sizes.p3,
+    fontSize: Sizes.sm,
+    color: Colors.text,
   },
   errorText: {
     alignSelf: "center",
-    marginBottom: 12,
-    fontSize: 14,
-    color: "#B42318",
+    marginBottom: Sizes.p3,
+    fontSize: Sizes.sm,
+    color: Colors.error,
   },
   containerMain: {
-    paddingHorizontal: 12,
+    paddingHorizontal: Sizes.p3,
   },
   card: {
-    backgroundColor: "white",
-    borderRadius: 18,
-    paddingHorizontal: 18,
-    paddingVertical: 14,
-    marginBottom: 18,
+    backgroundColor: Colors.bg2,
+    borderRadius: Sizes.h5,
+    paddingHorizontal: Sizes.h5,
+    paddingVertical: Sizes.sm,
+    marginBottom: Sizes.h5,
   },
   doctorInfo: {
     flexDirection: "row",
   },
   avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    marginRight: 12,
+    width: Sizes.imgApt,
+    height: Sizes.imgApt,
+    borderRadius: Sizes.h1,
+    marginRight: Sizes.p3,
   },
   name: {
-    fontSize: 16,
+    fontSize: Sizes.paragraph,
     fontWeight: "500",
   },
   profession: {
-    marginTop: 2,
-    fontSize: 14,
+    marginTop: Buttons.w2,
+    fontSize: Sizes.sm,
     fontWeight: "400",
   },
   day: {
-    fontSize: 14,
+    fontSize: Sizes.sm,
     fontWeight: "500",
-    backgroundColor: "#fff",
-    borderRadius: 14,
+    backgroundColor: Colors.bg2,
+    borderRadius: Sizes.sm,
   },
   slot: {
-    paddingTop: 10,
-    paddingBottom: 6,
+    paddingTop: Sizes.p2,
+    paddingBottom: Sizes.p1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -221,9 +263,9 @@ const styles = StyleSheet.create({
   containerButton: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#5085A8",
-    color: "#fff",
-    height: 50,
-    borderRadius: 14,
-  },
+    backgroundColor: Colors.primary,
+    color: Colors.bg2,
+    height: Inputs.height,
+    borderRadius: Sizes.sm,
+  }
 });

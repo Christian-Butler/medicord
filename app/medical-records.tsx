@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -95,22 +96,25 @@ export default function MedicalRecordsScreen() {
     const { t } = useTranslation();
 
     return (
-        <SafeAreaProvider style={{ backgroundColor: '#EEF9FB' }}>
-            <ScreenHeader title="Medical records" />
+        <SafeAreaProvider style={{ backgroundColor: Colors.bg1 }}>
+            <ScreenHeader title={t("medical-records.title")} />
             <ScrollView>
-                <View className="mt-[30px] mb-20">
+                <View
+                    style={{ marginTop: Sizes.h4, paddingBottom: Sizes.width - 250 }}
+                >
                     {records.map((record, index) => (
                         <TouchableOpacity
-                            className="flex-row items-center justify-between rounded-2xl bg-white my-[6px] mx-4 py-4 px-2"
+                            style={{ minHeight: Buttons.height, backgroundColor: Colors.bg2, borderRadius: Sizes.p3, marginVertical: Sizes.p1, marginHorizontal: Sizes.p2, paddingHorizontal: Sizes.p2, paddingVertical: Sizes.p2 }}
+                            className="flex-row items-center justify-between"
                             key={`${record.name}-${index}`}
                             onPress={record.onPress}
                         >
                             <View className="flex-row items-center">
-                                <MaterialIcons name={record.icon} size={42} color="#0D5175" />
-                                <Text className="mx-6">{t(`medical-records.${record.name}`)}</Text>
+                                <MaterialIcons name={record.icon} size={Sizes.IconLg} color={Colors.secondary} />
+                                <Text style={{ marginHorizontal: Sizes.h5 }}>{t(`medical-records.${record.name}`)}</Text>
                             </View>
-                            <View className="mr-2">
-                                <MaterialIcons name={record.button} size={26} color="#3f3128" />
+                            <View style={{ marginRight: Sizes.p2 }}>
+                                <MaterialIcons name={record.button} size={Sizes.h2} color={Colors.text} />
                             </View>
                         </TouchableOpacity>
                     ))}

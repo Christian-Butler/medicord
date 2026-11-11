@@ -51,7 +51,7 @@ function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsM
             setShowPicker(false);
             onClose();
         } catch (error) {
-            setSaveError(error instanceof Error ? error.message : "Failed to save treatment");
+            setSaveError(error instanceof Error ? error.message : t("mr-treatments.failedSave"));
         }
     };
 
@@ -112,7 +112,7 @@ function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsM
                                     {t(`mr-treatments.query2`)}
                                 </Text>
                                 <TextInput
-                                    placeholder="e.g. 2 pills morning and evening"
+                                    placeholder={t("mr-treatments.frequencyPlaceholder")}
                                     value={frequency}
                                     onChangeText={setFrequency}
                                     className="h-[42px] border border-[#0D5175] rounded-xl px-4 py-4 bg-white text-[16px] items-center text-black"
@@ -171,7 +171,7 @@ export default function Treatments() {
         void create({ category: "treatments", item: treatmentName })
             .then(() => refetch())
             .catch((createError: unknown) => {
-                setScreenError(createError instanceof Error ? createError.message : "Failed to save treatment");
+                setScreenError(createError instanceof Error ? createError.message : t("mr-treatments.failedSave"));
             });
     }, [create, loading, params.addedTreatment, records, refetch]);
 
@@ -181,7 +181,7 @@ export default function Treatments() {
             await deleteRecord(id);
             await refetch();
         } catch (deleteError) {
-            setScreenError(deleteError instanceof Error ? deleteError.message : "Failed to delete treatment");
+            setScreenError(deleteError instanceof Error ? deleteError.message : t("mr-treatments.failedDelete"));
         }
     }
 
@@ -244,7 +244,7 @@ export default function Treatments() {
             {(error || screenError) && (
                 <Text className="mx-6 mb-4 text-red-700">{screenError ?? error}</Text>
             )}
-            {loading && <Text className="mx-6 text-gray-600">Loading treatments...</Text>}
+            {loading && <Text className="mx-6 text-gray-600">{t("mr-treatments.loading")}</Text>}
 
             {records.length > 0 && (
 

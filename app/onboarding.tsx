@@ -34,10 +34,10 @@ export default function OnboardingScreen() {
                 padding: 12,
             }}>
                 <Text style={{
-                    paddingRight: 12,
-                    color: Colors.primary || "#5085A8",
+                    paddingRight: Sizes.p3,
+                    color: Colors.primary,
                     fontWeight: 500,
-                    fontSize: Sizes.h4 || 16,
+                    fontSize: Sizes.h5,
                 }}>
                     {label}
                 </Text>
@@ -50,16 +50,16 @@ export default function OnboardingScreen() {
             renderItem={({ item }) => {
                 return (
                     <View style={{
-                        backgroundColor: 'white',
+                        backgroundColor: Colors.bg2,
                         flex: 1,
                         alignItems: 'center',
-                        padding: 12,
+                        padding: Sizes.p3,
                         paddingTop: 250,
                     }}>
                         <Image
                             source={item.image}
                             style={{
-                                marginBottom: 25,
+                                marginBottom: Sizes.h2,
                                 width: Sizes.width - 80,
                                 height: 150,
                             }}
@@ -67,7 +67,7 @@ export default function OnboardingScreen() {
                         />
                         <Text style={{
                             fontWeight: 500,
-                            color: 'black',
+                            color: Colors.text,
                             fontSize: Sizes.h1,
                         }}>
                             {item.title}
@@ -76,9 +76,9 @@ export default function OnboardingScreen() {
                             style={{
                                 textAlign: 'center',
                                 fontWeight: 400,
-                                color: 'black',
+                                color: Colors.text,
                                 fontSize: Sizes.h4,
-                                paddingTop: 14
+                                paddingTop: Sizes.sm
                             }}>
                             {item.description}
                         </Text>

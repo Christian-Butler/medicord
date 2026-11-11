@@ -7,27 +7,27 @@ import { Dimensions, Platform } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 
-const tintColorLight = "#5085A8";
-const tintColorDark = "#fff";
+const tintColorLight = '#5085A8';
+const tintColorDark = '#fff';
 
 export const Colors = {
-  bg1: "#EEF9FB",
-  bg2: "white",
-  primary: "#5085A8",
-  secondary: "#0D5175",
-  text: "#11181C",
-  textMuted: "#67757c",
-  success: "#17A633",
-  successMuted: "#a2e5b062",
-  info: "#e7bf3c",
-  infoMuted: "#ffe9a87f",
-  error: "#B10111",
-  delete: "#d31f1f",
-  edit: "#8A3F00",
+  bg1: '#EEF9FB',
+  bg2: 'white',
+  primary: '#5085A8',
+  secondary: '#0D5175',
+  text: '#11181C',
+  textMuted: '#67757c',
+  success: '#17A633',
+  successMuted: '#a2e5b062',
+  info: '#e7bf3c',
+  infoMuted: '#ffe9a87f',
+  error: '#B10111',
+  delete: '#d31f1f',
+  edit: '#8A3F00',
 
   light: {
-    text: "#11181C",
-    background: "#fffcfc",
+    text: '#11181C',
+    background: '#fffcfc',
     tint: tintColorLight,
     icon: "#687076",
     tabIconDefault: "#687076",
@@ -37,8 +37,8 @@ export const Colors = {
     text: "#ECEDEE",
     background: "#151718",
     tint: tintColorDark,
-    icon: "#BEC9CA",
-    tabIconDefault: "#9BA1A6",
+    icon: '#BEC9CA',
+    tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
   },
 };
@@ -64,21 +64,23 @@ export const Sizes = {
   p3: 12,
   width,
   height,
-};
+}
 
 export const Buttons = {
   imgW: 40,
   height: 50,
   w0: 1,
   w1: 1.5,
-  w2: 2,
-};
+  w2: 2
+}
 
 export const Inputs = {
   height: 50,
   w0: 1,
   w1: 2,
-};
+}
+
+
 
 export const Fonts = Platform.select({
   ios: {

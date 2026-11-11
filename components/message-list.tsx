@@ -1,10 +1,12 @@
 import { useMessages } from "@/src/hooks/useMessages";
 import React, { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { FlatList, Text, View } from "react-native";
 
 export default function MessageList({ doctorId }: { doctorId: string }) {
   const { messages, loading, error } = useMessages(doctorId);
   const flatListRef = useRef<FlatList>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (messages.length > 0) {
@@ -15,7 +17,7 @@ export default function MessageList({ doctorId }: { doctorId: string }) {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[16px] text-black">Loading...</Text>
+        <Text className="text-[16px] text-black">{t("chat-list.loading")}</Text>
       </View>
     );
   }

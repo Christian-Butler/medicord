@@ -40,6 +40,14 @@ export type UpdateMedicationInput = {
   frequency?: string | null;
 };
 
+function dateOnly(value: Date | null | undefined) {
+  if (!value) return null;
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, "0");
+  const day = String(value.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
 export async function getMyMedications(): Promise<Medication[]> {
   const userId = await getCurrentAppUserId();
 
@@ -82,6 +90,8 @@ export async function createMedication(input: MedicationInput): Promise<Medicati
     morning_intake: input.morningIntake ?? [],
     noon_intake: input.noonIntake ?? [],
     evening_intake: input.eveningIntake ?? [],
+    date_start: dateOnly(input.dateStart),
+    date_end: dateOnly(input.dateEnd),
     frequency: input.frequency ?? null,
   };
 
@@ -109,8 +119,8 @@ export async function updateMedication(input: UpdateMedicationInput): Promise<Me
   if (input.morningIntake !== undefined) patch.morning_intake = input.morningIntake;
   if (input.noonIntake !== undefined) patch.noon_intake = input.noonIntake;
   if (input.eveningIntake !== undefined) patch.evening_intake = input.eveningIntake;
-  if (input.dateStart !== undefined) patch.date_start = input.dateStart;
-  if (input.dateEnd !== undefined) patch.date_end = input.dateEnd;
+  if (input.dateStart !== undefined) patch.date_start = dateOnly(input.dateStart);
+  if (input.dateEnd !== undefined) patch.date_end = dateOnly(input.dateEnd);
   if (input.monthsDuration !== undefined) patch.months_duration = input.monthsDuration;
   if (input.weeksDuration !== undefined) patch.weeks_duration = input.weeksDuration;
   if (input.daysDuration !== undefined) patch.days_duration = input.daysDuration;

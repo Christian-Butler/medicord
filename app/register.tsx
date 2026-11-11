@@ -76,7 +76,7 @@ export default function RegisterPage() {
           </Text>
         ) : null}
 
-        <Text className="mt-8 text-[16px] font-medium text-black">Full name</Text>
+        <Text className="mt-8 text-[16px] font-medium text-black">{t("register.fullNameLabel")}</Text>
         <TextInput
           value={fullName}
           onChangeText={setFullName}

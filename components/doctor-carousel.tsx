@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
 import { useProfile } from "@/src/hooks/useProfile";
 import { Pressable, Text, View } from "react-native";
+import { Colors, Sizes } from '../constants/theme';
 
 const specialties = [
   {
@@ -103,8 +104,17 @@ export default function DoctorSpecialtyCarousel() {
   return (
     <View>
 
-      <View className="mt-6 ml-6">
-        <Text className="text-2xl font-regular text-zinc-600">
+      <View
+        style={{
+          marginTop: Sizes.paragraph,
+          marginLeft: Sizes.paragraph
+        }}>
+        <Text
+          style={{
+            fontSize: Sizes.h3,
+            color: Colors.textMuted,
+            fontWeight: "regular"
+          }}>
           {t(`doctor-carousel.specialty`)}
         </Text>
         {needsGp ? (
@@ -133,6 +143,46 @@ export default function DoctorSpecialtyCarousel() {
                       },
                     })
                   }
+            {row.map((item) => (
+              <Pressable
+                key={item.id}
+                style={{ paddingBottom: Sizes.p1 }}
+                className="items-center"
+                onPress={() =>
+                  router.push({
+                    pathname: "/specialist-page",
+                    params: {
+                      specialty: item.title,
+                    },
+                  })
+                }
+              >
+                <View
+                  style={{
+                    width: Sizes.boxS,
+                    height: Sizes.boxS,
+                    borderRadius: Sizes.sm,
+                    backgroundColor: Colors.bg2,
+                  }}
+                  className="items-center justify-center">
+                  <SpecialtyIcon
+                    icon={item.icon}
+                    library={item.library}
+                    size={Sizes.IconNml}
+                    color={Colors.secondary}
+                  />
+                </View>
+
+                <Text
+                  numberOfLines={1}
+                  adjustsFontSizeToFit
+                  minimumFontScale={0.65}
+                  style={{
+                    fontSize: Sizes.sm,
+                    color: Colors.text,
+                    marginTop: Sizes.p0
+                  }}
+                  className="w-[96px] text-center leading-[16px]"
                 >
                   <View className="h-[70px] w-[70px] items-center justify-center rounded-[16px] bg-[white]">
                     <SpecialtyIcon

@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useLatestDocument } from "@/src/hooks/useLatestDocument";
 import { categoryLabel } from "@/src/libs/documentLabel";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -33,8 +34,17 @@ export default function LatestDocuments() {
     : t("latest-documents.none", "No documents yet. Tap to add one.");
 
   return (
-    <View className=" px-4 pt-10">
-      <Text className="pl-2 text-[24px] font-normal text-black">
+    <View
+      style={{
+        paddingHorizontal: Sizes.p3,
+        paddingTop: Sizes.h2
+      }}>
+      <Text
+        style={{
+          paddingLeft: Sizes.p0,
+          fontSize: Sizes.h2,
+          color: Colors.text
+        }}>
         {t(`latest-documents.latest`)}
       </Text>
 
@@ -43,35 +53,71 @@ export default function LatestDocuments() {
         onPress={() => router.push({
           pathname: "/mr-documents"
         })}>
-        <View className="mt-6 bg-[white] rounded-xl px-4 py-4 my-2">
+        <View
+          style={{
+            marginTop: Sizes.paragraph,
+            backgroundColor: Colors.bg2,
+            borderRadius: Sizes.p3,
+            paddingHorizontal: Sizes.h5,
+            paddingVertical: Sizes.h5,
+          }}>
           <View className="flex-row items-center">
             <FontAwesome5
               name="clipboard-list"
-              size={40}
-              color="#0D5175"
+              size={Sizes.IconLg}
+              color={Colors.secondary}
               solid
             />
 
-            <View className="ml-4 flex-1">
+            <View
+              style={{
+                marginLeft: Sizes.p3
+              }}
+              className="flex-1">
               <View className="flex-row items-end">
-                <Text numberOfLines={1} className="shrink text-[16px] font-medium text-black">
-                  {document ? categoryLabel(document.category) : t("latest-documents.documents", "Documents")}
+                <Text
+                  style={{
+                    fontSize: Sizes.paragraph,
+                    color: Colors.text
+                  }}
+                  numberOfLines={1} className="shrink font-medium">
+                  {document ? categoryLabel(document.category) : t(`latest-documents.documents`, `Documents`)}
                 </Text>
                 {isNew ? (
-                  <View className="mx-2 py-1 px-4 rounded-[10px] border-[2px] border-[#54B85D] bg-[#B1EDB1]">
-                    <Text className="text-[12px] font-medium text-black">
+                  <View
+                    style={{
+                      borderRadius: Sizes.imgApt,
+                      paddingHorizontal: Sizes.p2,
+                      borderWidth: Buttons.w0,
+                      borderColor: Colors.success,
+                      paddingVertical: Buttons.w2,
+                      backgroundColor: Colors.successMuted,
+                      marginHorizontal: Sizes.p3
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: Sizes.p3,
+                        color: Colors.text
+                      }}
+                      className="font-medium">
                       {t(`latest-documents.new`)}
                     </Text>
                   </View>
                 ) : null}
               </View>
               {!loading ? (
-                <Text numberOfLines={1} className="mt-2 text-[14px] text-gray-600">
+                <Text
+                  style={{
+                    marginTop: Buttons.w2,
+                    fontSize: Sizes.sm,
+                    color: Colors.textMuted
+                  }}
+                  numberOfLines={1}>
                   {document ? `${document.title} · ${subtitle}` : subtitle}
                 </Text>
               ) : null}
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={18} />
+            <MaterialIcons name="arrow-forward-ios" size={Sizes.h5} />
           </View>
         </View>
       </TouchableWithoutFeedback>

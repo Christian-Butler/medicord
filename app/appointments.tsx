@@ -1,5 +1,6 @@
 import CancelAppointmentOverlay from "@/components/cancel-appointment-overlay";
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import { useAppointmentList } from "@/src/hooks/useAppointmentList";
 import { useCancelAppointment } from "@/src/hooks/useCancelAppointment";
@@ -60,20 +61,53 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
   return (
     <View style={styles.appointmentRow}>
 
-      <View style={styles.appointmentContent} className="mx-4 my-2 px-2 py-6 rounded-2xl bg-white">
+      <View style={styles.appointmentContent}>
         <View className="flex-row">
           <Image source={{ uri: avatar }} style={styles.avatar} />
-          <View className="px-2 flex-1 flex-row justify-between">
-            <View className="mb-4">
-              <Text className="mb-1 text-[16px] font-medium text-black">{doctorName}</Text>
-              <Text className="mb-1 text-gray-600 text-[16px] font-regular">{t(`appointments.${specialty}`)}</Text>
-              <Text className="mb-1 text-gray-600 text-[16px] font-regular">
+
+          <View
+            className="flex-1 flex-row justify-between">
+            <View
+              style={{
+                marginBottom: Sizes.p0,
+                maxWidth: 182
+              }}
+            >
+              <Text
+                style={{
+                  marginBottom: Buttons.w0,
+                  fontSize: Sizes.paragraph,
+                  color: Colors.text
+                }}
+                className="font-medium">{doctorName}</Text>
+              <Text
+                style={{
+                  marginBottom: Buttons.w0,
+                  color: Colors.textMuted,
+                  fontSize: Sizes.paragraph
+                }}
+                className="font-regular">{t(`appointments.${specialty}`)}</Text>
+              <Text
+                style={{
+                  marginBottom: Buttons.w0,
+                  color: Colors.textMuted,
+                  fontSize: Sizes.paragraph
+                }}
+                className="font-regular">
                 {formatDateTime(appointment.starts_at)}
               </Text>
-              <Text className="text-gray-600 text-[16px] font-regular">{location}</Text>
+              <Text
+                style={{
+                  marginBottom: Sizes.p0,
+                  color: Colors.textMuted,
+                  fontSize: Sizes.paragraph
+                }}
+                className="font-regular">{location}</Text>
             </View>
             <Pressable
-              className=""
+              style={{
+                marginRight: Sizes.p2
+              }}
               onPress={() =>
                 router.push({
                   pathname: "/appointment-details",
@@ -83,26 +117,72 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
                 })
               }
             >
-              <Text className="text-[16px] font-medium text-[#5085A8]">{t(`appointments.details`)}</Text>
+              <Text
+                style={{
+                  color: Colors.primary,
+                  fontSize: Sizes.paragraph,
+                }}
+                className="font-medium">{t(`appointments.details`)}</Text>
             </Pressable>
           </View>
-
         </View>
 
-        <View className="flex-row">
+        <View className="flex-row justify-between">
           {type === "upcoming" ? (
             <>
-              <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]" onPress={onAddToCalendar}>
-                <Text className="text-[16px] font-medium text-[#0D5175]">{t(`appointments.calendar`)}</Text>
+              <Pressable
+                style={{
+                  height: Buttons.height,
+                  backgroundColor: Colors.bg2,
+                  borderColor: Colors.secondary,
+                  borderWidth: Buttons.w1,
+                  borderRadius: Sizes.p3,
+                  paddingHorizontal: Sizes.h2,
+                  paddingVertical: Buttons.w2,
+                  marginRight: Sizes.paragraph,
+                }}
+                className="self-end items-center justify-center" onPress={onAddToCalendar}>
+                <Text
+                  style={{
+                    fontSize: Sizes.paragraph,
+                    color: Colors.secondary
+                  }}
+                  className="font-medium">{t(`appointments.calendar`)}</Text>
               </Pressable>
 
-              <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]" onPress={onModify}>
-                <Text className="text-[16px] font-medium text-white">{t(`appointments.modify`)}</Text>
+              <Pressable
+                style={{
+                  height: Buttons.height,
+                  paddingHorizontal: Sizes.h2,
+                  paddingVertical: Buttons.w2,
+                  borderRadius: Sizes.p3,
+                  backgroundColor: Colors.primary
+                }}
+                className="self-end items-center justify-center" onPress={onModify}>
+                <Text
+                  style={{
+                    fontSize: Sizes.paragraph,
+                    color: Colors.bg2
+                  }}
+                  className="font-medium">{t(`appointments.modify`)}</Text>
               </Pressable>
             </>
           ) : (
-            <Pressable className="self-end items-center justify-center h-[50px] px-6 py-2 rounded-[14px] bg-[#5085A8]">
-              <Text className="text-[16px] font-medium text-white">{t(`appointments.prescription`)}</Text>
+            <Pressable
+              style={{
+                height: Buttons.height,
+                paddingHorizontal: Sizes.h2,
+                paddingVertical: Buttons.w2,
+                borderRadius: Sizes.p3,
+                backgroundColor: Colors.primary
+              }}
+              className="self-end items-center justify-center">
+              <Text
+                style={{
+                  fontSize: Sizes.paragraph,
+                  color: Colors.bg2
+                }}
+                className="font-medium">{t(`appointments.prescription`)}</Text>
             </Pressable>
           )}
         </View>
@@ -228,7 +308,7 @@ export default function Appointments() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: "#EEF9FB",
+    backgroundColor: Colors.bg1,
   },
 
   scroll: {
@@ -240,36 +320,36 @@ const styles = StyleSheet.create({
   },
 
   statusText: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    color: "#333",
-    fontSize: 14,
+    paddingHorizontal: Sizes.paragraph,
+    paddingVertical: Sizes.p3,
+    color: Colors.text,
+    fontSize: Sizes.sm,
   },
 
   errorText: {
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    color: "#B42318",
-    fontSize: 14,
+    paddingHorizontal: Sizes.paragraph,
+    paddingVertical: Sizes.p3,
+    color: Colors.error,
+    fontSize: Sizes.sm,
   },
 
   sectionHeader: {
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: "#EEF9FB",
+    paddingHorizontal: Sizes.h4,
+    paddingVertical: Sizes.paragraph,
+    backgroundColor: Colors.bg1,
   },
 
   sectionTitle: {
-    fontSize: 20,
+    fontSize: Sizes.h4,
     fontWeight: "500",
-    color: "#000",
+    color: Colors.text,
   },
 
   emptyText: {
-    paddingHorizontal: 20,
-    paddingVertical: 18,
-    color: "#333",
-    fontSize: 15,
+    paddingHorizontal: Sizes.h4,
+    paddingVertical: Sizes.h5,
+    color: Colors.text,
+    fontSize: Sizes.paragraph,
   },
 
   appointmentRow: {
@@ -277,14 +357,20 @@ const styles = StyleSheet.create({
   },
 
   avatar: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    marginRight: 14,
-    backgroundColor: "#D7E8ED",
+    width: Sizes.imgNm,
+    height: Sizes.imgNm,
+    borderRadius: Sizes.IconNml,
+    marginRight: Sizes.sm,
+    backgroundColor: Colors.bg1,
   },
 
   appointmentContent: {
+    borderRadius: Sizes.p3,
+    backgroundColor: Colors.bg2,
     flex: 1,
+    marginHorizontal: Sizes.p3,
+    marginVertical: Sizes.p0,
+    paddingHorizontal: Sizes.p2,
+    paddingVertical: Sizes.paragraph
   },
 })

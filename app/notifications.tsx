@@ -1,11 +1,16 @@
 import ScreenHeader from "@/components/screen-header";
+import { Colors, Sizes } from "@/constants/theme";
 import { getCalendarLink, removeCalendarLink, saveCalendarLink } from "@/src/libs/calenderLinks";
 import { clearNotificationsUnseen, ensureNotificationPermission, type ReminderData } from "@/src/libs/notifications";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import * as Notifications from "expo-notifications";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { FlatList, Pressable, Text, TouchableOpacity, View } from "react-native";
+
+
 
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -14,7 +19,8 @@ function reminderData(item: Notifications.NotificationRequest): Partial<Reminder
 }
 
 // Reads the time we stored on the reminder when it was scheduled.
-function whenText(item: Notifications.NotificationRequest): string | null {
+// Reads the time we stored on the reminder when it was scheduled.
+function whenText(item: Notifications.NotificationRequest, t: TFunction): string | null {
   const data = reminderData(item);
   if (data.at) {
     return new Date(data.at).toLocaleString([], {
@@ -23,7 +29,9 @@ function whenText(item: Notifications.NotificationRequest): string | null {
   }
   if (data.hour !== undefined) {
     const time = `${String(data.hour).padStart(2, "0")}:00`;
-    return data.weekday ? `${DAY_NAMES[data.weekday - 1]} at ${time}` : `Every day at ${time}`;
+    return data.weekday
+      ? `${t(`notifications.${DAY_NAMES[data.weekday - 1]}`)} ${time}`
+      : `${t(`notifications.dayEach`)} ${time}`;
   }
   return null;
 }
@@ -51,6 +59,7 @@ async function removeReminder(item: Notifications.NotificationRequest) {
 export default function NotificationsScreen() {
   const [permission, setPermission] = useState(false);
   const [scheduled, setScheduled] = useState<Notifications.NotificationRequest[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     ensureNotificationPermission().then(setPermission);
@@ -77,8 +86,8 @@ export default function NotificationsScreen() {
   async function scheduleTestNotification() {
     await Notifications.scheduleNotificationAsync({
       content: {
-        title: "Prescription",
-        body: "You have received a prescription, available in Documents.",
+        title: t(`notifications.titleContent`),
+        body: t(`notifications.nodyContent`),
       },
       trigger: {
         type: Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
@@ -93,22 +102,22 @@ export default function NotificationsScreen() {
     <View className="flex-1 bg-[#EEF9FB]">
       <ScreenHeader title="Notification center" />
       <View className="flex-1 mx-4 my-6">
-        <Text className="text-xl font-medium">Scheduled</Text>
+        <Text className="text-xl font-medium">{t(`notifications.scheduled`)}</Text>
 
         <FlatList
           data={scheduled}
           keyExtractor={(item) => item.identifier}
           ListEmptyComponent={
             <Text className="mt-6 text-center text-[15px] text-[#7A8A8D]">
-              No scheduled notifications.
+              {t(`notifications.noSchedule`)}
             </Text>
           }
           renderItem={({ item }) => {
-            const when = whenText(item);
+            const when = whenText(item, t);
             return (
               <View className="mt-6 flex-row items-center px-4 py-6 border-2 rounded-2xl border-[#0D5175] bg-white">
                 <View className="w-14 items-center justify-center">
-                  <MaterialIcons name="medical-information" size={48} color="#0D5175" />
+                  <MaterialIcons name="medical-information" size={Sizes.IconLg} color={Colors.secondary} />
                 </View>
                 <View className="ml-4 flex-1">
                   <Text className="flex-1 text-xl">{item.content.title}</Text>
@@ -118,10 +127,10 @@ export default function NotificationsScreen() {
                 <Pressable
                   onPress={() => handleRemove(item)}
                   hitSlop={12}
-                  accessibilityLabel="Remove reminder"
+                  accessibilityLabel={t(`notifications.remove`)}
                   className="ml-2"
                 >
-                  <MaterialIcons name="close" size={24} color="#0D5175" />
+                  <MaterialIcons name="close" size={Sizes.h3} color={Colors.secondary} />
                 </Pressable>
               </View>
             );
@@ -134,7 +143,7 @@ export default function NotificationsScreen() {
           onPress={scheduleTestNotification}
         >
           <Text className="font-semibold text-white">
-            {permission ? "Send test notification" : "Notifications not enabled"}
+            {permission ? t(`notifications.test`) : t(`notifications.notEnabled`)}
           </Text>
         </TouchableOpacity>
       </View>

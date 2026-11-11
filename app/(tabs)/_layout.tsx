@@ -3,6 +3,7 @@ import { BottomSheetHub } from "@/components/bottom-sheet";
 import { HapticTab } from "@/components/haptic-tab";
 import { SpecialTabButton } from "@/components/special-tab-button";
 import { IconSymbol } from "@/components/ui/icon-symbol";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { Tabs } from "expo-router";
 import { useRef } from "react";
@@ -28,16 +29,16 @@ export default function TabLayout() {
             tabBarButton: HapticTab,
             tabBarInactiveTintColor: INACTIVE,
             tabBarLabelStyle: {
-              fontSize: 12,
+              fontSize: Sizes.p3,
               fontWeight: 500
             },
             tabBarStyle: {
-              backgroundColor: "#fff",
+              backgroundColor: Colors.bg2,
               height: 100,
-              borderTopColor: "#09516D",
-              borderTopWidth: 1.5,
-              paddingTop: 20,
-              paddingBottom: 12,
+              borderTopColor: Colors.secondary,
+              borderTopWidth: Buttons.w1,
+              paddingTop: Sizes.h4,
+              paddingBottom: Sizes.p3,
             }
           }}>
           <Tabs.Screen
@@ -46,7 +47,7 @@ export default function TabLayout() {
               title: "Home",
               tabBarLabel: t('tabs.index'),
               tabBarIcon: ({ color }) => (
-                <IconSymbol size={28} name="house.fill" color={color} />
+                <IconSymbol size={Sizes.h2} name="house.fill" color={color} />
               ),
             }}
           />
@@ -67,7 +68,7 @@ export default function TabLayout() {
               tabBarLabel: t('tabs.profile'),
               tabBarIcon: ({ color }) => (
                 <IconSymbol
-                  size={28}
+                  size={Sizes.h2}
                   name="person.crop.circle.fill"
                   color={color}
                 />

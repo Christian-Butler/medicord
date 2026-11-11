@@ -1,4 +1,6 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 interface DaysSelectorProps {
@@ -7,13 +9,13 @@ interface DaysSelectorProps {
 }
 
 export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelectorProps) {
-
+    const { t } = useTranslation();
 
     const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
     return (
         <View>
-            <Text style={styles.label}>Days of the Week</Text>
+            <Text style={styles.label}>{t("medication-form.daysOfWeek")}</Text>
             <View style={styles.daysContainer}>
                 {weekDays.map((day) => (
                     <TouchableOpacity
@@ -24,7 +26,7 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
                         ]}
                         onPress={() => onToggleDay(day)}>
                         <Text style={selectedDays.includes(day) ? styles.textLight : styles.text}>
-                            {day}
+                            {t(`medication-container.${day}`)}
                         </Text>
                     </TouchableOpacity>
                 ))}
@@ -35,36 +37,36 @@ export default function DaysSelector({ selectedDays, onToggleDay }: DaysSelector
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 20,
-        marginBottom: 12,
+        fontSize: Sizes.h4,
+        marginBottom: Sizes.p3,
         fontWeight: '500'
     },
     daysContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-evenly',
-        gap: 10,
-        marginBottom: 28,
+        gap: Sizes.p2,
+        marginBottom: Sizes.h2,
     },
     dayButton: {
-        height: 44,
-        width: 44,
+        height: Sizes.IconLg,
+        width: Sizes.IconLg,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 10,
-        backgroundColor: '#fff',
-        borderWidth: 2,
-        borderColor: '#326F95'
+        borderRadius: Sizes.p2,
+        backgroundColor: Colors.bg2,
+        borderWidth: Buttons.w1,
+        borderColor: Colors.primary
     },
     dayButtonSelected: {
-        backgroundColor: '#326F95'
+        backgroundColor: Colors.primary
     },
     textLight: {
-        color: '#fff',
+        color: Colors.bg2,
         fontWeight: 'medium'
     },
     text: {
-        color: '#326F95',
+        color: Colors.primary,
         fontWeight: '500',
     },
 })

@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -19,7 +20,12 @@ export default function UpdateAppointmentSuccessOverlay({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30">
-        <View className="w-[92%] rounded-[20px] bg-[#EEF9FB] px-4 pb-8 pt-12">
+        <View
+          style={{
+            borderRadius: Sizes.h4,
+            backgroundColor: Colors.bg1
+          }}
+          className="w-[92%] px-4 pb-8 pt-12">
           <View className="mb-8 items-center">
             <MaterialIcons name="event-available" size={104} color="#2F789E" />
           </View>

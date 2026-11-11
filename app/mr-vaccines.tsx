@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Colors, Sizes } from "@/constants/theme";
 import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
 import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -39,7 +40,7 @@ export default function Vaccines() {
                             })
                         }
                     >
-                        <MaterialIcons name="add" size={26} color="#fff" />
+                        <MaterialIcons name="add" size={Sizes.h2} color={Colors.bg2} />
                         <Text className="text-[16px] text-center text-white font-medium">{t(`mr-vaccines.add`)}</Text>
                     </TouchableOpacity>
                 </View>
@@ -62,12 +63,12 @@ export default function Vaccines() {
                                 key={record.id}
                                 className="px-4 py-6 mb-4 flex-row items-center justify-between rounded-2xl bg-white"
                             >
-                                <MaterialIcons name="vaccines" size={44} color="#0D5175" />
+                                <MaterialIcons name="vaccines" size={Sizes.IconLg} color={Colors.secondary} />
                                 <View className="flex-1 px-4">
                                     <Text className="font-medium text-xl mb-1">{record.item}</Text>
                                     {record.vaccine_date ? (
                                         <View className="flex-row">
-                                            <Text className="text-[16px] font-medium text-black">Received: </Text>
+                                            <Text className="text-[16px] font-medium text-black">{t(`mr-vaccines.received`)}</Text>
                                             <Text className="text-[16px] font-regular text-gray-600">{record.vaccine_date} </Text>
                                         </View>
                                     ) : null}

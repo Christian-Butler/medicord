@@ -1,28 +1,28 @@
 export function formatMedicationDuration(
-  months?: number | null,
-  weeks?: number | null,
-  days?: number | null
+  startDate: Date | string,
+  endDate: Date | string
 ) {
-  const parts: string[] = [];
-
-  const totalDays =
-    (months ?? 0) * 30 +
-    (weeks ?? 0) * 7 +
-    (days ?? 0);
-  if (totalDays <= 0) return "No date available";
-  if (totalDays >= 30) return `${Math.round(totalDays / 30)} month${Math.round(totalDays / 30) === 1 ? "" : "s"} remaining`;
-  if (totalDays >= 7) return `${Math.round(totalDays / 7)} week${Math.round(totalDays / 7) === 1 ? "" : "s"} remaining`;
-  return `${totalDays} day${totalDays === 1 ? "" : "s"} remaining`;
-
-
+  return `${toLocalDate(startDate).toLocaleDateString()} - ${toLocalDate(endDate).toLocaleDateString()}`;
 }
 
-export function formatMedicationFrequency(daysFrequency?: string[] | null) {
-  if (!daysFrequency || daysFrequency.length === 0) {
-    return "No frequency set";
-  }
+function toLocalDate(value: Date | string) {
+  if (value instanceof Date) return value;
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  return dateOnly
+    ? new Date(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]))
+    : new Date(value);
+}
 
-  return daysFrequency.join(", ");
+export function getMedicationDaysRemaining(
+  endDate: Date | string,
+  today = new Date()
+) {
+  const end = toLocalDate(endDate);
+  const current = toLocalDate(today);
+  const endDay = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+  const currentDay = Date.UTC(current.getFullYear(), current.getMonth(), current.getDate());
+
+  return Math.round((endDay - currentDay) / (24 * 60 * 60 * 1000));
 }
 
 export function formatMedicationInstructions(instructions?: string[] | null) {
