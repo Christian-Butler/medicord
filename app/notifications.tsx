@@ -7,6 +7,7 @@ import * as Notifications from "expo-notifications";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 import { FlatList, Pressable, Text, TouchableOpacity, View } from "react-native";
 
 
@@ -18,7 +19,8 @@ function reminderData(item: Notifications.NotificationRequest): Partial<Reminder
 }
 
 // Reads the time we stored on the reminder when it was scheduled.
-function whenText(item: Notifications.NotificationRequest): string | null {
+// Reads the time we stored on the reminder when it was scheduled.
+function whenText(item: Notifications.NotificationRequest, t: TFunction): string | null {
   const data = reminderData(item);
   if (data.at) {
     return new Date(data.at).toLocaleString([], {
@@ -27,7 +29,9 @@ function whenText(item: Notifications.NotificationRequest): string | null {
   }
   if (data.hour !== undefined) {
     const time = `${String(data.hour).padStart(2, "0")}:00`;
-    return data.weekday ? t(`notifications.${DAY_NAMES[data.weekday - 1]} at ${time}`) : t(`notifications.dayEach ${time}`);
+    return data.weekday
+      ? `${t(`notifications.${DAY_NAMES[data.weekday - 1]}`)} ${time}`
+      : `${t(`notifications.dayEach`)} ${time}`;
   }
   return null;
 }
@@ -109,7 +113,7 @@ export default function NotificationsScreen() {
             </Text>
           }
           renderItem={({ item }) => {
-            const when = whenText(item);
+            const when = whenText(item, t);
             return (
               <View className="mt-6 flex-row items-center px-4 py-6 border-2 rounded-2xl border-[#0D5175] bg-white">
                 <View className="w-14 items-center justify-center">
