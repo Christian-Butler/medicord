@@ -9,7 +9,13 @@ export type Profile = {
   phone: string | null;
   date_of_birth: string | null;
   avatar_url: string | null;
-  gp: Gp | null;
+  gp: {
+    id: string;
+    full_name: string;
+    clinic_name: string | null;
+    location: string | null;
+    avatar_url: string | null;
+  } | null;
 };
 
 const profileSelect = `
@@ -19,13 +25,12 @@ const profileSelect = `
   phone,
   date_of_birth,
   avatar_url,
-  gp:gps (
+  gp:doctors!profiles_gp_id_fkey (
     id,
     full_name,
-    practice_name,
-    practice_location,
-    phone,
-    email
+    clinic_name,
+    location,
+    avatar_url
   )
 `;
 

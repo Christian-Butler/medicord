@@ -1,32 +1,34 @@
 import { AuthProvider } from "@/src/context/AuthContext";
-import '@/src/libs/i18n';
-import '@/src/libs/notifications';
+import "@/src/libs/i18n";
+import "@/src/libs/notifications";
 import { clearExpiredMedicationAlarms } from "@/src/libs/medicationAlarms";
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import * as Notifications from 'expo-notifications';
-import { router, Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import * as Notifications from "expo-notifications";
+import { router, Stack } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import { useEffect } from "react";
+import "react-native-reanimated";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import "../global.css";
 
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export const unstable_settings = {
-  anchor: 'index',
+  anchor: "index",
 };
 
 export default function RootLayout() {
- useEffect(() => {
+  useEffect(() => {
     clearExpiredMedicationAlarms().catch(() => {});
   }, []);
 
   // Tapping one of our banners or reminders opens the notification centre.
   useEffect(() => {
-    const subscription = Notifications.addNotificationResponseReceivedListener(() => {
-      router.push("/notifications");
-    });
+    const subscription = Notifications.addNotificationResponseReceivedListener(
+      () => {
+        router.push("/notifications");
+      },
+    );
     return () => subscription.remove();
   }, []);
   return (
@@ -37,39 +39,127 @@ export default function RootLayout() {
             <Stack>
               <Stack.Screen name="index" options={{ headerShown: false }} />
               <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-              <Stack.Screen name="modal" options={{ presentation: "modal", title: "Modal" }} />
+              <Stack.Screen
+                name="modal"
+                options={{ presentation: "modal", title: "Modal" }}
+              />
               <Stack.Screen name="login" options={{ headerShown: false }} />
               <Stack.Screen name="register" options={{ headerShown: false }} />
-              <Stack.Screen name="forgot-password" options={{ headerShown: false }} />
-              <Stack.Screen name="reset-password" options={{ headerShown: false }} />
-              <Stack.Screen name="specialist-page" options={{ headerShown: false }} />
-              <Stack.Screen name="doctor-details" options={{ headerShown: false }} />
-              <Stack.Screen name="book-appointment" options={{ headerShown: false }} />
-              <Stack.Screen name="appointments" options={{ headerShown: false }} />
-              <Stack.Screen name="appointment-details" options={{ headerShown: false }} />
-              <Stack.Screen name="edit-appointment" options={{ headerShown: false }} />
-              <Stack.Screen name="medications" options={{ headerShown: false }} />
-              <Stack.Screen name="medication-formpage" options={{ headerShown: false }} />
-              <Stack.Screen name="medical-records" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="forgot-password"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="reset-password"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="specialist-page"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="doctor-details"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="book-appointment"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="appointments"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="appointment-details"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="edit-appointment"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="medications"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="medication-formpage"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="medical-records"
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="messages" options={{ headerShown: false }} />
               <Stack.Screen name="chat-room" options={{ headerShown: false }} />
-              <Stack.Screen name="your-doctors" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-documents" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-history" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-treatments" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-vaccines" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-allergies" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-gynecological" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-operations" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-lifestyle" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-measurements" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-search-history" options={{ headerShown: false }} />
-              <Stack.Screen name="mr-family-members" options={{ headerShown: false }} />
-              <Stack.Screen name="notifications" options={{ headerShown: false }} />
-              <Stack.Screen name="security-details" options={{ headerShown: false }} />
-              <Stack.Screen name="profile-preferences" options={{ headerShown: false }} />
-              <Stack.Screen name="profile-legal" options={{ headerShown: false }} />
-              <Stack.Screen name="prescription-renewal" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="your-doctors"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-documents"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-history"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-treatments"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-vaccines"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-allergies"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-gynecological"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-operations"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-lifestyle"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-measurements"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-search-history"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="mr-family-members"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="notifications"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="security-details"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="profile-preferences"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="profile-legal"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="prescription-renewal"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="choose-gp" options={{ headerShown: false }} />
             </Stack>
           </AuthProvider>
           <StatusBar style="auto" />

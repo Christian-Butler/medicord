@@ -33,9 +33,9 @@ export function useProfile() {
     loading: profileLoading,
     error: profileError,
     handleEditAvatar,
-    location: profile?.gp?.practice_location ?? "Address unspecified",
+    location: profile?.gp?.location ?? "Address unspecified",
     gp: profile?.gp ?? null,
-    // No GP yet means the user is still onboarding; false while the profile loads so nothing flashes greyed out.
-    needsGp: Boolean(profile) && !profileLoading && !profile?.gp,
+    
+    
   };
 }

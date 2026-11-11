@@ -7,6 +7,7 @@ import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { useProfile } from "@/src/hooks/useProfile";
 import {
   Image,
   Pressable,
@@ -32,8 +33,7 @@ function StarButton({ doctorId }: { doctorId: string }) {
       onPress={async () => {
         const result = await toggle(doctorId);
         setIsFavourite(result);
-      }}
-    >
+      }}>
       <MaterialIcons
         name={isFavourite ? "star" : "star-border"}
         size={28}
@@ -43,8 +43,11 @@ function StarButton({ doctorId }: { doctorId: string }) {
   );
 }
 
-export default function SpecialityContainer({ specialty }: SpecialityContainerProps) {
+export default function SpecialityContainer({
+  specialty,
+}: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
+  const { gp } = useProfile();
 
   const { slots: availabilityByDoctorId, error: availabilityError } =
     useNextAvailableSlots(doctors.map((doctor) => doctor.id));
@@ -55,8 +58,7 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
     <View>
       <View
         style={styles.search}
-        className="h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-5"
-      >
+        className="h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-5">
         <Search size={18} color="#7B8A91" />
         <TextInput
           placeholder={t(`speciality-container.search`)}
@@ -65,20 +67,29 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
         />
       </View>
       <ScrollView>
-        {loading ? <Text style={styles.statusText}>{t(`speciality-container.loading`)}</Text> : null}
+        {loading ? (
+          <Text style={styles.statusText}>
+            {t(`speciality-container.loading`)}
+          </Text>
+        ) : null}
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        {availabilityError ? <Text style={styles.errorText}>{availabilityError}</Text> : null}
+        {availabilityError ? (
+          <Text style={styles.errorText}>{availabilityError}</Text>
+        ) : null}
         {!loading && !error && doctors.length === 0 ? (
-          <Text style={styles.statusText}>{t(`speciality-container.noDoctor`)}</Text>
+          <Text style={styles.statusText}>
+            {t(`speciality-container.noDoctor`)}
+          </Text>
         ) : null}
 
         <View style={styles.containerMain}>
           {doctors.map((doctor, index) => {
             const closestDay =
-              availabilityByDoctorId[doctor.id] ?? t(`speciality-container.availability`);
+              availabilityByDoctorId[doctor.id] ??
+              t(`speciality-container.availability`);
 
-            const avatar =
-              doctor.avatar_url || null;
+            const avatar = doctor.avatar_url || null;
+            const notYourGp = specialty === "GP" && doctor.id !== gp?.id;
             return (
               <View key={doctor.id} style={styles.card}>
                 <View style={styles.doctorInfo}>
@@ -86,7 +97,9 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
                     {avatar ? (
                       <Image source={{ uri: avatar }} style={styles.avatar} />
                     ) : (
-                      <View style={[styles.avatar, { backgroundColor: '#D7E8ED' }]} />
+                      <View
+                        style={[styles.avatar, { backgroundColor: "#D7E8ED" }]}
+                      />
                     )}
                   </View>
 
@@ -97,12 +110,8 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
                         <Text style={styles.profession}>
                           {doctor.specialty ?? specialty}
                         </Text>
-                        <Text className="mx-1">
-                          •
-                        </Text>
-                        <Text style={styles.profession}>
-                          {doctor.location}
-                        </Text>
+                        <Text className="mx-1">•</Text>
+                        <Text style={styles.profession}>{doctor.location}</Text>
                       </View>
                     </View>
                     <StarButton doctorId={doctor.id} />
@@ -120,7 +129,9 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
                     <Pressable
                       style={styles.containerButton}
+                      className={notYourGp ? "opacity-60" : ""}
                       accessibilityRole="button"
+                      disabled={notYourGp}
                       onPress={() =>
                         router.push({
                           pathname: "/doctor-details",
@@ -131,9 +142,10 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
                             specialty: doctor.specialty ?? specialty,
                           },
                         })
-                      }
-                    >
-                      <Text className="color-[white] font-medium text-[16px]">{t(`speciality-container.details`)}</Text>
+                      }>
+                      <Text className="color-[white] font-medium text-[16px]">
+                        {t(`speciality-container.details`)}
+                      </Text>
                     </Pressable>
                   </View>
                 </View>
@@ -176,7 +188,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
   },
   doctorInfo: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   avatar: {
     width: 56,
@@ -213,5 +225,5 @@ const styles = StyleSheet.create({
     color: "#fff",
     height: 50,
     borderRadius: 14,
-  }
+  },
 });
