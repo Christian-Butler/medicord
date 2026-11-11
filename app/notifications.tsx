@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FlatList, Pressable, Text, TouchableOpacity, View } from "react-native";
 
-const { t } = useTranslation();
+
 
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -55,6 +55,7 @@ async function removeReminder(item: Notifications.NotificationRequest) {
 export default function NotificationsScreen() {
   const [permission, setPermission] = useState(false);
   const [scheduled, setScheduled] = useState<Notifications.NotificationRequest[]>([]);
+  const { t } = useTranslation();
 
   useEffect(() => {
     ensureNotificationPermission().then(setPermission);
