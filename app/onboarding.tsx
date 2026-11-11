@@ -94,11 +94,10 @@ export default function OnboardingScreen() {
             onDone={async () => {
                 try {
                     await AsyncStorage.setItem('@OnboardingCompleted', 'true');
-                    router.replace("/(tabs)");
+                    router.replace({ pathname: "/choose-gp", params: { from: "onboarding" } });
                 } catch (e) {
                     console.error("Failed to save Onboarding  status", e);
                 }
-
             }}
         />
     )

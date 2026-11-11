@@ -837,6 +837,9 @@ export const fr = {
     "chat-list": {
         loading: "Chargements des messages",
     },
+        "chat-item": {
+        start: "Commencer une conversation",
+    },
     useConversations: {
         error: "Échec du chargement des conversations.",
     },

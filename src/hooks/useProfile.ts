@@ -29,10 +29,13 @@ export function useProfile() {
     email: profile?.email ?? "",
     phone: profile?.phone ?? "Not set",
     dob: profile?.date_of_birth ? formatDob(profile.date_of_birth) : "Not set",
-    location: profile?.gp?.practice_location ?? "Address unspecified",
     avatarUrl: profile?.avatar_url ?? null,
     loading: profileLoading,
     error: profileError,
     handleEditAvatar,
+    location: profile?.gp?.location ?? "Address unspecified",
+    gp: profile?.gp ?? null,
+    
+    
   };
 }
