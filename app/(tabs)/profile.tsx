@@ -19,7 +19,6 @@ type ProfileRowProps = {
 
 function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: ProfileRowProps) {
   const { t } = useTranslation();
-
   return (
     <Pressable
       onPress={onPress}
@@ -43,7 +42,11 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
       ) : null}
 
       <View className="flex-1">
-        <Text className={`text-[16px] font-regular ${destructive ? Colors.delete : Colors.text}`}>
+        <Text
+          style={{
+            fontSize: Sizes.paragraph,
+          }}
+          className={`font-regular ${destructive ? Colors.delete : Colors.text}`}>
           {t(`profile.${title}`)}
         </Text>
 
@@ -187,7 +190,7 @@ export default function ProfilePage() {
                   color: Colors.textMuted,
                   marginTop: Buttons.w2
                 }}
-                className="mt-2">{location}</Text>
+                className="mt-2">{email}</Text>
             </View>
           </Pressable>
         </View>
@@ -198,8 +201,42 @@ export default function ProfilePage() {
         <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
 
         <SectionTitle title={t(`profile.Other settings`)} />
-        <ProfileRow icon="language" title="Language (Local detection)" subtitle={t(`profile.English (UK)`)} />
-        <ProfileRow title="Encrypted documents" subtitle={t(`profile.Active`)} />
+        <View
+          className="min-h-[64px] justify-center"
+          style={{
+            marginHorizontal: Sizes.p3,
+            marginTop: Sizes.p3,
+            borderRadius: Sizes.p3,
+            paddingHorizontal: Sizes.p2,
+            paddingVertical: Buttons.w2,
+          }}>
+          <Text
+            style={{ fontSize: Sizes.paragraph }}>
+            {t(`profile.languageTitle`)}
+          </Text>
+          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
+            className="mt-1 font-regular">
+            {t(`profile.languageText`)}
+          </Text>
+        </View>
+        <View
+          className="min-h-[64px] justify-center"
+          style={{
+            marginHorizontal: Sizes.p3,
+            marginTop: Sizes.p3,
+            borderRadius: Sizes.p3,
+            paddingHorizontal: Sizes.p2,
+            paddingVertical: Buttons.w2,
+          }}>
+          <Text
+            style={{ fontSize: Sizes.paragraph }}>
+            {t(`profile.Encrypted documents`)}
+          </Text>
+          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
+            className="mt-1 font-regular">
+            {t(`profile.Active`)}
+          </Text>
+        </View>
 
         <SectionTitle title={t(`profile.Confidentiality`)} />
         <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
