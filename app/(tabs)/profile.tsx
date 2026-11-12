@@ -67,7 +67,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
 }
 
 function SectionTitle({ title }: { title: string }) {
-  
+
   return (
     <View
       style={{
@@ -186,13 +186,13 @@ export default function ProfilePage() {
                   marginTop: Buttons.w2
                 }}
               >{dob}</Text>
-              <Text
+              {/*   <Text
                 style={{
                   fontSize: Sizes.paragraph,
                   color: Colors.textMuted,
                   marginTop: Buttons.w2
                 }}
-                className="mt-2">{email}</Text>
+                className="mt-2">{location}</Text>*/}
             </View>
           </Pressable>
         </View>
