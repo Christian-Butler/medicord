@@ -334,6 +334,7 @@ export const en = {
         "Legal information": "Legal information",
         "Delete my account": "Delete my account",
         "My preferences": "My preferences",
+        "Your GP": "Your GP",
         "Disconnect": "Disconnect",
         languageTitle: "Language (Based on phone settings)",
         languageText: "English (UK)",
@@ -848,7 +849,7 @@ export const en = {
     "chat-list": {
         loading: "Loading messages",
     },
-        "chat-item": {
+    "chat-item": {
         start: "Start a conversation",
     },
     useConversations: {

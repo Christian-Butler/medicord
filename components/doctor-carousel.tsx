@@ -117,13 +117,15 @@ export default function DoctorSpecialtyCarousel() {
         </Text>
       </View>
 
-      <View className="mx-2 mt-4">
+      <View
+        className="items-center"
+        style={{ marginTop: Sizes.p3 }}>
         {rows.map((row) => (
           <View key={row[0].id} className="flex-row">
             {row.map((item) => (
               <Pressable
                 key={item.id}
-                style={{ paddingBottom: Sizes.p1 }}
+                style={{ paddingBottom: Sizes.p2 }}
                 className="items-center"
                 onPress={() =>
                   router.push({

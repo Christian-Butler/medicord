@@ -353,6 +353,7 @@ export const fr = {
         "Legal information": "Information légale",
         "Delete my account": "Supprimer mon compte",
         "Disconnect": "Déconnexion",
+        "Ton généraliste": "Ton généraliste",
         "My preferences": "Mes préférences",
         languageTitle: "Langue (Basé sur paramètres mobiles)",
         languageText: "Français",
@@ -837,7 +838,7 @@ export const fr = {
     "chat-list": {
         loading: "Chargements des messages",
     },
-        "chat-item": {
+    "chat-item": {
         start: "Commencer une conversation",
     },
     useConversations: {

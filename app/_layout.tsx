@@ -1,7 +1,7 @@
 import { AuthProvider } from "@/src/context/AuthContext";
 import "@/src/libs/i18n";
-import "@/src/libs/notifications";
 import { clearExpiredMedicationAlarms } from "@/src/libs/medicationAlarms";
+import "@/src/libs/notifications";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import * as Notifications from "expo-notifications";
 import { router, Stack } from "expo-router";
@@ -19,7 +19,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
   useEffect(() => {
-    clearExpiredMedicationAlarms().catch(() => {});
+    clearExpiredMedicationAlarms().catch(() => { });
   }, []);
 
   // Tapping one of our banners or reminders opens the notification centre.
@@ -160,6 +160,7 @@ export default function RootLayout() {
                 options={{ headerShown: false }}
               />
               <Stack.Screen name="choose-gp" options={{ headerShown: false }} />
+              <Stack.Screen name="onboarding" options={{ headerShown: false }} />
             </Stack>
           </AuthProvider>
           <StatusBar style="auto" />

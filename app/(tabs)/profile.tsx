@@ -162,22 +162,22 @@ export default function ProfilePage() {
                 <Image
                   key={avatarUrl}
                   source={{ uri: `${avatarUrl}?t=${Date.now()}` }}
-                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.IconLg }}
+                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.boxS }}
                   onLoad={() => console.log('[ProfilePage] image loaded')}
                   onError={(e) => console.log('[ProfilePage] image error:', e.nativeEvent.error)}
                 />
               ) : (
                 <View
-                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }}
+                  style={{ height: Sizes.boxS + 4, width: Sizes.boxS + 4, borderRadius: Sizes.boxS, backgroundColor: Colors.bg1 }}
                 />
 
               )}
 
               <Text
                 style={{
-                  fontSize: Sizes.paragraph,
+                  fontSize: Sizes.h4,
                   color: Colors.text,
-                  marginTop: Buttons.w2
+                  marginTop: Sizes.p2
                 }}>{fullName}</Text>
               <Text
                 style={{
@@ -225,24 +225,6 @@ export default function ProfilePage() {
           <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
             className="mt-1 font-regular">
             {t(`profile.languageText`)}
-          </Text>
-        </View>
-        <View
-          className="min-h-[64px] justify-center"
-          style={{
-            marginHorizontal: Sizes.p3,
-            marginTop: Sizes.p3,
-            borderRadius: Sizes.p3,
-            paddingHorizontal: Sizes.p2,
-            paddingVertical: Buttons.w2,
-          }}>
-          <Text
-            style={{ fontSize: Sizes.paragraph }}>
-            {t(`profile.Encrypted documents`)}
-          </Text>
-          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
-            className="mt-1 font-regular">
-            {t(`profile.Active`)}
           </Text>
         </View>
 
