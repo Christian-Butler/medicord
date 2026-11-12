@@ -85,7 +85,7 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { fullName, email, phone, dob, location, avatarUrl, handleEditAvatar } = useProfile();
+  const { fullName, email, phone, location, dob, avatarUrl, handleEditAvatar } = useProfile();
   const { t } = useTranslation();
   console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
@@ -184,13 +184,13 @@ export default function ProfilePage() {
                   marginTop: Buttons.w2
                 }}
               >{dob}</Text>
-              <Text
+              {/*   <Text
                 style={{
                   fontSize: Sizes.paragraph,
                   color: Colors.textMuted,
                   marginTop: Buttons.w2
                 }}
-                className="mt-2">{email}</Text>
+                className="mt-2">{location}</Text>*/}
             </View>
           </Pressable>
         </View>

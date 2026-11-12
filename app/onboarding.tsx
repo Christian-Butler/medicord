@@ -21,7 +21,7 @@ const slides = [
     {
         id: 3,
         title: "Choose a GP",
-        description: "After you finish the onboarding process you will have to find your GP to access to all the doctor booking services.",
+        description: "After you finish the onboarding process you will have to find your GP to access to all the doctor booking services. You change your GP anytime by going to your Profile.",
         image: require('../assets/images/onboard-img2.webp'),
     }
 ]
