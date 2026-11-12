@@ -185,7 +185,7 @@ export default function MedicationForm({
       ) : null}
 
       {/* Duration */}
-      <Text className="mt-7 mb-3 text-[20px] font-medium text-black">{t("medication-form.duration")}</Text>
+      <Text className="mt-7 mb-3 text-[20px] font-medium text-black">{t("Duration")}</Text>
       <View className="px-10 gap-3 mt-3 items-center justify-between flex-row">
         <TouchableOpacity
           onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
