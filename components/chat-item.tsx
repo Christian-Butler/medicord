@@ -2,10 +2,12 @@ import { type Conversation } from "@/src/api/messages/api";
 import { router } from "expo-router";
 import React from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { useTranslation } from "react-i18next";
 
 type Props = { item: Conversation };
 
 export default function ChatItem({ item }: Props) {
+    const { t } = useTranslation();
   return (
     <View>
       <TouchableOpacity
@@ -35,15 +37,17 @@ export default function ChatItem({ item }: Props) {
             <Text style={{ fontSize: 16, fontWeight: "500" }}>
               {item.doctors?.full_name ?? "Doctor"}
             </Text>
-            <Text style={{ fontSize: 14, color: "#006500" }}>
-              {new Date(item.created_at).toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </Text>
+               {item.created_at ? (
+              <Text style={{ fontSize: 14, color: "#006500" }}>
+                {new Date(item.created_at).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Text>
+            ) : null}
           </View>
           <Text style={{ fontSize: 16, color: "#3C4D4D" }}>
-            {item.content}
+            {item.content || t(`chat-item.start`)}
           </Text>
         </View>
       </TouchableOpacity>

@@ -2,6 +2,7 @@ import DoctorCarousel from "@/components/doctor-carousel";
 import FindDoctor from "@/components/find-doctor";
 import ProfileHeader from "@/components/header-profile";
 import LatestDocuments from "@/components/latest-documents";
+
 import MedicationReminder from "@/components/medication-reminder";
 import UpcomingAppointments from "@/components/upcoming-appointments";
 import { Colors } from "@/constants/theme";
@@ -25,11 +26,15 @@ export default function Home() {
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-1">
-          <FindDoctor />
+          
+            <FindDoctor />
+         
           <DoctorCarousel />
-          <UpcomingAppointments />
-          <MedicationReminder />
-          <LatestDocuments />
+          
+            <UpcomingAppointments />
+            <MedicationReminder />
+            <LatestDocuments />
+          
         </View>
       </ScrollView>
     </View>

@@ -24,7 +24,7 @@ export default function ChatRoom() {
   return (
     <CustomKeyboardView inChat={true}>
       <View style={{ backgroundColor: "#EEF9FB" }} className="flex-1">
-        <HeaderChat title={t(`chat-room.title`)} />
+        <HeaderChat title={t(`chat-room.title`)} doctorId={doctorId} />
         <View style={{ paddingHorizontal: "4%" }} />
         <View className="flex-1 justify-between">
           <View className="flex-1 overflow-visible">

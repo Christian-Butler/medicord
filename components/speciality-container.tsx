@@ -8,6 +8,7 @@ import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useProfile } from "@/src/hooks/useProfile";
 import {
   Image,
   Pressable,
@@ -33,8 +34,7 @@ function StarButton({ doctorId }: { doctorId: string }) {
       onPress={async () => {
         const result = await toggle(doctorId);
         setIsFavourite(result);
-      }}
-    >
+      }}>
       <MaterialIcons
         name={isFavourite ? "star" : "star-border"}
         size={Sizes.h1}
@@ -44,8 +44,11 @@ function StarButton({ doctorId }: { doctorId: string }) {
   );
 }
 
-export default function SpecialityContainer({ specialty }: SpecialityContainerProps) {
+export default function SpecialityContainer({
+  specialty,
+}: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
+  const { gp } = useProfile();
   const [searchQuery, setSearchQuery] = useState("");
   const [timedQuery, setTimedQuery] = useState("");
 
@@ -102,11 +105,19 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
         />
       </View>
       <ScrollView>
-        {loading ? <Text style={styles.statusText}>{t(`speciality-container.loading`)}</Text> : null}
+        {loading ? (
+          <Text style={styles.statusText}>
+            {t(`speciality-container.loading`)}
+          </Text>
+        ) : null}
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
-        {availabilityError ? <Text style={styles.errorText}>{availabilityError}</Text> : null}
+        {availabilityError ? (
+          <Text style={styles.errorText}>{availabilityError}</Text>
+        ) : null}
         {!loading && !error && doctors.length === 0 ? (
-          <Text style={styles.statusText}>{t(`speciality-container.noDoctor`)}</Text>
+          <Text style={styles.statusText}>
+            {t(`speciality-container.noDoctor`)}
+          </Text>
         ) : null}
 
         {!loading && !error && querySpecialtyDoctors.length === 0 ? (
@@ -119,10 +130,11 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
         <View style={styles.containerMain}>
           {querySpecialtyDoctors.map((doctor) => {
             const closestDay =
-              availabilityByDoctorId[doctor.id] ?? t(`speciality-container.availability`);
+              availabilityByDoctorId[doctor.id] ??
+              t(`speciality-container.availability`);
 
-            const avatar =
-              doctor.avatar_url || null;
+            const avatar = doctor.avatar_url || null;
+            const notYourGp = specialty === "GP" && doctor.id !== gp?.id;
             return (
               <View key={doctor.id} style={styles.card}>
                 <View style={styles.doctorInfo}>
@@ -141,12 +153,8 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
                         <Text style={styles.profession}>
                           {doctor.specialty ?? specialty}
                         </Text>
-                        <Text className="mx-1">
-                          •
-                        </Text>
-                        <Text style={styles.profession}>
-                          {doctor.location}
-                        </Text>
+                        <Text className="mx-1">•</Text>
+                        <Text style={styles.profession}>{doctor.location}</Text>
                       </View>
                     </View>
                     <StarButton doctorId={doctor.id} />
@@ -164,7 +172,9 @@ export default function SpecialityContainer({ specialty }: SpecialityContainerPr
 
                     <Pressable
                       style={styles.containerButton}
+                      className={notYourGp ? "opacity-60" : ""}
                       accessibilityRole="button"
+                      disabled={notYourGp}
                       onPress={() =>
                         router.push({
                           pathname: "/doctor-details",
@@ -220,7 +230,7 @@ const styles = StyleSheet.create({
     marginBottom: Sizes.h5,
   },
   doctorInfo: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   avatar: {
     width: Sizes.imgApt,

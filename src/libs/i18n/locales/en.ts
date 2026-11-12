@@ -848,6 +848,9 @@ export const en = {
     "chat-list": {
         loading: "Loading messages",
     },
+        "chat-item": {
+        start: "Start a conversation",
+    },
     useConversations: {
         error: "Failed to load conversations",
     },
