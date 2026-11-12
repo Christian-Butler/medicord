@@ -1,4 +1,3 @@
-import type {Gp} from "@/src/types/gpTypes"
 import { getCurrentAppUserId } from "@/src/api/auth/currentUser";
 import { supabase } from "@/supabase/supabase";
 
@@ -69,7 +68,10 @@ export async function updatePhone(newPhone: string) {
   if (error) throw error;
 }
 
-export async function uploadAvatar(userId: string, uri: string): Promise<string> {
+export async function uploadAvatar(
+  userId: string,
+  uri: string,
+): Promise<string> {
   const ext = uri.split(".").pop()?.split("?")[0] ?? "jpg";
   const path = `${userId}/avatar.${ext}`;
 

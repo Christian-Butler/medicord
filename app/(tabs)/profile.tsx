@@ -19,7 +19,6 @@ type ProfileRowProps = {
 
 function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: ProfileRowProps) {
   const { t } = useTranslation();
-  const { fullName, email, phone, dob, location, avatarUrl, gp, handleEditAvatar } = useProfile();
 
   return (
     <Pressable
@@ -88,7 +87,7 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-   const { fullName, email, phone, dob, location, avatarUrl, gp, handleEditAvatar } = useProfile();
+  const { fullName, email, phone, dob, avatarUrl, gp, handleEditAvatar } = useProfile();
   const { t } = useTranslation();
   console.log('[ProfilePage] avatarUrl:', avatarUrl);
 
@@ -202,13 +201,13 @@ export default function ProfilePage() {
         <ProfileRow icon="phone" title="Phone number" subtitle={phone} onPress={() => router.push("/security-details")} />
         <ProfileRow icon="mail-outline" title="Email address" subtitle={email} onPress={() => router.push("/security-details")} />
         <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
-              <SectionTitle title={t(`Your GP`)} />
         <ProfileRow
           icon="local-hospital"
-          title={gp?.full_name ?? t(`No GP chosen`)}
-          subtitle={gp?.clinic_name ?? undefined}
+          title="Your GP"
+          subtitle={gp?.full_name ?? t(`profile.No GP chosen`)}
           onPress={() => router.push("/choose-gp")}
         />
+
         <SectionTitle title={t(`profile.Other settings`)} />
         <View
           className="min-h-[64px] justify-center"

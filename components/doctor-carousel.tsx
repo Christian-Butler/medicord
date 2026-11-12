@@ -3,7 +3,6 @@ import Fontisto from "@expo/vector-icons/Fontisto";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { useProfile } from "@/src/hooks/useProfile";
 import { Pressable, Text, View } from "react-native";
 import { Colors, Sizes } from '../constants/theme';
 
@@ -95,7 +94,6 @@ function SpecialtyIcon({ icon, library, size, color }: { icon: string; library: 
 export default function DoctorSpecialtyCarousel() {
   const router = useRouter();
   const { t } = useTranslation();
-   const { needsGp } = useProfile();
   const numColumns = 4;
   const rows = Array.from({ length: Math.ceil(specialties.length / numColumns) }, (_, rowIndex) =>
     specialties.slice(rowIndex * numColumns, (rowIndex + 1) * numColumns)
@@ -117,32 +115,11 @@ export default function DoctorSpecialtyCarousel() {
           }}>
           {t(`doctor-carousel.specialty`)}
         </Text>
-        {needsGp ? (
-          <Text className="mt-2 mr-6 text-[16px] text-black">
-            {t(`doctor-carousel.chooseGp`)}
-          </Text>
-        ) : null}
       </View>
 
-           <View className="mx-2 mt-4">
+      <View className="mx-2 mt-4">
         {rows.map((row) => (
           <View key={row[0].id} className="flex-row">
-            {row.map((item) => {
-              const disabled = needsGp && item.id !== "gp";
-
-              return (
-                <Pressable
-                  key={item.id}
-                  className={`w-1/4 items-center pb-6 ${disabled ? "opacity-60" : ""}`}
-                  disabled={disabled}
-                  onPress={() =>
-                    router.push({
-                      pathname: "/specialist-page",
-                      params: {
-                        specialty: item.title,
-                      },
-                    })
-                  }
             {row.map((item) => (
               <Pressable
                 key={item.id}
@@ -184,26 +161,10 @@ export default function DoctorSpecialtyCarousel() {
                   }}
                   className="w-[96px] text-center leading-[16px]"
                 >
-                  <View className="h-[70px] w-[70px] items-center justify-center rounded-[16px] bg-[white]">
-                    <SpecialtyIcon
-                      icon={item.icon}
-                      library={item.library}
-                      size={34}
-                      color="#09516D"
-                    />
-                  </View>
-
-                  <Text
-                    numberOfLines={1}
-                    adjustsFontSizeToFit
-                    minimumFontScale={0.65}
-                    className="mt-2 w-[96px] text-center text-[14px] leading-[16px] text-black"
-                  >
-                    {t(`doctor-carousel.${item.title}`)}
-                  </Text>
-                </Pressable>
-              );
-            })}
+                  {t(`doctor-carousel.${item.title}`)}
+                </Text>
+              </Pressable>
+            ))}
           </View>
         ))}
       </View>
