@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { CalendarCheck2 } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -6,14 +7,12 @@ type BookingSuccessOverlayProps = {
   visible: boolean;
   onAddToCalendar: () => void;
   onGoHome: () => void;
-  onClose?: () => void;
 };
 
 export default function BookingSuccessOverlay({
   visible,
   onAddToCalendar,
   onGoHome,
-  onClose,
 }: BookingSuccessOverlayProps) {
 
   const { t } = useTranslation();
@@ -21,20 +20,20 @@ export default function BookingSuccessOverlay({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
-        <Pressable className="absolute inset-0" onPress={onClose} />
+        <Pressable className="absolute inset-0" />
 
         <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
           <View className="items-center">
             <View className="mb-8 h-[80px] w-[80px] items-center justify-center">
-              <CalendarCheck2 size={80} color="#2F7298" strokeWidth={2} />
+              <CalendarCheck2 size={Sizes.boxS + 10} color={Colors.secondary} strokeWidth={2} />
             </View>
 
-            <Text className="mb-8 text-center text-[21px] font-semibold leading-7 text-black">
+            <Text className="mb-8 text-center text-[21px] font-medium leading-7 text-black">
               {t(`success-booking.title`)}
             </Text>
 
             <View className="mb-6 w-full px-3">
-              <Text className="mb-7 text-left text-[16px] leading-6 text-black">
+              <Text className="mb-3 text-left text-[16px] leading-6 text-black">
                 {t(`success-booking.info`)}
               </Text>
 

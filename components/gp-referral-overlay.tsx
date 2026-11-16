@@ -6,14 +6,12 @@ type GPOverlayProps = {
   visible: boolean;
   onGoToGpSearch: () => void;
   onContinue: () => void;
-  onClose?: () => void;
 };
 
 export default function GPOverlay({
   visible,
   onGoToGpSearch,
   onContinue,
-  onClose,
 }: GPOverlayProps) {
 
   const { t } = useTranslation();
@@ -21,7 +19,7 @@ export default function GPOverlay({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
-        <Pressable className="absolute inset-0" onPress={onClose} />
+        <Pressable className="absolute inset-0" />
 
         <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
           <View className="items-center">
@@ -45,7 +43,7 @@ export default function GPOverlay({
 
             <Pressable
               onPress={onGoToGpSearch}
-              className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] bg-white">
+              className="mb-6 h-[50px] w-full items-center justify-center rounded-[10px] bg-white">
               <Text className="text-[15px] font-medium text-[#07527B]">
                 {t(`gp-referral-overlay.takeTo`)}
               </Text>

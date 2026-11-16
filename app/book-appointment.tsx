@@ -4,9 +4,9 @@ import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
+import { useDoctor } from "@/src/hooks/useDoctor";
 import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import type { Appointment } from "@/src/types/appointmentTypes";
-import { useDoctor } from "@/src/hooks/useDoctor";
 import {
     buildLocalIsoDateTime,
     formatAppointmentDate,
@@ -44,6 +44,27 @@ export default function Booking() {
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    const [viewMonth, setViewMonth] = useState(() => {
+        const date = new Date();
+        if (date.getDay() === 0) {
+            date.setDate(date.getDate() + 1);
+        }
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    });
+
+    function changeMonth(delta: number) {
+        const [year, month] = viewMonth.split("-").map(Number);
+        const nextMonth = new Date(year, month - 1 + delta, 1);
+        const nextMonthValue = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth() + 1).padStart(2, "0")}`;
+        if (nextMonthValue < currentMonth) return;
+
+        setViewMonth(nextMonthValue);
+        setSelectedDate(null);
+        setSelectedTime(null);
+        setFormError(null);
+    }
 
     const {
         times: availableTimes,
@@ -98,7 +119,7 @@ export default function Booking() {
             console.log("[BookAppointment] create appointment input:", input);
 
             const created = await create(input);
-             setBookedAppointment(created);
+            setBookedAppointment(created);
 
             console.log("[BookAppointment] created appointment:", created);
 
@@ -126,17 +147,36 @@ export default function Booking() {
                     <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
 
                     <View style={styles.month}>
-                        <MaterialIcons name="chevron-left" size={24} />
-                        <Text>{getMonthLabel(selectedDate)} 2026</Text>
-                        <MaterialIcons name="chevron-right" size={24} />
+                        <Pressable
+                            accessibilityRole="button"
+                            disabled={viewMonth <= currentMonth}
+                            onPress={() => changeMonth(-1)}
+                            hitSlop={8}
+                            style={viewMonth <= currentMonth ? styles.disabledMonthArrow : undefined}
+                        >
+                            <MaterialIcons name="chevron-left" size={24} />
+                        </Pressable>
+                        <Text>
+                            {t(`book-appointment.${getMonthLabel(`${viewMonth}-01`)}`)}{" "}
+                            {viewMonth.slice(0, 4)}
+                        </Text>
+                        <Pressable
+                            accessibilityRole="button"
+                            onPress={() => changeMonth(1)}
+                            hitSlop={8}
+                        >
+                            <MaterialIcons name="chevron-right" size={24} />
+                        </Pressable>
                     </View>
                 </View>
 
                 <View style={{ marginBottom: 26 }}>
                     <WeeklyCalendar
+                        viewMonth={viewMonth}
                         selectedDate={selectedDate ?? undefined}
                         onSelectDate={(date) => {
                             setSelectedDate(date);
+                            setViewMonth(date.slice(0, 7));
                             setSelectedTime(null);
                             setFormError(null);
                         }}
@@ -185,12 +225,18 @@ export default function Booking() {
                             {t(`book-appointment.notice`)}
                         </Text>
                     </View>
-                    <View className="flex-row pt-6 px-6 justify-center items-center">
-                        <View>
-                            <Text className="font-regular text-[16px]">{t(`book-appointment.recap1`)} {formatAppointmentDate(selectedDate)} </Text>
+                    {selectedDate && selectedTime ? (
+                        <View className="flex-row pt-6 px-6 justify-center items-center">
+                            <View>
+                                <Text className="font-regular text-[16px]">
+                                    {t(`book-appointment.recap1`)} {formatAppointmentDate(selectedDate)}
+                                </Text>
+                            </View>
+                            <Text className="font-regular text-[16px]">
+                                {t(`book-appointment.recap2`)} {selectedTime}
+                            </Text>
                         </View>
-                        <Text className="font-regular text-[16px]">{t(`book-appointment.recap2`)}  {selectedTime}</Text>
-                    </View>
+                    ) : null}
                     <View
                         style={[
                             styles.containerButton,
@@ -219,7 +265,6 @@ export default function Booking() {
                     setShowSuccessOverlay(false);
                     router.replace("/(tabs)");
                 }}
-                onClose={() => setShowSuccessOverlay(false)}
             />
         </View>
     );
@@ -236,6 +281,9 @@ const styles = StyleSheet.create({
         borderRadius: 14,
         flexDirection: "row",
         alignItems: "center",
+    },
+    disabledMonthArrow: {
+        opacity: 0.35,
     },
     monthContainer: {
         flexDirection: "row",

@@ -1,9 +1,9 @@
+import { useProfile } from '@/src/hooks/useProfile';
 import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useProfile } from '@/src/hooks/useProfile';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 type ServiceItem = {
@@ -35,7 +35,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
   const snapPoints = useMemo(() => ['45%'], []);
 
   const { t } = useTranslation();
-    const { needsGp } = useProfile();   
+  const { needsGp } = useProfile();
   const numColumns = 3;
 
   const renderBackdrop = (props: any) => (
@@ -90,7 +90,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       },
     },
     {
-      icon: 'favorite', label: t(`bottom-sheet.doc`), onPress: () => {
+      icon: 'bookmark', label: t(`bottom-sheet.doc`), onPress: () => {
         bottomSheetRef.current?.close();
         router.push('/your-doctors')
       }
@@ -107,7 +107,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       backgroundStyle={{ backgroundColor: '#EFF7F8' }}
     >
       <BottomSheetView style={styles.sheetContent}>
-               <Text style={styles.title}>{t(`bottom-sheet.services`)}</Text>
+        <Text style={styles.title}>{t(`bottom-sheet.services`)}</Text>
         {needsGp ? (
           <Text style={styles.lockedNote}>{t(`bottom-sheet.chooseGp`)}</Text>
         ) : null}
@@ -115,7 +115,7 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
           key={`services-${numColumns}`}
           style={{ width: "100%" }}
           data={services}
-           renderItem={({ item }) => (
+          renderItem={({ item }) => (
             <ServiceButton {...item} disabled={needsGp} />
           )}
           keyExtractor={(item) => item.label}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     color: "#333",
     maxWidth: 80,
   },
-   lockedNote: {
+  lockedNote: {
     fontSize: 14,
     color: "#333",
     textAlign: "center",

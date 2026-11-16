@@ -6,14 +6,12 @@ type FirstTimeBookingOverlayProps = {
   visible: boolean;
   onNewPatient: () => void;
   onReturningPatient: () => void;
-  onClose?: () => void;
 };
 
 export default function FirstTimeBookingOverlay({
   visible,
   onNewPatient,
   onReturningPatient,
-  onClose,
 }: FirstTimeBookingOverlayProps) {
 
   const { t } = useTranslation();
@@ -21,7 +19,7 @@ export default function FirstTimeBookingOverlay({
   return (
     <Modal visible={visible} transparent animationType="fade">
       <View className="flex-1 items-center justify-center bg-black/30 px-6">
-        <Pressable className="absolute inset-0" onPress={onClose} />
+        <Pressable className="absolute inset-0" />
 
         <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
           <View className="items-center">
@@ -35,7 +33,7 @@ export default function FirstTimeBookingOverlay({
 
             <Pressable
               onPress={onNewPatient}
-              className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] bg-white">
+              className="mb-6 h-[50px] w-full items-center justify-center rounded-[10px] bg-white">
               <Text className="text-[15px] font-medium text-[#07527B]">
                 {t(`first-patient-overlay.yes`)}
               </Text>
@@ -43,7 +41,7 @@ export default function FirstTimeBookingOverlay({
 
             <Pressable
               onPress={onReturningPatient}
-              className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
+              className="h-[50px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
               <Text className="text-[15px] font-medium text-white">
                 {t(`first-patient-overlay.no`)}
               </Text>

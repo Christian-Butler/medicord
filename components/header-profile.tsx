@@ -39,7 +39,7 @@ export default function ProfileHeader() {
               style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.IconLg }}
             />
           ) : (
-            <View style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.h1, backgroundColor: Colors.bg1 }} />
+            <View style={{ height: Sizes.imgNm, width: Sizes.imgNm, borderRadius: Sizes.IconLg, backgroundColor: Colors.bg1 }} />
           )}
 
           <View className="ml-7 mr-4 flex-1">

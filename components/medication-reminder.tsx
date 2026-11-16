@@ -88,9 +88,6 @@ export default function MedicationReminder() {
   const [now, setNow] = useState(Date.now());
   const { width } = useWindowDimensions();
 
-  const horizontalPadding = 50;
-  const cardWidth = width - horizontalPadding;
-
   useFocusEffect(
     useCallback(() => {
       refetch().catch(() => { });
@@ -147,7 +144,7 @@ export default function MedicationReminder() {
 
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
-    const nextIndex = Math.round(offsetX / cardWidth);
+    const nextIndex = Math.round(offsetX / Sizes.width - 50);
 
     setActiveIndex(
       Math.max(0, Math.min(nextIndex, activeMedications.length - 1))
@@ -188,37 +185,6 @@ export default function MedicationReminder() {
             }} >{t(`medication-reminder.${error}`)}</Text>
         ) : null}
 
-        {!loading && !error && activeMedications.length === 0 ? (
-          <TouchableOpacity
-            onPress={() => router.push("/medication-formpage")}
-            style={{
-              backgroundColor: Colors.primary,
-              height: Buttons.height,
-              width: Sizes.width - 30,
-              borderRadius: Sizes.p3,
-              paddingHorizontal: Sizes.h2 - 2,
-              marginTop: Sizes.h4,
-            }}
-            className="flex-row items-center self-center justify-center"
-          >
-            <Plus size={Sizes.h4} color={Colors.bg2} />
-            <Text style={{
-              marginLeft: Sizes.p0 - 2,
-              color: Colors.bg2,
-              fontSize: Sizes.paragraph
-            }} className="font-medium" />
-
-            <Text
-              style={{
-                fontSize: Sizes.paragraph,
-                color: Colors.bg2
-              }}
-              className="font-medium">
-              {t(`medication-reminder.addRoutine`)}
-            </Text>
-          </TouchableOpacity>
-        ) : null}
-
         {!loading && !error && activeMedications.length > 0 ? (
           <View
             style={{
@@ -228,7 +194,7 @@ export default function MedicationReminder() {
               paddingVertical: Sizes.h5,
               marginTop: Sizes.p1,
             }}>
-            <View style={{ width: cardWidth, overflow: "hidden" }}>
+            <View style={{ width: Sizes.width - 50, overflow: "hidden" }}>
               <FlatList
                 horizontal
                 pagingEnabled
@@ -236,13 +202,13 @@ export default function MedicationReminder() {
                 data={activeMedications}
                 keyExtractor={(item) => String(item.id)}
                 onMomentumScrollEnd={handleScroll}
-                snapToInterval={cardWidth}
+                snapToInterval={Sizes.width - 50}
                 snapToAlignment="start"
                 decelerationRate="fast"
                 bounces={false}
                 overScrollMode="never"
                 renderItem={({ item }) => (
-                  <View style={{ width: cardWidth }}>
+                  <View style={{ width: Sizes.width - 50 }}>
                     {(() => {
                       const { days, windows, hours } = readRoutine(item);
                       const selectedWindows = item.no_specific_time ? [] : windows;
@@ -382,20 +348,51 @@ export default function MedicationReminder() {
                 )}
               />
             </View>
+
+
             {activeMedications.length > 1 ? (
               <View className="mt-4 flex-row justify-center">
                 {activeMedications.map((medication, index) => (
                   <View
                     key={medication.id}
+                    style={{
+                      backgroundColor: `${index === activeIndex ? Colors.secondary : Colors.bg1}`
+                    }}
                     className={`mx-1 h-[8px] rounded-full ${index === activeIndex
-                      ? "w-[22px] bg-[#0D5175]"
-                      : "w-[8px] bg-[#B7D4DE]"
+                      ? "w-[22px]"
+                      : "w-[8px]"
                       }`}
                   />
                 ))}
               </View>
             ) : null}
           </View>
+        ) : null}
+
+        {!loading && !error ? (
+          <TouchableOpacity
+            onPress={() => router.push("/medication-formpage")}
+            style={{
+              backgroundColor: Colors.primary,
+              height: Buttons.height,
+              width: Sizes.width - 30,
+              borderRadius: Sizes.p3,
+              paddingHorizontal: Sizes.h2 - 2,
+              marginTop: Sizes.h4,
+            }}
+            className="flex-row items-center self-center justify-center"
+          >
+            <Plus size={Sizes.h4} color={Colors.bg2} />
+            <Text
+              style={{
+                marginLeft: Sizes.p1,
+                fontSize: Sizes.paragraph,
+                color: Colors.bg2
+              }}
+              className="font-medium">
+              {t(`medication-reminder.addRoutine`)}
+            </Text>
+          </TouchableOpacity>
         ) : null}
       </View>
     </View >

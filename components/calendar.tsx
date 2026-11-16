@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/theme';
 import { getLocales } from 'expo-localization';
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -14,6 +15,7 @@ interface DayItem {
 type WeeklyCalendarProps = {
     selectedDate?: string;
     onSelectDate?: (date: string) => void;
+    viewMonth?: string;
 };
 
 const months = [
@@ -42,6 +44,31 @@ const Iso = (date: Date) => {
     return `${year}-${month}-${day}`;
 };
 
+const getFirstWeekDate = (month: string) => {
+    const [year, monthNumber] = month.split("-").map(Number);
+    const date = new Date(year, monthNumber - 1, 1);
+    const today = new Date();
+
+    if (year === today.getFullYear() && monthNumber === today.getMonth() + 1) {
+        date.setDate(today.getDate());
+    }
+
+    if (date.getDay() === 0) {
+        date.setDate(date.getDate() + 1);
+    }
+    return date;
+};
+
+const getInitialDate = (selectedDate?: string) => {
+    const date = selectedDate
+        ? new Date(`${selectedDate}T00:00:00`)
+        : new Date();
+    if (!selectedDate && date.getDay() === 0) {
+        date.setDate(date.getDate() + 1);
+    }
+    return date;
+};
+
 const isSameDay = (first: Date, second: Date) =>
     first.toDateString() === second.toDateString();
 
@@ -59,11 +86,11 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
         date.setHours(0, 0, 0, 0);
         let dateName;
         if (deviceLanguage == "en") {
-            dateName = date.toLocaleDateString("en-EN", { weekday: 'narrow' })
+            dateName = date.toLocaleDateString("en-GB", { weekday: 'narrow' })
         } else if (deviceLanguage == "fr") {
             dateName = date.toLocaleDateString("fr-FR", { weekday: 'narrow' })
         } else {
-            dateName = date.toLocaleDateString("en-EN", { weekday: 'narrow' })
+            dateName = date.toLocaleDateString("en-GB", { weekday: 'narrow' })
         };
         return {
             date,
@@ -79,9 +106,10 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
 const WeeklyCalendar = ({
     selectedDate,
     onSelectDate,
+    viewMonth,
 }: WeeklyCalendarProps) => {
     const [currentDate, setCurrentDate] = useState(() =>
-        selectedDate ? new Date(`${selectedDate}T00:00:00`) : new Date()
+        viewMonth ? getFirstWeekDate(viewMonth) : getInitialDate(selectedDate)
     );
 
     const [selectedDayIso, setSelectedDayIso] = useState<string | null>(
@@ -89,11 +117,19 @@ const WeeklyCalendar = ({
     );
 
     useEffect(() => {
-        if (!selectedDate) return;
-
-        setSelectedDayIso(selectedDate);
-        setCurrentDate(new Date(`${selectedDate}T00:00:00`));
+        if (selectedDate) {
+            setSelectedDayIso(selectedDate);
+            setCurrentDate(new Date(`${selectedDate}T00:00:00`));
+        } else {
+            setSelectedDayIso(null);
+        }
     }, [selectedDate]);
+
+    useEffect(() => {
+        if (!viewMonth) return;
+        if (selectedDate?.slice(0, 7) === viewMonth) return;
+        setCurrentDate(getFirstWeekDate(viewMonth));
+    }, [selectedDate, viewMonth]);
 
     const weekDays = useMemo(() => getWeekDays(currentDate), [currentDate]);
 
@@ -169,7 +205,6 @@ const WeeklyCalendar = ({
                             style={[
                                 styles.dayCell,
                                 dayItem.isPast && styles.inactiveCell,
-                                isSelected && styles.selectedCell,
                             ]}
                         >
                             <Text
@@ -228,7 +263,7 @@ const styles = StyleSheet.create({
     currentDate: {
         fontSize: 16,
         fontWeight: '500',
-        color: '#00',
+        color: Colors.text,
     },
     weekRow: {
         flexDirection: 'row',
@@ -257,14 +292,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     todayText: {
-        borderRadius: '100%',
-        color: 'white',
-        backgroundColor: "#0D5175",
+        color: Colors.error,
     },
     selectedCell: {
-        color: 'white',
-        backgroundColor: "#0D5175",
-        borderRadius: 14,
+        color: Colors.text,
     },
     inactiveCell: {
         opacity: 0.5
@@ -275,15 +306,15 @@ const styles = StyleSheet.create({
         height: 28,
         textAlign: 'center',
         paddingTop: 3,
-        color: 'black',
+        color: Colors.text,
         fontWeight: '500',
     },
     selectedDayText: {
-        color: 'white',
+        color: Colors.text,
     },
     selectedDayNumber: {
-        color: '#0D5175',
-        backgroundColor: 'white',
+        color: Colors.bg2,
+        backgroundColor: Colors.secondary,
         borderRadius: '100%',
     },
     inactiveText: {

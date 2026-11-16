@@ -2,13 +2,13 @@ import { Buttons, Colors, Inputs, Sizes } from "@/constants/theme";
 import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
 import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
+import { useProfile } from "@/src/hooks/useProfile";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useProfile } from "@/src/hooks/useProfile";
 import {
   Image,
   Pressable,
@@ -36,7 +36,7 @@ function StarButton({ doctorId }: { doctorId: string }) {
         setIsFavourite(result);
       }}>
       <MaterialIcons
-        name={isFavourite ? "star" : "star-border"}
+        name={isFavourite ? "bookmark" : "bookmark-border"}
         size={Sizes.h1}
         color={Colors.info}
       />

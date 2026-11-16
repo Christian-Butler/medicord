@@ -1,8 +1,8 @@
+import { Colors } from "@/constants/theme";
+import { useDoctor } from "@/src/hooks/useDoctor";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
-import { useTranslation } from "react-i18next";
-import { useDoctor } from "@/src/hooks/useDoctor";
 import { Image, Pressable, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 type HeaderChatProps = {
@@ -11,21 +11,19 @@ type HeaderChatProps = {
     onPhonePress?: () => void;
     onVideoPress?: () => void;
     showBack?: boolean;
+    backgroundColor?: string;
     onBackPress?: () => void;
     rightElement?: React.ReactNode;
-    backgroundColor?: string;
     style?: ViewStyle;
 };
 
 export default function HeaderChat({
     title,
-     doctorId,
-    onPhonePress = () => { },
-    onVideoPress = () => { },
+    doctorId,
     showBack = true,
     onBackPress,
     rightElement,
-    backgroundColor = "#fff",
+    backgroundColor = Colors.bg2,
     style,
 }: HeaderChatProps) {
     function handleBackPress() {
@@ -37,12 +35,13 @@ export default function HeaderChat({
         router.back();
     }
 
-     const { doctor } = useDoctor(doctorId);
+    const { doctor } = useDoctor(doctorId);
     const avatar = doctor?.avatar_url || null;
 
     return (
         <View className="bg-white h-120">
-            <View style={[styles.header, { backgroundColor }, style]}>
+            <View style={[styles.header, { backgroundColor }, style]}
+                className="justify-between">
                 <View style={styles.side}>
                     {showBack ? (
                         <Pressable
@@ -55,35 +54,24 @@ export default function HeaderChat({
                     ) : null}
                 </View>
                 <View className="flex-row items-center pt-51">
-                  <View className="flex-row items-center pt-51">
-                    {avatar ? (
-                        <Image source={{ uri: avatar }} className="h-10 w-10 rounded-full" />
-                    ) : (
-                        <View className="h-10 w-10 rounded-full bg-[#D7E8ED]" />
-                    )}
-                    <Text className="ml-3 text-[18px] font-medium text-[#233238]">{doctor?.full_name ?? title}</Text>
+                    <View className="flex-row items-center pt-51">
+                        {avatar ? (
+                            <Image source={{ uri: avatar }} className="h-10 w-10 rounded-full" />
+                        ) : (
+                            <View className="h-10 w-10 rounded-full bg-[#D7E8ED]" />
+                        )}
+                        <Text className="ml-3 text-[18px] font-medium text-[#233238]">{doctor?.full_name ?? title}</Text>
+                    </View>
                 </View>
-                </View>
-
-                <View className="flex-row items-center">
-                    <Pressable
-                        onPress={onPhonePress}
-                        className="mr-3 rounded-full bg-[#5085A8] p-2"
-                    >
-                        <MaterialIcons name="phone" size={20} color="#fff" />
-                    </Pressable>
-
-                    <Pressable
-                        onPress={onVideoPress}
-                        className="rounded-full bg-[#5085A8] p-2"
-                    >
-                        <MaterialIcons name="video-call" size={20} color="#fff" />
-                    </Pressable>
+                <View style={styles.side}>
+                    {rightElement ? rightElement : null}
                 </View>
             </View>
+
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     header: {
@@ -92,9 +80,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: 'space-between',
         borderBottomWidth: 1,
         borderBottomColor: "#003454",
+        backgroundColor: "pink",
     },
 
     side: {

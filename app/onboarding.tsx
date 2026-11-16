@@ -54,7 +54,7 @@ export default function OnboardingScreen() {
                         flex: 1,
                         alignItems: 'center',
                         padding: Sizes.p3,
-                        paddingTop: 250,
+                        paddingTop: 200,
                     }}>
                         <Image
                             source={item.image}

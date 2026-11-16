@@ -352,7 +352,7 @@ export const fr = {
         "Confidentiality": "Confidentialité",
         "Legal information": "Information légale",
         "Delete my account": "Supprimer mon compte",
-        "Disconnect": "Déconnexion",
+        "Log out": "Se déconnecter",
         "Ton généraliste": "Ton généraliste",
         "My preferences": "Mes préférences",
         languageTitle: "Langue (Basé sur paramètres mobiles)",
@@ -579,7 +579,7 @@ export const fr = {
         "Ophthalmology": "Ophtalmologie",
         "Dermatology": "Dermatologie",
         "Gastroenterology": "Gastro-entérologie",
-        "Gynaecology": "Gynécologie",
+        "Gynecology": "Gynécologie",
         "Endocrinology": "Endocrinologie",
         accepts: "Accepte de nouveaux patients",
         videocalls: "Pas d'appels vidéo"

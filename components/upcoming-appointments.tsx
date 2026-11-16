@@ -259,7 +259,7 @@ const styles = StyleSheet.create({
     color: Colors.text,
   },
   dotsContainer: {
-    marginTop: Sizes.paragraph,
+    marginTop: Sizes.p2,
     flexDirection: "row",
     justifyContent: "center",
   },
@@ -270,9 +270,12 @@ const styles = StyleSheet.create({
   },
   dotActive: {
     width: Sizes.h3,
+    backgroundColor: Colors.secondary
   },
   dotInactive: {
     width: Sizes.p1 + 2,
     backgroundColor: Colors.bg2,
+    borderColor: Colors.primary,
+    borderWidth: Buttons.w0
   },
 });

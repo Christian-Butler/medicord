@@ -26,7 +26,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
       style={{
         marginHorizontal: Sizes.p3,
         marginTop: Sizes.p2,
-        backgroundColor: Colors.bg2,
+        backgroundColor: `${destructive ? Colors.delete : Colors.bg2}`,
         borderRadius: Sizes.p3,
         paddingHorizontal: Sizes.p2,
         paddingVertical: Buttons.w1,
@@ -46,8 +46,9 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
         <Text
           style={{
             fontSize: Sizes.paragraph,
+            color: `${destructive ? Colors.bg2 : Colors.text}`
           }}
-          className={`font-regular ${destructive ? Colors.delete : Colors.text}`}>
+          className="font-medium">
           {t(`profile.${title}`)}
         </Text>
 
@@ -61,7 +62,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
         ) : null}
       </View>
 
-      <MaterialIcons name="chevron-right" size={Sizes.h2} color={destructive ? Colors.delete : Colors.text} />
+      <MaterialIcons name="chevron-right" size={Sizes.h2} color={destructive ? Colors.bg2 : Colors.text} />
     </Pressable>
   );
 }
@@ -232,19 +233,20 @@ export default function ProfilePage() {
         <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
         <ProfileRow title="Legal information" onPress={() => router.push("/profile-legal")} />
         <ProfileRow
-          title="Delete my account"
-          onPress={() => setShowDeleteModal(true)}
+          icon="logout"
+          title="Log out"
+          onPress={() => setShowLogoutModal(true)}
         />
+
 
         <View style={{
           height: Buttons.height
         }} />
 
         <ProfileRow
-          icon="logout"
-          title="Disconnect"
           destructive
-          onPress={() => setShowLogoutModal(true)}
+          title="Delete my account"
+          onPress={() => setShowDeleteModal(true)}
         />
       </ScrollView>
     </SafeAreaView>
