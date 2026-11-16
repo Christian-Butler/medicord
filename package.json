@@ -83,8 +83,10 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~10.0.0",
+    "fast-xml-parser": "^5.12.1",
     "prettier": "3.9.4",
     "supabase": "^2.106.0",
+    "tsx": "^4.23.15",
     "typescript": "~5.9.2"
   },
   "private": true

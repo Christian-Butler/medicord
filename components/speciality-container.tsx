@@ -8,16 +8,7 @@ import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useProfile } from "@/src/hooks/useProfile";
-import {
-  Image,
-  Pressable,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import WeeklyCalendar from "./calendar";
 
@@ -48,7 +39,7 @@ export default function SpecialityContainer({
   specialty,
 }: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
-  const { gp } = useProfile();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [timedQuery, setTimedQuery] = useState("");
 
@@ -68,11 +59,9 @@ export default function SpecialityContainer({
     const trimmedSearchQuery = timedQuery.trim().toLowerCase();
     if (!trimmedSearchQuery) return doctors;
     return doctors.filter((doc) =>
-      doc.full_name?.toLowerCase().includes(trimmedSearchQuery)
+      doc.full_name?.toLowerCase().includes(trimmedSearchQuery),
     );
   }, [doctors, timedQuery]);
-
-
 
   return (
     <View>
@@ -87,15 +76,14 @@ export default function SpecialityContainer({
           marginVertical: Sizes.p3,
           borderWidth: Inputs.w0,
         }}
-        className="flex-row items-center"
-      >
+        className="flex-row items-center">
         <Search size={Sizes.h5} color={Colors.textMuted} />
         <TextInput
           placeholder={t(`speciality-container.search`)}
           placeholderTextColor={Colors.textMuted}
           style={{
             fontSize: Sizes.paragraph,
-            color: Colors.text
+            color: Colors.text,
           }}
           className="ml-2"
           value={searchQuery}
@@ -122,7 +110,11 @@ export default function SpecialityContainer({
 
         {!loading && !error && querySpecialtyDoctors.length === 0 ? (
           <Text style={styles.statusText}>
-            {searchQuery.trim() ? t(`specialty-container.noDoctors`, "No doctors found matching your search.")
+            {searchQuery.trim()
+              ? t(
+                  `specialty-container.noDoctors`,
+                  "No doctors found matching your search.",
+                )
               : t(`speciality-container.noDoctor`)}
           </Text>
         ) : null}
@@ -142,7 +134,12 @@ export default function SpecialityContainer({
                     {avatar ? (
                       <Image source={{ uri: avatar }} style={styles.avatar} />
                     ) : (
-                      <View style={[styles.avatar, { backgroundColor: Colors.textMuted }]} />
+                      <View
+                        style={[
+                          styles.avatar,
+                          { backgroundColor: Colors.textMuted },
+                        ]}
+                      />
                     )}
                   </View>
 
@@ -172,9 +169,7 @@ export default function SpecialityContainer({
 
                     <Pressable
                       style={styles.containerButton}
-                      className={notYourGp ? "opacity-60" : ""}
                       accessibilityRole="button"
-                      disabled={notYourGp}
                       onPress={() =>
                         router.push({
                           pathname: "/doctor-details",
@@ -185,14 +180,15 @@ export default function SpecialityContainer({
                             specialty: doctor.specialty ?? specialty,
                           },
                         })
-                      }
-                    >
+                      }>
                       <Text
                         style={{
                           color: Colors.bg2,
-                          fontSize: Sizes.paragraph
+                          fontSize: Sizes.paragraph,
                         }}
-                        className="font-medium">{t(`speciality-container.details`)}</Text>
+                        className="font-medium">
+                        {t(`speciality-container.details`)}
+                      </Text>
                     </Pressable>
                   </View>
                 </View>
@@ -206,7 +202,6 @@ export default function SpecialityContainer({
 }
 
 const styles = StyleSheet.create({
-
   statusText: {
     alignSelf: "center",
     marginBottom: Sizes.p3,
@@ -267,5 +262,5 @@ const styles = StyleSheet.create({
     color: Colors.bg2,
     height: Inputs.height,
     borderRadius: Sizes.sm,
-  }
+  },
 });
