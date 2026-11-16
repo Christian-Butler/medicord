@@ -3,6 +3,8 @@ export type AppointmentInput = {
   gpId?: string | null;
   referralRequired?: boolean;
   reason?: string;
+  title?: string;
+  notes?: string | null;
   startsAt: string;
   endsAt: string;
   location?: string | null;

@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/theme";
 import { CalendarDays } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -5,6 +6,7 @@ import { Modal, Pressable, Text, View } from "react-native";
 type AppointmentReasonOverlayProps = {
   visible: boolean;
   selectedReasons: string[];
+  specialty: string[];
   onToggleReason: (reason: string) => void;
   onConfirm: () => void;
   onClose?: () => void;
@@ -22,6 +24,7 @@ export default function AppointmentReasonOverlay({
   visible,
   selectedReasons,
   onToggleReason,
+  specialty,
   onConfirm,
   onClose,
 }: AppointmentReasonOverlayProps) {
@@ -36,7 +39,7 @@ export default function AppointmentReasonOverlay({
         <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
           <View className="items-center">
             <View className="mb-8 h-[76px] w-[76px] items-center justify-center rounded-[8px] bg-transparent">
-              <CalendarDays size={68} color="#2F7298" strokeWidth={2} />
+              <CalendarDays size={68} color={Colors.secondary} strokeWidth={2} />
             </View>
 
             <Text className="mb-9 text-center text-[20px] font-semibold leading-7 text-black">

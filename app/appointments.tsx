@@ -55,7 +55,6 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
   const location =
     appointment.location ??
     doctor?.location ??
-
     doctor?.clinic_name ?? t(`appointments.locUnavailable`);
 
   return (

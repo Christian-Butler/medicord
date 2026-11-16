@@ -58,7 +58,6 @@ export async function createAppointment(
     user_id: userId,
     doctor_id: input.doctorId,
     gp_id: gpId,
-
     referral_required: referralRequired,
     referral_status: referralRequired
       ? gpId
@@ -66,7 +65,7 @@ export async function createAppointment(
         : "missing"
       : "not_required",
 
-    title: input.reason ?? "Consultation",
+    title: input.title ?? "Consultation",
     appointment_type: "consultation",
     location: input.location ?? null,
 
@@ -75,7 +74,7 @@ export async function createAppointment(
 
     status: "pending",
     reason: input.reason ?? null,
-    notes: null,
+    notes: input.notes ?? null,
 
     created_at: now,
     updated_at: now,

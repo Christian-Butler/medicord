@@ -2,6 +2,7 @@ import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
+import { Colors, Sizes } from "@/constants/theme";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useUpdateAppointment } from "@/src/hooks/useUpdateAppointment";
@@ -9,6 +10,7 @@ import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCale
 import type { Appointment } from "@/src/types/appointmentTypes";
 import {
   buildLocalIsoDateTime,
+  getMonthLabel,
   toLocalIsoDate,
   toTimeValue,
 } from "@/src/utils/dateTime";
@@ -39,12 +41,35 @@ export default function EditAppointment() {
   const [updatedAppointment, setUpdatedAppointment] = useState<Appointment | null>(null);
 
   const { update, updating, updateError } = useUpdateAppointment();
-
-  const [selectedDate, setSelectedDate] = useState("");
-  const [selectedTime, setSelectedTime] = useState("");
   const [isChecked, setChecked] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
   const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const now = new Date();
+
+  const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+  const [viewMonth, setViewMonth] = useState(() => {
+    const date = new Date();
+    if (date.getDay() === 0) {
+      date.setDate(date.getDate() + 1);
+    }
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+  });
+
+  function changeMonth(delta: number) {
+    const [year, month] = viewMonth.split("-").map(Number);
+    const nextMonth = new Date(year, month - 1 + delta, 1);
+    const nextMonthValue = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth() + 1).padStart(2, "0")}`;
+    if (nextMonthValue < currentMonth) return;
+
+    setViewMonth(nextMonthValue);
+    setSelectedDate(null);
+    setSelectedTime(null);
+    setFormError(null);
+  }
 
   useEffect(() => {
     if (!appointment) return;
@@ -103,7 +128,7 @@ export default function EditAppointment() {
         startsAt,
         endsAt,
       });
-     setUpdatedAppointment(updated);
+      setUpdatedAppointment(updated);
       setShowSuccessOverlay(true);
     } catch (err) {
       console.error("[EditAppointment] update failed:", err);
@@ -123,14 +148,31 @@ export default function EditAppointment() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+
         <View style={styles.monthContainer}>
-          <Text style={styles.sectionTitle}>{t(`edit-appointment.selectD`)}</Text>
+          <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
 
           <View style={styles.month}>
-            <Text style={styles.monthText}>
-              {t(`edit-appointment.selectedD`)}
+            <Pressable
+              accessibilityRole="button"
+              disabled={viewMonth <= currentMonth}
+              onPress={() => changeMonth(-1)}
+              hitSlop={8}
+              style={viewMonth <= currentMonth ? styles.disabledMonthArrow : undefined}
+            >
+              <MaterialIcons name="chevron-left" size={24} />
+            </Pressable>
+            <Text>
+              {t(`edit-appointment.${getMonthLabel(`${viewMonth}-01`)}`)}{" "}
+              {viewMonth.slice(0, 4)}
             </Text>
-            <MaterialIcons name="keyboard-arrow-down" size={18} />
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => changeMonth(1)}
+              hitSlop={8}
+            >
+              <MaterialIcons name="chevron-right" size={24} />
+            </Pressable>
           </View>
         </View>
 
@@ -197,12 +239,11 @@ export default function EditAppointment() {
 
       <BookingSuccessOverlay
         visible={showSuccessOverlay}
-        onAddToCalendar={() => {if (updatedAppointment) addToCalendar(updatedAppointment); }}
+        onAddToCalendar={() => { if (updatedAppointment) addToCalendar(updatedAppointment); }}
         onGoHome={() => {
           setShowSuccessOverlay(false);
           router.replace("/(tabs)");
         }}
-        onClose={() => setShowSuccessOverlay(false)}
       />
     </View>
   );
@@ -229,33 +270,36 @@ const styles = StyleSheet.create({
   },
 
   month: {
-    fontSize: 12,
+    marginTop: Sizes.p0,
+    fontSize: Sizes.sm,
     fontWeight: "500",
-    backgroundColor: "#fff",
-    paddingTop: 6,
-    paddingBottom: 6,
-    paddingLeft: 12,
-    paddingRight: 10,
-    borderWidth: 2,
-    borderColor: "#0D5175",
-    borderRadius: 14,
+    backgroundColor: Colors.bg2,
+    paddingVertical: Sizes.p2,
+    paddingHorizontal: Sizes.p1,
+    width: Sizes.width - 230,
+    borderRadius: Sizes.p3,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between"
   },
 
   monthText: {
-    fontSize: 12,
+    fontSize: Sizes.sm,
     fontWeight: "500",
-    color: "#000",
+    color: Colors.text,
+  },
+
+  disabledMonthArrow: {
+    opacity: 0.35,
   },
 
   monthContainer: {
     flexDirection: "row",
     alignItems: "center",
-    width: "90%",
+    width: Sizes.width - 50,
     alignSelf: "center",
     justifyContent: "space-between",
-    marginBottom: 26,
+    marginBottom: 20,
   },
 
   calendarContainer: {

@@ -2,6 +2,8 @@ import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
+import { Colors, Sizes } from "@/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
 import { useDoctor } from "@/src/hooks/useDoctor";
@@ -22,9 +24,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 export default function Booking() {
     const { doctorId, specialty, reason } = useLocalSearchParams<{
         doctorId?: string;
-        name?: string;
         specialty?: string;
-        closestDay?: string;
         reason?: string;
     }>();
 
@@ -34,6 +34,7 @@ export default function Booking() {
         error: doctorError,
     } = useDoctor(doctorId ? String(doctorId) : undefined);
 
+    const { profile, profileError } = useAuth();
     const { create, creating, createError } = useCreateAppointment();
     const { addToCalendar } = useAddAppointmentToCalendar();
     const [bookedAppointment, setBookedAppointment] = useState<Appointment | null>(null);
@@ -77,6 +78,11 @@ export default function Booking() {
             return;
         }
 
+        if (!profile) {
+            setFormError(profileError ?? "Your profile information is unavailable. Please try again.");
+            return;
+        }
+
         if (!selectedDate) {
             setFormError(t(`book-appointment.selectDate`));
             return;
@@ -104,15 +110,12 @@ export default function Booking() {
                 doctorId: doctor?.id ?? String(doctorId),
                 gpId: null,
                 referralRequired: doctor?.requires_gp_referral ?? false,
-
-                patientName: "Philip",
-                patientEmail: "demo@medicord.test",
-                patientPhone: "07123456789",
-
-                reason: `${doctor?.specialty ?? specialty ?? "Appointment"
-                    } consultation`,
+                reason: (Array.isArray(reason) ? reason.join(", ") : reason)?.trim()
+                    || `${doctor?.specialty ?? specialty ?? "Appointment"} consultation`,
                 startsAt,
                 endsAt,
+                title: `Appointment for ${profile.full_name}`,
+                notes: `email:${profile.email ?? ""}, phone:${profile.phone ?? ""}`,
                 location: doctor?.location ?? null,
             };
 
@@ -126,13 +129,12 @@ export default function Booking() {
             setShowSuccessOverlay(true);
         } catch (err) {
             console.error("[BookAppointment] create appointment failed:", err);
-            // the slot may have just been taken: clear it and reload what's free
             setSelectedTime(null);
             refetchTimes();
         }
     }
 
-    const visibleError = formError ?? doctorError ?? createError;
+    const visibleError = formError ?? doctorError ?? profileError ?? createError;
     const confirm = Boolean(selectedDate && selectedTime && isChecked);
 
     const { t } = useTranslation();
@@ -272,23 +274,27 @@ export default function Booking() {
 
 const styles = StyleSheet.create({
     month: {
-        marginTop: 6,
-        fontSize: 14,
+        marginTop: Sizes.p0,
+        fontSize: Sizes.sm,
         fontWeight: "500",
-        backgroundColor: "#fff",
-        paddingVertical: 8,
-        paddingHorizontal: 6,
-        borderRadius: 14,
+        backgroundColor: Colors.bg2,
+        paddingVertical: Sizes.p2,
+        paddingHorizontal: Sizes.p1,
+        width: Sizes.width - 230,
+        borderRadius: Sizes.p3,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between"
     },
+
     disabledMonthArrow: {
         opacity: 0.35,
     },
+
     monthContainer: {
         flexDirection: "row",
         alignItems: "center",
-        width: "90%",
+        width: Sizes.width - 50,
         alignSelf: "center",
         justifyContent: "space-between",
         marginBottom: 20,
