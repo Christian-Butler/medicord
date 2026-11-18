@@ -1,4 +1,5 @@
 import MedicationForm from "@/components/medication-form";
+import { Colors, Sizes } from "@/constants/theme";
 import { useCreateMedication } from "@/src/hooks/useCreateMedication";
 import { useMedication } from "@/src/hooks/useMedication";
 import { useUpdateMedication } from "@/src/hooks/useUpdateMedication";
@@ -52,7 +53,7 @@ export default function MedicationFormContainer() {
   return (
     <View>
       {loading && isEditing ? (
-        <Text className="mx-6 mt-5 text-[16px] text-black">
+        <Text style={{ marginHorizontal: Sizes.h4, marginTop: Sizes.h5, fontSize: Sizes.paragraph, color: Colors.text }}>
           {t(`medication-form-container.loading`)}
         </Text>
       ) : null}

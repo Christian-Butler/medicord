@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,13 +20,25 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
 
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-            <View className="flex-1 items-center justify-center bg-black/30 px-8">
-                <View className="w-full rounded-[18px] bg-[#EEF9FB] px-6 py-10">
-                    <Pressable onPress={onClose} className="absolute right-4 top-4 p-2">
-                        <MaterialIcons name="close" size={22} color="#9BA8AB" />
+            <View style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "rgba(0,0,0,0.3)",
+                paddingHorizontal: Sizes.h2
+            }}>
+                <View style={{
+                    width: "100%",
+                    borderRadius: Sizes.h4,
+                    backgroundColor: Colors.bg1,
+                    paddingHorizontal: Sizes.h2,
+                    paddingVertical: Sizes.h1 + Sizes.h3
+                }}>
+                    <Pressable onPress={onClose} style={{ position: "absolute", right: Sizes.h4, top: Sizes.h4, padding: Sizes.p2 }}>
+                        <MaterialIcons name="close" size={22} color={Colors.textMuted} />
                     </Pressable>
-                    <View className="mt-4">
-                        <Text className="text-center text-[20px] font-medium leading-7 text-black">
+                    <View style={{ marginTop: Sizes.p2 }}>
+                        <Text style={{ textAlign: "center", fontSize: Sizes.h4, fontWeight: "500", lineHeight: 28, color: Colors.text }}>
                             {t("renew-modal.question")}
                         </Text>
                     </View>
@@ -34,34 +47,71 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                             value={reason}
                             onChangeText={setReason}
                             placeholder={t("renew-modal.reason")}
-                            placeholderTextColor={"#8F9D9E"}
+                            placeholderTextColor={Colors.textMuted}
                             keyboardType="phone-pad"
-                            className="mt-8 h-[50px] rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+                            style={{
+                                marginTop: Sizes.h1,
+                                height: Buttons.height,
+                                borderRadius: Sizes.h4,
+                                borderWidth: Buttons.w2,
+                                borderColor: Colors.textMuted,
+                                backgroundColor: Colors.bg2,
+                                paddingHorizontal: Sizes.h4,
+                                fontSize: Sizes.paragraph,
+                                color: Colors.text
+                            }}
                         />
                     </View>
-                    <View className="flex-row justify-between mt-6">
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: Sizes.h4 }}>
                         <TextInput
                             value={start}
                             onChangeText={setStart}
                             placeholder={t("renew-modal.start")}
-                            placeholderTextColor={"#8F9D9E"}
+                            placeholderTextColor={Colors.textMuted}
                             keyboardType="phone-pad"
-                            className="h-[50px] w-40 rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+                            style={{
+                                height: Buttons.height,
+                                width: 160,
+                                borderRadius: Sizes.h4,
+                                borderWidth: Buttons.w2,
+                                borderColor: Colors.textMuted,
+                                backgroundColor: Colors.bg2,
+                                paddingHorizontal: Sizes.h4,
+                                fontSize: Sizes.paragraph,
+                                color: Colors.text
+                            }}
                         />
                         <TextInput
                             value={end}
                             onChangeText={setEnd}
                             placeholder={t("renew-modal.end")}
-                            placeholderTextColor={"#8F9D9E"}
+                            placeholderTextColor={Colors.textMuted}
                             keyboardType="phone-pad"
-                            className="h-[50px] w-40 rounded-[14px] border-[2px] border-[#9BA8AB] bg-white px-4 text-[16px] text-black"
+                            style={{
+                                height: Buttons.height,
+                                width: 160,
+                                borderRadius: Sizes.h4,
+                                borderWidth: Buttons.w2,
+                                borderColor: Colors.textMuted,
+                                backgroundColor: Colors.bg2,
+                                paddingHorizontal: Sizes.h4,
+                                fontSize: Sizes.paragraph,
+                                color: Colors.text
+                            }}
                         />
                     </View>
                     <Pressable
                         onPress={onConfirm}
-                        className="mt-8 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8]"
+                        style={{
+                            marginTop: Sizes.h1,
+                            height: Buttons.height,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: Sizes.p3,
+                            backgroundColor: Colors.primary
+                        }}
                     >
-                        <Text className="text-[16px] font-semibold text-white">{t("renew-modal.askDoctor")}</Text>
+                        <Text style={{ fontSize: Sizes.paragraph, fontWeight: "600", color: Colors.bg2 }}>{t("renew-modal.askDoctor")}</Text>
                     </Pressable>
                 </View>
             </View>

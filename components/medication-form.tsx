@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { toLocalDay } from "@/src/libs/medicationCalender";
 import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
@@ -168,44 +169,44 @@ export default function MedicationForm({
   );
 
   return (
-    <View className="mx-6 pb-16 pt-8">
+    <View style={{ marginHorizontal: Sizes.h4, paddingBottom: Sizes.h1 + Sizes.h3, paddingTop: Sizes.h2 }}>
 
       {/* Name */}
-      <Text className="mr-4 text-[20px] font-medium text-black">{t(`medication-form.title`)}</Text>
+      <Text style={{ marginRight: Sizes.h4, fontSize: Sizes.h4, fontWeight: "500", color: Colors.text }}>{t(`medication-form.title`)}</Text>
 
       <TextInput
         value={name}
         onChangeText={(v) => { setName(v); setLocalError(null); }}
         placeholder={t(`medication-form.placeholderName`)}
-        placeholderTextColor="#7A8A8D"
-        className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
+        placeholderTextColor={Colors.textMuted}
+        style={{ marginTop: Sizes.p3, height: Buttons.height, borderRadius: Sizes.p3, borderWidth: 1, borderColor: Colors.secondary, backgroundColor: Colors.bg2, paddingHorizontal: Sizes.h4, fontSize: Sizes.paragraph, color: Colors.text }}
       />
       {visibleError ? (
-        <Text className="mt-2 text-[16px] text-[#B42318]">{visibleError}</Text>
+        <Text style={{ marginTop: Sizes.p2, fontSize: Sizes.paragraph, color: Colors.error }}>{visibleError}</Text>
       ) : null}
 
       {/* Duration */}
-      <Text className="mt-7 mb-3 text-[20px] font-medium text-black">{t("Duration")}</Text>
-      <View className="px-10 gap-3 mt-3 items-center justify-between flex-row">
+      <Text style={{ marginTop: Sizes.h1 + Sizes.p1, marginBottom: Sizes.p3, fontSize: Sizes.h4, fontWeight: "500", color: Colors.text }}>{t("Duration")}</Text>
+      <View style={{ paddingHorizontal: Sizes.h1 + Sizes.h3, gap: Sizes.p3, marginTop: Sizes.p3, alignItems: "center", justifyContent: "space-between", flexDirection: "row" }}>
         <TouchableOpacity
           onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
-          className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
+          style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
         >
-          <Text className="text-[16px] text-black">
+          <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>
             {dateStart.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
-        <Text className="text-[16px] font-regular text-black">{t(`medication-form.until`)}</Text>
+        <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>{t(`medication-form.until`)}</Text>
         <TouchableOpacity
           onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
-          className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
+          style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
         >
-          <Text className="text-[16px] text-black">
+          <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>
             {dateEnd.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
       </View>
-      <View className="items-center">
+      <View style={{ alignItems: "center" }}>
         {showPicker === "start" && (
           <DateTimePicker
             value={dateStart}
@@ -216,7 +217,7 @@ export default function MedicationForm({
           />
         )}
       </View>
-      <View className="items-center">
+      <View style={{ alignItems: "center" }}>
         {showPicker === "end" && (
           <DateTimePicker
             value={dateEnd}
@@ -229,18 +230,17 @@ export default function MedicationForm({
       </View>
 
       {/* Week */}
-      <Text className="mt-7 text-[20px] font-medium text-black">{t(`medication-form.weekly`)}</Text>
-      <View className="mt-3 flex-row flex-wrap gap-2">
+      <Text style={{ marginTop: Sizes.h1 + Sizes.p1, fontSize: Sizes.h4, fontWeight: "500", color: Colors.text }}>{t(`medication-form.weekly`)}</Text>
+      <View style={{ marginTop: Sizes.p3, flexDirection: "row", flexWrap: "wrap", gap: Sizes.p2 }}>
         {weekDays.map((day) => {
           const selected = selectedDays.includes(day);
           return (
             <Pressable
               key={day}
               onPress={() => toggleDay(day)}
-              className={`h-[40px] min-w-[45px] items-center justify-center rounded-xl px-2 ${selected ? "bg-[#0D5175]" : "bg-white"
-                } `}
+              style={{ height: 40, minWidth: 45, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, paddingHorizontal: Sizes.p2, backgroundColor: selected ? Colors.secondary : Colors.bg2 }}
             >
-              <Text className={`text-[13px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
+              <Text style={{ fontSize: Sizes.sm - 1, fontWeight: "500", color: selected ? Colors.bg2 : Colors.secondary }}>
                 {t(`medication-container.${day}`)}
               </Text>
             </Pressable>
@@ -251,16 +251,15 @@ export default function MedicationForm({
 
       {/* Daily */}
       <View>
-        <Text className="mt-7 text-[20px] font-medium text-black">{t("medication-form.daily")}</Text>
-        <View className="mt-4 flex-row flex-wrap gap-4">
+        <Text style={{ marginTop: Sizes.h1 + Sizes.p1, fontSize: Sizes.h4, fontWeight: "500", color: Colors.text }}>{t("medication-form.daily")}</Text>
+        <View style={{ marginTop: Sizes.h5, flexDirection: "row", flexWrap: "wrap", gap: Sizes.h4 }}>
           {frequencyOptions.map((option) => (
             <Pressable
               key={option.value}
               onPress={() => setFrequency(option.value)}
-              className={`h-[40px] items-center justify-center rounded-[10px] px-6 ${frequency === option.value ? "bg-[#0D5175]" : "bg-white"
-                }`}
+              style={{ height: 40, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, paddingHorizontal: Sizes.h4, backgroundColor: frequency === option.value ? Colors.secondary : Colors.bg2 }}
             >
-              <Text className={`text-[14px] font-medium ${frequency === option.value ? "text-white" : "text-[#0D5175]"}`}>
+              <Text style={{ fontSize: Sizes.sm, fontWeight: "500", color: frequency === option.value ? Colors.bg2 : Colors.secondary }}>
                 {t(`medication-container.${option.value}`)}
               </Text>
             </Pressable>
@@ -269,8 +268,8 @@ export default function MedicationForm({
       </View>
 
       {/* Intake Frequency */}
-      <Text className="mt-4 text-[20px] font-medium text-black">{t("medication-form.timeWindow")}</Text>
-      <View className="mt-3 flex-row flex-wrap gap-4">
+      <Text style={{ marginTop: Sizes.h5, fontSize: Sizes.h4, fontWeight: "500", color: Colors.text }}>{t("medication-form.timeWindow")}</Text>
+      <View style={{ marginTop: Sizes.p3, flexDirection: "row", flexWrap: "wrap", gap: Sizes.h4 }}>
         {daily.map((time) => {
           const selected = selectedDays.includes(time);
           return (
@@ -278,10 +277,9 @@ export default function MedicationForm({
               key={time}
               onPress={() => !noSpecificTime && toggleDay(time)}
               disabled={noSpecificTime}
-              className={`px-6 h-[40px] items-center justify-center rounded-xl ${selected ? "bg-[#0D5175]" : "bg-white"
-                } ${noSpecificTime ? "opacity-50" : ""}`}
+              style={{ paddingHorizontal: Sizes.h4, height: 40, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: selected ? Colors.secondary : Colors.bg2, opacity: noSpecificTime ? 0.5 : 1 }}
             >
-              <Text className={`text-[16px] font-medium ${selected ? "text-white" : "text-[#0D5175]"}`}>
+              <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: selected ? Colors.bg2 : Colors.secondary }}>
                 {t(`medication-container.${time}`)}
               </Text>
             </Pressable>
@@ -290,27 +288,27 @@ export default function MedicationForm({
       </View>
 
       {/* Hours specify */}
-      <View className="mt-3 flex-row items-center gap-2">
+      <View style={{ marginTop: Sizes.p3, flexDirection: "row", alignItems: "center", gap: Sizes.p2 }}>
         {showHourSelector && (
           <Pressable
             disabled={noSpecificTime}
             onPress={() => setShowHourDropdown((previous) => !previous)}
-            className={`mt-4 min-w-0 flex-1 h-[46px] flex-row items-center rounded-[12px] border border-[#0D5175] bg-white px-3 ${noSpecificTime ? "opacity-50" : ""}`}
+            style={{ marginTop: Sizes.h5, minWidth: 0, flex: 1, height: Sizes.BtnP - Sizes.p1, flexDirection: "row", alignItems: "center", borderRadius: Sizes.p3, borderWidth: 1, borderColor: Colors.secondary, backgroundColor: Colors.bg2, paddingHorizontal: Sizes.p3, opacity: noSpecificTime ? 0.5 : 1 }}
           >
-            <Text numberOfLines={1} className="mr-2 flex-1 text-[14px] text-black">
+            <Text numberOfLines={1} style={{ marginRight: Sizes.p2, flex: 1, fontSize: Sizes.sm, color: Colors.text }}>
               {hours.length > 0 ? hours.join(", ") : t("medication-form.selectHours")}
             </Text>
-            <ChevronDown size={20} color="#0D5175" />
+            <ChevronDown size={20} color={Colors.secondary} />
           </Pressable>
         )}
 
         <Pressable
           disabled={noSpecificTime}
           onPress={() => setShowHourSelector(true)}
-          className={`mt-4 h-[46px] w-[160px] flex-row items-center justify-center rounded-[12px] bg-[#5085A8] px-4 ${noSpecificTime ? "opacity-50" : ""}`}
+          style={{ marginTop: Sizes.h5, height: Sizes.BtnP - Sizes.p1, width: 160, flexDirection: "row", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.primary, paddingHorizontal: Sizes.h4, opacity: noSpecificTime ? 0.5 : 1 }}
         >
-          <Plus size={18} color="white" />
-          <Text className="ml-1 text-[16px] font-medium text-white">{t("medication-form.specifyHours")}</Text>
+          <Plus size={18} color={Colors.bg2} />
+          <Text style={{ marginLeft: Sizes.p1, fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>{t("medication-form.specifyHours")}</Text>
         </Pressable>
 
       </View>
@@ -319,7 +317,7 @@ export default function MedicationForm({
       {showHourDropdown && !noSpecificTime && (
         <ScrollView
           nestedScrollEnabled
-          className="mt-2 max-h-[240px] rounded-[14px] border border-[#0D5175] bg-white"
+          style={{ marginTop: Sizes.p2, maxHeight: 240, borderRadius: Sizes.p3, borderWidth: 1, borderColor: Colors.secondary, backgroundColor: Colors.bg2 }}
         >
           {specifyHours.map((hour) => {
             const selected = hours.includes(hour);
@@ -327,10 +325,10 @@ export default function MedicationForm({
               <Pressable
                 key={hour}
                 onPress={() => toggleHour(hour)}
-                className={`min-h-[44px] flex-row items-center justify-between border-b border-[#E3EBEF] px-4 ${selected ? "bg-[#EAF3F7]" : ""}`}
+                style={{ minHeight: 44, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomWidth: 1, borderBottomColor: Colors.light.background, paddingHorizontal: Sizes.h4, backgroundColor: selected ? Colors.bg1 : Colors.bg2 }}
               >
-                <Text className="text-[16px] text-black">{hour}</Text>
-                {selected ? <Check size={18} color="#0D5175" /> : null}
+                <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>{hour}</Text>
+                {selected ? <Check size={18} color={Colors.secondary} /> : null}
               </Pressable>
             );
           })}
@@ -338,44 +336,44 @@ export default function MedicationForm({
       )}
 
       {/* No specific time */}
-      <View className="mt-6 flex-row items-center">
+      <View style={{ marginTop: Sizes.h2, flexDirection: "row", alignItems: "center" }}>
         <Pressable
           onPress={() => setNoSpecificTime((p) => !p)}
-          className="flex-row items-center"
+          style={{ flexDirection: "row", alignItems: "center" }}
         >
-          <View className={`h-[20px] w-[20px] rounded-[4px] border border-[#0D5175] ${noSpecificTime ? "bg-[#0D5175]" : "bg-transparent"}`} />
-          <Text className="ml-2 text-[14px] text-black">{t("medication-form.noTimeWindow")}</Text>
+          <View style={{ height: Sizes.h5, width: Sizes.h5, borderRadius: Sizes.p0, borderWidth: 1, borderColor: Colors.secondary, backgroundColor: noSpecificTime ? Colors.secondary : "transparent" }} />
+          <Text style={{ marginLeft: Sizes.p2, fontSize: Sizes.sm, color: Colors.text }}>{t("medication-form.noTimeWindow")}</Text>
         </Pressable>
 
       </View>
 
       {/* Instructions */}
-      <Text className="mt-8 text-[20px] font-medium text-black">{t("medication-form.instructionsTitle")}</Text>
+      <Text style={{ marginTop: Sizes.h1, fontSize: Sizes.h4, fontWeight: "500", color: Colors.text }}>{t("medication-form.instructionsTitle")}</Text>
       {instructions.map((instruction, index) => (
         <TextInput
           key={index}
           value={instruction}
           onChangeText={(v) => updateInstruction(index, v)}
           placeholder={t("medication-form.instructionPlaceholder")}
-          placeholderTextColor="#7A8A8D"
-          className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
+          placeholderTextColor={Colors.textMuted}
+          style={{ marginTop: Sizes.p3, height: Buttons.height, borderRadius: Sizes.p3, borderWidth: 1, borderColor: Colors.secondary, backgroundColor: Colors.bg2, paddingHorizontal: Sizes.h4, fontSize: Sizes.paragraph, color: Colors.text }}
         />
       ))}
 
       <Pressable
         onPress={addInstruction}
-        className="mt-4 h-[46px] flex-row items-center justify-center self-end rounded-[12px] bg-[#5085A8] px-6"
+        style={{ marginTop: Sizes.h5, height: Sizes.BtnP - Sizes.p1, flexDirection: "row", alignItems: "center", justifyContent: "center", alignSelf: "flex-end", borderRadius: Sizes.p3, backgroundColor: Colors.primary, paddingHorizontal: Sizes.h4 }}
       >
-        <Plus size={20} color="white" />
-        <Text className="ml-2 text-[16px] font-medium text-white">{t("medication-form.addInstruction")}</Text>
+        <Plus size={20} color={Colors.bg2} />
+        <Text style={{ marginLeft: Sizes.p2, fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>{t("medication-form.addInstruction")}</Text>
       </Pressable>
 
       <Pressable
         disabled={!confirm || saving}
         onPress={handleSubmit}
-        className={`mt-10  mb-20 h-[50px] items-center justify-center rounded-[14px] bg-[#17A633] ${saving ? "opacity-60" : !confirm ? "opacity-60 bg-[gray]" : ""}`}
+        style={{ marginTop: Sizes.h1 + Sizes.h3, marginBottom: Sizes.h1 + Sizes.h3, height: Buttons.height, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: confirm ? Colors.success : Colors.textMuted, opacity: saving ? 0.6 : 1 }}
       >
-        <Text className="text-[16px] font-medium text-white">
+        <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>
           {saving ? t("medication-form.saving") : medication ? t("medication-form.update") : t("medication-form.confirm")}
         </Text>
       </Pressable>

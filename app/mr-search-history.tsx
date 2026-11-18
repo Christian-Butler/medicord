@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Colors, Sizes } from "@/constants/theme";
 import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -10,7 +11,7 @@ import { categories, MedicalRecordsCategory } from "../components/mr-search-list
 import MedicalRecordsSearchModal from "../components/mr-search-modal";
 
 export default function MedicalRecordsSearchScreen() {
-     const params = useLocalSearchParams<{ category: MedicalRecordsCategory }>();
+    const params = useLocalSearchParams<{ category: MedicalRecordsCategory }>();
     const category = params.category;
     const [searchQuery, setSearchQuery] = useState("");
     const [selectedItem, setSelectedItem] = useState<string | null>(null);
@@ -26,7 +27,7 @@ export default function MedicalRecordsSearchScreen() {
             .sort((a, b) => a.localeCompare(b));
     }, [currentCategoryConfig, searchQuery]);
 
-     const { create } = useCreateMedicalRecord();
+    const { create } = useCreateMedicalRecord();
 
     const handleItemPress = async (label: string) => {
         // allergies need no extra details, so save straight away
@@ -76,7 +77,7 @@ export default function MedicalRecordsSearchScreen() {
     const { t } = useTranslation();
 
     return (
-        <View className="flex-1 bg-[#EEF9FB]">
+        <View style={{ flex: 1, backgroundColor: Colors.bg1 }}>
             <ScreenHeader title={t(`mr-search-history.${currentCategoryConfig.title}`)} />
             <FlatList
                 data={processedList}
@@ -85,14 +86,14 @@ export default function MedicalRecordsSearchScreen() {
                 ListHeaderComponent={
                     <View>
 
-                        <View className="m-6 h-14 flex-row rounded-2xl items-center border border-[#0D5175] bg-white px-4">
-                            <Search size={20} color="#778888" />
+                        <View style={{ margin: Sizes.h4, height: Sizes.h2 + Sizes.h4, flexDirection: "row", borderRadius: Sizes.p3, alignItems: "center", borderWidth: 1, borderColor: Colors.secondary, backgroundColor: Colors.bg2, paddingHorizontal: Sizes.h4 }}>
+                            <Search size={20} color={Colors.textMuted} />
                             <TextInput
                                 placeholder={t("mr-search-history.search")}
-                                placeholderTextColor="#7B8A91"
+                                placeholderTextColor={Colors.textMuted}
                                 value={searchQuery}
                                 onChangeText={setSearchQuery}
-                                className="ml-3 flex-1 text-[16px] text-black"
+                                style={{ marginLeft: Sizes.p3, flex: 1, fontSize: Sizes.paragraph, color: Colors.text }}
                             />
                         </View>
                     </View>
@@ -100,24 +101,24 @@ export default function MedicalRecordsSearchScreen() {
                 renderItem={({ item }) => (
                     <TouchableOpacity
                         onPress={() => handleItemPress(item)}
-                        className="bg-white rounded-[12px] mx-6 py-2 px-2 items-center flex-row mb-4"
+                        style={{ backgroundColor: Colors.bg2, borderRadius: Sizes.p3, marginHorizontal: Sizes.h4, paddingVertical: Sizes.p2, paddingHorizontal: Sizes.p2, alignItems: "center", flexDirection: "row", marginBottom: Sizes.p2 }}
                     >
-                        <View className="w-16 h-16 items-center">
+                        <View style={{ width: Sizes.boxS, height: Sizes.boxS, alignItems: "center" }}>
                             <MaterialIcons
                                 name={currentCategoryConfig.icon}
                                 size={44}
-                                color="#0D5175"
-                                className="mt-1"
+                                color={Colors.secondary}
+                                style={{ marginTop: Sizes.p0 }}
                             />
                         </View>
-                        <Text className="ml-6 text-[16px] font-medium text-black">
+                        <Text style={{ marginLeft: Sizes.h4, fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>
                             {t(`mr-search-history.${item}`)}
                         </Text>
                     </TouchableOpacity>
 
                 )}
                 ListEmptyComponent={
-                    <Text className="text-center text-[#7B8A91] mt-8">
+                    <Text style={{ textAlign: "center", color: Colors.textMuted, marginTop: Sizes.h2 }}>
                         {t(`mr-search-history.sorry`)} {searchQuery} {t(`mr-search-history.noFound`)}
                     </Text>
                 }

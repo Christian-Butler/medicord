@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
 import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -22,51 +23,51 @@ export default function MedicalHistory() {
     const { t } = useTranslation();
 
     return (
-        <ScrollView className="bg-[#EEF9FB]">
+        <ScrollView style={{ flex: 1, backgroundColor: Colors.bg1 }}>
             <ScreenHeader title='' />
 
-            <View className="m-6">
-                <View className="pl-8 pr-8 pt-12">
-                    <Text className="text-2xl text-center">{t(`mr-history.query`)}</Text>
+            <View style={{ margin: Sizes.h4 }}>
+                <View style={{ paddingHorizontal: Sizes.h2, paddingTop: Sizes.h1 + Sizes.h3 }}>
+                    <Text style={{ fontSize: Sizes.h2, textAlign: "center", color: Colors.text }}>{t(`mr-history.query`)}</Text>
                 </View>
-                <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-[16px] text-center">
+                <View style={{ paddingHorizontal: Sizes.paragraph, paddingTop: Sizes.h5 }}>
+                    <Text style={{ fontSize: Sizes.paragraph, textAlign: "center", color: Colors.text }}>
                         {t(`mr-history.info`)}
                     </Text>
                 </View>
-                <View className="flex-1 pt-12">
+                <View style={{ flex: 1, paddingTop: Sizes.h1 + Sizes.h3 }}>
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
+                        style={{ flex: 1, flexDirection: "row", justifyContent: "center", backgroundColor: Colors.primary, height: Buttons.height, alignItems: "center", borderRadius: Sizes.p3 + Sizes.p1 }}
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
                             params: { category: "family_medical_history" },
                         })}
                     >
-                        <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="font-medium text-center text-[#fff]">{t(`mr-history.addF`)}</Text>
+                        <MaterialIcons name="add" size={26} color={Colors.bg2} />
+                        <Text style={{ fontWeight: "500", textAlign: "center", color: Colors.bg2 }}>{t(`mr-history.addF`)}</Text>
                     </TouchableOpacity>
                 </View>
 
                 {familyRecords.length > 0 && (
-                    <View className="mt-4">
+                    <View style={{ marginTop: Sizes.p2 }}>
                         {familyRecords.map((record) => (
-                            <View key={record.id} className="mt-4 px-4 py-2 bg-white rounded-2xl">
-                                <View className="my-4 flex-row items-center justify-between">
-                                    <View className="flex-row items-center">
-                                        <MaterialIcons name="medical-information" size={36} color="#0D5175" />
-                                        <View className="ml-4">
-                                            <Text className="font-medium text-xl mb-1">{t(`mr-history.${record.item}`)}</Text>
+                            <View key={record.id} style={{ marginTop: Sizes.p2, paddingHorizontal: Sizes.h4, paddingVertical: Sizes.p2, backgroundColor: Colors.bg2, borderRadius: Sizes.p3 + Sizes.p1 }}>
+                                <View style={{ marginVertical: Sizes.h4, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                        <MaterialIcons name="medical-information" size={36} color={Colors.secondary} />
+                                        <View style={{ marginLeft: Sizes.h4 }}>
+                                            <Text style={{ fontWeight: "500", fontSize: Sizes.h5, marginBottom: Sizes.p1, color: Colors.text }}>{t(`mr-history.${record.item}`)}</Text>
                                             {record.family_diagnosis ? (
-                                                <View className="max-w-60 flex-row mb-1">
-                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.diagnosed`)}</Text>
-                                                    <Text className="text-[16px] text-gray-600">{record.family_diagnosis} {t(`mr-history.years`)}</Text>
+                                                <View style={{ maxWidth: 240, flexDirection: "row", marginBottom: Sizes.p1 }}>
+                                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>{t(`mr-history.diagnosed`)}</Text>
+                                                    <Text style={{ fontSize: Sizes.paragraph, color: Colors.textMuted }}>{record.family_diagnosis} {t(`mr-history.years`)}</Text>
                                                 </View>
                                             ) : null}
                                             {record.family_member ? (
-                                                <View className="flex-row max-w-60">
-                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.relationship`)} </Text>
-                                                    <Text className="text-[16px] text-gray-600">{record.family_member}</Text>
+                                                <View style={{ flexDirection: "row", maxWidth: 240 }}>
+                                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>{t(`mr-history.relationship`)} </Text>
+                                                    <Text style={{ fontSize: Sizes.paragraph, color: Colors.textMuted }}>{record.family_member}</Text>
                                                 </View>
                                             ) : null}
                                         </View>
@@ -80,44 +81,44 @@ export default function MedicalHistory() {
                     </View>
                 )}
 
-                <View className="mt-16 h-0.5 bg-[#BEC9CA] rounded-full" />
+                <View style={{ marginTop: Sizes.h1 + Sizes.h3, height: 1, backgroundColor: Colors.dark.icon, borderRadius: Sizes.p0 }} />
 
-                <View className="pl-4 pr-4 pt-16">
-                    <Text className="text-2xl text-center">{t(`mr-history.query2`)}</Text>
+                <View style={{ paddingHorizontal: Sizes.paragraph, paddingTop: Sizes.h1 + Sizes.h3 }}>
+                    <Text style={{ fontSize: Sizes.h2, textAlign: "center", color: Colors.text }}>{t(`mr-history.query2`)}</Text>
                 </View>
-                <View className="flex-1 pt-8">
+                <View style={{ flex: 1, paddingTop: Sizes.h2 }}>
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
+                        style={{ flex: 1, flexDirection: "row", justifyContent: "center", backgroundColor: Colors.primary, height: Buttons.height, alignItems: "center", borderRadius: Sizes.p3 + Sizes.p1 }}
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
                             params: { category: "personal_medical_history" },
                         })}
                     >
-                        <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-center text-[#fff] font-medium">{t(`mr-history.addP`)}</Text>
+                        <MaterialIcons name="add" size={26} color={Colors.bg2} />
+                        <Text style={{ textAlign: "center", color: Colors.bg2, fontWeight: "500" }}>{t(`mr-history.addP`)}</Text>
                     </TouchableOpacity>
                 </View>
 
                 {personalRecords.length > 0 && (
-                    <View className="mt-4 mb-10">
+                    <View style={{ marginTop: Sizes.p2, marginBottom: Sizes.h1 }}>
                         {personalRecords.map((record) => (
-                            <View key={record.id} className="mt-4 px-4 py-2 bg-white rounded-2xl ">
-                                <View className="my-4 flex-row items-center justify-between">
-                                    <View className="flex-row items-center">
-                                        <MaterialIcons name="medical-information" size={36} color="#0D5175" />
-                                        <View className="ml-4">
-                                            <Text className="font-medium text-xl mb-1">{t(`mr-history.${record.item}`)}</Text>
+                            <View key={record.id} style={{ marginTop: Sizes.p2, paddingHorizontal: Sizes.h4, paddingVertical: Sizes.p2, backgroundColor: Colors.bg2, borderRadius: Sizes.p3 + Sizes.p1 }}>
+                                <View style={{ marginVertical: Sizes.h4, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                        <MaterialIcons name="medical-information" size={36} color={Colors.secondary} />
+                                        <View style={{ marginLeft: Sizes.h4 }}>
+                                            <Text style={{ fontWeight: "500", fontSize: Sizes.h5, marginBottom: Sizes.p1, color: Colors.text }}>{t(`mr-history.${record.item}`)}</Text>
                                             {record.diagnosis ? (
-                                                <View className="flex-row mb-1">
-                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.diagnosed2`)} </Text>
-                                                    <Text className="text-[16px] text-gray-600">{record.diagnosis}</Text>
+                                                <View style={{ flexDirection: "row", marginBottom: Sizes.p1 }}>
+                                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>{t(`mr-history.diagnosed2`)} </Text>
+                                                    <Text style={{ fontSize: Sizes.paragraph, color: Colors.textMuted }}>{record.diagnosis}</Text>
                                                 </View>
                                             ) : null}
                                             {record.condition_state ? (
-                                                <View className="flex-row">
-                                                    <Text className="text-[16px] font-medium text-black">{t(`mr-history.state`)} </Text>
-                                                    <Text className="text-[16px] text-gray-600">{t(`mr-history.${record.condition_state}`)}</Text>
+                                                <View style={{ flexDirection: "row" }}>
+                                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>{t(`mr-history.state`)} </Text>
+                                                    <Text style={{ fontSize: Sizes.paragraph, color: Colors.textMuted }}>{t(`mr-history.${record.condition_state}`)}</Text>
                                                 </View>
                                             ) : null}
                                         </View>

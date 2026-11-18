@@ -8,7 +8,7 @@ import { router, useFocusEffect } from "expo-router";
 import { Plus } from "lucide-react-native";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Pressable, Text, TouchableOpacity, useWindowDimensions, View, } from "react-native";
+import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Pressable, Text, TouchableOpacity, View } from "react-native";
 
 const CONFIRMATIONS_STORAGE_KEY = "medication-reminder-confirmations";
 
@@ -86,7 +86,6 @@ export default function MedicationReminder() {
   const [confirmations, setConfirmations] = useState<Record<string, number>>({});
   const [confirmationsLoaded, setConfirmationsLoaded] = useState(false);
   const [now, setNow] = useState(Date.now());
-  const { width } = useWindowDimensions();
 
   useFocusEffect(
     useCallback(() => {
@@ -144,7 +143,7 @@ export default function MedicationReminder() {
 
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
-    const nextIndex = Math.round(offsetX / Sizes.width - 50);
+    const nextIndex = Math.round(offsetX / (Sizes.width - 50));
 
     setActiveIndex(
       Math.max(0, Math.min(nextIndex, activeMedications.length - 1))
@@ -348,24 +347,24 @@ export default function MedicationReminder() {
                 )}
               />
             </View>
+          </View>
+        ) : null}
 
-
-            {activeMedications.length > 1 ? (
-              <View className="mt-4 flex-row justify-center">
-                {activeMedications.map((medication, index) => (
-                  <View
-                    key={medication.id}
-                    style={{
-                      backgroundColor: `${index === activeIndex ? Colors.secondary : Colors.bg1}`
-                    }}
-                    className={`mx-1 h-[8px] rounded-full ${index === activeIndex
-                      ? "w-[22px]"
-                      : "w-[8px]"
-                      }`}
-                  />
-                ))}
-              </View>
-            ) : null}
+        {activeMedications.length > 1 ? (
+          <View className="mt-3 flex-row justify-center">
+            {activeMedications.map((medication, index) => (
+              <View
+                key={medication.id}
+                style={{
+                  backgroundColor: `${index === activeIndex ? Colors.secondary : Colors.bg2}`,
+                  borderColor: `${index === activeIndex ? '' : Colors.primary}`
+                }}
+                className={`mx-1 h-[8px] rounded-full ${index === activeIndex
+                  ? "w-[22px]"
+                  : "w-[8px] border"
+                  }`}
+              />
+            ))}
           </View>
         ) : null}
 

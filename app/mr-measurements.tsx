@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -46,33 +47,33 @@ function MeasurementsModal({ visible, inputConfig, firstValue, onClose, onSubmit
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
             <TouchableWithoutFeedback>
-                <View className="flex-1 justify-center items-center bg-black/70 px-4">
-                    <View className="w-full bg-[#EEF9FB] rounded-3xl p-6 relative">
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.7)", paddingHorizontal: Sizes.paragraph }}>
+                    <View style={{ width: "100%", backgroundColor: Colors.bg1, borderRadius: Sizes.h2, padding: Sizes.h4, position: "relative" }}>
                         <TouchableOpacity
                             onPress={onClose}
-                            className="absolute top-4 right-4 z-10 p-1"
+                            style={{ position: "absolute", top: Sizes.h4, right: Sizes.h4, zIndex: 10, padding: Sizes.p1 }}
                         >
                             <MaterialIcons name="close" size={24} color="#778888" />
                         </TouchableOpacity>
 
-                        <View className="mt-6 mb-4">
-                            <Text className="text-2xl font-semibold mb-4 text-[#000]">
+                        <View style={{ marginTop: Sizes.h4, marginBottom: Sizes.p2 }}>
+                            <Text style={{ fontSize: Sizes.h2, fontWeight: "600", marginBottom: Sizes.p2, color: Colors.text }}>
                                 {t(`mr-measurements.${inputConfig.title}`)}
                             </Text>
                             <TextInput
                                 placeholder={t(`mr-measurements.noSpec`)}
                                 value={value}
                                 onChangeText={setValue}
-                                className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
+                                style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text }}
                             />
                         </View>
 
-                        <View className="mt-4">
+                        <View style={{ marginTop: Sizes.h5 }}>
                             <TouchableOpacity
                                 onPress={handleSave}
-                                className="h-14 bg-[#5085A8] rounded-xl content-center justify-center"
+                                style={{ height: Buttons.height, backgroundColor: Colors.primary, borderRadius: Sizes.p3, alignItems: "center", justifyContent: "center" }}
                             >
-                                <Text className="self-center text-white font-medium text-base">{t(`mr-measurements.confirm`)}</Text>
+                                <Text style={{ color: Colors.bg2, fontWeight: "500", fontSize: Sizes.paragraph }}>{t(`mr-measurements.confirm`)}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -97,13 +98,13 @@ export default function Measurements() {
     };
 
     return (
-        <ScrollView className="bg-[#EEF9FB] flex-1">
+        <ScrollView style={{ flex: 1, backgroundColor: Colors.bg1 }}>
 
             <ScreenHeader title='' />
 
-            <View className="m-4">
-                <View className="pl-4 pt-6">
-                    <Text className="text-2xl font-medium">{t(`mr-measurements.title`)}</Text>
+            <View style={{ margin: Sizes.h4 }}>
+                <View style={{ paddingLeft: Sizes.paragraph, paddingTop: Sizes.h4 }}>
+                    <Text style={{ fontSize: Sizes.h2, fontWeight: "500", color: Colors.text }}>{t(`mr-measurements.title`)}</Text>
                 </View>
 
                 {inputs.map((field) => {
@@ -111,16 +112,16 @@ export default function Measurements() {
 
                     return (
 
-                        <View key={field.key} className="mt-6" >
+                        <View key={field.key} style={{ marginTop: Sizes.h4 }}>
                             <TouchableOpacity
                                 onPress={() => setActiveInput(field)}
-                                className="flex-row py-6 px-2 bg-white items-center rounded-2xl"
+                                style={{ flexDirection: "row", paddingVertical: Sizes.h2, paddingHorizontal: Sizes.p2, backgroundColor: Colors.bg2, alignItems: "center", borderRadius: Sizes.p3 + Sizes.p1 }}
                                 accessibilityRole="button"
                             >
-                                <MaterialIcons className="p-2" name={field.icon} size={48} color="#0D5175" />
+                                <MaterialIcons style={{ padding: Sizes.p2 }} name={field.icon} size={Sizes.IconLg} color={Colors.secondary} />
                                 <View>
-                                    <Text className="ml-2 text-[16px] text-xl font-medium">{t(`mr-measurements.${field.title}`)}</Text>
-                                    <Text className="ml-2 mt-2 text-[16px] text-gray-600">{value.trim() ? value : t(`mr-measurements.noSpec`)}</Text>
+                                    <Text style={{ marginLeft: Sizes.p2, fontSize: Sizes.h5, fontWeight: "500", color: Colors.text }}>{t(`mr-measurements.${field.title}`)}</Text>
+                                    <Text style={{ marginLeft: Sizes.p2, marginTop: Sizes.p2, fontSize: Sizes.paragraph, color: Colors.textMuted }}>{value.trim() ? value : t(`mr-measurements.noSpec`)}</Text>
                                 </View>
 
                             </TouchableOpacity>

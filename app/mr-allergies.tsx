@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
 import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
@@ -36,45 +37,79 @@ export default function Allergies() {
     }, [params.addedAllergy]);
 
     return (
-        <ScrollView className="bg-[#EEF9FB]">
+        <ScrollView style={{ flex: 1, backgroundColor: Colors.bg1 }}>
             <ScreenHeader title='' />
 
-            <View className="m-4">
-                <View className="pl-6 pr-6 pt-12">
-                    <Text className="text-2xl text-center">{t(`mr-allergies.query`)}</Text>
+            <View style={{ margin: Sizes.h4 }}>
+                <View style={{ paddingHorizontal: Sizes.h2, paddingTop: Sizes.h1 + Sizes.h3 }}>
+                    <Text style={{ fontSize: Sizes.h2, textAlign: "center", color: Colors.text }}>
+                        {t(`mr-allergies.query`)}
+                    </Text>
                 </View>
-                <View className="pl-2 pr-2 pt-4">
-                    <Text className="text-[16px] text-center">
+                <View style={{ paddingHorizontal: Sizes.p2, paddingTop: Sizes.h5 }}>
+                    <Text style={{ fontSize: Sizes.paragraph, textAlign: "center", color: Colors.text }}>
                         {t(`mr-allergies.info`)}
                     </Text>
                 </View>
 
-                <View className="flex-1 m-2 pt-12">
+                <View style={{ flex: 1, margin: Sizes.p2, paddingTop: Sizes.h1 + Sizes.h3 }}>
                     <TouchableOpacity
-                        className="flex-row justify-center bg-[#5085A8] h-[50px] mb-6 items-center rounded-2xl"
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            backgroundColor: Colors.primary,
+                            height: Buttons.height,
+                            marginBottom: Sizes.h2,
+                            alignItems: "center",
+                            borderRadius: Sizes.p3,
+                        }}
                         accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
                             params: { category: "allergies" },
                         })}
                     >
-                        <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-[16px] text-center text-[#fff] font-medium">{t(`mr-allergies.add`)}</Text>
+                        <MaterialIcons name="add" size={26} color={Colors.bg2} />
+                        <Text style={{ fontSize: Sizes.paragraph, textAlign: "center", color: Colors.bg2, fontWeight: "500" }}>
+                            {t(`mr-allergies.add`)}
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </View>
 
             {records.length > 0 && (
-                <View className="mt-20">
+                <View style={{ marginTop: Sizes.h1 + Sizes.h3 }}>
                     {records.map((record) => (
-                        <View key={record.id} className="mx-4 mb-6 px-4 py-6 bg-white rounded-2xl">
-                            <View className="flex-row items-center justify-between">
-                                <View className="flex-row items-center">
-                                    <MaterialIcons name="gpp-maybe" size={44} color="#0D5175" />
-                                    <Text className="pl-4 mt-2 font-medium text-xl mb-2">{t(`mr-allergies.${record.item}`)}</Text>
+                        <View key={record.id} style={{
+                            marginHorizontal: Sizes.h4,
+                            marginBottom: Sizes.h2,
+                            paddingHorizontal: Sizes.h4,
+                            paddingVertical: Sizes.h2,
+                            backgroundColor: Colors.bg2,
+                            borderRadius: Sizes.p3 + Sizes.p1,
+                        }}>
+                            <View style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between"
+                            }}>
+
+                                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                    <MaterialIcons name="gpp-maybe" size={44} color={Colors.secondary} />
+
+                                    <Text style={{
+                                        paddingLeft: Sizes.h4,
+                                        marginTop: Sizes.p2,
+                                        fontWeight: "500",
+                                        fontSize: Sizes.h5,
+                                        marginBottom: Sizes.p2,
+                                        color: Colors.text
+                                    }}>
+                                        {t(`mr-allergies.${record.item}`)}
+                                    </Text>
                                 </View>
                                 <TouchableOpacity onPress={() => deleteRecord(record.id)}>
-                                    <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                    <MaterialIcons name="delete-outline" size={Sizes.h1} color={Colors.delete} />
                                 </TouchableOpacity>
                             </View>
                         </View>

@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
@@ -26,17 +27,17 @@ export default function ManageNotificationsModal({
 
     return (
         <Modal visible={visible} transparent animationType="fade">
-            <View className="flex-1 items-center justify-center bg-black/30 px-6">
-                <Pressable className="absolute inset-0" onPress={onClose} />
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.3)", paddingHorizontal: Sizes.h4 }}>
+                <Pressable style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} onPress={onClose} />
 
-                <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
-                    <View className="items-center">
-                        <Text className="mb-2 text-center text-[22px] font-semibold leading-7 text-black">{t(`manage-notifications-modal.title`)}</Text>
-                        <Text className="mb-9 text-center text-[20px] font-medium leading-7 text-black">
+                <View style={{ width: "100%", maxWidth: 330, borderRadius: Sizes.h4, backgroundColor: Colors.bg1, paddingHorizontal: Sizes.p3, paddingVertical: Sizes.h1 + Sizes.h3 }}>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={{ marginBottom: Sizes.p2, textAlign: "center", fontSize: Sizes.h3, fontWeight: "600", lineHeight: 28, color: Colors.text }}>{t(`manage-notifications-modal.title`)}</Text>
+                        <Text style={{ marginBottom: Sizes.h1 + Sizes.h2, textAlign: "center", fontSize: Sizes.h4, fontWeight: "500", lineHeight: 28, color: Colors.text }}>
                             {t(`manage-notifications-modal.choose`)}
                         </Text>
 
-                        <View className="mb-9 w-full px-4">
+                        <View style={{ marginBottom: Sizes.h1 + Sizes.h2, width: "100%", paddingHorizontal: Sizes.h4 }}>
                             {preferences.map((preference) => {
                                 const selected = selectedPreferences.includes(preference);
 
@@ -44,15 +45,12 @@ export default function ManageNotificationsModal({
                                     <Pressable
                                         key={preference}
                                         onPress={() => onTogglePreference(preference)}
-                                        className="mb-5 flex-row items-center">
+                                        style={{ marginBottom: Sizes.h5, flexDirection: "row", alignItems: "center" }}>
                                         <View
-                                            className={`mr-9 h-[18px] w-[18px] rounded-[3px] border ${selected
-                                                ? "border-[#07527B] bg-[#07527B]"
-                                                : "border-black bg-transparent"
-                                                }`}
+                                            style={{ marginRight: Sizes.h1 + Sizes.h2, height: Sizes.h5 + 2, width: Sizes.h5 + 2, borderRadius: Sizes.p0, borderWidth: 1, borderColor: selected ? Colors.secondary : Colors.text, backgroundColor: selected ? Colors.secondary : "transparent" }}
                                         />
 
-                                        <Text className="flex-1 text-[14px] text-black">
+                                        <Text style={{ flex: 1, fontSize: Sizes.sm, color: Colors.text }}>
                                             {t(`manage-notifications-modal.${preference}`)}
                                         </Text>
                                     </Pressable>
@@ -62,8 +60,8 @@ export default function ManageNotificationsModal({
 
                         <Pressable
                             onPress={onConfirm}
-                            className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
-                            <Text className="text-[15px] font-medium text-white">
+                            style={{ height: Sizes.BtnP - Sizes.p1, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, backgroundColor: Colors.primary }}>
+                            <Text style={{ fontSize: Sizes.sm + 1, fontWeight: "500", color: Colors.bg2 }}>
                                 {t(`manage-notifications-modal.confirm`)}
                             </Text>
                         </Pressable>

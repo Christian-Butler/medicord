@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -13,21 +14,46 @@ export default function SecurityConfirmationModal({ visible, message, onClose }:
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
-      <View className="flex-1 items-center justify-center bg-black/30 px-8">
-        <View className="w-full rounded-[18px] bg-white px-6 py-10">
-          <Pressable onPress={onClose} className="absolute right-4 top-4 p-2">
-            <MaterialIcons name="close" size={22} color="#9BA8AB" />
+      <View style={{
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundColor: "rgba(0,0,0,0.3)",
+        paddingHorizontal: Sizes.h2
+      }}>
+        <View style={{
+          width: "100%",
+          borderRadius: Sizes.h4,
+          backgroundColor: Colors.bg2,
+          paddingHorizontal: Sizes.h2,
+          paddingVertical: Sizes.h1 + Sizes.h3
+        }}>
+          <Pressable onPress={onClose}
+            style={{
+              position: "absolute",
+              right: Sizes.h4,
+              top: Sizes.h4,
+              padding: Sizes.p2
+            }}>
+            <MaterialIcons name="close" size={22} color={Colors.textMuted} />
           </Pressable>
 
-          <Text className="text-center text-[18px] font-medium leading-7 text-black">
+          <Text style={{ textAlign: "center", fontSize: Sizes.h5, fontWeight: "500", lineHeight: Sizes.h2, color: Colors.text }}>
             {message}
           </Text>
 
           <Pressable
             onPress={onClose}
-            className="mt-8 h-[52px] items-center justify-center rounded-[14px] bg-[#5085A8]"
+            style={{
+              marginTop: Sizes.h1,
+              height: Buttons.height,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: Sizes.p3,
+              backgroundColor: Colors.primary
+            }}
           >
-            <Text className="text-[16px] font-semibold text-white">{t(`security-modal.understand`)}</Text>
+            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "600", color: Colors.bg2 }}>{t(`security-modal.understand`)}</Text>
           </Pressable>
         </View>
       </View>

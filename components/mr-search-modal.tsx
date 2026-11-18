@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -59,44 +60,44 @@ export default function ItemDetailModal({
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View className="flex-1 justify-center items-center bg-black/70 px-4">
-                    <View className="w-full bg-[#EEF9FB] rounded-3xl p-6 relative">
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.7)", paddingHorizontal: Sizes.paragraph }}>
+                    <View style={{ width: "100%", backgroundColor: Colors.bg1, borderRadius: Sizes.h2, padding: Sizes.h4, position: "relative" }}>
                         <TouchableOpacity
                             onPress={onClose}
-                            className="absolute top-4 right-4 py-2 px-2"
+                            style={{ position: "absolute", top: Sizes.h4, right: Sizes.h4, paddingVertical: Sizes.p2, paddingHorizontal: Sizes.p2 }}
                         >
-                            <MaterialIcons name="close" size={24} color="#778888" />
+                            <MaterialIcons name="close" size={24} color={Colors.textMuted} />
                         </TouchableOpacity>
 
-                        <View className="flex-row content-center items-center  mb-4">
-                            <MaterialIcons name={config.icon} size={32} color="#0D5175" />
-                            <Text className="mt-2 text-xl font-medium ml-3 text-[#000]">
+                        <View style={{ flexDirection: "row", alignItems: "center", marginBottom: Sizes.p2 }}>
+                            <MaterialIcons name={config.icon} size={32} color={Colors.secondary} />
+                            <Text style={{ marginTop: Sizes.p2, fontSize: Sizes.h5, fontWeight: "500", marginLeft: Sizes.p3, color: Colors.text }}>
                                 {itemLabel}
                             </Text>
                         </View>
 
-                        <View className="space-y-4">
+                        <View style={{ gap: Sizes.h5 }}>
 
                             {category === "vaccines" && (
                                 <View>
-                                    <Text className=" text-[16px] font-medium mb-2 text-black">{t(`mr-search-modal.query`)}</Text>
+                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", marginBottom: Sizes.p2, color: Colors.text }}>{t(`mr-search-modal.query`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place1`)}
                                         value={vaccineDate}
                                         onChangeText={setVaccineDate}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
+                                        style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text }}
                                     />
                                 </View>
                             )}
 
                             {category === "operations" && (
                                 <View>
-                                    <Text className="text-[16px] font-medium mb-2 tex-black">{t(`mr-search-modal.query2`)}</Text>
+                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", marginBottom: Sizes.p2, color: Colors.text }}>{t(`mr-search-modal.query2`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place2`)}
                                         value={operationDate}
                                         onChangeText={setOperationDate}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px]ase text-black"
+                                        style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text }}
                                     />
 
                                 </View>
@@ -104,45 +105,45 @@ export default function ItemDetailModal({
 
                             {category === "family_medical_history" && (
                                 <View>
-                                    <Text className="text-[16px] font-medium mb-2 text-black">{t(`mr-search-modal.query3`)}</Text>
+                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", marginBottom: Sizes.p2, color: Colors.text }}>{t(`mr-search-modal.query3`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place3`)}
                                         value={diagnosis}
                                         onChangeText={setDiagnosis}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
+                                        style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text }}
                                     />
                                 </View>
                             )}
                             {category === "personal_medical_history" && (
                                 <View>
-                                    <Text className="text-[16px] font-medium mb-2 text-black">{t(`mr-search-modal.query4`)}</Text>
+                                    <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", marginBottom: Sizes.p2, color: Colors.text }}>{t(`mr-search-modal.query4`)}</Text>
                                     <TextInput
                                         placeholder={t(`mr-search-modal.place4`)}
                                         value={diagnosisDate}
                                         onChangeText={setDiagnosisDate}
-                                        className="border border-[#326F95] rounded-xl p-3 bg-[#fff] text-[16px] text-black"
+                                        style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text }}
                                     />
-                                    <View className="mt-4 relative z-10">
-                                        <Text className="text-[16px] font-medium mb-2 text-black">
+                                    <View style={{ marginTop: Sizes.h5, position: "relative", zIndex: 10 }}>
+                                        <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", marginBottom: Sizes.p2, color: Colors.text }}>
                                             {t(`mr-search-modal.query5`)}
                                         </Text>
 
                                         <TouchableOpacity
                                             onPress={() => setDropdownVisible((prev) => !prev)}
-                                            className="flex-row items-center justify-between border border-[#326F95] rounded-xl p-3 bg-[#fff]"
+                                            style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2 }}
                                         >
-                                            <Text className="text-[16px] text-[16px]black">
+                                            <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>
                                                 {conditionState ?? t(`mr-search-modal.select`)}
                                             </Text>
                                             <MaterialIcons
                                                 name={isDropdownVisible ? "keyboard-arrow-up" : "keyboard-arrow-down"}
                                                 size={22}
-                                                color="#326F95"
+                                                color={Colors.secondary}
                                             />
                                         </TouchableOpacity>
 
                                         {isDropdownVisible && (
-                                            <View className="absolute top-full left-0 right-0 mt-2 bg-[#fff] border border-[#D7E7EE] rounded-xl overflow-hidden shadow-sm z-20">
+                                            <View style={{ position: "absolute", top: "100%", left: 0, right: 0, marginTop: Sizes.p2, backgroundColor: Colors.bg2, borderWidth: 1, borderColor: Colors.light.background, borderRadius: Sizes.p3, overflow: "hidden", elevation: 2, zIndex: 20 }}>
                                                 <FlatList
                                                     data={conditionOptions}
                                                     keyExtractor={(item) => item}
@@ -153,9 +154,9 @@ export default function ItemDetailModal({
                                                                 setConditionState(item);
                                                                 setDropdownVisible(false);
                                                             }}
-                                                            className="py-3 px-3 border-b border-[#E0E0E0] last:border-b-0"
+                                                            style={{ paddingVertical: Sizes.p3, paddingHorizontal: Sizes.p3, borderBottomWidth: 1, borderBottomColor: Colors.light.background }}
                                                         >
-                                                            <Text className="text-[16px] text-black">{t(`mr-search-modal.${item}`)}</Text>
+                                                            <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>{t(`mr-search-modal.${item}`)}</Text>
                                                         </TouchableOpacity>
                                                     )}
                                                 />
@@ -166,12 +167,12 @@ export default function ItemDetailModal({
                             )}
                         </View>
 
-                        <View className="mt-4">
+                        <View style={{ marginTop: Sizes.h5 }}>
                             <TouchableOpacity
                                 onPress={handleSave}
-                                className="h-[50px] bg-[#5085A8] rounded-xl content-center justify-center"
+                                style={{ height: Buttons.height, backgroundColor: Colors.primary, borderRadius: Sizes.p3, alignItems: "center", justifyContent: "center" }}
                             >
-                                <Text className="self-center text-white font-medium text-[16px]">
+                                <Text style={{ alignSelf: "center", color: Colors.bg2, fontWeight: "500", fontSize: Sizes.paragraph }}>
                                     Add to medical records
                                 </Text>
                             </TouchableOpacity>
