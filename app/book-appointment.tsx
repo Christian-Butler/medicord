@@ -12,7 +12,8 @@ import type { Appointment } from "@/src/types/appointmentTypes";
 import {
     buildLocalIsoDateTime,
     formatAppointmentDate,
-    getMonthLabel
+    getMonthLabel,
+    pad
 } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
@@ -20,6 +21,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+
 
 export default function Booking() {
     const { doctorId, specialty, reason } = useLocalSearchParams<{
@@ -45,6 +47,7 @@ export default function Booking() {
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
+
     const now = new Date();
     const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
     const [viewMonth, setViewMonth] = useState(() => {
@@ -58,7 +61,7 @@ export default function Booking() {
     function changeMonth(delta: number) {
         const [year, month] = viewMonth.split("-").map(Number);
         const nextMonth = new Date(year, month - 1 + delta, 1);
-        const nextMonthValue = `${nextMonth.getFullYear()}-${String(nextMonth.getMonth() + 1).padStart(2, "0")}`;
+        const nextMonthValue = `${nextMonth.getFullYear()}-${pad(nextMonth.getMonth() + 1)}`;
         if (nextMonthValue < currentMonth) return;
 
         setViewMonth(nextMonthValue);
@@ -146,7 +149,7 @@ export default function Booking() {
                 <View className="flex-1" style={{ height: 26 }} />
 
                 <View style={styles.monthContainer}>
-                    <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
+                    <Text style={{ fontSize: Sizes.h3 }}>{t(`book-appointment.date`)}</Text>
 
                     <View style={styles.month}>
                         <Pressable
@@ -274,7 +277,7 @@ export default function Booking() {
 
 const styles = StyleSheet.create({
     month: {
-        marginTop: Sizes.p0,
+        marginTop: Sizes.p3,
         fontSize: Sizes.sm,
         fontWeight: "500",
         backgroundColor: Colors.bg2,

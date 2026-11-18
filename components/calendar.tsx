@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/theme';
+import { Colors, Sizes } from '@/constants/theme';
 import { getLocales } from 'expo-localization';
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -37,7 +37,7 @@ const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", 
 
 const deviceLanguage = getLocales()[0].languageCode;
 
-const Iso = (date: Date) => {
+const Iso = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
@@ -169,7 +169,6 @@ const WeeklyCalendar = ({
                 <Pressable
                     onPress={() => goToWeek(-7)}
                     style={styles.navButton}
-                    accessibilityRole="button"
                 >
                     <Text style={styles.navText}>‹</Text>
                 </Pressable>
@@ -178,25 +177,17 @@ const WeeklyCalendar = ({
                 <Pressable
                     onPress={() => goToWeek(7)}
                     style={styles.navButton}
-                    accessibilityRole="button"
                 >
                     <Text style={styles.navText}>›</Text>
                 </Pressable>
             </View>
             <View style={styles.weekRow}>
-                {weekDays.map((label) => (
-                    <View key={label.day} style={styles.dayLabelContainer}>
-                    </View>
-                ))}
-            </View>
-            <View style={styles.daysRow}>
                 {weekDays.map((dayItem) => {
                     const isSelected = selectedDayIso === dayItem.iso;
 
                     return (
                         <Pressable
                             key={dayItem.iso}
-                            accessibilityRole="button"
                             disabled={dayItem.isPast}
                             onPress={() => {
                                 setSelectedDayIso(dayItem.iso);
@@ -246,7 +237,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 12,
+        marginBottom: Sizes.p3,
     },
     navButton: {
         width: 40,
@@ -256,12 +247,12 @@ const styles = StyleSheet.create({
         borderRadius: 18,
     },
     navText: {
-        fontSize: 20,
+        fontSize: Sizes.h4,
         fontWeight: '500',
-        color: '#0',
+        color: Colors.text,
     },
     currentDate: {
-        fontSize: 16,
+        fontSize: Sizes.paragraph,
         fontWeight: '500',
         color: Colors.text,
     },
@@ -270,20 +261,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    dayLabelContainer: {
-        alignItems: 'center',
-    },
     dayLabel: {
         textAlign: 'center',
-        fontSize: 12,
-        fontWeight: 500,
-        color: '#1A1A1A',
+        fontSize: Sizes.sm,
+        fontWeight: '500',
+        color: Colors.text,
         marginBottom: 4,
-    },
-    daysRow: {
-        alignItems: 'center',
-        justifyContent: "space-between",
-        flexDirection: 'row',
     },
     dayCell: {
         flex: 1,
@@ -301,7 +284,7 @@ const styles = StyleSheet.create({
         opacity: 0.5
     },
     dayNumber: {
-        fontSize: 18,
+        fontSize: Sizes.h5,
         width: 28,
         height: 28,
         textAlign: 'center',
@@ -315,10 +298,10 @@ const styles = StyleSheet.create({
     selectedDayNumber: {
         color: Colors.bg2,
         backgroundColor: Colors.secondary,
-        borderRadius: '100%',
+        borderRadius: Sizes.IconXL,
     },
     inactiveText: {
-        color: '#1A1A1A',
+        color: Colors.text,
     },
 });
 
