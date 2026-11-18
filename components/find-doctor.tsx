@@ -53,9 +53,17 @@ export default function FindDoctor() {
   };
 
   return (
-    <View className="px-6 pt-6">
+    <View
+      style={{
+        paddingHorizontal: Sizes.h5,
+      }}
+    >
       {/* Title row */}
-      <View className="mb-2 flex-row items-center justify-between">
+      <View
+        style={{
+          marginTop: Sizes.p3
+        }}
+        className="flex-row items-center justify-between">
         <Text style={{
           fontWeight: 500,
           fontSize: Sizes.h1,
@@ -64,19 +72,29 @@ export default function FindDoctor() {
           {t(`find-doctor.find`)}
         </Text>
 
-        <Pressable
-          onPress={handleEmergencyCall}
-          style={{
-            height: Sizes.BtnP,
-            width: Sizes.boxS,
-            borderWidth: Buttons.w1,
-            borderColor: Colors.delete,
-            borderRadius: Sizes.p3,
-            backgroundColor: Colors.bg2
-          }}
-          className=" items-center justify-center">
-          <Siren fill={Colors.delete} size={Sizes.h3} color={Colors.delete} />
-        </Pressable>
+        <View className="items-center">
+          <Text style={{
+            color: Colors.delete,
+            fontSize: Sizes.sm,
+            marginBottom: Buttons.w1,
+            fontWeight: 500
+          }}>
+            Emergency
+          </Text>
+          <Pressable
+            onPress={handleEmergencyCall}
+            style={{
+              height: Sizes.BtnP,
+              width: Sizes.boxS,
+              borderWidth: Buttons.w1,
+              borderColor: Colors.delete,
+              borderRadius: Sizes.p3,
+              backgroundColor: Colors.bg2
+            }}
+            className=" items-center justify-center">
+            <Siren fill={Colors.delete} size={Sizes.h3} color={Colors.delete} />
+          </Pressable>
+        </View>
       </View>
 
       {/* Search input */}

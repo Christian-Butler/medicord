@@ -35,7 +35,7 @@ export default function AppointmentDetails() {
     error,
   } = useAppointment(appointmentId ? String(appointmentId) : undefined);
 
-   const { addToCalendar, adding } = useAddAppointmentToCalendar();
+  const { addToCalendar, adding } = useAddAppointmentToCalendar();
 
   const doctor = appointment?.doctors;
   const doctorName = doctor?.full_name ?? "Unknown doctor";
@@ -127,11 +127,11 @@ export default function AppointmentDetails() {
                     })
                   }
                 >
-                  <MaterialIcons name="phone" size={18} color="#0D5175" />
+                  <MaterialIcons name="message" size={18} color="#0D5175" />
                   <Text style={styles.callButtonText}>{t(`Message`)}</Text>
                 </Pressable>
 
-            
+
               </View>
 
             </View>
@@ -147,8 +147,8 @@ export default function AppointmentDetails() {
               </Pressable>
             </View>
 
-                        <View style={styles.section}>
-         
+            <View style={styles.section}>
+
 
 
               <View className="mt-4 flex-row justify-between">
@@ -184,11 +184,11 @@ export default function AppointmentDetails() {
             </View>
 
             <View style={styles.section}>
-            
-             
+
+
             </View>
 
-           
+
           </>
         ) : null}
       </ScrollView>
@@ -377,7 +377,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#0D5175",
   },
-    messageButton: {
+  messageButton: {
     height: 50,
     width: "100%",
     marginTop: 12,

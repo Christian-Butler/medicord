@@ -1,13 +1,13 @@
 import ScreenHeader from "@/components/screen-header";
-import { Colors, Sizes } from "@/constants/theme";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { getCalendarLink, removeCalendarLink, saveCalendarLink } from "@/src/libs/calenderLinks";
 import { clearNotificationsUnseen, ensureNotificationPermission, type ReminderData } from "@/src/libs/notifications";
 import MaterialIcons from "@react-native-vector-icons/material-icons";
 import * as Notifications from "expo-notifications";
 import { useFocusEffect } from "expo-router";
+import type { TFunction } from "i18next";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { TFunction } from "i18next";
 import { FlatList, Pressable, Text, TouchableOpacity, View } from "react-native";
 
 
@@ -99,38 +99,55 @@ export default function NotificationsScreen() {
   }
 
   return (
-    <View className="flex-1 bg-[#EEF9FB]">
+    <View style={{ flex: 1, backgroundColor: Colors.bg1 }}>
       <ScreenHeader title="Notification center" />
-      <View className="flex-1 mx-4 my-6">
-        <Text className="text-xl font-medium">{t(`notifications.scheduled`)}</Text>
+      <View style={{ flex: 1, marginHorizontal: Sizes.h4, marginVertical: Sizes.h5 }}>
+        <Text style={{ fontSize: Sizes.h5, fontWeight: "500", color: Colors.text }}>
+          {t(`notifications.scheduled`)}
+        </Text>
 
         <FlatList
           data={scheduled}
           keyExtractor={(item) => item.identifier}
           ListEmptyComponent={
-            <Text className="mt-6 text-center text-[15px] text-[#7A8A8D]">
+            <Text style={{
+              marginTop: Sizes.h5,
+              textAlign: "center",
+              fontSize: Sizes.paragraph,
+              color: Colors.textMuted,
+            }}>
               {t(`notifications.noSchedule`)}
             </Text>
           }
           renderItem={({ item }) => {
             const when = whenText(item, t);
             return (
-              <View className="mt-6 flex-row items-center px-4 py-6 border-2 rounded-2xl border-[#0D5175] bg-white">
-                <View className="w-14 items-center justify-center">
+              <View style={{
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: Sizes.h5,
+                borderWidth: 1,
+                borderRadius: Sizes.p3 + Sizes.p1,
+                borderColor: Colors.secondary,
+                backgroundColor: Colors.bg2,
+                paddingHorizontal: Sizes.h5,
+                paddingVertical: Sizes.h4,
+              }}>
+                <View style={{ width: Sizes.width - 500, alignItems: "center", justifyContent: "center" }}>
                   <MaterialIcons name="medical-information" size={Sizes.IconLg} color={Colors.secondary} />
                 </View>
-                <View className="ml-4 flex-1">
-                  <Text className="flex-1 text-xl">{item.content.title}</Text>
-                  {item.content.body ? <Text className="mt-2">{item.content.body}</Text> : null}
-                  {when ? <Text className="mt-2 text-[#7A8A8D]">{when}</Text> : null}
+                <View style={{ flex: 1, marginLeft: Sizes.h4 }}>
+                  <Text style={{ fontSize: Sizes.h5, fontWeight: '500', color: Colors.text }}>{item.content.title}</Text>
+                  {item.content.body ? <Text style={{ fontSize: Sizes.sm, marginTop: Sizes.p0, color: Colors.text }}>{item.content.body}</Text> : null}
+                  {when ? <Text style={{ fontSize: Sizes.sm, marginTop: Sizes.p0, color: Colors.textMuted }}>{when}</Text> : null}
                 </View>
                 <Pressable
                   onPress={() => handleRemove(item)}
                   hitSlop={12}
                   accessibilityLabel={t(`notifications.remove`)}
-                  className="ml-2"
+                  style={{ marginLeft: Sizes.p2 }}
                 >
-                  <MaterialIcons name="close" size={Sizes.h3} color={Colors.secondary} />
+                  <MaterialIcons name="close" size={Sizes.h3} color={Colors.delete} />
                 </Pressable>
               </View>
             );
@@ -138,11 +155,21 @@ export default function NotificationsScreen() {
         />
 
         <TouchableOpacity
-          className="mt-6 mb-6 items-center rounded-full bg-[#0D5175] px-4 py-3"
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: Sizes.h5,
+            marginBottom: Sizes.boxS,
+            borderRadius: Sizes.IconLg,
+            backgroundColor: Colors.secondary,
+            paddingHorizontal: Sizes.h4,
+            paddingVertical: Sizes.p3,
+            height: Buttons.height
+          }}
           disabled={!permission}
           onPress={scheduleTestNotification}
         >
-          <Text className="font-semibold text-white">
+          <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>
             {permission ? t(`notifications.test`) : t(`notifications.notEnabled`)}
           </Text>
         </TouchableOpacity>

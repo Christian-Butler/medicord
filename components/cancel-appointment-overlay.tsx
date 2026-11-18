@@ -1,3 +1,4 @@
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { X } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
@@ -23,31 +24,29 @@ export default function CancelAppointmentOverlay({
 
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 items-center justify-center bg-black/30 px-6">
-        <Pressable className="absolute inset-0" onPress={onClose} />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.3)", paddingHorizontal: Sizes.h4 }}>
+        <Pressable style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} onPress={onClose} />
 
-        <View className="w-full rounded-[20px] bg-[#EEF9FB] px-3 pb-8 pt-5">
+        <View style={{ width: "100%", borderRadius: Sizes.h4, backgroundColor: Colors.bg1, paddingHorizontal: Sizes.p3, paddingBottom: Sizes.h2, paddingTop: Sizes.h5 }}>
           <Pressable
             onPress={onClose}
             disabled={cancelling}
-            className="mb-2 h-[44px] w-[44px] self-end items-center justify-center"
+            style={{ marginBottom: Sizes.p2, height: Sizes.IconLg - 2, width: Sizes.IconLg - 2, alignSelf: "flex-end", alignItems: "center", justifyContent: "center" }}
           >
-            <X size={28} color="#000" strokeWidth={2} />
+            <X size={28} color={Colors.text} strokeWidth={2} />
           </Pressable>
 
-          <MaterialIcons name="edit-calendar" size={90} color="#326F95"
-            className="self-center" />
-          <Text className="mx-4 mt-6 mb-14 text-center justify-center text-[20px] font-medium leading-[28px] text-black">
+          <MaterialIcons name="edit-calendar" size={90} color={Colors.secondary} style={{ alignSelf: "center" }} />
+          <Text style={{ marginHorizontal: Sizes.h4, marginTop: Sizes.h4, marginBottom: Sizes.h1 + Sizes.h3, textAlign: "center", justifyContent: "center", fontSize: Sizes.h4, fontWeight: "500", lineHeight: 28, color: Colors.text }}>
             {t(`cancel-appointment-overlay.query`)}
           </Text>
 
           <Pressable
             onPress={onCancelAppointment}
             disabled={cancelling}
-            className={`mb-5 h-[50px] items-center justify-center rounded-[12px] bg-white ${cancelling ? "opacity-60" : ""
-              }`}
+            style={{ marginBottom: Sizes.h5, height: Buttons.height, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.bg2, opacity: cancelling ? 0.6 : 1 }}
           >
-            <Text className="text-[16px] font-medium text-[#0D5175]">
+            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.secondary }}>
               {cancelling ? t(`cancel-appointment-overlay.cancelling`) : t(`cancel-appointment-overlay.cancel`)}
             </Text>
           </Pressable>
@@ -55,9 +54,9 @@ export default function CancelAppointmentOverlay({
           <Pressable
             onPress={onPostpone}
             disabled={cancelling}
-            className=" h-[50px] items-center justify-center rounded-[12px] bg-[#5085A8]"
+            style={{ height: Buttons.height, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.primary }}
           >
-            <Text className="text-[16px] font-medium text-white">
+            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>
               {t(`cancel-appointment-overlay.post`)}
             </Text>
           </Pressable>

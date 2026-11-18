@@ -2,15 +2,18 @@ import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
+import { Colors, Sizes } from "@/constants/theme";
+import { useAuth } from "@/src/context/AuthContext";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
+import { useDoctor } from "@/src/hooks/useDoctor";
 import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import type { Appointment } from "@/src/types/appointmentTypes";
-import { useDoctor } from "@/src/hooks/useDoctor";
 import {
     buildLocalIsoDateTime,
     formatAppointmentDate,
-    getMonthLabel
+    getMonthLabel,
+    pad
 } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Checkbox } from "expo-checkbox";
@@ -19,12 +22,11 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
+
 export default function Booking() {
     const { doctorId, specialty, reason } = useLocalSearchParams<{
         doctorId?: string;
-        name?: string;
         specialty?: string;
-        closestDay?: string;
         reason?: string;
     }>();
 
@@ -34,6 +36,7 @@ export default function Booking() {
         error: doctorError,
     } = useDoctor(doctorId ? String(doctorId) : undefined);
 
+    const { profile, profileError } = useAuth();
     const { create, creating, createError } = useCreateAppointment();
     const { addToCalendar } = useAddAppointmentToCalendar();
     const [bookedAppointment, setBookedAppointment] = useState<Appointment | null>(null);
@@ -45,6 +48,28 @@ export default function Booking() {
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
+    const now = new Date();
+    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+    const [viewMonth, setViewMonth] = useState(() => {
+        const date = new Date();
+        if (date.getDay() === 0) {
+            date.setDate(date.getDate() + 1);
+        }
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    });
+
+    function changeMonth(delta: number) {
+        const [year, month] = viewMonth.split("-").map(Number);
+        const nextMonth = new Date(year, month - 1 + delta, 1);
+        const nextMonthValue = `${nextMonth.getFullYear()}-${pad(nextMonth.getMonth() + 1)}`;
+        if (nextMonthValue < currentMonth) return;
+
+        setViewMonth(nextMonthValue);
+        setSelectedDate(null);
+        setSelectedTime(null);
+        setFormError(null);
+    }
+
     const {
         times: availableTimes,
         refetch: refetchTimes,
@@ -53,6 +78,11 @@ export default function Booking() {
     async function handleConfirmBooking() {
         if (!doctor && !doctorId) {
             setFormError(t(`book-appointment.missing`));
+            return;
+        }
+
+        if (!profile) {
+            setFormError(profileError ?? "Your profile information is unavailable. Please try again.");
             return;
         }
 
@@ -83,35 +113,31 @@ export default function Booking() {
                 doctorId: doctor?.id ?? String(doctorId),
                 gpId: null,
                 referralRequired: doctor?.requires_gp_referral ?? false,
-
-                patientName: "Philip",
-                patientEmail: "demo@medicord.test",
-                patientPhone: "07123456789",
-
-                reason: `${doctor?.specialty ?? specialty ?? "Appointment"
-                    } consultation`,
+                reason: (Array.isArray(reason) ? reason.join(", ") : reason)?.trim()
+                    || `${doctor?.specialty ?? specialty ?? "Appointment"} consultation`,
                 startsAt,
                 endsAt,
+                title: `Appointment for ${profile.full_name}`,
+                notes: `email:${profile.email ?? ""}, phone:${profile.phone ?? ""}`,
                 location: doctor?.location ?? null,
             };
 
             console.log("[BookAppointment] create appointment input:", input);
 
             const created = await create(input);
-             setBookedAppointment(created);
+            setBookedAppointment(created);
 
             console.log("[BookAppointment] created appointment:", created);
 
             setShowSuccessOverlay(true);
         } catch (err) {
             console.error("[BookAppointment] create appointment failed:", err);
-            // the slot may have just been taken: clear it and reload what's free
             setSelectedTime(null);
             refetchTimes();
         }
     }
 
-    const visibleError = formError ?? doctorError ?? createError;
+    const visibleError = formError ?? doctorError ?? profileError ?? createError;
     const confirm = Boolean(selectedDate && selectedTime && isChecked);
 
     const { t } = useTranslation();
@@ -123,20 +149,39 @@ export default function Booking() {
                 <View className="flex-1" style={{ height: 26 }} />
 
                 <View style={styles.monthContainer}>
-                    <Text style={{ fontSize: 22 }}>{t(`book-appointment.date`)}</Text>
+                    <Text style={{ fontSize: Sizes.h3 }}>{t(`book-appointment.date`)}</Text>
 
                     <View style={styles.month}>
-                        <MaterialIcons name="chevron-left" size={24} />
-                        <Text>{getMonthLabel(selectedDate)} 2026</Text>
-                        <MaterialIcons name="chevron-right" size={24} />
+                        <Pressable
+                            accessibilityRole="button"
+                            disabled={viewMonth <= currentMonth}
+                            onPress={() => changeMonth(-1)}
+                            hitSlop={8}
+                            style={viewMonth <= currentMonth ? styles.disabledMonthArrow : undefined}
+                        >
+                            <MaterialIcons name="chevron-left" size={24} />
+                        </Pressable>
+                        <Text>
+                            {t(`book-appointment.${getMonthLabel(`${viewMonth}-01`)}`)}{" "}
+                            {viewMonth.slice(0, 4)}
+                        </Text>
+                        <Pressable
+                            accessibilityRole="button"
+                            onPress={() => changeMonth(1)}
+                            hitSlop={8}
+                        >
+                            <MaterialIcons name="chevron-right" size={24} />
+                        </Pressable>
                     </View>
                 </View>
 
                 <View style={{ marginBottom: 26 }}>
                     <WeeklyCalendar
+                        viewMonth={viewMonth}
                         selectedDate={selectedDate ?? undefined}
                         onSelectDate={(date) => {
                             setSelectedDate(date);
+                            setViewMonth(date.slice(0, 7));
                             setSelectedTime(null);
                             setFormError(null);
                         }}
@@ -185,12 +230,18 @@ export default function Booking() {
                             {t(`book-appointment.notice`)}
                         </Text>
                     </View>
-                    <View className="flex-row pt-6 px-6 justify-center items-center">
-                        <View>
-                            <Text className="font-regular text-[16px]">{t(`book-appointment.recap1`)} {formatAppointmentDate(selectedDate)} </Text>
+                    {selectedDate && selectedTime ? (
+                        <View className="flex-row pt-6 px-6 justify-center items-center">
+                            <View>
+                                <Text className="font-regular text-[16px]">
+                                    {t(`book-appointment.recap1`)} {formatAppointmentDate(selectedDate)}
+                                </Text>
+                            </View>
+                            <Text className="font-regular text-[16px]">
+                                {t(`book-appointment.recap2`)} {selectedTime}
+                            </Text>
                         </View>
-                        <Text className="font-regular text-[16px]">{t(`book-appointment.recap2`)}  {selectedTime}</Text>
-                    </View>
+                    ) : null}
                     <View
                         style={[
                             styles.containerButton,
@@ -219,7 +270,6 @@ export default function Booking() {
                     setShowSuccessOverlay(false);
                     router.replace("/(tabs)");
                 }}
-                onClose={() => setShowSuccessOverlay(false)}
             />
         </View>
     );
@@ -227,20 +277,27 @@ export default function Booking() {
 
 const styles = StyleSheet.create({
     month: {
-        marginTop: 6,
-        fontSize: 14,
+        marginTop: Sizes.p3,
+        fontSize: Sizes.sm,
         fontWeight: "500",
-        backgroundColor: "#fff",
-        paddingVertical: 8,
-        paddingHorizontal: 6,
-        borderRadius: 14,
+        backgroundColor: Colors.bg2,
+        paddingVertical: Sizes.p2,
+        paddingHorizontal: Sizes.p1,
+        width: Sizes.width - 230,
+        borderRadius: Sizes.p3,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: "space-between"
     },
+
+    disabledMonthArrow: {
+        opacity: 0.35,
+    },
+
     monthContainer: {
         flexDirection: "row",
         alignItems: "center",
-        width: "90%",
+        width: Sizes.width - 50,
         alignSelf: "center",
         justifyContent: "space-between",
         marginBottom: 20,

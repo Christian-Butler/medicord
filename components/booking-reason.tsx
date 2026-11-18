@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { CalendarDays } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -5,6 +6,7 @@ import { Modal, Pressable, Text, View } from "react-native";
 type AppointmentReasonOverlayProps = {
   visible: boolean;
   selectedReasons: string[];
+  specialty: string[];
   onToggleReason: (reason: string) => void;
   onConfirm: () => void;
   onClose?: () => void;
@@ -22,6 +24,7 @@ export default function AppointmentReasonOverlay({
   visible,
   selectedReasons,
   onToggleReason,
+  specialty,
   onConfirm,
   onClose,
 }: AppointmentReasonOverlayProps) {
@@ -30,20 +33,20 @@ export default function AppointmentReasonOverlay({
 
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 items-center justify-center bg-black/30 px-6">
-        <Pressable className="absolute inset-0" onPress={onClose} />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.3)", paddingHorizontal: Sizes.h4 }}>
+        <Pressable style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} onPress={onClose} />
 
-        <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
-          <View className="items-center">
-            <View className="mb-8 h-[76px] w-[76px] items-center justify-center rounded-[8px] bg-transparent">
-              <CalendarDays size={68} color="#2F7298" strokeWidth={2} />
+        <View style={{ width: "100%", maxWidth: 330, borderRadius: Sizes.h4, backgroundColor: Colors.bg1, paddingHorizontal: Sizes.p3, paddingVertical: Sizes.h1 + Sizes.h3 }}>
+          <View style={{ alignItems: "center" }}>
+            <View style={{ marginBottom: Sizes.h4, height: Sizes.boxS + Sizes.p1, width: Sizes.boxS + Sizes.p1, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, backgroundColor: "transparent" }}>
+              <CalendarDays size={68} color={Colors.secondary} strokeWidth={2} />
             </View>
 
-            <Text className="mb-9 text-center text-[20px] font-semibold leading-7 text-black">
+            <Text style={{ marginBottom: Sizes.h1 + Sizes.h2, textAlign: "center", fontSize: Sizes.h4, fontWeight: "600", lineHeight: 28, color: Colors.text }}>
               {t(`booking-reason.query`)}
             </Text>
 
-            <View className="mb-9 w-full px-4">
+            <View style={{ marginBottom: Sizes.h1 + Sizes.h2, width: "100%", paddingHorizontal: Sizes.h4 }}>
               {reasons.map((reason) => {
                 const selected = selectedReasons.includes(reason);
 
@@ -51,15 +54,12 @@ export default function AppointmentReasonOverlay({
                   <Pressable
                     key={reason}
                     onPress={() => onToggleReason(reason)}
-                    className="mb-5 flex-row items-center">
+                    style={{ marginBottom: Sizes.h5, flexDirection: "row", alignItems: "center" }}>
                     <View
-                      className={`mr-9 h-[18px] w-[18px] rounded-[3px] border ${selected
-                        ? "border-[#07527B] bg-[#07527B]"
-                        : "border-black bg-transparent"
-                        }`}
+                      style={{ marginRight: Sizes.h1 + Sizes.h2, height: Sizes.h5 + 2, width: Sizes.h5 + 2, borderRadius: Sizes.p0, borderWidth: 1, borderColor: selected ? Colors.secondary : Colors.text, backgroundColor: selected ? Colors.secondary : "transparent" }}
                     />
 
-                    <Text className="flex-1 text-[14px] text-black">
+                    <Text style={{ flex: 1, fontSize: Sizes.sm, color: Colors.text }}>
                       {t(`booking-reason.${reason}`)}
                     </Text>
                   </Pressable>
@@ -69,8 +69,8 @@ export default function AppointmentReasonOverlay({
 
             <Pressable
               onPress={onConfirm}
-              className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
-              <Text className="text-[15px] font-medium text-white">
+              style={{ height: Sizes.BtnP - Sizes.p1, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, backgroundColor: Colors.primary }}>
+              <Text style={{ fontSize: Sizes.sm + 1, fontWeight: "500", color: Colors.bg2 }}>
                 {t(`booking-reason.confirm`)}
               </Text>
             </Pressable>

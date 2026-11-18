@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
 
@@ -26,17 +27,17 @@ export default function ManageMapModal({
 
     return (
         <Modal visible={visible} transparent animationType="fade">
-            <View className="flex-1 items-center justify-center bg-black/30 px-6">
-                <Pressable className="absolute inset-0" onPress={onClose} />
+            <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.3)", paddingHorizontal: Sizes.h4 }}>
+                <Pressable style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} onPress={onClose} />
 
-                <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
-                    <View className="items-center">
-                        <Text className="mb-2 text-center text-[22px] font-semibold leading-7 text-black">{t(`manage-map-modal.title`)}</Text>
-                        <Text className="mb-9 text-center text-[20px] font-medium leading-7 text-black">
+                <View style={{ width: "100%", maxWidth: 330, borderRadius: Sizes.h4, backgroundColor: Colors.bg1, paddingHorizontal: Sizes.p3, paddingVertical: Sizes.h1 + Sizes.h3 }}>
+                    <View style={{ alignItems: "center" }}>
+                        <Text style={{ marginBottom: Sizes.p2, textAlign: "center", fontSize: Sizes.h3, fontWeight: "600", lineHeight: 28, color: Colors.text }}>{t(`manage-map-modal.title`)}</Text>
+                        <Text style={{ marginBottom: Sizes.h1 + Sizes.h2, textAlign: "center", fontSize: Sizes.h4, fontWeight: "500", lineHeight: 28, color: Colors.text }}>
                             {t(`manage-map-modal.query`)}
                         </Text>
 
-                        <View className="mb-9 w-full px-4">
+                        <View style={{ marginBottom: Sizes.h1 + Sizes.h2, width: "100%", paddingHorizontal: Sizes.h4 }}>
                             {choices.map((choice) => {
                                 const selected = selectedChoice === choice;
 
@@ -46,17 +47,14 @@ export default function ManageMapModal({
                                         onPress={() => onToggleChoice(choice)}
                                         accessibilityRole="radio"
                                         accessibilityState={{ selected }}
-                                        className="mb-5 flex-row items-center">
+                                        style={{ marginBottom: Sizes.h5, flexDirection: "row", alignItems: "center" }}>
                                         <View
-                                            className={`mr-9 h-5 w-5 items-center justify-center rounded-full border ${selected
-                                                ? "border-[#07527B]"
-                                                : "border-black"
-                                                }`}
+                                            style={{ marginRight: Sizes.h1 + Sizes.h2, height: Sizes.h5, width: Sizes.h5, alignItems: "center", justifyContent: "center", borderRadius: Sizes.IconLg, borderWidth: 1, borderColor: selected ? Colors.secondary : Colors.text }}
                                         >
-                                            {selected && <View className="h-2.5 w-2.5 rounded-full bg-[#07527B]" />}
+                                            {selected && <View style={{ height: Sizes.p2, width: Sizes.p2, borderRadius: Sizes.IconLg, backgroundColor: Colors.secondary }} />}
                                         </View>
 
-                                        <Text className="flex-1 text-[14px] text-black">
+                                        <Text style={{ flex: 1, fontSize: Sizes.sm, color: Colors.text }}>
                                             {t(`manage-map-modal.${choice}`)}
                                         </Text>
                                     </Pressable>
@@ -66,8 +64,8 @@ export default function ManageMapModal({
 
                         <Pressable
                             onPress={onConfirm}
-                            className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
-                            <Text className="text-[15px] font-medium text-white">
+                            style={{ height: Sizes.BtnP - Sizes.p1, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, backgroundColor: Colors.primary }}>
+                            <Text style={{ fontSize: Sizes.sm + 1, fontWeight: "500", color: Colors.bg2 }}>
                                 {t(`manage-map-modal.confirm`)}
                             </Text>
                         </Pressable>

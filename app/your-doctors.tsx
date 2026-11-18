@@ -73,7 +73,7 @@ export default function YourDoctors() {
                   refetch();
                 }}
               >
-                <MaterialIcons name="star" size={28} color="#E7BF3C" />
+                <MaterialIcons name="bookmark" size={28} color="#E7BF3C" />
               </TouchableOpacity>
             </TouchableOpacity>
           )}

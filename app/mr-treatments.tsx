@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
 import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
@@ -60,37 +61,37 @@ function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsM
     return (
         <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View className="flex-1 justify-center items-center bg-black/70 px-4">
-                    <View className="w-full bg-[#EEF9FB] rounded-3xl p-6 relative">
+                <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "rgba(0,0,0,0.7)", paddingHorizontal: Sizes.paragraph }}>
+                    <View style={{ width: "100%", backgroundColor: Colors.bg1, borderRadius: Sizes.h2, padding: Sizes.h4, position: "relative" }}>
                         <TouchableOpacity
                             onPress={onClose}
-                            className="absolute top-4 right-4 z-10 p-1"
+                            style={{ position: "absolute", top: Sizes.h4, right: Sizes.h4, zIndex: 10, padding: Sizes.p1 }}
                         >
                             <MaterialIcons name="close" size={24} color="#778888" />
                         </TouchableOpacity>
 
-                        <View className="mt-6 mb-4">
-                            <Text className="text-[16px] font-regular mb-2 text-black">
+                        <View style={{ marginTop: Sizes.h4, marginBottom: Sizes.p2 }}>
+                            <Text style={{ fontSize: Sizes.paragraph, marginBottom: Sizes.p2, color: Colors.text }}>
                                 {t(`mr-treatments.name`)}
                             </Text>
                             <TextInput
                                 placeholder={t(`mr-treatments.eg`)}
                                 value={treatmentName}
                                 onChangeText={setTreatmentName}
-                                className="border border-[#0D5175] rounded-xl p-3 bg-white text-[16px] text-black items-center"
+                                style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text, textAlign: "center" }}
                             />
                         </View>
 
                         <View>
-                            <View className="mb-4">
-                                <Text className="text-[16px] font-regular mb-2 text-black">
+                            <View style={{ marginBottom: Sizes.p2 }}>
+                                <Text style={{ fontSize: Sizes.paragraph, marginBottom: Sizes.p2, color: Colors.text }}>
                                     {t(`mr-treatments.query`)}
                                 </Text>
                                 <TouchableOpacity
                                     onPress={() => setShowPicker(true)}
-                                    className="border border-[#0D5175] rounded-xl p-3 bg-white flex-row justify-between items-center"
+                                    style={{ borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, padding: Sizes.p3, backgroundColor: Colors.bg2, flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}
                                 >
-                                    <Text className="text-[16px] text-black">
+                                    <Text style={{ fontSize: Sizes.paragraph, color: Colors.text }}>
                                         {date.toLocaleDateString()}
                                     </Text>
                                 </TouchableOpacity>
@@ -107,27 +108,27 @@ function TreatmentsModal({ visible, submitting, onClose, onSubmit }: TreatmentsM
                                 )}
                             </View>
 
-                            <View className="mb-4">
-                                <Text className="text-[16px] font-regular mb-2 text-black">
+                            <View style={{ marginBottom: Sizes.p2 }}>
+                                <Text style={{ fontSize: Sizes.paragraph, marginBottom: Sizes.p2, color: Colors.text }}>
                                     {t(`mr-treatments.query2`)}
                                 </Text>
                                 <TextInput
                                     placeholder={t("mr-treatments.frequencyPlaceholder")}
                                     value={frequency}
                                     onChangeText={setFrequency}
-                                    className="h-[42px] border border-[#0D5175] rounded-xl px-4 py-4 bg-white text-[16px] items-center text-black"
+                                    style={{ height: 42, borderWidth: 1, borderColor: Colors.secondary, borderRadius: Sizes.p3, paddingHorizontal: Sizes.h4, paddingVertical: Sizes.h4, backgroundColor: Colors.bg2, fontSize: Sizes.paragraph, color: Colors.text }}
                                 />
                             </View>
 
                         </View>
-                        {saveError && <Text className="mb-2 text-red-700">{saveError}</Text>}
-                        <View className="mt-4">
+                        {saveError && <Text style={{ marginBottom: Sizes.p2, color: Colors.error }}>{saveError}</Text>}
+                        <View style={{ marginTop: Sizes.h5 }}>
                             <TouchableOpacity
                                 onPress={handleSave}
                                 disabled={submitting}
-                                className="h-[50px] bg-[#5085A8] rounded-[14px] content-center justify-center"
+                                style={{ height: Buttons.height, backgroundColor: Colors.primary, borderRadius: Sizes.p3, alignItems: "center", justifyContent: "center" }}
                             >
-                                <Text className="self-center text-white font-medium text-[16px]">{t(`mr-treatments.add`)}</Text>
+                                <Text style={{ color: Colors.bg2, fontWeight: "500", fontSize: Sizes.paragraph }}>{t(`mr-treatments.add`)}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -205,25 +206,25 @@ export default function Treatments() {
 
 
     return (
-        <ScrollView className="bg-[#EEF9FB]">
+        <ScrollView style={{ flex: 1, backgroundColor: Colors.bg1 }}>
 
             <ScreenHeader title='' />
 
-            <View className="m-4">
-                <View className="pl-8 pr-8 pt-12 ">
-                    <Text className="text-2xl text-center">{t(`mr-treatments.query3`)}</Text>
+            <View style={{ margin: Sizes.h4 }}>
+                <View style={{ paddingHorizontal: Sizes.h2, paddingTop: Sizes.h1 + Sizes.h3 }}>
+                    <Text style={{ fontSize: Sizes.h2, textAlign: "center", color: Colors.text }}>{t(`mr-treatments.query3`)}</Text>
                 </View>
-                <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-[14px] text-center">{t(`mr-treatments.info`)}</Text>
+                <View style={{ paddingHorizontal: Sizes.paragraph, paddingTop: Sizes.h5 }}>
+                    <Text style={{ fontSize: Sizes.sm, textAlign: "center", color: Colors.text }}>{t(`mr-treatments.info`)}</Text>
                 </View>
-                <View className="flex-1 mx-2 mt-2 mb-20 pt-12" >
+                <View style={{ flex: 1, marginHorizontal: Sizes.p2, marginTop: Sizes.p2, marginBottom: Sizes.h1 + Sizes.h3, paddingTop: Sizes.h1 + Sizes.h3 }}>
                     <TouchableOpacity
-                        className="flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
+                        style={{ flexDirection: "row", justifyContent: "center", backgroundColor: Colors.primary, height: Buttons.height, alignItems: "center", borderRadius: Sizes.p3 }}
                         accessibilityRole="button"
                         onPress={handleOpen}
                     >
-                        <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-[16px] text-center text-[#fff] font-medium">{t(`mr-treatments.add2`)}</Text>
+                        <MaterialIcons name="add" size={26} color={Colors.bg2} />
+                        <Text style={{ fontSize: Sizes.paragraph, textAlign: "center", color: Colors.bg2, fontWeight: "500" }}>{t(`mr-treatments.add2`)}</Text>
                     </TouchableOpacity>
                 </View>
                 {/* 
@@ -242,35 +243,50 @@ export default function Treatments() {
             {/*   <View className="mx-4 mt-10 h-0.5 bg-[#BEC9CA] rounded-full" />*/}
 
             {(error || screenError) && (
-                <Text className="mx-6 mb-4 text-red-700">{screenError ?? error}</Text>
+                <Text style={{ marginHorizontal: Sizes.h4, marginBottom: Sizes.p2, color: Colors.error }}>{screenError ?? error}</Text>
             )}
-            {loading && <Text className="mx-6 text-gray-600">{t("mr-treatments.loading")}</Text>}
+            {loading && <Text style={{ marginHorizontal: Sizes.h4, color: Colors.textMuted }}>{t("mr-treatments.loading")}</Text>}
 
             {records.length > 0 && (
 
-                <View className="mx-6 ">
+                <View style={{ marginHorizontal: Sizes.h4 }}>
 
                     {records.map((record) => (
                         <View
                             key={record.id}
-                            className="mt-10 px-2 py-6 mb-4 flex-row items-center justify-between rounded-2xl bg-white">
-                            <View className="flex-row ">
-                                <MaterialIcons name="medication" size={44} color="#0D5175" className="self-center" />
-                                <View className="justify-start mx-8">
-                                    <Text className="font-medium text-xl mb-1">
+                            style={{
+                                marginTop: Sizes.h1,
+                                paddingHorizontal: Sizes.p2,
+                                paddingVertical: Sizes.h2,
+                                marginBottom: Sizes.p2,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                borderRadius: Sizes.p3,
+                                backgroundColor: Colors.bg2
+                            }}>
+                            <View style={{ flexDirection: "row" }}>
+                                <MaterialIcons name="medication" size={44} color={Colors.secondary} style={{ alignSelf: "center" }} />
+                                <View style={{ justifyContent: "flex-start", marginHorizontal: Sizes.h2 }}>
+                                    <Text style={{
+                                        fontWeight: "500",
+                                        fontSize: Sizes.h5,
+                                        marginBottom: Sizes.p1,
+                                        color: Colors.text
+                                    }}>
                                         {record.item}
                                     </Text>
 
-                                    <View className="mb-1 flex-row">
-                                        <Text className="text-[16px] font-medium text-black">{t(`mr-treatments.started`)} </Text>
-                                        <Text className="text-[16px] text-gray-600">{formatDate(record.treatment_date)}</Text>
+                                    <View style={{ marginBottom: Sizes.p1, flexDirection: "row" }}>
+                                        <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>{t(`mr-treatments.started`)} </Text>
+                                        <Text style={{ fontSize: Sizes.paragraph, color: Colors.textMuted }}>{formatDate(record.treatment_date)}</Text>
                                     </View>
 
-                                    <View className="flex-row">
-                                        <View className="max-w-[220px]">
-                                            <Text className="text-[16px] font-medium text-black">{t(`mr-treatments.frequency`)} </Text>
+                                    <View style={{ flexDirection: "row" }}>
+                                        <View style={{ maxWidth: 220 }}>
+                                            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.text }}>{t(`mr-treatments.frequency`)} </Text>
 
-                                            <Text className="text-[16px] text-gray-600">{record.treatment_frequency ?? ""}</Text>
+                                            <Text style={{ fontSize: Sizes.paragraph, color: Colors.textMuted }}>{record.treatment_frequency ?? ""}</Text>
                                         </View>
                                     </View>
                                 </View>
@@ -278,9 +294,9 @@ export default function Treatments() {
 
                             <TouchableOpacity
                                 onPress={() => handleRemoveTreatment(record.id)}
-                                className="mr-4"
+                                style={{ marginRight: Sizes.h4 }}
                             >
-                                <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                <MaterialIcons name="delete-outline" size={Sizes.h2} color={Colors.delete} />
                             </TouchableOpacity>
                         </View>
                     ))}

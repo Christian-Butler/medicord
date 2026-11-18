@@ -26,12 +26,14 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
       style={{
         marginHorizontal: Sizes.p3,
         marginTop: Sizes.p2,
-        backgroundColor: Colors.bg2,
+        backgroundColor: `${destructive ? Colors.delete : Colors.bg2}`,
         borderRadius: Sizes.p3,
         paddingHorizontal: Sizes.p2,
         paddingVertical: Buttons.w1,
+        minHeight: 64,
+        flexDirection: "row",
+        alignItems: "center",
       }}
-      className="min-h-[64px] flex-row items-center"
     >
       {icon ? (
         <MaterialIcons
@@ -42,12 +44,14 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
         />
       ) : null}
 
-      <View className="flex-1">
+      <View style={{ flex: 1 }}>
         <Text
           style={{
             fontSize: Sizes.paragraph,
+            color: `${destructive ? Colors.bg2 : Colors.text}`,
+            fontWeight: "500",
           }}
-          className={`font-regular ${destructive ? Colors.delete : Colors.text}`}>
+        >
           {t(`profile.${title}`)}
         </Text>
 
@@ -55,13 +59,14 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
           <Text
             style={{
               fontSize: Sizes.sm,
-              color: Colors.textMuted
+              color: Colors.textMuted,
+              marginTop: Sizes.p0,
             }}
-            className="mt-1 font-regular">{subtitle}</Text>
+            >{subtitle}</Text>
         ) : null}
       </View>
 
-      <MaterialIcons name="chevron-right" size={Sizes.h2} color={destructive ? Colors.delete : Colors.text} />
+      <MaterialIcons name="chevron-right" size={Sizes.h2} color={destructive ? Colors.bg2 : Colors.text} />
     </Pressable>
   );
 }
@@ -77,9 +82,10 @@ function SectionTitle({ title }: { title: string }) {
       <Text
         style={{
           fontSize: Sizes.h4,
-          color: Colors.text
+          color: Colors.text,
+          fontWeight: "500",
         }}
-        className="font-medium">{title}</Text>
+      >{title}</Text>
     </View>
   );
 }
@@ -93,9 +99,10 @@ export default function ProfilePage() {
   return (
     <SafeAreaView edges={["top"]}
       style={{
+        flex: 1,
         backgroundColor: Colors.bg2
       }}
-      className="flex-1">
+    >
       <LogoutModal
         visible={showLogoutModal}
         onCancel={() => setShowLogoutModal(false)}
@@ -114,47 +121,56 @@ export default function ProfilePage() {
           borderBottomWidth: Buttons.w1,
           backgroundColor: Colors.bg2,
           borderBottomColor: Colors.secondary,
-          height: Sizes.boxS
-        }}
-        className="justify-end">
+          height: Sizes.boxS,
+          justifyContent: "flex-end",
+        }}>
         <Text
           style={{
             fontSize: Sizes.h3,
-            color: Colors.text
+            color: Colors.text,
+            textAlign: "center",
           }}
-          className="text-center">
+        >
           {t(`profile.profile`)}
         </Text>
       </View>
 
       <ScrollView
-        style={{
-          backgroundColor: Colors.bg1
-        }}
-        className="flex-1"
+        style={{ flex: 1, backgroundColor: Colors.bg1 }}
         contentContainerStyle={{ paddingBottom: 120 }}
         showsVerticalScrollIndicator={false}
       >
         <View
           style={{
             backgroundColor: Colors.bg2,
-            borderBottomColor: Colors.secondary
-          }}
-          className="border-b">
+            borderBottomColor: Colors.secondary,
+            borderBottomWidth: 1,
+          }}>
           <Pressable onPress={handleEditAvatar}>
             <View
-              style={{ paddingBottom: Sizes.h4, paddingTop: Sizes.h4 }}
-              className="relative items-center">
+              style={{
+                position: "relative",
+                alignItems: "center",
+                paddingBottom: Sizes.h4,
+                paddingTop: Sizes.h4,
+              }}>
 
               <View
-                className="absolute right-6 top-6 flex-row items-center">
+                style={{
+                  position: "absolute",
+                  right: Sizes.h4,
+                  top: Sizes.h4,
+                  flexDirection: "row",
+                  alignItems: "center",
+                }}>
                 <MaterialIcons name="edit" size={Sizes.paragraph} color={Colors.edit} />
                 <Text
                   style={{
                     fontSize: Sizes.paragraph,
-                    color: Colors.edit
+                    color: Colors.edit,
+                    marginLeft: Sizes.p0,
                   }}
-                  className="ml-1">{t(`profile.edit`)}</Text>
+                >{t(`profile.edit`)}</Text>
               </View>
 
               {avatarUrl ? (
@@ -203,8 +219,9 @@ export default function ProfilePage() {
 
         <SectionTitle title={t(`profile.Other settings`)} />
         <View
-          className="min-h-[64px] justify-center"
           style={{
+            minHeight: 64,
+            justifyContent: "center",
             marginHorizontal: Sizes.p3,
             marginTop: Sizes.p3,
             borderRadius: Sizes.p3,
@@ -215,8 +232,7 @@ export default function ProfilePage() {
             style={{ fontSize: Sizes.paragraph }}>
             {t(`profile.languageTitle`)}
           </Text>
-          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}
-            className="mt-1 font-regular">
+          <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted, marginTop: Sizes.p0 }}>
             {t(`profile.languageText`)}
           </Text>
         </View>
@@ -225,19 +241,20 @@ export default function ProfilePage() {
         <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
         <ProfileRow title="Legal information" onPress={() => router.push("/profile-legal")} />
         <ProfileRow
-          title="Delete my account"
-          onPress={() => setShowDeleteModal(true)}
+          icon="logout"
+          title="Log out"
+          onPress={() => setShowLogoutModal(true)}
         />
+
 
         <View style={{
           height: Buttons.height
         }} />
 
         <ProfileRow
-          icon="logout"
-          title="Disconnect"
           destructive
-          onPress={() => setShowLogoutModal(true)}
+          title="Delete my account"
+          onPress={() => setShowDeleteModal(true)}
         />
       </ScrollView>
     </SafeAreaView>

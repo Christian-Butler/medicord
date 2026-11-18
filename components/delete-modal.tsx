@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { deleteMyAccount } from "@/src/api/auth/api";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
@@ -16,22 +17,22 @@ export default function DeleteModal({ visible, onCancel, onConfirm }: DeleteModa
 
   return (
     <Modal transparent animationType="fade" visible={visible} onRequestClose={onCancel}>
-      <View className="flex-1 justify-center bg-[#B8C8E8]/80 px-8">
+      <View style={{ flex: 1, justifyContent: "center", backgroundColor: "rgba(184,200,232,0.8)", paddingHorizontal: Sizes.h2 }}>
 
-        <View className="w-full rounded-2xl bg-[#EEF4FB] px-4 py-10">
-          <Text className="text-center text-[22px] font-semibold text-black">
+        <View style={{ width: "100%", borderRadius: Sizes.p3, backgroundColor: Colors.bg1, paddingHorizontal: Sizes.h4, paddingVertical: Sizes.h1 + Sizes.h3 }}>
+          <Text style={{ textAlign: "center", fontSize: Sizes.h3, fontWeight: "600", color: Colors.text }}>
             {t(`delete-modal.query`)}
           </Text>
 
-          <Text className="mt-4 text-center text-[16px] font-normal text-black">
+          <Text style={{ marginTop: Sizes.h5, textAlign: "center", fontSize: Sizes.paragraph, color: Colors.text }}>
             {t(`delete-modal.notice`)}
           </Text>
 
           <Pressable
             onPress={onCancel}
-            className="mt-8 mb-2 h-[50px] items-center justify-center rounded-2xl bg-white"
+            style={{ marginTop: Sizes.h1, marginBottom: Sizes.p2, height: Sizes.BtnP, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.bg2 }}
           >
-            <Text className="text-[16px] font-medium text-[#0D5175]">
+            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.secondary }}>
               {t(`delete-modal.stay`)}
             </Text>
           </Pressable>
@@ -46,9 +47,9 @@ export default function DeleteModal({ visible, onCancel, onConfirm }: DeleteModa
                 console.error("[DeleteModal] delete failed:", err);
               }
             }}
-            className="mt-4 h-[50px] items-center justify-center rounded-2xl bg-[#A81010]"
+            style={{ marginTop: Sizes.h5, height: Sizes.BtnP, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3 + Sizes.p1, backgroundColor: Colors.delete }}
           >
-            <Text className="text-[16px] font-medium text-white">
+            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>
               {t(`delete-modal.leave`)}
             </Text>
           </Pressable>

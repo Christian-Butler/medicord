@@ -1,3 +1,4 @@
+import { Colors, Sizes } from '@/constants/theme';
 import { getLocales } from 'expo-localization';
 import React, { useEffect, useMemo, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -14,6 +15,7 @@ interface DayItem {
 type WeeklyCalendarProps = {
     selectedDate?: string;
     onSelectDate?: (date: string) => void;
+    viewMonth?: string;
 };
 
 const months = [
@@ -35,11 +37,36 @@ const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", 
 
 const deviceLanguage = getLocales()[0].languageCode;
 
-const Iso = (date: Date) => {
+const Iso = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
+};
+
+const getFirstWeekDate = (month: string) => {
+    const [year, monthNumber] = month.split("-").map(Number);
+    const date = new Date(year, monthNumber - 1, 1);
+    const today = new Date();
+
+    if (year === today.getFullYear() && monthNumber === today.getMonth() + 1) {
+        date.setDate(today.getDate());
+    }
+
+    if (date.getDay() === 0) {
+        date.setDate(date.getDate() + 1);
+    }
+    return date;
+};
+
+const getInitialDate = (selectedDate?: string) => {
+    const date = selectedDate
+        ? new Date(`${selectedDate}T00:00:00`)
+        : new Date();
+    if (!selectedDate && date.getDay() === 0) {
+        date.setDate(date.getDate() + 1);
+    }
+    return date;
 };
 
 const isSameDay = (first: Date, second: Date) =>
@@ -59,11 +86,11 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
         date.setHours(0, 0, 0, 0);
         let dateName;
         if (deviceLanguage == "en") {
-            dateName = date.toLocaleDateString("en-EN", { weekday: 'narrow' })
+            dateName = date.toLocaleDateString("en-GB", { weekday: 'narrow' })
         } else if (deviceLanguage == "fr") {
             dateName = date.toLocaleDateString("fr-FR", { weekday: 'narrow' })
         } else {
-            dateName = date.toLocaleDateString("en-EN", { weekday: 'narrow' })
+            dateName = date.toLocaleDateString("en-GB", { weekday: 'narrow' })
         };
         return {
             date,
@@ -79,9 +106,10 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
 const WeeklyCalendar = ({
     selectedDate,
     onSelectDate,
+    viewMonth,
 }: WeeklyCalendarProps) => {
     const [currentDate, setCurrentDate] = useState(() =>
-        selectedDate ? new Date(`${selectedDate}T00:00:00`) : new Date()
+        viewMonth ? getFirstWeekDate(viewMonth) : getInitialDate(selectedDate)
     );
 
     const [selectedDayIso, setSelectedDayIso] = useState<string | null>(
@@ -89,11 +117,19 @@ const WeeklyCalendar = ({
     );
 
     useEffect(() => {
-        if (!selectedDate) return;
-
-        setSelectedDayIso(selectedDate);
-        setCurrentDate(new Date(`${selectedDate}T00:00:00`));
+        if (selectedDate) {
+            setSelectedDayIso(selectedDate);
+            setCurrentDate(new Date(`${selectedDate}T00:00:00`));
+        } else {
+            setSelectedDayIso(null);
+        }
     }, [selectedDate]);
+
+    useEffect(() => {
+        if (!viewMonth) return;
+        if (selectedDate?.slice(0, 7) === viewMonth) return;
+        setCurrentDate(getFirstWeekDate(viewMonth));
+    }, [selectedDate, viewMonth]);
 
     const weekDays = useMemo(() => getWeekDays(currentDate), [currentDate]);
 
@@ -133,7 +169,6 @@ const WeeklyCalendar = ({
                 <Pressable
                     onPress={() => goToWeek(-7)}
                     style={styles.navButton}
-                    accessibilityRole="button"
                 >
                     <Text style={styles.navText}>‹</Text>
                 </Pressable>
@@ -142,25 +177,17 @@ const WeeklyCalendar = ({
                 <Pressable
                     onPress={() => goToWeek(7)}
                     style={styles.navButton}
-                    accessibilityRole="button"
                 >
                     <Text style={styles.navText}>›</Text>
                 </Pressable>
             </View>
             <View style={styles.weekRow}>
-                {weekDays.map((label) => (
-                    <View key={label.day} style={styles.dayLabelContainer}>
-                    </View>
-                ))}
-            </View>
-            <View style={styles.daysRow}>
                 {weekDays.map((dayItem) => {
                     const isSelected = selectedDayIso === dayItem.iso;
 
                     return (
                         <Pressable
                             key={dayItem.iso}
-                            accessibilityRole="button"
                             disabled={dayItem.isPast}
                             onPress={() => {
                                 setSelectedDayIso(dayItem.iso);
@@ -169,7 +196,6 @@ const WeeklyCalendar = ({
                             style={[
                                 styles.dayCell,
                                 dayItem.isPast && styles.inactiveCell,
-                                isSelected && styles.selectedCell,
                             ]}
                         >
                             <Text
@@ -211,7 +237,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 12,
+        marginBottom: Sizes.p3,
     },
     navButton: {
         width: 40,
@@ -221,34 +247,26 @@ const styles = StyleSheet.create({
         borderRadius: 18,
     },
     navText: {
-        fontSize: 20,
+        fontSize: Sizes.h4,
         fontWeight: '500',
-        color: '#0',
+        color: Colors.text,
     },
     currentDate: {
-        fontSize: 16,
+        fontSize: Sizes.paragraph,
         fontWeight: '500',
-        color: '#00',
+        color: Colors.text,
     },
     weekRow: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
     },
-    dayLabelContainer: {
-        alignItems: 'center',
-    },
     dayLabel: {
         textAlign: 'center',
-        fontSize: 12,
-        fontWeight: 500,
-        color: '#1A1A1A',
+        fontSize: Sizes.sm,
+        fontWeight: '500',
+        color: Colors.text,
         marginBottom: 4,
-    },
-    daysRow: {
-        alignItems: 'center',
-        justifyContent: "space-between",
-        flexDirection: 'row',
     },
     dayCell: {
         flex: 1,
@@ -257,37 +275,33 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     todayText: {
-        borderRadius: '100%',
-        color: 'white',
-        backgroundColor: "#0D5175",
+        color: Colors.error,
     },
     selectedCell: {
-        color: 'white',
-        backgroundColor: "#0D5175",
-        borderRadius: 14,
+        color: Colors.text,
     },
     inactiveCell: {
         opacity: 0.5
     },
     dayNumber: {
-        fontSize: 18,
+        fontSize: Sizes.h5,
         width: 28,
         height: 28,
         textAlign: 'center',
         paddingTop: 3,
-        color: 'black',
+        color: Colors.text,
         fontWeight: '500',
     },
     selectedDayText: {
-        color: 'white',
+        color: Colors.text,
     },
     selectedDayNumber: {
-        color: '#0D5175',
-        backgroundColor: 'white',
-        borderRadius: '100%',
+        color: Colors.bg2,
+        backgroundColor: Colors.secondary,
+        borderRadius: Sizes.IconXL,
     },
     inactiveText: {
-        color: '#1A1A1A',
+        color: Colors.text,
     },
 });
 

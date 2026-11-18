@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { BriefcaseMedical } from "lucide-react-native";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -6,45 +7,43 @@ type FirstTimeBookingOverlayProps = {
   visible: boolean;
   onNewPatient: () => void;
   onReturningPatient: () => void;
-  onClose?: () => void;
 };
 
 export default function FirstTimeBookingOverlay({
   visible,
   onNewPatient,
   onReturningPatient,
-  onClose,
 }: FirstTimeBookingOverlayProps) {
 
   const { t } = useTranslation();
 
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 items-center justify-center bg-black/30 px-6">
-        <Pressable className="absolute inset-0" onPress={onClose} />
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.3)", paddingHorizontal: Sizes.h4 }}>
+        <Pressable style={{ position: "absolute", top: 0, right: 0, bottom: 0, left: 0 }} />
 
-        <View className="w-full max-w-[330px] rounded-[18px] bg-[#F1FAFB] px-3 py-12">
-          <View className="items-center">
-            <View className="mb-9 h-[70px] w-[80px] items-center justify-center rounded-[8px] bg-[#2F7298]">
-              <BriefcaseMedical size={48} color="white" strokeWidth={2} />
+        <View style={{ width: "100%", maxWidth: 330, borderRadius: Sizes.h4, backgroundColor: Colors.bg1, paddingHorizontal: Sizes.p3, paddingVertical: Sizes.h1 + Sizes.h3 }}>
+          <View style={{ alignItems: "center" }}>
+            <View style={{ marginBottom: Sizes.h1 + Sizes.h2, height: Sizes.boxS, width: Sizes.imgNm + Sizes.p2, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.primary }}>
+              <BriefcaseMedical size={48} color={Colors.bg2} strokeWidth={2} />
             </View>
 
-            <Text className="mb-10 text-center text-[20px] font-semibold leading-7 text-black">
+            <Text style={{ marginBottom: Sizes.h1 + Sizes.h3, textAlign: "center", fontSize: Sizes.h4, fontWeight: "600", lineHeight: 28, color: Colors.text }}>
               {t(`first-patient-overlay.query`)}
             </Text>
 
             <Pressable
               onPress={onNewPatient}
-              className="mb-6 h-[44px] w-full items-center justify-center rounded-[10px] bg-white">
-              <Text className="text-[15px] font-medium text-[#07527B]">
+              style={{ marginBottom: Sizes.h4, height: Sizes.BtnP, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.bg2 }}>
+              <Text style={{ fontSize: Sizes.sm + 1, fontWeight: "500", color: Colors.secondary }}>
                 {t(`first-patient-overlay.yes`)}
               </Text>
             </Pressable>
 
             <Pressable
               onPress={onReturningPatient}
-              className="h-[46px] w-full items-center justify-center rounded-[10px] bg-[#578EAF]">
-              <Text className="text-[15px] font-medium text-white">
+              style={{ height: Sizes.BtnP, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.primary }}>
+              <Text style={{ fontSize: Sizes.sm + 1, fontWeight: "500", color: Colors.bg2 }}>
                 {t(`first-patient-overlay.no`)}
               </Text>
             </Pressable>

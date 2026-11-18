@@ -56,8 +56,6 @@ export default function ChooseGp() {
     <ScrollView style={styles.page}>
       <ScreenHeader title={t(`Change GP`)} showBack={!fromOnboarding} />
 
-      
-
       <View
         style={{
           backgroundColor: Colors.bg2,
@@ -112,12 +110,9 @@ export default function ChooseGp() {
 
                 <View className="flex-1">
                   <Text style={styles.name}>{doctor.full_name}</Text>
-                  <View className="flex-row items-center">
+                  <View>
                     <Text style={styles.profession}>
                       {doctor.clinic_name}
-                    </Text>
-                    <Text className="mx-1">
-                      •
                     </Text>
                     <Text style={styles.profession}>
                       {doctor.location}
@@ -179,12 +174,14 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.bg2,
     borderRadius: Sizes.h5,
-    paddingHorizontal: Sizes.h5,
+    paddingHorizontal: Sizes.p3,
     paddingVertical: Sizes.sm,
     marginBottom: Sizes.h5,
   },
   doctorInfo: {
     flexDirection: 'row',
+    fontSize: Sizes.sm,
+    color: Colors.textMuted
   },
   avatar: {
     width: Sizes.imgApt,
@@ -198,6 +195,7 @@ const styles = StyleSheet.create({
   },
   profession: {
     marginTop: Buttons.w2,
+    color: Colors.textMuted,
     fontSize: Sizes.sm,
     fontWeight: "400",
   },
@@ -205,7 +203,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: Colors.primary,
-    height: Inputs.height,
+    height: Buttons.height,
     borderRadius: Sizes.sm,
     marginTop: Sizes.p3,
   }

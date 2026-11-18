@@ -1,3 +1,4 @@
+import { Colors } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React from "react";
@@ -23,7 +24,7 @@ export default function ScreenHeader({
   showBack = true,
   onBackPress,
   rightElement,
-  backgroundColor = "#fff",
+  backgroundColor = Colors.bg2,
   style,
 }: ScreenHeaderProps) {
   function handleBackPress() {

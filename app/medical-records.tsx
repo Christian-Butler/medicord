@@ -104,12 +104,22 @@ export default function MedicalRecordsScreen() {
                 >
                     {records.map((record, index) => (
                         <TouchableOpacity
-                            style={{ minHeight: Buttons.height, backgroundColor: Colors.bg2, borderRadius: Sizes.p3, marginVertical: Sizes.p1, marginHorizontal: Sizes.p2, paddingHorizontal: Sizes.p2, paddingVertical: Sizes.p2 }}
-                            className="flex-row items-center justify-between"
+                            style={{
+                                minHeight: Buttons.height,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                backgroundColor: Colors.bg2,
+                                borderRadius: Sizes.p3,
+                                marginVertical: Sizes.p1,
+                                marginHorizontal: Sizes.p2,
+                                paddingHorizontal: Sizes.p2,
+                                paddingVertical: Sizes.p2,
+                            }}
                             key={`${record.name}-${index}`}
                             onPress={record.onPress}
                         >
-                            <View className="flex-row items-center">
+                            <View style={{ flexDirection: "row", alignItems: "center" }}>
                                 <MaterialIcons name={record.icon} size={Sizes.IconLg} color={Colors.secondary} />
                                 <Text style={{ marginHorizontal: Sizes.h5 }}>{t(`medical-records.${record.name}`)}</Text>
                             </View>

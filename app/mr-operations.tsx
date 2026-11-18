@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useDeleteMedicalRecord } from "@/src/hooks/useDeleteMedicalRecord";
 import { useMedicalRecords } from "@/src/hooks/useMedicalRecords";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -16,48 +17,72 @@ export default function Operations() {
 
 
     return (
-        <ScrollView className="bg-[#EEF9FB]">
+        <ScrollView style={{ flex: 1, backgroundColor: Colors.bg1 }}>
             <ScreenHeader title='' />
 
-            <View className="m-6">
-                <View className="pt-12">
-                    <Text className="text-2xl text-center">{t(`mr-operations.query`)}</Text>
+            <View style={{ margin: Sizes.h4 }}>
+                <View style={{ paddingTop: Sizes.h1 + Sizes.h3 }}>
+                    <Text style={{ fontSize: Sizes.h2, textAlign: "center", color: Colors.text }}>{t(`mr-operations.query`)}</Text>
                 </View>
-                <View className="pl-4 pr-4 pt-4">
-                    <Text className="text-[16px] text-center">
+                <View style={{ paddingHorizontal: Sizes.paragraph, paddingTop: Sizes.h5 }}>
+                    <Text style={{ fontSize: Sizes.paragraph, textAlign: "center", color: Colors.text }}>
                         {t(`mr-operations.keepTrace`)}
                     </Text>
                 </View>
-                <View className="flex-1 pt-12">
+                <View style={{ flex: 1, paddingTop: Sizes.h1 + Sizes.h3 }}>
                     <TouchableOpacity
-                        className="flex-1 flex-row justify-center bg-[#5085A8] h-[50px] items-center rounded-2xl"
-                        accessibilityRole="button"
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            backgroundColor: Colors.primary,
+                            height: Buttons.height,
+                            alignItems: "center",
+                            borderRadius: Sizes.p3
+                        }}
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
                             params: { category: "operations" },
                         })}
                     >
-                        <MaterialIcons name="add" size={26} color="#fff" />
-                        <Text className="text-[16px] text-center text-[#fff] font-medium">{t(`mr-operations.add`)}</Text>
+                        <MaterialIcons name="add" size={Sizes.h2} color={Colors.bg2} />
+                        <Text style={{
+                            fontSize: Sizes.paragraph,
+                            textAlign: "center",
+                            color: Colors.bg2,
+                            fontWeight: "500"
+                        }}>{t(`mr-operations.add`)}</Text>
                     </TouchableOpacity>
                 </View>
 
                 {records.length > 0 && (
-                    <View className="mt-2">
+                    <View style={{ marginTop: Sizes.p2 }}>
                         {records.map((record) => (
-                            <View key={record.id} className="mt-4 h- px-4 py-4 bg-white rounded-2xl">
-                                <View className="my-4 flex-row items-center justify-between">
-                                    <View className="flex-row items-center">
-                                        <MaterialIcons name="local-hospital" size={36} color="#0D5175" />
-                                        <View className="ml-4">
-                                            <Text className="font-medium text-xl">{t(`mr-operations.${record.item}`)}</Text>
+                            <View key={record.id}
+                                style={{
+                                    marginTop: Sizes.p2,
+                                    paddingHorizontal: Sizes.h4,
+                                    paddingVertical: Sizes.h4,
+                                    backgroundColor: Colors.bg2,
+                                    borderRadius: Sizes.p3
+                                }}>
+                                <View style={{
+                                    marginVertical: Sizes.h4,
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-between"
+                                }}>
+                                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                        <MaterialIcons name="local-hospital" size={Sizes.IconNml} color={Colors.secondary} />
+                                        <View style={{ marginLeft: Sizes.h4 }}>
+                                            <Text style={{ fontWeight: "500", fontSize: Sizes.h5, color: Colors.text }}>{t(`mr-operations.${record.item}`)}</Text>
                                             {record.operation_date ? (
-                                                <Text className="text-[14px] font-regular text-gray-600">{record.operation_date}</Text>
+                                                <Text style={{ fontSize: Sizes.sm, color: Colors.textMuted }}>{record.operation_date}</Text>
                                             ) : null}
                                         </View>
                                     </View>
                                     <TouchableOpacity onPress={() => deleteRecord(record.id)}>
-                                        <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                        <MaterialIcons name="delete-outline" size={Sizes.h1} color={Colors.delete} />
                                     </TouchableOpacity>
                                 </View>
                             </View>

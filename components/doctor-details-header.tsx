@@ -2,9 +2,9 @@ import { useDoctor } from "@/src/hooks/useDoctor";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
 import { MaterialIcons } from "@expo/vector-icons";
-import { useTranslation } from "react-i18next";
-import {  StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Image } from "expo-image";
+import { useTranslation } from "react-i18next";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 type DoctorHeaderProps = {
     name: string;
     profession: string;
@@ -23,7 +23,7 @@ function StarButton({ doctorId }: { doctorId: string }) {
             }}
         >
             <MaterialIcons
-                name={isFavourite ? "star" : "star-border"}
+                name={isFavourite ? "bookmark" : "bookmark-border"}
                 size={28}
                 color="#E7BF3C"
             />
@@ -56,23 +56,13 @@ export default function DoctorHeader({ name, profession, doctorId }: DoctorHeade
                         {t(`doctor-details-header.${profession}`)}
                     </Text>
                 </View>
-                <View style={styles.iconsHeader} className="justify-between mt-6 px-4 mb-2 items-center">
+                <View className="justify-between mt-6 px-4 mb-2 items-center">
                     <View style={styles.newPatient}>
                         <TouchableOpacity>
                             <MaterialIcons name="person-add" size={44} color="#0D5175" className="pr-2" />
                         </TouchableOpacity>
                         <Text>{t(`doctor-details-header.accepts`)}</Text>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', marginStart: 30 }}>
-                        <View style={{ width: 1, height: 40, backgroundColor: '#000404' }} />
-                    </View>
-                    <View style={styles.videoCall}>
-                        <TouchableOpacity>
-                            <MaterialIcons name="video-camera-front" size={44} color="#0D5175" className="pr-2" />
-                        </TouchableOpacity>
-                        <Text>{t(`doctor-details-header.videocalls`)}</Text>
-                    </View>
-
                 </View>
             </View>
         </View >
@@ -84,20 +74,10 @@ const styles = StyleSheet.create({
         marginLeft: '6%',
         flexDirection: 'row',
     },
-    iconsHeader: {
-        flexDirection: 'row',
-        width: '100%',
-        justifyContent: 'space-between',
-    },
     newPatient: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 4,
         width: '30%',
-    },
-    videoCall: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 4
     },
 })

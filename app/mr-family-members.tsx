@@ -1,4 +1,5 @@
 import ScreenHeader from "@/components/screen-header";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useCreateMedicalRecord } from "@/src/hooks/useCreateMedicalRecord";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
@@ -19,13 +20,12 @@ export default function FamilyMembersList() {
     const { t } = useTranslation();
 
     const { createMany, creating } = useCreateMedicalRecord();
-      const params = useLocalSearchParams<{
+    const params = useLocalSearchParams<{
         item: string;
         diagnosis: string;
     }>();
 
     const [selectedMembers, setSelectedMembers] = useState<string[]>([]);
-    const { create } = useCreateMedicalRecord();
 
     const selectMember = (member: string) => {
         setSelectedMembers((prev) =>
@@ -36,7 +36,7 @@ export default function FamilyMembersList() {
     };
 
     const handleSubmit = async () => {
-      try {
+        try {
             // one request for all selected relatives
             await createMany(
                 selectedMembers.map((member) => ({
@@ -54,10 +54,15 @@ export default function FamilyMembersList() {
     };
 
     return (
-        <View className="flex-1 bg-[#EEF9FB]">
+        <View style={{ flex: 1, backgroundColor: Colors.bg1 }}>
             <ScreenHeader title="" />
-            <View className="flex-1 m-6">
-                <Text className="text-xl font-medium text-center mb-6">{t(`mr-family-members.query`)}</Text>
+            <View style={{ flex: 1, margin: Sizes.h4 }}>
+                <Text style={{
+                    fontSize: Sizes.h5,
+                    fontWeight: "500",
+                    textAlign: "center",
+                    marginBottom: Sizes.h4, color: Colors.text
+                }}>{t(`mr-family-members.query`)}</Text>
                 <FlatList
                     data={familyMembers}
                     keyExtractor={(item) => item}
@@ -66,28 +71,40 @@ export default function FamilyMembersList() {
                         return (
                             <TouchableOpacity
                                 onPress={() => selectMember(item)}
-                                className="flex-row px-2 py-4 items-center bg-white my-2 h-[60px] rounded-xl">
+                                style={{
+                                    flexDirection: "row",
+                                    paddingHorizontal: Sizes.p2,
+                                    paddingVertical: Sizes.h5,
+                                    alignItems: "center",
+                                    backgroundColor: Colors.bg2,
+                                    marginVertical: Sizes.p2,
+                                    height: 60,
+                                    borderRadius: Sizes.p3
+                                }}>
 
 
                                 <MaterialIcons name={isChecked ? "check-box" : "check-box-outline-blank"}
                                     size={24}
-                                    color="#0D5175"
+                                    color={Colors.secondary}
                                 />
-                                <Text className="ml-3 text-[16px] text-black">{t(`mr-family-members.${item}`)}</Text>
+                                <Text style={{
+                                    marginLeft: Sizes.p3,
+                                    fontSize: Sizes.paragraph,
+                                    color: Colors.text
+                                }}>{t(`mr-family-members.${item}`)}</Text>
                             </TouchableOpacity>
                         );
                     }}
                 />
             </View>
-            <View className="border-t border-[#0D5175] bg-white pb-6">
-                <View className="p-8">
+            <View style={{ borderTopWidth: Buttons.w1, borderTopColor: Colors.secondary, backgroundColor: Colors.bg2, paddingBottom: Sizes.h4 }}>
+                <View style={{ padding: Sizes.h2 }}>
                     <TouchableOpacity
-                        className={`justify-center h-[50px] bg-[#5085A8] items-center rounded-2xl ${selectedMembers.length === 0 ? "bg-[#D6E0E0]" : "bg-[#5085A8]"
-                            }`}
+                        style={{ justifyContent: "center", height: Buttons.height, backgroundColor: selectedMembers.length === 0 ? Colors.dark.icon : Colors.primary, alignItems: "center", borderRadius: Sizes.p3 }}
                         disabled={selectedMembers.length === 0 || creating}
                         onPress={handleSubmit}
                     >
-                        <Text className="text-[16px] font-medium text-white">{t(`mr-family-members.continue`)}</Text>
+                        <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>{t(`mr-family-members.continue`)}</Text>
                     </TouchableOpacity>
                 </View>
             </View>

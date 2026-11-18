@@ -1,4 +1,4 @@
-import { Colors, Sizes } from "@/constants/theme";
+import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { Modal, Pressable, Text, View } from "react-native";
@@ -19,43 +19,81 @@ export default function UpdateAppointmentSuccessOverlay({
 
   return (
     <Modal visible={visible} transparent animationType="fade">
-      <View className="flex-1 items-center justify-center bg-black/30">
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "rgba(0,0,0,0.3)" }}>
         <View
           style={{
             borderRadius: Sizes.h4,
-            backgroundColor: Colors.bg1
+            backgroundColor: Colors.bg1,
+            width: "92%",
+            paddingHorizontal: Sizes.h4,
+            paddingBottom: Sizes.h2,
+            paddingTop: Sizes.h1 + Sizes.h3,
           }}
-          className="w-[92%] px-4 pb-8 pt-12">
-          <View className="mb-8 items-center">
-            <MaterialIcons name="event-available" size={104} color="#2F789E" />
+        >
+          <View style={{ marginBottom: Sizes.h4, alignItems: "center" }}>
+            <MaterialIcons name="event-available" size={104} color={Colors.primary} />
           </View>
 
-          <Text className="mb-12 text-center text-[27px] font-bold leading-[34px] text-black">
+          <Text style={{
+            marginBottom: Sizes.IconLg,
+            textAlign: "center",
+            fontSize: Sizes.h2,
+            fontWeight: "500",
+            lineHeight: Sizes.IconNml,
+            color: Colors.text
+          }}>
             {t(`updated-booking-overlay.title`)}
           </Text>
 
-          <Text className="mb-10 text-left text-[23px] font-normal leading-[31px] text-black">
+          <Text style={{
+            marginBottom: Sizes.h1 + Sizes.h2,
+            textAlign: "left",
+            fontSize: Sizes.h3,
+            lineHeight: Sizes.h1,
+            color: Colors.text
+          }}>
             {t(`updated-booking-overlay.info`)}
           </Text>
 
-          <Text className="mb-9 text-left text-[23px] font-normal leading-[31px] text-black">
+          <Text style={{
+            marginBottom: Sizes.h4,
+            textAlign: "left",
+            fontSize: Sizes.h3 + 1,
+            lineHeight: Sizes.h1,
+            color: Colors.text
+          }}>
             {t(`updated-booking-overlay.info2`)}
           </Text>
 
           <Pressable
             onPress={onAddToCalendar}
-            className="mb-7 h-[70px] items-center justify-center rounded-[12px] border-[2.5px] border-[#0D5175] bg-white"
+            style={{
+              marginBottom: Sizes.h1,
+              height: Sizes.boxS,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: Sizes.p3,
+              borderWidth: Buttons.w2,
+              borderColor: Colors.secondary,
+              backgroundColor: Colors.bg2
+            }}
           >
-            <Text className="text-[22px] font-semibold text-[#0D5175]">
+            <Text style={{ fontSize: Sizes.h3, fontWeight: "600", color: Colors.secondary }}>
               {t(`updated-booking-overlay.add`)}
             </Text>
           </Pressable>
 
           <Pressable
             onPress={onViewAppointments}
-            className="h-[70px] items-center justify-center rounded-[12px] bg-[#5085A8]"
+            style={{
+              height: Sizes.boxS,
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: Sizes.p3,
+              backgroundColor: Colors.primary
+            }}
           >
-            <Text className="text-[22px] font-semibold text-white">
+            <Text style={{ fontSize: Sizes.h3, fontWeight: "600", color: Colors.bg2 }}>
               {t(`updated-booking-overlay.view`)}
             </Text>
           </Pressable>
