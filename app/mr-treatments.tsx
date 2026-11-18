@@ -219,7 +219,7 @@ export default function Treatments() {
                 </View>
                 <View style={{ flex: 1, marginHorizontal: Sizes.p2, marginTop: Sizes.p2, marginBottom: Sizes.h1 + Sizes.h3, paddingTop: Sizes.h1 + Sizes.h3 }}>
                     <TouchableOpacity
-                        style={{ flexDirection: "row", justifyContent: "center", backgroundColor: Colors.primary, height: Buttons.height, alignItems: "center", borderRadius: Sizes.p3 + Sizes.p1 }}
+                        style={{ flexDirection: "row", justifyContent: "center", backgroundColor: Colors.primary, height: Buttons.height, alignItems: "center", borderRadius: Sizes.p3 }}
                         accessibilityRole="button"
                         onPress={handleOpen}
                     >
@@ -254,11 +254,26 @@ export default function Treatments() {
                     {records.map((record) => (
                         <View
                             key={record.id}
-                            style={{ marginTop: Sizes.h1, paddingHorizontal: Sizes.p2, paddingVertical: Sizes.h2, marginBottom: Sizes.p2, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderRadius: Sizes.p3 + Sizes.p1, backgroundColor: Colors.bg2 }}>
+                            style={{
+                                marginTop: Sizes.h1,
+                                paddingHorizontal: Sizes.p2,
+                                paddingVertical: Sizes.h2,
+                                marginBottom: Sizes.p2,
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                                borderRadius: Sizes.p3,
+                                backgroundColor: Colors.bg2
+                            }}>
                             <View style={{ flexDirection: "row" }}>
                                 <MaterialIcons name="medication" size={44} color={Colors.secondary} style={{ alignSelf: "center" }} />
                                 <View style={{ justifyContent: "flex-start", marginHorizontal: Sizes.h2 }}>
-                                    <Text style={{ fontWeight: "500", fontSize: Sizes.h5, marginBottom: Sizes.p1, color: Colors.text }}>
+                                    <Text style={{
+                                        fontWeight: "500",
+                                        fontSize: Sizes.h5,
+                                        marginBottom: Sizes.p1,
+                                        color: Colors.text
+                                    }}>
                                         {record.item}
                                     </Text>
 
@@ -281,7 +296,7 @@ export default function Treatments() {
                                 onPress={() => handleRemoveTreatment(record.id)}
                                 style={{ marginRight: Sizes.h4 }}
                             >
-                                <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                <MaterialIcons name="delete-outline" size={Sizes.h2} color={Colors.delete} />
                             </TouchableOpacity>
                         </View>
                     ))}

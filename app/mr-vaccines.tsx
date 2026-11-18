@@ -31,8 +31,16 @@ export default function Vaccines() {
 
                 <View style={{ flex: 1, paddingTop: Sizes.h1 + Sizes.h3 }}>
                     <TouchableOpacity
-                        style={{ flex: 1, flexDirection: "row", justifyContent: "center", backgroundColor: Colors.primary, height: Buttons.height, alignItems: "center", borderRadius: Sizes.p3 + Sizes.p1, marginBottom: Sizes.h1 + Sizes.h3 }}
-                        accessibilityRole="button"
+                        style={{
+                            flex: 1,
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            backgroundColor: Colors.primary,
+                            height: Buttons.height,
+                            alignItems: "center",
+                            borderRadius: Sizes.p3,
+                            marginBottom: Sizes.h1 + Sizes.h3
+                        }}
                         onPress={() =>
                             router.push({
                                 pathname: "/mr-search-history",
@@ -61,7 +69,16 @@ export default function Vaccines() {
                         {records.map((record) => (
                             <View
                                 key={record.id}
-                                style={{ paddingHorizontal: Sizes.h4, paddingVertical: Sizes.h2, marginBottom: Sizes.p2, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderRadius: Sizes.p3 + Sizes.p1, backgroundColor: Colors.bg2 }}
+                                style={{
+                                    paddingHorizontal: Sizes.h4,
+                                    paddingVertical: Sizes.h2,
+                                    marginBottom: Sizes.p2,
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    justifyContent: "space-between",
+                                    borderRadius: Sizes.p3,
+                                    backgroundColor: Colors.bg2
+                                }}
                             >
                                 <MaterialIcons name="vaccines" size={Sizes.IconLg} color={Colors.secondary} />
                                 <View style={{ flex: 1, paddingHorizontal: Sizes.h4 }}>
@@ -76,7 +93,7 @@ export default function Vaccines() {
                                 <TouchableOpacity
                                     onPress={() => deleteRecord(record.id)}
                                     style={{ marginRight: Sizes.h4 }} >
-                                    <MaterialIcons name="delete-outline" size={28} color="#D9534F" />
+                                    <MaterialIcons name="delete-outline" size={Sizes.h2} color={Colors.delete} />
                                 </TouchableOpacity>
                             </View>
                         ))}

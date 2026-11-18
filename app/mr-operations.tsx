@@ -40,7 +40,6 @@ export default function Operations() {
                             alignItems: "center",
                             borderRadius: Sizes.p3
                         }}
-                        accessibilityRole="button"
                         onPress={() => router.push({
                             pathname: "/mr-search-history",
                             params: { category: "operations" },
