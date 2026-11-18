@@ -2,6 +2,9 @@ import { useRegister } from "@/src/hooks/useRegister";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useTranslation } from "react-i18next";
+import { toLocalIsoDate } from "@/src/utils/dateTime";
+import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
@@ -28,6 +31,19 @@ export default function RegisterPage() {
   } = useRegister();
 
   const { t } = useTranslation();
+  const [showPicker, setShowPicker] = useState(false);
+  const [year, month, day] = dateOfBirth ? dateOfBirth.split("-") : [];
+  const displayDate = dateOfBirth ? `${day}/${month}/${year}` : "";
+
+  const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+    if (event.type === "dismissed") {
+      setShowPicker(false);
+      return;
+    }
+
+    if (selectedDate) setDateOfBirth(toLocalIsoDate(selectedDate.toISOString()));
+    if (Platform.OS !== "ios") setShowPicker(false);
+  };
 
 
   return (
@@ -86,13 +102,25 @@ export default function RegisterPage() {
         />
 
         <Text className="mt-5 text-[16px] font-medium text-black">{t(`register.birth`)}</Text>
-        <TextInput
-          value={dateOfBirth}
-          onChangeText={setDateOfBirth}
-          placeholder={t(`register.bDate`)}
-          placeholderTextColor="#7A8A8D"
-          className="mt-2 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
-        />
+       <Pressable
+          onPress={() => setShowPicker((open) => !open)}
+          className="mt-2 h-[50px] justify-center rounded-[14px] border border-[#0D5175] bg-white px-4"
+        >
+          <Text className={`text-[16px] ${displayDate ? "text-black" : "text-[#7A8A8D]"}`}>
+            {displayDate || t(`register.bDate`)}
+          </Text>
+        </Pressable>
+
+        {showPicker && (
+          <DateTimePicker
+            value={dateOfBirth ? new Date(`${dateOfBirth}T00:00:00`) : new Date(2000, 0, 1)}
+            mode="date"
+            display="spinner"
+            onChange={handleDateChange}
+            minimumDate={new Date(1900, 0, 1)}
+            maximumDate={new Date()}
+          />
+        )}
 
         <Text className="mt-5 text-[16px] font-medium text-black">{t(`register.phone`)}</Text>
         <TextInput

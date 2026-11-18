@@ -2,13 +2,14 @@ import ScreenHeader from "@/components/screen-header";
 import SpecialityContainer from "@/components/speciality-container";
 
 import { Buttons, Colors, Sizes } from "@/constants/theme";
-import { useLocalSearchParams } from "expo-router";
+import { useProfile } from "@/src/hooks/useProfile";
+import { router, useLocalSearchParams } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 export default function SpecialistPage() {
 
   const { t } = useTranslation();
+    const { gp } = useProfile();
 
   const { specialty } = useLocalSearchParams<{
     specialty?: string;
@@ -32,6 +33,22 @@ export default function SpecialistPage() {
   return (
     <ScrollView style={styles.page}>
       <ScreenHeader title={t(`book-appointment.${specialtyTitle}`)} />
+
+      {specialtyTitle === "GP" ? (
+        <View style={styles.gpRow}>
+          <Text style={styles.gpText}>
+            {t(`specialist-page.yourGp`)} {gp?.full_name ?? t(`specialist-page.noGp`)}
+          </Text>
+          <Pressable
+            style={styles.changeGpButton}
+            accessibilityRole="button"
+            onPress={() => router.push("/choose-gp")}
+          >
+            <Text style={styles.changeGpText}>{t(`specialist-page.changeGp`)}</Text>
+          </Pressable>
+        </View>
+      ) : null}
+
       <SpecialityContainer specialty={String(specialty)} />
     </ScrollView>
   );
@@ -66,5 +83,28 @@ const styles = StyleSheet.create({
   },
   headerSpacer: {
     width: Sizes.IconLg - 2,
+  },
+   gpRow: {
+    marginHorizontal: Sizes.p2,
+    marginTop: Sizes.p3,
+  },
+  gpText: {
+    fontSize: Sizes.paragraph,
+    color: Colors.text,
+    marginBottom: Sizes.p2,
+  },
+  changeGpButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.bg2,
+    borderWidth: Buttons.w1,
+    borderColor: Colors.secondary,
+    height: Buttons.height,
+    borderRadius: Sizes.sm,
+  },
+  changeGpText: {
+    color: Colors.secondary,
+    fontSize: Sizes.paragraph,
+    fontWeight: "500",
   },
 });

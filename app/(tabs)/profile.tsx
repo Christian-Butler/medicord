@@ -93,9 +93,8 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const { fullName, email, phone, dob, avatarUrl, gp, handleEditAvatar } = useProfile();
   const { t } = useTranslation();
-  console.log('[ProfilePage] avatarUrl:', avatarUrl);
+  
 
   return (
     <SafeAreaView edges={["top"]}
@@ -217,12 +216,6 @@ export default function ProfilePage() {
         <ProfileRow icon="phone" title="Phone number" subtitle={phone} onPress={() => router.push("/security-details")} />
         <ProfileRow icon="mail-outline" title="Email address" subtitle={email} onPress={() => router.push("/security-details")} />
         <ProfileRow icon="lock-outline" title="Security details" onPress={() => router.push("/security-details")} />
-        <ProfileRow
-          icon="local-hospital"
-          title="Your GP"
-          subtitle={gp?.full_name ?? t(`profile.No GP chosen`)}
-          onPress={() => router.push("/choose-gp")}
-        />
 
         <SectionTitle title={t(`profile.Other settings`)} />
         <View
