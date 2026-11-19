@@ -1,6 +1,7 @@
 import { toLocalDay } from "@/src/libs/medicationCalender";
 import type { Medication, MedicationFrequency, MedicationInput } from "@/src/types/medicationTypes";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import { useMedicineSuggestions } from "@/src/hooks/useMedicineSuggestions";
 import { Check, ChevronDown, Plus } from "lucide-react-native";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -37,6 +38,8 @@ export default function MedicationForm({
   onSubmit,
 }: MedicationFormProps) {
   const [name, setName] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const { suggestions } = useMedicineSuggestions(name);
   const [showPicker, setShowPicker] = useState<DatePickerTarget | null>(null);
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [dateEnd, setDateEnd] = useState<Date>(new Date());
@@ -173,16 +176,31 @@ export default function MedicationForm({
       {/* Name */}
       <Text className="mr-4 text-[20px] font-medium text-black">{t(`medication-form.title`)}</Text>
 
-      <TextInput
+        <TextInput
         value={name}
-        onChangeText={(v) => { setName(v); setLocalError(null); }}
+        onChangeText={(v) => { setName(v); setLocalError(null); setShowSuggestions(true); }}
         placeholder={t(`medication-form.placeholderName`)}
         placeholderTextColor="#7A8A8D"
         className="mt-3 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
       />
-      {visibleError ? (
-        <Text className="mt-2 text-[16px] text-[#B42318]">{visibleError}</Text>
-      ) : null}
+
+      
+      {showSuggestions && suggestions.length > 0 && (
+        <View className="mt-2 overflow-hidden rounded-[14px] border border-[#0D5175] bg-white">
+          {suggestions.map((medicine) => (
+            <Pressable
+              key={medicine.name}
+              onPress={() => { setName(medicine.name); setShowSuggestions(false); }}
+              className="min-h-[44px] justify-center border-b border-[#E3EBEF] px-4 py-2"
+            >
+              <Text className="text-[16px] text-black">{medicine.name}</Text>
+              {medicine.substance ? (
+                <Text className="text-[14px] text-[#7A8A8D]">{medicine.substance}</Text>
+              ) : null}
+            </Pressable>
+          ))}
+        </View>
+      )}
 
       {/* Duration */}
       <Text className="mt-7 mb-3 text-[20px] font-medium text-black">{t("Duration")}</Text>

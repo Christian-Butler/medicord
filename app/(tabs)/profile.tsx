@@ -87,6 +87,7 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { fullName, email, phone, dob, avatarUrl, handleEditAvatar } = useProfile();
   const { t } = useTranslation();
   
 

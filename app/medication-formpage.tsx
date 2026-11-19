@@ -9,7 +9,7 @@ export default function MedicationRoutinePage() {
   const { t } = useTranslation();
 
   return (
-    <ScrollView style={styles.page}>
+    <ScrollView style={styles.page} keyboardShouldPersistTaps="handled">
       <ScreenHeader title={t(`medication-formpage.title`)} />
       <MedicationFormContainer />
     </ScrollView>

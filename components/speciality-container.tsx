@@ -126,7 +126,7 @@ export default function SpecialityContainer({
               t(`speciality-container.availability`);
 
             const avatar = doctor.avatar_url || null;
-            const notYourGp = specialty === "GP" && doctor.id !== gp?.id;
+            
             return (
               <View key={doctor.id} style={styles.card}>
                 <View style={styles.doctorInfo}>
