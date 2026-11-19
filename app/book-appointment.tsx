@@ -23,6 +23,7 @@ import { useTranslation } from "react-i18next";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 
+// Renders the booking flow, including availability selection, confirmation, and success actions.
 export default function Booking() {
     const { doctorId, specialty, reason } = useLocalSearchParams<{
         doctorId?: string;
@@ -50,6 +51,8 @@ export default function Booking() {
 
     const now = new Date();
     const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+
+    // puts into split string YYYY-MM format the current date
     const [viewMonth, setViewMonth] = useState(() => {
         const date = new Date();
         if (date.getDay() === 0) {
@@ -58,6 +61,7 @@ export default function Booking() {
         return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
     });
 
+    // changes visible month and clears date or time selection from the previous month
     function changeMonth(delta: number) {
         const [year, month] = viewMonth.split("-").map(Number);
         const nextMonth = new Date(year, month - 1 + delta, 1);
@@ -75,6 +79,7 @@ export default function Booking() {
         refetch: refetchTimes,
     } = useAvailableTimes(doctorId ? String(doctorId) : undefined, selectedDate);
 
+    // validates the selected appointment details, creates the booking, and refreshes availability on failure.
     async function handleConfirmBooking() {
         if (!doctor && !doctorId) {
             setFormError(t(`book-appointment.missing`));

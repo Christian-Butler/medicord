@@ -12,6 +12,7 @@ import { FlatList, NativeScrollEvent, NativeSyntheticEvent, Pressable, Text, Tou
 
 const CONFIRMATIONS_STORAGE_KEY = "medication-reminder-confirmations";
 
+// uses intake windows when available, otherwise parses explicit hours
 function getScheduledTime(medication: {
   morning_intake?: string[] | null;
   noon_intake?: string[] | null;
@@ -29,6 +30,8 @@ function getScheduledTime(medication: {
 
   const scheduledHours = (medication.hours ?? [])
     .map((time) => {
+
+      // converts valid HH or HH:MM values to minutes after midnight.
       const matchTimeRegex = /^(\d{1,2})(?::(\d{2}))?$/.exec(time.trim());
       if (!matchTimeRegex) return null;
 
@@ -42,6 +45,7 @@ function getScheduledTime(medication: {
   return scheduledHours.length > 0 ? scheduledHours : [8 * 60];
 }
 
+// finds the first scheduled intake after the confirmation time.
 function getNextIntakeTime(times: number[], selectedDays: string[], after: number) {
   const dayIndexes: Record<string, number> = {
     Sun: 0,
@@ -56,6 +60,7 @@ function getNextIntakeTime(times: number[], selectedDays: string[], after: numbe
     selectedDays.map((day) => dayIndexes[day]).filter((day) => day !== undefined)
   );
 
+  // searching through the next week to find the next matching day and time.
   for (let dayOffset = 0; dayOffset <= 7; dayOffset += 1) {
     const targetDate = new Date(after);
     targetDate.setDate(targetDate.getDate() + dayOffset);
@@ -73,6 +78,7 @@ function getNextIntakeTime(times: number[], selectedDays: string[], after: numbe
   return after + 7 * 24 * 60 * 60 * 1000;
 }
 
+// formats the remaining duration as hours and minutes.
 function adjustCountdown(remainingMs: number) {
   const totalMinutes = Math.ceil(remainingMs / (60 * 1000));
   const hours = Math.floor(totalMinutes / 60);
@@ -80,6 +86,7 @@ function adjustCountdown(remainingMs: number) {
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
 }
 
+// displays active medications and tracks their next intake reminders.
 export default function MedicationReminder() {
   const { medications, loading, error, refetch } = useMedicationList();
   const [activeIndex, setActiveIndex] = useState(0);
@@ -133,6 +140,7 @@ export default function MedicationReminder() {
     return () => clearInterval(timer);
   }, []);
 
+  // saves the confirmation time and updates the countdown
   async function confirmMedication(medicationId: number) {
     const confirmedAt = Date.now();
     const updated = { ...confirmations, [medicationId]: confirmedAt };
@@ -141,6 +149,7 @@ export default function MedicationReminder() {
     await AsyncStorage.setItem(CONFIRMATIONS_STORAGE_KEY, JSON.stringify(updated));
   }
 
+  // updates the active medication index after the carousel scrolls
   function handleScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
     const offsetX = event.nativeEvent.contentOffset.x;
     const nextIndex = Math.round(offsetX / (Sizes.width - 50));

@@ -37,6 +37,7 @@ const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", 
 
 const deviceLanguage = getLocales()[0].languageCode;
 
+// no use of toISOString to avoid UTC, instead keep locale date to string
 const Iso = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -44,6 +45,9 @@ const Iso = (date: Date): string => {
     return `${year}-${month}-${day}`;
 };
 
+// split year and month into two numbers.
+// if the viewed month is the current month, it jumps to current week.
+// if the current day is Sunday, move to Monday.
 const getFirstWeekDate = (month: string) => {
     const [year, monthNumber] = month.split("-").map(Number);
     const date = new Date(year, monthNumber - 1, 1);
@@ -59,6 +63,9 @@ const getFirstWeekDate = (month: string) => {
     return date;
 };
 
+// T00 etc.. to parse to midnight locale time otherwise it would be UTC.
+
+// if date not selected and today is Sunday, Sunday is skipped.
 const getInitialDate = (selectedDate?: string) => {
     const date = selectedDate
         ? new Date(`${selectedDate}T00:00:00`)
@@ -69,22 +76,31 @@ const getInitialDate = (selectedDate?: string) => {
     return date;
 };
 
+// comparing string dates
 const isSameDay = (first: Date, second: Date) =>
     first.toDateString() === second.toDateString();
 
+//baseDate is React state and setDate mutates the date.
+// getDay() + 6) % 7 shifs the week to make Monday = 0 and Sunday = 6
+// numbers of days to go back to Monday
 const getWeekDays = (baseDate: Date): DayItem[] => {
     const startOfWeek = new Date(baseDate);
     const daysSinceMonday = (baseDate.getDay() + 6) % 7;
     startOfWeek.setDate(baseDate.getDate() - daysSinceMonday);
 
+    // Today based on midnight to help estimate past days in whole 24h format.
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 6 items with callback at each index
+    // Inside each day is startOfWeek and index days set to midnight.
     return Array.from({ length: 6 }, (_, index) => {
         const date = new Date(startOfWeek);
         date.setDate(startOfWeek.getDate() + index);
         date.setHours(0, 0, 0, 0);
         let dateName;
+
+        // shortning day names + taking in account device locale language for the change.
         if (deviceLanguage == "en") {
             dateName = date.toLocaleDateString("en-GB", { weekday: 'narrow' })
         } else if (deviceLanguage == "fr") {
@@ -108,14 +124,16 @@ const WeeklyCalendar = ({
     onSelectDate,
     viewMonth,
 }: WeeklyCalendarProps) => {
+
+    // to run on first render only
     const [currentDate, setCurrentDate] = useState(() =>
         viewMonth ? getFirstWeekDate(viewMonth) : getInitialDate(selectedDate)
     );
-
     const [selectedDayIso, setSelectedDayIso] = useState<string | null>(
         selectedDate ?? null
     );
 
+    // selectedDate changes ? updates the selected day or clears it.
     useEffect(() => {
         if (selectedDate) {
             setSelectedDayIso(selectedDate);
@@ -125,9 +143,9 @@ const WeeklyCalendar = ({
         }
     }, [selectedDate]);
 
+    // if parent changes viewMonth it jumps to 1st week of next month
     useEffect(() => {
         if (!viewMonth) return;
-        if (selectedDate?.slice(0, 7) === viewMonth) return;
         setCurrentDate(getFirstWeekDate(viewMonth));
     }, [selectedDate, viewMonth]);
 
@@ -152,6 +170,10 @@ const WeeklyCalendar = ({
         }
     }, [startOfWeek, endOfWeek]);
 
+
+    // using (prev) function is safer because the new date depends on an old one.
+    // copies the date, then adds delta days
+    // setSelectedDayIso(null) clears the selected day on change of week.
     const goToWeek = (delta: number) => {
         setCurrentDate((prev) => {
             const next = new Date(prev);
