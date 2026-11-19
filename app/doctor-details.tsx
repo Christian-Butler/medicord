@@ -163,19 +163,18 @@ export default function DoctorDetails() {
           router.push("/specialist-page");
         }}
         onContinue={handleGpContinue}
-        onClose={() => setShowGpOverlay(false)}
       />
 
       <FirstTimeBookingOverlay
         visible={showFirstTimeOverlay}
         onNewPatient={handleFirstTimeConfirm}
         onReturningPatient={handleFirstTimeConfirm}
-        onClose={() => setShowFirstTimeOverlay(false)}
       />
 
       <AppointmentReasonOverlay
         visible={showReasonOverlay}
         selectedReasons={selectedReasons}
+        specialty={doctorProfession}
         onToggleReason={handleToggleReason}
         onConfirm={handleReasonConfirm}
         onClose={() => setShowReasonOverlay(false)}

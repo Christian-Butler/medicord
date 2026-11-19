@@ -1,4 +1,5 @@
 import { searchDoctorsByName } from "@/src/api/doctors/api";
+import { useProfile } from "@/src/hooks/useProfile";
 import { router } from "expo-router";
 import { Search, Siren } from "lucide-react-native";
 import { useEffect, useState } from "react";
@@ -19,11 +20,19 @@ export default function FindDoctor() {
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [doctors, setDoctors] = useState<DoctorSearchResult[]>([]);
+  const { gp, loading: profileLoading } = useProfile();
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const trimmedSearchQuery = searchQuery.trim();
+
+    if (profileLoading) {
+      setDoctors([]);
+      setError(null);
+      setLoading(false);
+      return;
+    }
 
     if (!trimmedSearchQuery) {
       setDoctors([]);
@@ -36,7 +45,11 @@ export default function FindDoctor() {
         setLoading(true);
         setError(null);
         const results = await searchDoctorsByName(trimmedSearchQuery);
-        setDoctors(results as DoctorSearchResult[]);
+        setDoctors(
+          (results as DoctorSearchResult[]).filter(
+            (doctor) => doctor.specialty !== "GP" || doctor.id === gp?.id,
+          ),
+        );
       } catch (err) {
         setError(t(`find-doctor.noSearch`));
       }
@@ -46,7 +59,11 @@ export default function FindDoctor() {
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [searchQuery]);
+  }, [searchQuery, gp?.id, profileLoading]);
+
+  const visibleDoctors = gp
+    ? doctors.filter((doctor) => doctor.specialty !== "GP" || doctor.id === gp.id)
+    : doctors;
 
   const handleEmergencyCall = () => {
     Linking.openURL('tel:999');
@@ -131,7 +148,7 @@ export default function FindDoctor() {
           style={{
             fontSize: Sizes.paragraph,
             color: Colors.text,
-            marginLeft: Inputs.w1
+            marginLeft: Sizes.p0
           }}
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -154,7 +171,7 @@ export default function FindDoctor() {
       >{error}</Text> : null}
 
       {
-        !loading && !error && searchQuery.trim() && doctors.length === 0 ? (
+        !loading && !error && searchQuery.trim() && visibleDoctors.length === 0 ? (
           <Text
             style={{
               color: Colors.textMuted,
@@ -168,7 +185,7 @@ export default function FindDoctor() {
 
 
       {
-        doctors.map((doctor) => (
+        visibleDoctors.map((doctor) => (
           <Pressable
             key={doctor.id}
             style={{

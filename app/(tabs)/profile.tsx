@@ -62,7 +62,7 @@ function ProfileRow({ icon, title, subtitle, destructive = false, onPress }: Pro
               color: Colors.textMuted,
               marginTop: Sizes.p0,
             }}
-            >{subtitle}</Text>
+          >{subtitle}</Text>
         ) : null}
       </View>
 
@@ -93,8 +93,10 @@ function SectionTitle({ title }: { title: string }) {
 export default function ProfilePage() {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const { fullName, email, phone, dob, avatarUrl, gp, handleEditAvatar } = useProfile();
+  console.log('[ProfilePage] avatarUrl:', avatarUrl);
   const { t } = useTranslation();
-  
+
 
   return (
     <SafeAreaView edges={["top"]}

@@ -1,7 +1,7 @@
 import WeeklyCalendar from "@/components/calendar";
 import HoursBooking from "@/components/hours-select";
 import ScreenHeader from "@/components/screen-header";
-import BookingSuccessOverlay from "@/components/success-booking";
+import UpdateAppointmentSuccessOverlay from "@/components/updated-booking-overlay";
 import { Colors, Sizes } from "@/constants/theme";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
@@ -43,7 +43,7 @@ export default function EditAppointment() {
   const { update, updating, updateError } = useUpdateAppointment();
   const [isChecked, setChecked] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
-  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+  const [updateAppointmentOverlay, setUpdateAppointmentOverlay] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
@@ -83,7 +83,7 @@ export default function EditAppointment() {
     refetch: refetchTimes,
   } = useAvailableTimes(appointment?.doctor_id ?? undefined, selectedDate || null);
 
-  // the appointment's own slot is "booked" by itself, so add it back on its original day
+
   const originalDate = appointment ? toLocalIsoDate(appointment.starts_at) : null;
   const originalTime = appointment ? toTimeValue(appointment.starts_at) : null;
   const availableTimes =
@@ -129,7 +129,7 @@ export default function EditAppointment() {
         endsAt,
       });
       setUpdatedAppointment(updated);
-      setShowSuccessOverlay(true);
+      setUpdateAppointmentOverlay(true);
     } catch (err) {
       console.error("[EditAppointment] update failed:", err);
       setSelectedTime("");
@@ -178,9 +178,11 @@ export default function EditAppointment() {
 
         <View style={styles.calendarContainer}>
           <WeeklyCalendar
+            viewMonth={viewMonth}
             selectedDate={selectedDate || undefined}
             onSelectDate={(date) => {
               setSelectedDate(date);
+              setViewMonth(date.slice(0, 7));
               setSelectedTime("");
               setFormError(null);
             }}
@@ -237,11 +239,11 @@ export default function EditAppointment() {
         </Pressable>
       </ScrollView>
 
-      <BookingSuccessOverlay
-        visible={showSuccessOverlay}
+      <UpdateAppointmentSuccessOverlay
+        visible={updateAppointmentOverlay}
         onAddToCalendar={() => { if (updatedAppointment) addToCalendar(updatedAppointment); }}
         onGoHome={() => {
-          setShowSuccessOverlay(false);
+          setUpdateAppointmentOverlay(false);
           router.replace("/(tabs)");
         }}
       />

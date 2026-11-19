@@ -1,3 +1,4 @@
+import { Colors, Inputs, Sizes } from "@/constants/theme";
 import { useDoctor } from "@/src/hooks/useDoctor";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
 import { useToggleFavourite } from "@/src/hooks/useToggleFavorite";
@@ -24,8 +25,8 @@ function StarButton({ doctorId }: { doctorId: string }) {
         >
             <MaterialIcons
                 name={isFavourite ? "bookmark" : "bookmark-border"}
-                size={28}
-                color="#E7BF3C"
+                size={Sizes.h1}
+                color={Colors.info}
             />
         </TouchableOpacity>
     );
@@ -38,41 +39,91 @@ export default function DoctorHeader({ name, profession, doctorId }: DoctorHeade
     const { t } = useTranslation();
 
     return (
-        <View className="bg-white border-b border-[#09516D]">
-            <View className="items-center justify-between px-3 pt-8 pb-4">
-                <View className="items-center">
+        <View
+            style={{
+                backgroundColor: Colors.bg2,
+                borderBottomWidth: Inputs.w0,
+                borderColor: Colors.secondary
+            }}>
+            <View
+                className=" flex-row justify-end">
+                <View
+                    style={{
+                        paddingHorizontal: Sizes.h2,
+                        paddingVertical: Sizes.paragraph
+                    }}
+                    className="items-center">
                     {avatar ? (
-                        <Image source={{ uri: avatar }} className="h-14 w-14 rounded-full" />
+                        <Image
+                            source={{ uri: avatar }}
+                            style={{
+                                height: Sizes.imgNm,
+                                width: Sizes.imgNm,
+                                borderRadius: Sizes.boxS
+                            }}
+                        />
                     ) : (
-                        <View className="h-14 w-14 rounded-full bg-[#D7E8ED]" />
+                        <View
+                            style={{
+                                height: Sizes.imgNm,
+                                width: Sizes.imgNm,
+                                borderRadius: Sizes.boxS,
+                                backgroundColor: Colors.bg1
+                            }} />
                     )}
                     <View style={styles.favorite}>
-                        <Text className="ml-7 mr-7 text-2xl font-regular text-black">
+                        <Text
+                            style={{
+                                marginTop: Sizes.p0,
+                                textAlign: "center",
+                                fontSize: Sizes.h3,
+                                color: Colors.text
+                            }}>
                             {name}
                         </Text>
-                        {doctorId ? <StarButton doctorId={String(doctorId)} /> : null}
+
                     </View>
-                    <Text className="ml-7 mr-7 text-xl font-medium text-black">
+                    <Text
+                        style={{
+                            textAlign: "center",
+                            fontSize: Sizes.h5,
+                            fontWeight: "400",
+                            color: Colors.text
+                        }}>
                         {t(`doctor-details-header.${profession}`)}
                     </Text>
                 </View>
-                <View className="justify-between mt-6 px-4 mb-2 items-center">
+                <View
+                    style={{
+                        justifyContent: "center",
+                        paddingHorizontal: Sizes.h2
+                    }}>
+                    <View
+                        style={{
+                            paddingTop: Sizes.IconXL
+                        }} />
+                    {doctorId ?
+                        <StarButton doctorId={String(doctorId)}
+                        /> : null}
+                </View>
+                {/*  <View className="justify-between mt-6 px-4 mb-2 items-center">
                     <View style={styles.newPatient}>
                         <TouchableOpacity>
-                            <MaterialIcons name="person-add" size={44} color="#0D5175" className="pr-2" />
+                            <MaterialIcons name="person-add" size={Sizes.IconLg} color={Colors.secondary} className="pr-2" />
                         </TouchableOpacity>
                         <Text>{t(`doctor-details-header.accepts`)}</Text>
                     </View>
                 </View>
+                */}
             </View>
+
         </View >
     );
 }
 
 const styles = StyleSheet.create({
     favorite: {
-        marginLeft: '6%',
-        flexDirection: 'row',
+        alignContent: "center",
     },
     newPatient: {
         flexDirection: 'row',

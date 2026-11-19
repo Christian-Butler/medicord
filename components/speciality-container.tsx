@@ -9,7 +9,7 @@ import { router } from "expo-router";
 import { Search } from "lucide-react-native";
 import React, { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import { Image, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View, } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import WeeklyCalendar from "./calendar";
 
@@ -40,6 +40,7 @@ export default function SpecialityContainer({
   specialty,
 }: SpecialityContainerProps) {
   const { doctors, loading, error } = useDoctorsBySpecialty(specialty);
+  const { gp } = useProfile();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [timedQuery, setTimedQuery] = useState("");
@@ -113,9 +114,9 @@ export default function SpecialityContainer({
           <Text style={styles.statusText}>
             {searchQuery.trim()
               ? t(
-                  `specialty-container.noDoctors`,
-                  "No doctors found matching your search.",
-                )
+                `specialty-container.noDoctors`,
+                "No doctors found matching your search.",
+              )
               : t(`speciality-container.noDoctor`)}
           </Text>
         ) : null}
@@ -170,7 +171,8 @@ export default function SpecialityContainer({
 
                     <Pressable
                       style={styles.containerButton}
-                      accessibilityRole="button"
+                      className={notYourGp ? "opacity-60" : ""}
+                      disabled={notYourGp}
                       onPress={() =>
                         router.push({
                           pathname: "/doctor-details",
@@ -181,6 +183,7 @@ export default function SpecialityContainer({
                             specialty: doctor.specialty ?? specialty,
                           },
                         })
+
                       }>
                       <Text
                         style={{

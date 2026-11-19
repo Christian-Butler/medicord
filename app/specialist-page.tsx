@@ -9,7 +9,7 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 export default function SpecialistPage() {
 
   const { t } = useTranslation();
-    const { gp } = useProfile();
+  const { gp } = useProfile();
 
   const { specialty } = useLocalSearchParams<{
     specialty?: string;
@@ -41,7 +41,6 @@ export default function SpecialistPage() {
           </Text>
           <Pressable
             style={styles.changeGpButton}
-            accessibilityRole="button"
             onPress={() => router.push("/choose-gp")}
           >
             <Text style={styles.changeGpText}>{t(`specialist-page.changeGp`)}</Text>
@@ -84,26 +83,25 @@ const styles = StyleSheet.create({
   headerSpacer: {
     width: Sizes.IconLg - 2,
   },
-   gpRow: {
+  gpRow: {
     marginHorizontal: Sizes.p2,
     marginTop: Sizes.p3,
   },
   gpText: {
-    fontSize: Sizes.paragraph,
+    fontSize: Sizes.sm,
     color: Colors.text,
     marginBottom: Sizes.p2,
+    textAlign: "center"
   },
   changeGpButton: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: Colors.bg2,
-    borderWidth: Buttons.w1,
-    borderColor: Colors.secondary,
+    backgroundColor: Colors.primary,
     height: Buttons.height,
-    borderRadius: Sizes.sm,
+    borderRadius: Sizes.p3,
   },
   changeGpText: {
-    color: Colors.secondary,
+    color: Colors.bg2,
     fontSize: Sizes.paragraph,
     fontWeight: "500",
   },
