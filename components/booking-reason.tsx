@@ -12,6 +12,7 @@ type AppointmentReasonOverlayProps = {
   onClose?: () => void;
 };
 
+
 const specialtyReasons: Record<string, string[]> = {
   gp: [
     "Regular check-up",
@@ -123,6 +124,7 @@ export default function AppointmentReasonOverlay({
 
   const { t } = useTranslation();
   const reasons = getSpecialtyReasons(specialty);
+  const hasSelectedReason = selectedReasons.length > 0;
 
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -161,8 +163,11 @@ export default function AppointmentReasonOverlay({
             </View>
 
             <Pressable
-              onPress={onConfirm}
-              style={{ height: Sizes.BtnP - Sizes.p1, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, backgroundColor: Colors.primary }}>
+              disabled={!hasSelectedReason}
+              onPress={() => {
+                if (hasSelectedReason) onConfirm();
+              }}
+              style={{ height: Sizes.BtnP - Sizes.p1, width: "100%", alignItems: "center", justifyContent: "center", borderRadius: Sizes.p2, backgroundColor: Colors.primary, opacity: hasSelectedReason ? 1 : 0.45 }}>
               <Text style={{ fontSize: Sizes.sm + 1, fontWeight: "500", color: Colors.bg2 }}>
                 {t(`booking-reason.confirm`)}
               </Text>

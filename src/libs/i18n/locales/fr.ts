@@ -150,6 +150,7 @@ export const fr = {
         where: "Où",
         who: "Qui contacter",
         map: "Vérifier la localisation",
+        hideMap: "Masquer la carte",
         contact: "Qui contacter",
         number: "Numéro de téléphone du secrétariat du cabinet Benbury:",
         call: "Appeler",
@@ -173,7 +174,7 @@ export const fr = {
         "Glasnevin, Dublin 11": "Glasnevin, Dublin 11",
         "Stillorgan, Co. Dublin": "Stillorgan, Comté de Dublin",
         "Rathmines, Dublin 6": "Rathmines, Dublin 6",
-
+        "Ranelagh, Dublin 6": "Ranelagh, Dublin 6",
     },
     "first-patient-overlay": {
         query: "Est-ce votre premier rendez-vous avec ce.tte practicien.ne?",
@@ -222,7 +223,9 @@ export const fr = {
         "Diabetes or blood sugar concerns": "Diabète ou problème de glycémie",
         "Thyroid concerns": "Problème de thyroïde",
         "Hormone or metabolism concerns": "Problème hormonal ou métabolique",
+        "Ranelagh, Dublin 6": "Ranelagh, Dublin 6",
         confirm: "Confirmer la raison",
+        selectionRequired: "Veuillez sélectionner une raison avant de continuer.",
     },
     "gp-referral-overlay": {
         read: "À lire attentivement!",
@@ -603,6 +606,8 @@ export const fr = {
         "Doyle Family Practice": "Doyle Pratique Familiale",
         "Quinn Family Practice": "Quinn Pratique Familiale",
         "Murray Dental Studio": "Murray Studio Dentaire",
+        map: "Voir la localisation",
+        hideMap: "Masquer la carte",
         closest: "Disponibilité la plus proche: ",
     },
     "doctor-details-header": {

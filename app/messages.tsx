@@ -1,10 +1,9 @@
 import ChatList from "@/components/chat-list";
 import ScreenHeader from "@/components/screen-header";
-import { Colors, Inputs, Sizes } from "@/constants/theme";
-import { Search } from "lucide-react-native";
+import { Colors, Sizes } from "@/constants/theme";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Text, View } from "react-native";
+import { Text } from "react-native";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export default function Messages() {
@@ -14,10 +13,11 @@ export default function Messages() {
   return (
     <SafeAreaProvider style={{ flex: 1, backgroundColor: Colors.bg1 }}>
       <ScreenHeader title={t(`messages.title`)} />
+      {/* 
       <View
         style={{
           height: Inputs.height,
-          width: Sizes.width - 50,
+          width: Sizes.width - 40,
           marginBottom: Sizes.h5,
           alignSelf: "center",
           marginTop: Sizes.h5,
@@ -35,7 +35,8 @@ export default function Messages() {
           {t("messages.search")}
         </Text>
       </View>
-      <Text style={{ textAlign: "center", fontSize: Sizes.sm }}>{t("messages.contactInfo")}</Text>
+      */}
+      <Text style={{ marginTop: Sizes.h1, marginBottom: Sizes.h2, textAlign: "center", fontSize: Sizes.sm, color: Colors.textMuted }}>{t("messages.contactInfo")}</Text>
       <ChatList />
     </SafeAreaProvider>
   );

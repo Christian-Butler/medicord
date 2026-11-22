@@ -67,11 +67,11 @@ function getNextIntakeTime(times: number[], selectedDays: string[], after: numbe
     if (scheduledDays.size > 0 && !scheduledDays.has(targetDate.getDay())) continue;
 
     for (const time of times) {
-      const targetTime = new Date(after);
-      targetTime.setDate(targetDate.getDate());
-      targetTime.setMonth(targetDate.getMonth());
-      targetTime.setFullYear(targetDate.getFullYear());
-      targetTime.setHours(Math.floor(time / 60), time % 60, 0, 0);
+      const targetTime = new Date(
+        targetDate.getFullYear(),
+        targetDate.getMonth(),
+        targetDate.getDate(),
+        Math.floor(time / 60), time % 60, 0, 0);
       if (targetTime.getTime() > after) return targetTime.getTime();
     }
   }

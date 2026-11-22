@@ -150,6 +150,7 @@ export const en = {
         where: "Where to go",
         who: "Who to contact",
         map: "Check location",
+        hideMap: "Hide map",
         contact: "Who to contact",
         number: "Benbury's cabinet secretary number:",
         call: "Call",
@@ -173,6 +174,7 @@ export const en = {
         "Glasnevin, Dublin 11": "Glasnevin, Dublin 11",
         "Stillorgan, Co. Dublin": "Stillorgan, Co. Dublin",
         "Rathmines, Dublin 6": "Rathmines, Dublin 6",
+        "Ranelagh, Dublin 6": "Ranelagh, Dublin 6",
 
     },
     "first-patient-overlay": {
@@ -223,16 +225,17 @@ export const en = {
         "Thyroid concerns": "Thyroid concerns",
         "Hormone or metabolism concerns": "Hormone or metabolism concerns",
         confirm: "Confirm reason",
-        read: "Read carefully!",
-        requires: "This specialist requires a GP’s note.",
-        takeTo: "Take me to GP search page",
-        continue: "Continue with current booking",
+        selectionRequired: "Please select a reason before continuing.",
+        read: "Do you have a GP's note ?",
+        requires: "Before proceeding with the booking, verify that you have a GP's note",
+        takeTo: "Book appointment with my GP",
+        continue: "I have a GP's note",
     },
     "gp-referral-overlay": {
-        read: "Read carefully!",
-        requires: "This specialist requires a GP’s note.",
-        takeTo: "Take me to GP search page",
-        continue: "Continue with current booking",
+        read: "Do you have a GP's note ?",
+        requires: "Before proceeding with the booking, verify that you have a GP's note",
+        takeTo: "Book appointment with my GP",
+        continue: "I have a GP's note",
     },
     "success-booking": {
         title: "Your appointment has been successfully booked!",
@@ -606,6 +609,7 @@ export const en = {
         "Doyle Family Practice": "Doyle Family Practice",
         "Quinn Family Practice": "Quinn Family Practice",
         "Murray Dental Studio": "Murray Dental Studio",
+        "Ranelagh, Dublin 6": "Ranelagh, Dublin 6",
         closest: "Closest available slot: ",
     },
     "doctor-details-header": {
@@ -919,7 +923,7 @@ export const en = {
         query: "Are you sure you want to Disconnect ?",
         notice: "You can log back in anytime.",
         stay: " No, keep me logged in",
-        leave: "Yes, disconnect me"
+        leave: "Yes, log me out"
     },
     "delete-modal": {
         query: "Are you sure you want to Delete your account?",

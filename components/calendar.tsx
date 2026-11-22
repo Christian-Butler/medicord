@@ -33,7 +33,7 @@ const months = [
     "December",
 ];
 
-const mois = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"];
+const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
 
 const deviceLanguage = getLocales()[0].languageCode;
 
@@ -143,10 +143,15 @@ const WeeklyCalendar = ({
         }
     }, [selectedDate]);
 
-    // if parent changes viewMonth it jumps to 1st week of next month
+    // sets currentDate to the changed view month or changed selected day 
+    // otherwise goes to 1st week of view month
     useEffect(() => {
         if (!viewMonth) return;
-        setCurrentDate(getFirstWeekDate(viewMonth));
+        setCurrentDate(
+            selectedDate?.slice(0, 7) === viewMonth
+                ? new Date(`${selectedDate}T00:00:00`)
+                : getFirstWeekDate(viewMonth)
+        );
     }, [selectedDate, viewMonth]);
 
     const weekDays = useMemo(() => getWeekDays(currentDate), [currentDate]);

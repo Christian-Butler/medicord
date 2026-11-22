@@ -49,7 +49,7 @@ export default function DoctorHeader({ name, profession, doctorId }: DoctorHeade
                 className=" flex-row justify-end">
                 <View
                     style={{
-                        paddingHorizontal: Sizes.h2,
+                        paddingHorizontal: Sizes.IconLg,
                         paddingVertical: Sizes.paragraph
                     }}
                     className="items-center">

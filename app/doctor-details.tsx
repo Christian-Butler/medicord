@@ -3,7 +3,9 @@ import DoctorHeader from "@/components/doctor-details-header";
 import FirstTimeBookingOverlay from "@/components/first-patient-overlay";
 import GPOverlay from "@/components/gp-referral-overlay";
 import ScreenHeader from "@/components/screen-header";
+import { Colors } from "@/constants/theme";
 import { useDoctor } from "@/src/hooks/useDoctor";
+import { useProfile } from "@/src/hooks/useProfile";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,6 +21,7 @@ export default function DoctorDetails() {
   const { t } = useTranslation();
 
   const { doctor, loading, error } = useDoctor(doctorId ? String(doctorId) : undefined);
+  const { gp } = useProfile();
 
   const doctorName = doctor?.full_name || name || t("doctor-details.doctor");
   const doctorProfession = doctor?.specialty || specialty || t("doctor-details.specialist");
@@ -63,6 +66,7 @@ export default function DoctorDetails() {
   }
 
   function handleReasonConfirm() {
+    if (selectedReasons.length === 0) return;
     setShowReasonOverlay(false);
     router.push({
       pathname: "/book-appointment",
@@ -86,11 +90,11 @@ export default function DoctorDetails() {
 
         <View className="pt-4 pb-60 px-6">
           {loading ? (
-            <Text style={{ color: "#333", paddingBottom: 12 }}>{t(`doctor-details.loading`)}</Text>
+            <Text style={{ color: Colors.text, paddingBottom: 12 }}>{t(`doctor-details.loading`)}</Text>
           ) : null}
 
           {error ? (
-            <Text style={{ color: "#B42318", paddingBottom: 12 }}>{error}</Text>
+            <Text style={{ color: Colors.error, paddingBottom: 12 }}>{error}</Text>
           ) : null}
 
           {bio ? (
@@ -150,7 +154,10 @@ export default function DoctorDetails() {
         <Pressable
           style={styles.containerButton}
           accessibilityRole="button"
-          onPress={() => setShowReasonOverlay(true)}
+          onPress={() => {
+            setSelectedReasons([]);
+            setShowReasonOverlay(true);
+          }}
         >
           <Text style={styles.buttonText}>{t(`doctor-details.book`)}</Text>
         </Pressable>
@@ -158,9 +165,12 @@ export default function DoctorDetails() {
 
       <GPOverlay
         visible={showGpOverlay}
-        onGoToGpSearch={() => {
+        onGoToGp={() => {
           setShowGpOverlay(false);
-          router.push("/specialist-page");
+          router.push({
+            pathname: "/doctor-details",
+            params: { doctorId: gp!.id },
+          });
         }}
         onContinue={handleGpContinue}
       />
@@ -177,7 +187,10 @@ export default function DoctorDetails() {
         specialty={doctorProfession}
         onToggleReason={handleToggleReason}
         onConfirm={handleReasonConfirm}
-        onClose={() => setShowReasonOverlay(false)}
+        onClose={() => {
+          setSelectedReasons([]);
+          setShowReasonOverlay(false);
+        }}
       />
     </View>
   );

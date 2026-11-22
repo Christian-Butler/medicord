@@ -1,3 +1,4 @@
+import { Colors, Sizes } from "@/constants/theme";
 import { type Conversation } from "@/src/api/messages/api";
 import { useConversations } from "@/src/hooks/useConversation";
 import React from "react";
@@ -13,7 +14,7 @@ export default function ChatList() {
   if (loading) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[16px] text-[16px]lack">{t(`chat-list.loading`)}</Text>
+        <Text style={{ color: Colors.text, fontSize: Sizes.paragraph }}>{t(`chat-list.loading`)}</Text>
       </View>
     );
   }
@@ -21,7 +22,7 @@ export default function ChatList() {
   if (error) {
     return (
       <View className="flex-1 items-center justify-center">
-        <Text className="text-[16px] text-[#B42318]">{error}</Text>
+        <Text style={{ fontSize: Sizes.paragraph, color: Colors.error }}>{error}</Text>
       </View>
     );
   }
@@ -30,7 +31,7 @@ export default function ChatList() {
     <FlatList
       data={conversations}
       keyExtractor={(item) => item.id}
-      contentContainerStyle={{ flexGrow: 1, paddingVertical: 20 }}
+      contentContainerStyle={{ flexGrow: 1, paddingVertical: Sizes.h4 }}
       showsVerticalScrollIndicator={false}
       nestedScrollEnabled
       renderItem={({ item }) => <ChatItem item={item as Conversation} />}

@@ -81,6 +81,13 @@ export default function Booking() {
 
     // validates the selected appointment details, creates the booking, and refreshes availability on failure.
     async function handleConfirmBooking() {
+        const selectedReason = (Array.isArray(reason) ? reason.join(", ") : reason)?.trim();
+
+        if (!selectedReason) {
+            setFormError(t(`booking-reason.selectionRequired`));
+            return;
+        }
+
         if (!doctor && !doctorId) {
             setFormError(t(`book-appointment.missing`));
             return;
@@ -118,8 +125,7 @@ export default function Booking() {
                 doctorId: doctor?.id ?? String(doctorId),
                 gpId: null,
                 referralRequired: doctor?.requires_gp_referral ?? false,
-                reason: (Array.isArray(reason) ? reason.join(", ") : reason)?.trim()
-                    || `${doctor?.specialty ?? specialty ?? "Appointment"} consultation`,
+                reason: selectedReason,
                 startsAt,
                 endsAt,
                 title: `Appointment for ${profile.full_name}`,
@@ -143,7 +149,8 @@ export default function Booking() {
     }
 
     const visibleError = formError ?? doctorError ?? profileError ?? createError;
-    const confirm = Boolean(selectedDate && selectedTime && isChecked);
+    const selectedReason = (Array.isArray(reason) ? reason.join(", ") : reason)?.trim();
+    const confirm = Boolean(selectedDate && selectedTime && isChecked && selectedReason);
 
     const { t } = useTranslation();
 
