@@ -58,9 +58,17 @@
           }
         }
       ],
+      [
+        "expo-maps",
+        {
+          "requestLocationPermission": true,
+          "locationPermission": "Allow Medicord to use your location ?"
+        }
+      ],
       "@react-native-community/datetimepicker",
       "expo-localization",
-      "expo-notifications"
+      "expo-notifications",
+      "expo-maps"
     ],
     "experiments": {
       "typedRoutes": true,

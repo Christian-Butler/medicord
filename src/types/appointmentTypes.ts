@@ -33,6 +33,8 @@ export type Appointment = {
     clinic_name?: string | null;
     location?: string | null;
     avatar_url?: string | null;
+    latitude?: number | null;
+    longitude?: number | null;
   } | null;
   gps?: {
     id: string;

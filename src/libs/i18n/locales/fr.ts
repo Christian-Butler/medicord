@@ -60,7 +60,7 @@ export const fr = {
         "Ophthalmology": "Ophtalmologie",
         "Dermatology": "Dermatologie",
         "Gastroenterology": "Gastro-entérologie",
-        "Gynaecology": "Gynécologie",
+        "Gynecology": "Gynécologie",
         "Endocrinology": "Endocrinologie",
     },
     appointments: {
@@ -207,7 +207,7 @@ export const fr = {
         "Child vaccination or routine check-up": "Vaccination ou contrôle de routine de l'enfant",
         "Menstrual or pelvic concerns": "Problème menstruel ou pelvien",
         "Pregnancy or fertility advice": "Conseil concernant la grossesse ou la fertilité",
-        "Routine gynaecological check-up": "Contrôle gynécologique de routine",
+        "Routine gynecological check-up": "Contrôle gynécologique de routine",
         "Joint or bone pain": "Douleur articulaire ou osseuse",
         "Muscle or sports injury": "Blessure musculaire ou sportive",
         "Back or neck pain": "Douleur au dos ou au cou",

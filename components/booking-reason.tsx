@@ -54,7 +54,7 @@ const specialtyReasons: Record<string, string[]> = {
   gynecology: [
     "Menstrual or pelvic concerns",
     "Pregnancy or fertility advice",
-    "Routine gynaecological check-up",
+    "Routine gynecological check-up",
     "Other reasons",
   ],
   orthopaedics: [

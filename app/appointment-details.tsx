@@ -43,6 +43,8 @@ export default function AppointmentDetails() {
   const doctorName = doctor?.full_name ?? "Unknown doctor";
   const specialty = doctor?.specialty ?? "Specialist";
   const avatar = doctor?.avatar_url ?? fallbackAvatar;
+  const doctorLong = doctor?.longitude;
+  const doctorLat = doctor?.latitude;
 
   const location = appointment?.location ?? doctor?.location;
   const locationText = [
@@ -145,9 +147,10 @@ export default function AppointmentDetails() {
               <Text style={styles.sectionTitle}>{t(`appointment-details.where`)}</Text>
               <Text className="text-[16px] font-regular mb-6">{locationText}</Text>
 
-              {showMap ? <Map /> : null}
+              {showMap ? <Map
+                longitude={doctorLong}
+                latitude={doctorLat} /> : null}
               <Pressable
-                accessibilityRole="button"
                 accessibilityState={{ expanded: showMap }}
                 onPress={() => setShowMap((visible) => !visible)}
                 style={styles.outlineButton}

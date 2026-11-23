@@ -1,4 +1,4 @@
-import { useProfile } from '@/src/hooks/useProfile';
+import { Colors } from '@/constants/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
@@ -35,7 +35,6 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
   const snapPoints = useMemo(() => ['45%'], []);
 
   const { t } = useTranslation();
-  const { needsGp } = useProfile();
   const numColumns = 3;
 
   const renderBackdrop = (props: any) => (
@@ -104,19 +103,17 @@ export const BottomSheetHub = ({ bottomSheetRef }: Props) => {
       index={-1}
       backdropComponent={renderBackdrop}
       enablePanDownToClose
-      backgroundStyle={{ backgroundColor: '#EFF7F8' }}
+      backgroundStyle={{ backgroundColor: Colors.bg1 }}
     >
       <BottomSheetView style={styles.sheetContent}>
         <Text style={styles.title}>{t(`bottom-sheet.services`)}</Text>
-        {needsGp ? (
-          <Text style={styles.lockedNote}>{t(`bottom-sheet.chooseGp`)}</Text>
-        ) : null}
+
         <FlatList
           key={`services-${numColumns}`}
           style={{ width: "100%" }}
           data={services}
           renderItem={({ item }) => (
-            <ServiceButton {...item} disabled={needsGp} />
+            <ServiceButton {...item} />
           )}
           keyExtractor={(item) => item.label}
           numColumns={numColumns}
