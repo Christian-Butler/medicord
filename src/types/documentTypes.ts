@@ -26,4 +26,5 @@ export type DocumentUploadInput = {
   mimeType: string;
   size: number;
   category: DocumentCategory;
+  doctorId?: string;
 };

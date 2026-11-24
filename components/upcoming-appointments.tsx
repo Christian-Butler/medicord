@@ -137,7 +137,7 @@ export default function UpcomingAppointments() {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() =>
                   router.push({
-                    pathname: "/appointment-details" as never,
+                    pathname: "/appointment-details",
                     params: { appointmentId: item.id },
                   })
                 }>
