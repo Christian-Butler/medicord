@@ -26,8 +26,12 @@ const appointmentSelect = `
     full_name,
     specialty,
     clinic_name,
+    latitude,
+    longitude,
     location,
-    avatar_url
+    avatar_url,
+    working_days,
+    slot_minutes
   ),
   gps (
     id,
@@ -46,7 +50,7 @@ function toAppointmentError(error: { code?: string; message: string }) {
 }
 
 export async function createAppointment(
-  input: AppointmentInput
+  input: AppointmentInput,
 ): Promise<Appointment> {
   const userId = await getCurrentAppUserId();
 
@@ -130,7 +134,7 @@ export type UpdateAppointmentInput = {
 };
 
 export async function updateAppointment(
-  input: UpdateAppointmentInput
+  input: UpdateAppointmentInput,
 ): Promise<Appointment> {
   const userId = await getCurrentAppUserId();
 

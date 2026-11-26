@@ -120,7 +120,7 @@ export default function EditAppointment() {
       const startsAt = buildLocalIsoDateTime(selectedDate, selectedTime);
 
       const endsAt = new Date(
-        new Date(startsAt).getTime() + 30 * 60 * 1000
+        new Date(startsAt).getTime() + (appointment?.doctors?.slot_minutes ?? 30) * 60 * 1000
       ).toISOString();
 
       const updated = await update({
@@ -179,7 +179,8 @@ export default function EditAppointment() {
         <View style={styles.calendarContainer}>
           <WeeklyCalendar
             viewMonth={viewMonth}
-            selectedDate={selectedDate || undefined}
+            workingDays={appointment?.doctors?.working_days}
+            selectedDate={selectedDate ?? undefined}
             onSelectDate={(date) => {
               setSelectedDate(date);
               setViewMonth(date.slice(0, 7));

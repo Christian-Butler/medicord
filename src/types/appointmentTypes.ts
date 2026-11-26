@@ -35,6 +35,8 @@ export type Appointment = {
     avatar_url?: string | null;
     latitude?: number | null;
     longitude?: number | null;
+    working_days?: string[] | null;
+    slot_minutes?: number | null;
   } | null;
   gps?: {
     id: string;

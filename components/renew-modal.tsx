@@ -1,21 +1,61 @@
 import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Modal, Pressable, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, Modal, Platform, Pressable, Text, TextInput, View } from "react-native";
+
+export type RenewModalValues = {
+    reason: string;
+    periodStart: Date | null;
+    periodEnd: Date | null;
+};
 
 type RenewModalProps = {
     visible: boolean;
-    onConfirm: () => void;
+    loading?: boolean;
+    error?: string | null;
+    onConfirm: (values: RenewModalValues) => void;
     onClose: () => void;
 };
 
-export default function RenewModal({ visible, onConfirm, onClose }: RenewModalProps) {
+type DatePickerTarget = "start" | "end";
+
+export default function RenewModal({ visible, loading, error, onConfirm, onClose }: RenewModalProps) {
     const { t } = useTranslation();
 
     const [reason, setReason] = useState('');
-    const [start, setStart] = useState('');
-    const [end, setEnd] = useState('');
+    const [start, setStart] = useState<Date | null>(null);
+    const [end, setEnd] = useState<Date | null>(null);
+    const [showPicker, setShowPicker] = useState<DatePickerTarget | null>(null);
+
+    // Start empty each time the modal opens.
+    useEffect(() => {
+        if (visible) {
+            setReason('');
+            setStart(null);
+            setEnd(null);
+            setShowPicker(null);
+        }
+    }, [visible]);
+
+    const handleDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
+        if (event.type === "dismissed") {
+            setShowPicker(null);
+            return;
+        }
+
+        if (selectedDate && showPicker === "start") {
+            setStart(selectedDate);
+            if (end && end < selectedDate) setEnd(selectedDate);
+        } else if (selectedDate && showPicker === "end") {
+            setEnd(selectedDate);
+        }
+
+        if (Platform.OS !== "ios") {
+            setShowPicker(null);
+        }
+    };
 
 
     return (
@@ -48,7 +88,6 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                             onChangeText={setReason}
                             placeholder={t("renew-modal.reason")}
                             placeholderTextColor={Colors.textMuted}
-                            keyboardType="phone-pad"
                             style={{
                                 marginTop: Sizes.h1,
                                 height: Buttons.height,
@@ -63,12 +102,8 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                         />
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: Sizes.h4 }}>
-                        <TextInput
-                            value={start}
-                            onChangeText={setStart}
-                            placeholder={t("renew-modal.start")}
-                            placeholderTextColor={Colors.textMuted}
-                            keyboardType="phone-pad"
+                        <Pressable
+                            onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
                             style={{
                                 height: Buttons.height,
                                 width: 160,
@@ -77,16 +112,15 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                                 borderColor: Colors.textMuted,
                                 backgroundColor: Colors.bg2,
                                 paddingHorizontal: Sizes.h4,
-                                fontSize: Sizes.paragraph,
-                                color: Colors.text
+                                justifyContent: "center"
                             }}
-                        />
-                        <TextInput
-                            value={end}
-                            onChangeText={setEnd}
-                            placeholder={t("renew-modal.end")}
-                            placeholderTextColor={Colors.textMuted}
-                            keyboardType="phone-pad"
+                        >
+                            <Text style={{ fontSize: Sizes.paragraph, color: start ? Colors.text : Colors.textMuted }}>
+                                {start ? start.toLocaleDateString() : t("renew-modal.start")}
+                            </Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
                             style={{
                                 height: Buttons.height,
                                 width: 160,
@@ -95,13 +129,40 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                                 borderColor: Colors.textMuted,
                                 backgroundColor: Colors.bg2,
                                 paddingHorizontal: Sizes.h4,
-                                fontSize: Sizes.paragraph,
-                                color: Colors.text
+                                justifyContent: "center"
                             }}
-                        />
+                        >
+                            <Text style={{ fontSize: Sizes.paragraph, color: end ? Colors.text : Colors.textMuted }}>
+                                {end ? end.toLocaleDateString() : t("renew-modal.end")}
+                            </Text>
+                        </Pressable>
                     </View>
+                    <View style={{ alignItems: "center" }}>
+                        {showPicker === "start" && (
+                            <DateTimePicker
+                                value={start ?? new Date()}
+                                mode="date"
+                                display="spinner"
+                                onChange={handleDateChange}
+                                minimumDate={new Date()}
+                            />
+                        )}
+                        {showPicker === "end" && (
+                            <DateTimePicker
+                                value={end ?? start ?? new Date()}
+                                mode="date"
+                                display="spinner"
+                                onChange={handleDateChange}
+                                minimumDate={start ?? new Date()}
+                            />
+                        )}
+                    </View>
+                    {error ? (
+                        <Text style={{ marginTop: Sizes.p2, fontSize: Sizes.paragraph, color: Colors.error }}>{error}</Text>
+                    ) : null}
                     <Pressable
-                        onPress={onConfirm}
+                        onPress={() => onConfirm({ reason, periodStart: start, periodEnd: end })}
+                        disabled={loading}
                         style={{
                             marginTop: Sizes.h1,
                             height: Buttons.height,
@@ -111,7 +172,11 @@ export default function RenewModal({ visible, onConfirm, onClose }: RenewModalPr
                             backgroundColor: Colors.primary
                         }}
                     >
-                        <Text style={{ fontSize: Sizes.paragraph, fontWeight: "600", color: Colors.bg2 }}>{t("renew-modal.askDoctor")}</Text>
+                        {loading ? (
+                            <ActivityIndicator color={Colors.bg2} />
+                        ) : (
+                            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "600", color: Colors.bg2 }}>{t("renew-modal.askDoctor")}</Text>
+                        )}
                     </Pressable>
                 </View>
             </View>

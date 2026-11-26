@@ -75,7 +75,7 @@ export const en = {
         "Ophthalmology": "Ophthalmology",
         "Dermatology": "Dermatology",
         "Gastroenterology": "Gastroenterology",
-        "Gynecology": "Gynecology",
+        "Gynaecology": "Gynecology",
         "Endocrinology": "Endocrinology",
         locaUnavailable: "Location unavailable",
         details: "Check notes",
@@ -144,8 +144,6 @@ export const en = {
         "Endocrinology": "Endocrinology",
         transfer: "Share documents prior to appointment",
         import: "Import documents",
-        importing: "Importing document...",
-        documentsLoadFailed: "The documents couldn't be loaded.",
         when: "When it is",
         calendar: "Add to Calendar",
         modify: " Modify ",
@@ -315,10 +313,6 @@ export const en = {
         saving: "Saving...",
         confirm: "Confirm changes",
     },
-    "prescription-overlay": {
-        info: "The doctor has sent the prescription by email, please check your inbox!",
-        confirm: "I understand"
-    },
     "cancel-appointment-overlay": {
         query: "Do you want to postpone or cancel your appointment?",
         post: "Postpone my appointment",
@@ -483,7 +477,6 @@ export const en = {
         title: "Medicine's name",
         placeholderName: "Write the medication's name",
         until: "until",
-        endDateBeforeStart: "End date cannot be before start date.",
         weekly: "Weekly",
         daily: "Daily",
         timeWindow: "Time window",

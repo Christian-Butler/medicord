@@ -23,6 +23,7 @@ export default function RegisterPage() {
     phone, setPhone,
     email, setEmail,
     password, setPassword,
+    confirmPassword, setConfirmPassword,
     avatarUri,
     loading,
     error,
@@ -149,6 +150,15 @@ export default function RegisterPage() {
           onChangeText={setPassword}
           secureTextEntry
           placeholder={t(`register.createP`)}
+          placeholderTextColor="#7A8A8D"
+          className="mt-2 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
+        />
+        <Text className="mt-5 text-[16px] font-medium text-black">{t(`register.confirmPassword`)}</Text>
+        <TextInput
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+          placeholder={t(`register.repeatP`)}
           placeholderTextColor="#7A8A8D"
           className="mt-2 h-[50px] rounded-[14px] border border-[#0D5175] bg-white px-4 text-[16px] text-black"
         />
