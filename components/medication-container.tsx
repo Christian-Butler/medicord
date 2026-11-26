@@ -8,13 +8,15 @@ import { formatMedicationDuration } from "@/src/utils/medicationFormat";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { Plus } from "lucide-react-native";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Pressable, Text, View } from "react-native";
+import DeleteRoutine from "./delete-routine";
 
 export default function MedicationContainer() {
   const { medications, loading, error, refetch } = useMedicationList();
   const { deleteById, deleting, deleteError } = useDeleteMedication(refetch);
+  const [deleteMedication, setDeleteMedication] = useState<number | null>(null);
 
   const { t } = useTranslation();
   const { addToCalendar, adding } = useAddMedicationToCalendar();
@@ -30,9 +32,12 @@ export default function MedicationContainer() {
   const visibleError = error ?? deleteError;
   const sortedMedications = [...medications].sort((a, b) => a.id - b.id);
 
-  async function handleDeleteMedication(id: number) {
+  async function handleDeleteMedication() {
+    if (deleteMedication === null) return;
+
     try {
-      await deleteById(id);
+      await deleteById(deleteMedication);
+      setDeleteMedication(null);
     } catch (err) {
       console.error("[MedicationContainer] delete failed:", err);
     }
@@ -139,7 +144,7 @@ export default function MedicationContainer() {
                       <Pressable
                         className="items-center"
                         disabled={deleting}
-                        onPress={() => handleDeleteMedication(medication.id)}
+                        onPress={() => setDeleteMedication(medication.id)}
                       >
                         <MaterialIcons
                           name="delete-outline"
@@ -167,8 +172,8 @@ export default function MedicationContainer() {
                           {days.map((day) => (
                             <View
                               key={day}
-                              style={{ height: Sizes.h4, borderRadius: Sizes.p2, borderWidth: Buttons.w1, borderColor: Colors.secondary, paddingHorizontal: Sizes.p1 }}
-                              className="min-w-[40px] items-center justify-center bg-[#0D5175]"
+                              style={{ height: Sizes.h4, borderRadius: Sizes.p2, borderWidth: Buttons.w1, borderColor: Colors.secondary, backgroundColor: Colors.secondary, paddingHorizontal: Sizes.p1 }}
+                              className="min-w-[40px] items-center justify-center"
                             >
                               <Text
                                 style={{ fontSize: Sizes.sm }}
@@ -265,6 +270,11 @@ export default function MedicationContainer() {
         </View>
       ) : null
       }
+      <DeleteRoutine
+        visible={deleteMedication !== null}
+        onCancel={() => setDeleteMedication(null)}
+        onConfirm={handleDeleteMedication}
+      />
     </View >
   );
 }

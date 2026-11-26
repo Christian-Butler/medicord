@@ -310,6 +310,10 @@ export const fr = {
         saving: "Sauvegarde...",
         confirm: "Confirmer changements",
     },
+    "prescription-overlay": {
+        info: "Le médecin vous a envoyé la prescription par email, veuillez vérifier votre boîte de réception!",
+        confirm: "Je comprends"
+    },
     "cancel-appointment-overlay": {
         query: "Voulez-vous reporter ou annuler le rendez-vous?",
         post: "Reporter le rendez-vous",
@@ -476,6 +480,7 @@ export const fr = {
         title: "Nom du médicament",
         placeholderName: "Saisir le nom du médicament",
         until: "jusqu'au",
+        endDateBeforeStart: "La date de fin ne peut pas être antérieure à la date de début.",
         weekly: "Hebdomadaire",
         daily: "Quotidien",
         timeWindow: "Heures de prise",

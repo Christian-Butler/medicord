@@ -47,7 +47,7 @@ export default function DeleteModal({ visible, onCancel, onConfirm }: DeleteModa
                 console.error("[DeleteModal] delete failed:", err);
               }
             }}
-            style={{ marginTop: Sizes.h5, height: Sizes.BtnP, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3 + Sizes.p1, backgroundColor: Colors.delete }}
+            style={{ marginTop: Sizes.h5, height: Sizes.BtnP, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.delete }}
           >
             <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>
               {t(`delete-modal.leave`)}

@@ -315,6 +315,10 @@ export const en = {
         saving: "Saving...",
         confirm: "Confirm changes",
     },
+    "prescription-overlay": {
+        info: "The doctor has sent the prescription by email, please check your inbox!",
+        confirm: "I understand"
+    },
     "cancel-appointment-overlay": {
         query: "Do you want to postpone or cancel your appointment?",
         post: "Postpone my appointment",
@@ -479,6 +483,7 @@ export const en = {
         title: "Medicine's name",
         placeholderName: "Write the medication's name",
         until: "until",
+        endDateBeforeStart: "End date cannot be before start date.",
         weekly: "Weekly",
         daily: "Daily",
         timeWindow: "Time window",
