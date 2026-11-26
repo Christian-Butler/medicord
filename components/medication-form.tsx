@@ -39,8 +39,8 @@ export default function MedicationForm({
 }: MedicationFormProps) {
   const [name, setName] = useState("");
   const [showPicker, setShowPicker] = useState<DatePickerTarget | null>(null);
-  const [dateStart, setDateStart] = useState<Date>(new Date());
-  const [dateEnd, setDateEnd] = useState<Date>(new Date());
+  const [dateStart, setDateStart] = useState<Date>(() => toLocalDay(new Date()));
+  const [dateEnd, setDateEnd] = useState<Date>(() => toLocalDay(new Date()));
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   const [morningIntake, setMorningIntake] = useState<string[]>([]);
   const [noonIntake, setNoonIntake] = useState<string[]>([]);
@@ -79,8 +79,10 @@ export default function MedicationForm({
     setNoonIntake(medication.noon_intake ?? []);
     setEveningIntake(medication.evening_intake ?? []);
     setNoSpecificTime(medication.no_specific_time ?? false);
-    setDateStart(toLocalDay(medication.date_start ?? new Date()));
-    setDateEnd(toLocalDay(medication.date_end ?? new Date()));
+    const startDate = toLocalDay(medication.date_start ?? new Date());
+    const endDate = toLocalDay(medication.date_end ?? new Date());
+    setDateStart(startDate);
+    setDateEnd(endDate < startDate ? startDate : endDate);
     setFrequency((medication.frequency as MedicationFrequency) ?? null);
     setHours(medication.hours ?? []);
     setShowHourSelector((medication.hours ?? []).length > 0);
@@ -100,9 +102,16 @@ export default function MedicationForm({
     }
 
     if (selectedDate && showPicker === "start") {
-      setDateStart(selectedDate);
+      const nextStartDate = toLocalDay(selectedDate);
+      setDateStart(nextStartDate);
+      setDateEnd((currentEndDate) =>
+        currentEndDate < nextStartDate ? nextStartDate : currentEndDate
+      );
     } else if (selectedDate && showPicker === "end") {
-      setDateEnd(selectedDate);
+      const nextEndDate = toLocalDay(selectedDate);
+      if (nextEndDate >= dateStart) {
+        setDateEnd(nextEndDate);
+      }
     }
 
     if (Platform.OS !== "ios") {
@@ -140,6 +149,10 @@ export default function MedicationForm({
       setLocalError(t(`medication-form.nameMed`));
       return;
     }
+    if (dateEnd < dateStart) {
+      setLocalError(t("medication-form.endDateBeforeStart"));
+      return;
+    }
     setLocalError(null);
 
     await onSubmit({
@@ -165,6 +178,7 @@ export default function MedicationForm({
     selectedDays.some((day) => weekDays.includes(day)) &&
     dateStart &&
     dateEnd &&
+    dateEnd >= dateStart &&
     frequency
   );
 
@@ -224,6 +238,7 @@ export default function MedicationForm({
             mode="date"
             display="spinner"
             onChange={handleDateChange}
+            minimumDate={dateStart}
             maximumDate={new Date(2050, 11, 31)}
           />
         )}

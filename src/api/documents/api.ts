@@ -93,6 +93,7 @@ export async function uploadDocument(input: DocumentUploadInput): Promise<Medica
     .from("documents")
     .insert({
       user_id: userId,
+      doctor_id: input.doctorId ?? null,
       title: titleFromFileName(input.name),
       category: input.category,
       file_path: path,

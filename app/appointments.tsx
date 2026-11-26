@@ -1,4 +1,5 @@
 import CancelAppointmentOverlay from "@/components/cancel-appointment-overlay";
+import Prescription from "@/components/prescription-overlay";
 import ScreenHeader from "@/components/screen-header";
 import { Buttons, Colors, Sizes } from "@/constants/theme";
 import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
@@ -42,9 +43,10 @@ type AppointmentRowProps = {
   type: "upcoming" | "past";
   onModify?: () => void;
   onAddToCalendar?: () => void;
+  onPrescription?: () => void;
 };
 
-function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: AppointmentRowProps) {
+function AppointmentRow({ appointment, type, onModify, onAddToCalendar, onPrescription }: AppointmentRowProps) {
   const doctor = appointment.doctors;
   const doctorName = doctor?.full_name ?? "Unknown doctor";
   const specialty = doctor?.specialty ?? appointment.appointment_type ?? "";
@@ -175,7 +177,8 @@ function AppointmentRow({ appointment, type, onModify, onAddToCalendar }: Appoin
                 borderRadius: Sizes.p3,
                 backgroundColor: Colors.primary
               }}
-              className="self-end items-center justify-center">
+              className="self-end items-center justify-center"
+              onPress={onPrescription}>
               <Text
                 style={{
                   fontSize: Sizes.paragraph,
@@ -205,6 +208,7 @@ export default function Appointments() {
 
   const [selectedAppointmentForAction, setSelectedAppointmentForAction] =
     useState<Appointment | null>(null);
+  const [showPrescription, setShowPrescription] = useState(false);
 
   function closeAppointmentActionOverlay() {
     if (cancelling) return;
@@ -289,6 +293,7 @@ export default function Appointments() {
             key={appointment.id}
             appointment={appointment}
             type="past"
+            onPrescription={() => setShowPrescription(true)}
           />
         ))}
       </ScrollView>
@@ -299,6 +304,10 @@ export default function Appointments() {
         onClose={closeAppointmentActionOverlay}
         onPostpone={handlePostponeAppointment}
         onCancelAppointment={handleCancelAppointment}
+      />
+      <Prescription
+        visible={showPrescription}
+        onConfirm={() => setShowPrescription(false)}
       />
     </View>
   );

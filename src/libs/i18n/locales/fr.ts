@@ -140,10 +140,12 @@ export const fr = {
         "Ophthalmology": "Ophtalmologie",
         "Dermatology": "Dermatologie",
         "Gastroenterology": "Gastro-entérologie",
-        "Gynaecology": "Gynécologie",
+        "Gynecology": "Gynécologie",
         "Endocrinology": "Endocrinologie",
         transfer: "Partager des documents avant le rendez-vous",
         import: "Importer documents",
+        importing: "Importation du document...",
+        documentsLoadFailed: "Impossible de charger les documents.",
         when: "Quand",
         calendar: "Ajouter au Calendrier",
         modify: "Reporter",
@@ -307,6 +309,10 @@ export const fr = {
         notice: "En modifiant le rendez-vous, je confirme ma présence ce jour à cette heure. Je suis conscient.e qu'en manquant à ce rendez-vous, ou en n'informant pas d'une indisponibilité, je pourrais me retrouver sur la liste noire.",
         saving: "Sauvegarde...",
         confirm: "Confirmer changements",
+    },
+    "prescription-overlay": {
+        info: "Le médecin vous a envoyé la prescription par email, veuillez vérifier votre boîte de réception!",
+        confirm: "Je comprends"
     },
     "cancel-appointment-overlay": {
         query: "Voulez-vous reporter ou annuler le rendez-vous?",
@@ -474,6 +480,7 @@ export const fr = {
         title: "Nom du médicament",
         placeholderName: "Saisir le nom du médicament",
         until: "jusqu'au",
+        endDateBeforeStart: "La date de fin ne peut pas être antérieure à la date de début.",
         weekly: "Hebdomadaire",
         daily: "Quotidien",
         timeWindow: "Heures de prise",

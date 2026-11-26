@@ -3,15 +3,20 @@ import ScreenHeader from "@/components/screen-header";
 import { Colors, Sizes } from "@/constants/theme";
 import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import { useAppointment } from "@/src/hooks/useAppointment";
+import { useDocuments } from "@/src/hooks/useDocuments";
+import { useOpenDocument } from "@/src/hooks/useOpenDocument";
+import { useUploadDocument } from "@/src/hooks/useUploadDocument";
+import { chooseDocumentCategory, pickDocumentFile } from "@/src/libs/documentPicker";
 import {
   formatAppointmentDate,
   formatAppointmentTime,
 } from "@/src/utils/dateTime";
 import { MaterialIcons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import React, { useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import React, { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import {
+  Alert,
   Image,
   Pressable,
   ScrollView,
@@ -38,6 +43,9 @@ export default function AppointmentDetails() {
   } = useAppointment(appointmentId ? String(appointmentId) : undefined);
 
   const { addToCalendar, adding } = useAddAppointmentToCalendar();
+  const { documents, error: documentsError, refetch } = useDocuments();
+  const { upload, uploading } = useUploadDocument(refetch);
+  const { open, openingId } = useOpenDocument();
 
   const doctor = appointment?.doctors;
   const doctorName = doctor?.full_name ?? "Unknown doctor";
@@ -56,6 +64,41 @@ export default function AppointmentDetails() {
     .join(", ") || t("appointment-details.noLocation");
 
   const [showMap, setShowMap] = useState(false);
+  const doctorDocuments = useMemo(
+    () => appointment?.doctor_id
+      ? documents.filter((document) => document.doctor_id === appointment.doctor_id)
+      : [],
+    [appointment?.doctor_id, documents]
+  );
+
+  useFocusEffect(
+    useCallback(() => {
+      refetch().catch(() => { });
+    }, [refetch])
+  );
+
+  async function handleImportDocument() {
+    const category = await chooseDocumentCategory();
+    if (!category) return;
+
+    const file = await pickDocumentFile();
+    if (!file) return;
+
+    try {
+      await upload({
+        ...file,
+        category,
+        doctorId: appointment?.doctor_id ?? undefined,
+      });
+    } catch (err) {
+      Alert.alert(
+        t("mr-documents.failedTitle"),
+        err instanceof Error
+          ? err.message
+          : t("mr-documents.failed")
+      );
+    }
+  }
 
   const dateText = appointment
     ? formatAppointmentDate(appointment.starts_at)
@@ -101,9 +144,37 @@ export default function AppointmentDetails() {
 
               </Text>
 
-              <Pressable className="h-[50] w-[100%] rounded-[12px] items-center justify-center bg-[#5085A8]">
-                <Text className="font-medium text-[16px] color-[white]">{t(`appointment-details.import`)}</Text>
+              <Pressable
+                accessibilityRole="button"
+                disabled={uploading}
+                onPress={handleImportDocument}
+                className="h-[50] w-[100%] rounded-[12px] items-center justify-center bg-[#5085A8]"
+              >
+                <Text className="font-medium text-[16px] color-[white]">
+                  {t(uploading ? "appointment-details.importing" : "appointment-details.import")}
+                </Text>
               </Pressable>
+
+              {documentsError ? (
+                <Text style={styles.documentError}>
+                  {t("appointment-details.documentsLoadFailed")}
+                </Text>
+              ) : null}
+
+              {doctorDocuments.map((document) => (
+                <Pressable
+                  key={document.id}
+                  accessibilityRole="button"
+                  disabled={openingId === document.id}
+                  onPress={() => open(document)}
+                  style={styles.documentRow}
+                >
+                  <MaterialIcons name="description" size={Sizes.h4} color={Colors.secondary} />
+                  <Text numberOfLines={1} style={styles.documentTitle}>
+                    {document.title}
+                  </Text>
+                </Pressable>
+              ))}
             </View>
 
             <View style={styles.section}>
@@ -311,6 +382,22 @@ const styles = StyleSheet.create({
     color: Colors.text,
     lineHeight: 24,
     marginBottom: 10,
+  },
+  documentError: {
+    color: Colors.error,
+    fontSize: Sizes.sm,
+    marginTop: Sizes.p2,
+  },
+  documentRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: Sizes.p2,
+    paddingVertical: Sizes.p2,
+  },
+  documentTitle: {
+    flex: 1,
+    color: Colors.secondary,
+    fontSize: Sizes.paragraph,
   },
 
   postpone: {

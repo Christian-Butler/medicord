@@ -240,7 +240,7 @@ export default function ProfilePage() {
         </View>
 
         <SectionTitle title={t(`profile.Confidentiality`)} />
-        <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />
+        {/* <ProfileRow title="My preferences" onPress={() => router.push("/profile-preferences")} />*/}
         <ProfileRow title="Legal information" onPress={() => router.push("/profile-legal")} />
         <ProfileRow
           icon="logout"
@@ -250,7 +250,7 @@ export default function ProfilePage() {
 
 
         <View style={{
-          height: Buttons.height
+          height: Sizes.h1
         }} />
 
         <ProfileRow

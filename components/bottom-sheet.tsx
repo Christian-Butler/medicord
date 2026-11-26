@@ -1,4 +1,4 @@
-import { Colors } from '@/constants/theme';
+import { Colors, Sizes } from '@/constants/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import BottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet';
 import { useRouter } from 'expo-router';
@@ -19,7 +19,7 @@ const ServiceButton = ({ icon, label, onPress, disabled }: ServiceItem) => (
     onPress={onPress}
     disabled={disabled}
   >
-    <MaterialIcons name={icon} size={52} color="#5085A8" />
+    <MaterialIcons name={icon} size={52} color={Colors.primary} />
     <Text style={styles.serviceName}>{label}</Text>
   </TouchableOpacity>
 );
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     paddingTop: 28,
   },
   title: {
-    fontSize: 20,
+    fontSize: Sizes.h4,
     fontWeight: "400",
     textAlign: "center",
     marginBottom: 40,
@@ -154,14 +154,14 @@ const styles = StyleSheet.create({
     width: "33%",
   },
   serviceName: {
-    fontSize: 12,
+    fontSize: Sizes.p3,
     textAlign: "center",
-    color: "#333",
+    color: Colors.text,
     maxWidth: 80,
   },
   lockedNote: {
-    fontSize: 14,
-    color: "#333",
+    fontSize: Sizes.sm,
+    color: Colors.text,
     textAlign: "center",
     marginTop: -28,
     marginBottom: 24,
