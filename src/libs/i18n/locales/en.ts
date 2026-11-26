@@ -75,7 +75,7 @@ export const en = {
         "Ophthalmology": "Ophthalmology",
         "Dermatology": "Dermatology",
         "Gastroenterology": "Gastroenterology",
-        "Gynaecology": "Gynecology",
+        "Gynecology": "Gynecology",
         "Endocrinology": "Endocrinology",
         locaUnavailable: "Location unavailable",
         details: "Check notes",
@@ -140,7 +140,7 @@ export const en = {
         "Ophthalmology": "Ophthalmology",
         "Dermatology": "Dermatology",
         "Gastroenterology": "Gastroenterology",
-        "Gynaecology": "Gynecology",
+        "Gynecology": "Gynecology",
         "Endocrinology": "Endocrinology",
         transfer: "Share documents prior to appointment",
         import: "Import documents",
@@ -154,6 +154,8 @@ export const en = {
         contact: "Who to contact",
         number: "Benbury's cabinet secretary number:",
         call: "Call",
+        importing: "Importing document...",
+        documentsLoadFailed: "The documents couldn't be loaded.",
         "Beaumont Hospital": "Beaumont Hospital",
         "St James Hospital": "St James Hospital",
         "St Vincents Hospital": "St Vincents Hospital",
@@ -866,6 +868,10 @@ export const en = {
         conditions: "User General Conditions",
         privacy: "Protection policy on personal data",
         legalNotices: "Legal Notices",
+    },
+    "prescription-overlay": {
+        info: "The doctor has sent the prescription by email, please check your inbox!",
+        confirm: "I understand"
     },
     "prescription-renewal": {
         title: "Prescription renewal",

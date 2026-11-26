@@ -17,6 +17,8 @@ type WeeklyCalendarProps = {
     onSelectDate?: (date: string) => void;
     viewMonth?: string;
     workingDays?: string[] | null;
+    availableDates?: string[] | null;
+    onWeekChange?: (startDate: string) => void;
 };
 
 const months = [
@@ -137,6 +139,8 @@ const WeeklyCalendar = ({
     onSelectDate,
     viewMonth,
     workingDays,
+    availableDates,
+    onWeekChange,
 }: WeeklyCalendarProps) => {
     // to run on first render only
     const [currentDate, setCurrentDate] = useState(() =>
@@ -168,6 +172,11 @@ const WeeklyCalendar = ({
     }, [selectedDate, viewMonth]);
 
     const weekDays = useMemo(() => getWeekDays(currentDate), [currentDate]);
+    const weekStart = weekDays[0]?.iso;
+
+    useEffect(() => {
+        if (weekStart) onWeekChange?.(weekStart);
+    }, [weekStart, onWeekChange]);
 
     const startOfWeek = weekDays[0]?.date;
     const endOfWeek = weekDays[weekDays.length - 1]?.date;
@@ -219,21 +228,26 @@ const WeeklyCalendar = ({
                     const isOffDay = workingDays
                         ? !workingDays.includes(WEEKDAY_LABELS[dayItem.date.getDay()])
                         : false;
-                    const isInactive = dayItem.isPast || isOffDay;
+                    const notAvailable =
+                        availableDates !== null &&
+                        availableDates !== undefined &&
+                        !availableDates.includes(dayItem.iso);
+                    const isInactive =
+                        dayItem.isPast || isOffDay || notAvailable;
 
                     return (
                         <Pressable
                             key={dayItem.iso}
-                            disabled={dayItem.isPast}
+                            disabled={isInactive}
                             onPress={() => {
                                 setSelectedDayIso(dayItem.iso);
                                 onSelectDate?.(dayItem.iso);
                             }}
-                            style={[styles.dayCell, dayItem.isPast && styles.inactiveCell]}>
+                            style={[styles.dayCell, isInactive && styles.inactiveCell]}>
                             <Text
                                 style={[
                                     styles.dayLabel,
-                                    dayItem.isPast && styles.inactiveText,
+                                    isInactive && styles.inactiveText,
                                     isSelected && styles.selectedDayText,
                                 ]}>
                                 {dayItem.dateName}
@@ -243,7 +257,7 @@ const WeeklyCalendar = ({
                                     styles.dayNumber,
                                     dayItem.isToday && styles.todayText,
                                     isSelected && styles.selectedDayNumber,
-                                    dayItem.isPast && styles.inactiveText,
+                                    isInactive && styles.inactiveText,
                                 ]}>
                                 {dayItem.day}
                             </Text>

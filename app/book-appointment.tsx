@@ -4,6 +4,7 @@ import ScreenHeader from "@/components/screen-header";
 import BookingSuccessOverlay from "@/components/success-booking";
 import { Colors, Sizes } from "@/constants/theme";
 import { useAuth } from "@/src/context/AuthContext";
+import { useAvailableDates } from "@/src/hooks/useAvailableDates";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
 import { useCreateAppointment } from "@/src/hooks/useCreateAppointment";
 import { useDoctor } from "@/src/hooks/useDoctor";
@@ -48,6 +49,11 @@ export default function Booking() {
 
     const [selectedDate, setSelectedDate] = useState<string | null>(null);
     const [selectedTime, setSelectedTime] = useState<string | null>(null);
+    const [calendarWeekStart, setCalendarWeekStart] = useState<string | null>(null);
+    const { availableDates, error: availabilityDatesError, } = useAvailableDates(
+        doctor?.id,
+        calendarWeekStart,
+    );
 
     const now = new Date();
     const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -148,7 +154,7 @@ export default function Booking() {
         }
     }
 
-    const visibleError = formError ?? doctorError ?? profileError ?? createError;
+    const visibleError = formError ?? doctorError ?? profileError ?? createError ?? availabilityDatesError;
     const selectedReason = (Array.isArray(reason) ? reason.join(", ") : reason)?.trim();
     const confirm = Boolean(selectedDate && selectedTime && isChecked && selectedReason);
 
@@ -156,7 +162,7 @@ export default function Booking() {
 
     return (
         <View className="flex-1"
-        style={{backgroundColor:Colors.bg1}}>
+            style={{ backgroundColor: Colors.bg1 }}>
             <ScreenHeader title={t(`book-appointment.appointment`)} />
             <ScrollView>
                 <View className="flex-1" style={{ height: 26 }} />
@@ -192,6 +198,8 @@ export default function Booking() {
                     <WeeklyCalendar
                         viewMonth={viewMonth}
                         workingDays={doctor?.working_days}
+                        availableDates={availableDates}
+                        onWeekChange={setCalendarWeekStart}
                         selectedDate={selectedDate ?? undefined}
                         onSelectDate={(date) => {
                             setSelectedDate(date);
@@ -314,69 +322,65 @@ const styles = StyleSheet.create({
         width: Sizes.width - 50,
         alignSelf: "center",
         justifyContent: "space-between",
-        marginBottom: 20,
+        marginBottom: Sizes.h4,
     },
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: "#fff",
+        backgroundColor: Colors.bg2,
         alignSelf: "center",
         padding: 20,
-        shadowColor: "#070b23",
+        shadowColor: Colors.text,
         shadowOffset: { width: 0, height: -2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
     },
     containerButton: {
         width: "90%",
-        backgroundColor: "#5085A8",
-        color: "#fff",
+        backgroundColor: Colors.primary,
+        color: Colors.bg2,
         height: 50,
         alignItems: "center",
         alignSelf: "center",
         justifyContent: "space-evenly",
-        marginTop: 30,
+        marginTop: Sizes.h1,
         paddingTop: 8,
         paddingBottom: 8,
-        borderRadius: 14,
+        borderRadius: Sizes.sm,
     },
 
     disabledButton: {
-        backgroundColor: "#A1A1A1",
+        backgroundColor: Colors.textMuted,
     },
 
     buttonText: {
         fontSize: 16,
         fontWeight: "500",
-        color: "#fff",
+        color: Colors.bg2,
     },
 
     statusContainer: {
         width: "90%",
         alignSelf: "center",
-        marginBottom: 16,
-        borderRadius: 12,
-        backgroundColor: "#E8F4FA",
-        padding: 12,
+        marginBottom: Sizes.paragraph,
+        borderRadius: Sizes.p3,
+        backgroundColor: Colors.bg1,
+        padding: Sizes.p3,
     },
 
     statusText: {
-        color: "#333",
-        fontSize: 14,
+        color: Colors.text,
+        fontSize: Sizes.sm,
     },
 
     errorContainer: {
         width: "90%",
         alignSelf: "center",
-        marginBottom: 16,
-        borderRadius: 12,
-        backgroundColor: "#FFECEC",
-        padding: 12,
     },
 
     errorText: {
-        color: "#B42318",
-        fontSize: 14,
+        color: Colors.delete,
+        fontSize: Sizes.sm,
     },
 
     noticeRow: {
@@ -388,10 +392,10 @@ const styles = StyleSheet.create({
     },
 
     noticeText: {
-        fontSize: 14,
-        lineHeight: 20,
+        fontSize: Sizes.sm,
+        lineHeight: Sizes.h4,
         fontWeight: "400",
         maxWidth: 300,
-        color: "#333",
+        color: Colors.text,
     },
 });

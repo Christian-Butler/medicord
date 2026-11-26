@@ -13,6 +13,7 @@ type Doctor = {
   years_experience?: number | null;
   requires_gp_referral?: boolean | null;
   is_active?: boolean | null;
+  working_days?: string[] | null;
 };
 
 export function useDoctorsBySpecialty(specialty?: string) {

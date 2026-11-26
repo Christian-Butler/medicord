@@ -1,4 +1,4 @@
-import { formatSlotLabel, toTimeValue } from "@/src/utils/dateTime";
+import { formatSlotLabel, toLocalIsoDate, toTimeValue } from "@/src/utils/dateTime";
 import { supabase } from "@/supabase/supabase";
 
 type SlotRow = {
@@ -40,4 +40,23 @@ export async function getAvailableTimes(
   if (error) throw error;
 
   return ((data ?? []) as SlotRow[]).map((row) => toTimeValue(row.starts_at));
+}
+
+export async function getAvailableDates(
+  doctorId: string,
+  fromDate: string,
+): Promise<string[]> {
+  const { data, error } = await supabase.rpc("get_available_slots", {
+    p_doctor_ids: [doctorId],
+    p_from: fromDate,
+    p_days: 6,
+  });
+
+  if (error) throw error;
+
+  return [
+    ...new Set(
+      ((data ?? []) as SlotRow[]).map((row) => toLocalIsoDate(row.starts_at)),
+    ),
+  ];
 }

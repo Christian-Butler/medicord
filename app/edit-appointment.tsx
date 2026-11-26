@@ -5,6 +5,7 @@ import UpdateAppointmentSuccessOverlay from "@/components/updated-booking-overla
 import { Colors, Sizes } from "@/constants/theme";
 import { useAppointment } from "@/src/hooks/useAppointment";
 import { useAvailableTimes } from "@/src/hooks/useAvailableTimes";
+import { useAvailableDates } from "@/src/hooks/useAvailableDates";
 import { useUpdateAppointment } from "@/src/hooks/useUpdateAppointment";
 import { useAddAppointmentToCalendar } from "@/src/hooks/useaddAppointmentToCalendar";
 import type { Appointment } from "@/src/types/appointmentTypes";
@@ -47,6 +48,7 @@ export default function EditAppointment() {
 
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [calendarWeekStart, setCalendarWeekStart] = useState<string | null>(null);
   const now = new Date();
 
   const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
@@ -82,6 +84,13 @@ export default function EditAppointment() {
     times: freeTimes,
     refetch: refetchTimes,
   } = useAvailableTimes(appointment?.doctor_id ?? undefined, selectedDate || null);
+  const {
+    availableDates,
+    error: availabilityDatesError,
+  } = useAvailableDates(
+    appointment?.doctor_id ?? undefined,
+    calendarWeekStart,
+  );
 
 
   const originalDate = appointment ? toLocalIsoDate(appointment.starts_at) : null;
@@ -137,7 +146,8 @@ export default function EditAppointment() {
     }
   }
 
-  const visibleError = formError ?? appointmentError ?? updateError;
+  const visibleError =
+    formError ?? appointmentError ?? updateError ?? availabilityDatesError;
 
   return (
     <View style={styles.page}>
@@ -180,6 +190,8 @@ export default function EditAppointment() {
           <WeeklyCalendar
             viewMonth={viewMonth}
             workingDays={appointment?.doctors?.working_days}
+            availableDates={availableDates}
+            onWeekChange={setCalendarWeekStart}
             selectedDate={selectedDate ?? undefined}
             onSelectDate={(date) => {
               setSelectedDate(date);

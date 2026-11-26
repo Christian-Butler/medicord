@@ -1,4 +1,5 @@
 import { Buttons, Colors, Inputs, Sizes } from "@/constants/theme";
+import { useAvailableDates } from "@/src/hooks/useAvailableDates";
 import { useDoctorsBySpecialty } from "@/src/hooks/useDoctorbySpecialty";
 import { useIsFavourite } from "@/src/hooks/useIsFavourite";
 import { useNextAvailableSlots } from "@/src/hooks/useNextAvailableSlots";
@@ -16,6 +17,28 @@ import WeeklyCalendar from "./calendar";
 type SpecialityContainerProps = {
   specialty: string;
 };
+
+function DoctorAvailabilityCalendar({
+  doctorId,
+  workingDays,
+}: {
+  doctorId: string;
+  workingDays?: string[] | null;
+}) {
+  const [weekStart, setWeekStart] = useState<string | null>(null);
+  const { availableDates, error } = useAvailableDates(doctorId, weekStart);
+
+  return (
+    <>
+      <WeeklyCalendar
+        workingDays={workingDays}
+        availableDates={availableDates}
+        onWeekChange={setWeekStart}
+      />
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+    </>
+  );
+}
 
 function StarButton({ doctorId }: { doctorId: string }) {
   const { isFavourite, setIsFavourite } = useIsFavourite(doctorId);
@@ -167,7 +190,10 @@ export default function SpecialityContainer({
 
                 <View>
                   <View>
-                    <WeeklyCalendar />
+                    <DoctorAvailabilityCalendar
+                      doctorId={doctor.id}
+                      workingDays={doctor.working_days}
+                    />
 
                     <Pressable
                       style={styles.containerButton}

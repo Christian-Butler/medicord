@@ -150,7 +150,7 @@ export default function MedicationForm({
       return;
     }
     if (dateEnd < dateStart) {
-      setLocalError(t("medication-form.endDateBeforeStart"));
+      setLocalError(t("medication-form.endDateError"));
       return;
     }
     setLocalError(null);
