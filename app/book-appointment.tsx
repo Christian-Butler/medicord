@@ -118,7 +118,7 @@ export default function Booking() {
 
             const startsAt = buildLocalIsoDateTime(selectedDate, selectedTime);
             const endsAt = new Date(
-                new Date(startsAt).getTime() + 30 * 60 * 1000
+                new Date(startsAt).getTime() + (doctor?.slot_minutes ?? 30) * 60 * 1000
             ).toISOString();
 
             const input = {
@@ -190,6 +190,7 @@ export default function Booking() {
                 <View style={{ marginBottom: 26 }}>
                     <WeeklyCalendar
                         viewMonth={viewMonth}
+                        workingDays={doctor?.working_days}
                         selectedDate={selectedDate ?? undefined}
                         onSelectDate={(date) => {
                             setSelectedDate(date);

@@ -3,7 +3,8 @@ import { supabase } from "@/supabase/supabase";
 export async function getDoctorsBySpecialty(specialty: string) {
   const { data, error } = await supabase
     .from("doctors")
-    .select(`
+    .select(
+      `
       id,
       full_name,
       role,
@@ -17,8 +18,11 @@ export async function getDoctorsBySpecialty(specialty: string) {
       previous_experience,
       qualified_year,
       consultation_fee,
-      requires_gp_referral
-    `)
+      requires_gp_referral,
+      working_days,
+      slot_minutes
+    `,
+    )
     .eq("is_active", true)
     .eq("specialty", specialty)
     .order("full_name", { ascending: true });

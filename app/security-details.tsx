@@ -40,13 +40,14 @@ export default function SecurityDetails() {
 
       <ScrollView
         className="flex-1"
+        keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ paddingBottom: 40 }}
         showsVerticalScrollIndicator={false}
       >
         {/* Phone number */}
         <View className="mx-6 mt-8">
           <Text className="text-[18px] font-medium text-black">{t(`security-details.phone`)}</Text>
-          <Text className="mt-4 text-[14px]text-black">{t(`security-details.changeP`)}</Text>
+          <Text className="mt-4 text-[14px] text-black">{t(`security-details.changeP`)}</Text>
           {phoneError ? <Text className="mt-2 text-[14px] text-[#B42318]">{phoneError}</Text> : null}
           <TextInput
             value={phone}
@@ -70,7 +71,7 @@ export default function SecurityDetails() {
         {/* Email address */}
         <View className="mx-6 mt-8">
           <Text className="text-[18px] font-medium text-black">{t(`security-details.email`)}</Text>
-          <Text className="mt-4 text-[14px]text-black">{t(`security-details.changeE`)}</Text>
+          <Text className="mt-4 text-[14px] text-black">{t(`security-details.changeE`)}</Text>
           {emailError ? <Text className="mt-2 text-[14px] text-[#B42318]">{emailError}</Text> : null}
           <TextInput
             value={email}
@@ -94,10 +95,10 @@ export default function SecurityDetails() {
 
         {/* Password */}
         <View className="mx-6 mt-8">
-          <Text className="text-[18px] font-medium text-[16px]lack">{t(`security-details.security`)}</Text>
+          <Text className="text-[18px] font-medium text-black">{t(`security-details.security`)}</Text>
           {passwordError ? <Text className="mt-2 text-[14px] text-[#B42318]">{passwordError}</Text> : null}
 
-          <Text className="mt-4 text-[14px] text-[16px]lack">{t(`security-details.currentP`)}</Text>
+          <Text className="mt-4 text-[14px] text-black">{t(`security-details.currentP`)}</Text>
           <View className="mt-2 flex-row items-center rounded-[14px] border border-[#0D5175] bg-white px-4">
             <TextInput
               secureTextEntry={!showCurrentPassword}
@@ -105,7 +106,7 @@ export default function SecurityDetails() {
               placeholderTextColor="#7A8A8D"
               className="h-[50px] flex-1 text-[16px] text-black"
             />
-            <Pressable onPress={() => setShowCurrentPassword((p) => !p)}>
+            <Pressable hitSlop={12} accessibilityRole="button" onPress={() => setShowCurrentPassword((p) => !p)}>
               <MaterialIcons name={showCurrentPassword ? "visibility" : "visibility-off"} size={22} color="#7A8A8D" />
             </Pressable>
           </View>
@@ -120,7 +121,7 @@ export default function SecurityDetails() {
               placeholderTextColor="#7A8A8D"
               className="h-[50px] flex-1 text-[16px] text-black"
             />
-            <Pressable onPress={() => setShowNewPassword((p) => !p)}>
+            <Pressable hitSlop={12} accessibilityRole="button" onPress={() => setShowNewPassword((p) => !p)}>
               <MaterialIcons name={showNewPassword ? "visibility" : "visibility-off"} size={22} color="#7A8A8D" />
             </Pressable>
           </View>
@@ -135,7 +136,7 @@ export default function SecurityDetails() {
               placeholderTextColor="#7A8A8D"
               className="h-[50px] flex-1 text-[16px] text-black"
             />
-            <Pressable onPress={() => setShowConfirmPassword((p) => !p)}>
+            <Pressable hitSlop={12} accessibilityRole="button" onPress={() => setShowConfirmPassword((p) => !p)}>
               <MaterialIcons name={showConfirmPassword ? "visibility" : "visibility-off"} size={22} color="#7A8A8D" />
             </Pressable>
           </View>

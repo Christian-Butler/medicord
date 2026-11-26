@@ -10,6 +10,7 @@ export function useRegister() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("")
   const [avatarUri, setAvatarUri] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,6 +31,10 @@ export function useRegister() {
   async function handleRegister() {
     if (!fullName.trim() || !email.trim() || !password) {
       setError("Please enter your name, email, and password.");
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
       return;
     }
 
@@ -58,11 +63,18 @@ export function useRegister() {
   }
 
   return {
-    fullName, setFullName,
-    dateOfBirth, setDateOfBirth,
-    phone, setPhone,
-    email, setEmail,
-    password, setPassword,
+    fullName,
+    setFullName,
+    dateOfBirth,
+    setDateOfBirth,
+    phone,
+    setPhone,
+    email,
+    setEmail,
+    password,
+    setPassword,
+    confirmPassword,
+    setConfirmPassword,
     avatarUri,
     loading,
     error,

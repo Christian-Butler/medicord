@@ -10,7 +10,7 @@
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.butlrstudio.medicord",
+      "bundleIdentifier": "com.christianbutler.medicord",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "NSUserNotificationsUsageDescription": "Medicord uses notifications to remind you to take your medication.",
@@ -37,7 +37,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.butlrstudio.medicord"
+      "package": "com.christianbutler.medicord"
     },
     "web": {
       "bundler": "metro",
@@ -80,7 +80,7 @@
         "projectId": "a04a0cc8-b800-47bc-a8c0-bf3c45b45eb4"
       }
     },
-    "owner": "butlrstudio",
+    "owner": "christianbutler",
     "runtimeVersion": {
       "policy": "appVersion"
     },

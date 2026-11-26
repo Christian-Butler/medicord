@@ -17,6 +17,8 @@ type Doctor = {
   previous_experience?: string | null;
   requires_gp_referral?: boolean | null;
   is_active?: boolean | null;
+  working_days?: string[] | null;
+  slot_minutes?: number | null;
 };
 
 export function useDoctor(doctorId?: string) {

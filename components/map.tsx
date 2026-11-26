@@ -1,19 +1,24 @@
-import { useImage } from 'expo-image';
+import { Colors, Sizes } from '@/constants/theme';
 import { AppleMaps } from 'expo-maps';
 
-export default function Map({ longitude, latitude }) {
+type MapProps = {
+    longitude?: number | null;
+    latitude?: number | null;
+    title?: string;
+};
 
-    const icon = useImage('https://example.com/marker.svg');
+export default function Map({ longitude, latitude, title }: MapProps) {
+    // Doctors without coordinates in the database get no map rather than a broken one.
+    if (longitude == null || latitude == null) return null;
+
+    const coordinates = { latitude, longitude };
 
     return (
         <AppleMaps.View
-            style={{ flex: 1 }}
-            annotations={[
-                {
-                    coordinates: { latitude, longitude },
-                    icon: icon ?? undefined,
-                },
-            ]}
+            // Inside a ScrollView, flex: 1 has no height to fill, so the map needs a fixed height.
+            style={{ height: 220, borderRadius: Sizes.p3, marginBottom: Sizes.p3, overflow: 'hidden' }}
+            cameraPosition={{ coordinates, zoom: 15 }}
+            markers={[{ coordinates, title, tintColor: Colors.secondary }]}
         />
     );
 }
