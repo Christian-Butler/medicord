@@ -512,6 +512,12 @@ export const fr = {
     "medication-for-container": {
         loading: "Chargement de traitement...",
     },
+    "delete-routine": {
+        query: "Voulez-vous vraiment supprimer cette routine?",
+        notice: "Après confirmation, elle sera supprimer et il ne sera pas possible de la retrouver.",
+        keep: "Non, je la garde",
+        confirm: "Oui, je supprime"
+    },
     "doctor-details": {
         loading: "Chargement de médecin...",
         noSlot: "Pas de disponibilité",
@@ -858,9 +864,9 @@ export const fr = {
     },
     "prescription-renewal": {
         title: "Renouvellement d'ordonnance",
-        privacy: "Vous êtes la seule personne à pouvoir accéder aux fichiers et les gérer.",
+        privacy: "Vous êtes la seule personne à pouvoir accéder aux fichiers et à pouvoir les gérer.",
         prescription: "Ordonnance de médicament",
-        ask: "Demander",
+        ask: "Demander un renouvellement",
     },
     "renew-modal": {
         question: "Pourquoi souhaitez-vous renouveler votre ordonnance ?",

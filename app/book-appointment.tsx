@@ -155,7 +155,8 @@ export default function Booking() {
     const { t } = useTranslation();
 
     return (
-        <View className="flex-1 bg-[#EEF9FB]">
+        <View className="flex-1"
+        style={{backgroundColor:Colors.bg1}}>
             <ScreenHeader title={t(`book-appointment.appointment`)} />
             <ScrollView>
                 <View className="flex-1" style={{ height: 26 }} />
@@ -187,7 +188,7 @@ export default function Booking() {
                     </View>
                 </View>
 
-                <View style={{ marginBottom: 26 }}>
+                <View style={{ marginBottom: Sizes.h2 }}>
                     <WeeklyCalendar
                         viewMonth={viewMonth}
                         selectedDate={selectedDate ?? undefined}

@@ -31,7 +31,7 @@ export default function DeleteRoutine({ visible, onCancel, onConfirm }: DeleteRo
                         style={{ marginTop: Sizes.h1, marginBottom: Sizes.p2, height: Sizes.BtnP, alignItems: "center", justifyContent: "center", borderRadius: Sizes.p3, backgroundColor: Colors.bg2 }}
                     >
                         <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.secondary }}>
-                            {t(`delete-routine.stay`)}
+                            {t(`delete-routine.keep`)}
                         </Text>
                     </Pressable>
 

@@ -515,6 +515,12 @@ export const en = {
     "medication-for-container": {
         loading: "Loading medication...",
     },
+    "delete-routine": {
+        query: "Are you sure you want to remove this medication routine?",
+        notice: "Upon confirmation, it will be completely deleted, you cannot reverse the process.",
+        keep: "No, I want to keep it",
+        confirm: "Yes, remove it"
+    },
     "doctor-details": {
         loading: "Loading doctor...",
         noSlot: "No slots available",
@@ -872,7 +878,7 @@ export const en = {
         title: "Prescription renewal",
         privacy: "You’re the only one having access to the files and able to manage them.",
         prescription: "Medication prescription",
-        ask: "Ask",
+        ask: "Ask for renewal",
     },
     "renew-modal": {
         question: "Why do you want to renew your prescription?",

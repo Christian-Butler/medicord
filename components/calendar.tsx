@@ -37,7 +37,7 @@ const mois = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", 
 
 const deviceLanguage = getLocales()[0].languageCode;
 
-// no use of toISOString to avoid UTC, instead keep locale date to string
+// locale date to string
 const Iso = (date: Date): string => {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -64,7 +64,6 @@ const getFirstWeekDate = (month: string) => {
 };
 
 // T00 etc.. to parse to midnight locale time otherwise it would be UTC.
-
 // if date not selected and today is Sunday, Sunday is skipped.
 const getInitialDate = (selectedDate?: string) => {
     const date = selectedDate
