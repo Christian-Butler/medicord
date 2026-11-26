@@ -1,173 +1,104 @@
-import RenewModal, { type RenewModalValues } from "@/components/renew-modal";
-import ScreenHeader from "@/components/screen-header";
-import { usePrescriptions } from "@/src/hooks/usePrescription";
-import { useRequestRenewal } from "@/src/hooks/useRequestRenewal";
-import type { Prescription } from "@/src/types/prescriptionTypes";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useFocusEffect } from "expo-router";
-import React, { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
+import React from "react";
+import { Image, Text, View } from "react-native";
+import AppIntroSlider from 'react-native-app-intro-slider';
+import { Colors, Sizes } from '../constants/theme';
 
-function formatDate(value: string) {
-    return new Date(value).toLocaleDateString([], { day: "numeric", month: "long", year: "numeric" });
-}
-
-// Newest year first, prescriptions inside each year already newest first from the API.
-function groupByYear(prescriptions: Prescription[]) {
-    const groups: { year: number; items: Prescription[] }[] = [];
-
-    for (const prescription of prescriptions) {
-        const year = new Date(prescription.created_at).getFullYear();
-        const group = groups.find((g) => g.year === year);
-
-        if (group) group.items.push(prescription);
-        else groups.push({ year, items: [prescription] });
+const slides = [
+    {
+        id: 1,
+        title: "Welcome to Medicord",
+        description: "We're glad that you've chosen this app for a better medical experience.\n\nFollow through a quick onboarding to familiarise yourself with our features and to finalise your profile!",
+        image: require('../assets/images/Medicord-Logo.png'),
+    },
+    {
+        id: 2,
+        title: "Discover our services",
+        description: "In Medicord you can book appointments with doctors, create a medication routine for any treatment you are following, and fill in any medical history that will be useful to know!",
+        image: require('../assets/images/onboard-img1.webp'),
+    },
+    {
+        id: 3,
+        title: "Choose a GP",
+        description: "After you finish the onboarding process you will have to find your GP to access to all the doctor booking services. You change your GP anytime by going to your Profile.",
+        image: require('../assets/images/onboard-img2.webp'),
     }
+]
 
-    return groups;
-}
+export default function OnboardingScreen() {
 
-export default function PrescriptionRenewal() {
-
-    const [selected, setSelected] = useState<Prescription | null>(null);
-
-    const { t } = useTranslation();
-
-    const { prescriptions, loading, refetch } = usePrescriptions();
-    const { request, requesting, requestError } = useRequestRenewal(refetch);
-
-    useFocusEffect(
-        useCallback(() => {
-            refetch().catch(() => { });
-        }, [refetch])
-    );
-
-    const groups = useMemo(() => groupByYear(prescriptions), [prescriptions]);
-
-    const handleConfirm = async (values: RenewModalValues) => {
-        if (!selected) return;
-
-        try {
-            await request({
-                documentId: selected.id,
-                doctorId: selected.doctor_id,
-                reason: values.reason,
-                periodStart: values.periodStart,
-                periodEnd: values.periodEnd,
-            });
-            setSelected(null);
-        } catch {
-            // requestError is shown inside the modal
-        }
-    };
-
-    const renderStatus = (prescription: Prescription) => {
-        const status = prescription.latestRenewal?.status;
-
-        if (status === "waiting") {
-            return (
-                <View className="justify-center px-6 py-3 bg-[#E0BB4D] items-center rounded-[12px]">
-                    <Text className="font-medium text-[16px] color-black">
-                        {t(`prescription-renewal.waiting`)}
-                    </Text>
-                </View>
-            );
-        }
-
-        if (status === "approved") {
-            return (
-                <View className="justify-center px-6 py-3 bg-[#17A633] items-center rounded-[12px]">
-                    <Text className="font-medium text-[16px] color-white">
-                        {t(`prescription-renewal.approved`)}
-                    </Text>
-                </View>
-            );
-        }
-
-        // No request yet, or the last one was declined, so it can be asked for again.
+    const buttonLabel = (label: string) => {
         return (
-            <TouchableOpacity
-                onPress={() => setSelected(prescription)}
-                className="justify-center px-6 py-3 bg-[#5085A8] items-center rounded-[12px]"
-                accessibilityRole="button"
-            >
-                <Text className="font-medium text-[16px] color-white">
-                    {t(`prescription-renewal.ask`)}
+            <View style={{
+                padding: 12,
+            }}>
+                <Text style={{
+                    paddingRight: Sizes.p3,
+                    color: Colors.primary,
+                    fontWeight: 500,
+                    fontSize: Sizes.h5,
+                }}>
+                    {label}
                 </Text>
-            </TouchableOpacity>
-        );
-    };
-
+            </View>
+        )
+    }
     return (
-
-        <View className="flex-1 bg-[#fff]">
-            <ScreenHeader title={t(`prescription-renewal.title`)} />
-
-            <RenewModal
-                visible={selected !== null}
-                loading={requesting}
-                error={requestError}
-                onConfirm={handleConfirm}
-                onClose={() => setSelected(null)}
-            />
-
-            <ScrollView
-                className="flex-1 bg-[#EEF9FB]"
-                contentContainerStyle={{ paddingBottom: 120 }}
-                showsVerticalScrollIndicator={false}
-            >
-
-                <View className="px-6 py-8">
-                    <Text className="text-xl">{t(`prescription-renewal.privacy`)}</Text>
-                </View>
-
-                <View className="px-4">
-
-                    {loading ? (
-                        <ActivityIndicator color="#0D5175" />
-                    ) : null}
-
-                    {!loading && prescriptions.length === 0 ? (
-                        <Text className="text-[#3C4D4D]">{t(`prescription-renewal.empty`)}</Text>
-                    ) : null}
-
-                    {groups.map((group, index) => (
-                        <View key={group.year}>
-                            <View className={`${index > 0 ? "pt-6 " : ""}justify-between flex-row items-center`}>
-                                <Text>{group.year} </Text>
-                                <View className="w-80 h-0.5 bg-[#BEC9CA] rounded-full" />
-                            </View>
-
-                            {group.items.map((prescription) => (
-                                <View key={prescription.id} className="pt-6 flex-row items-center">
-                                    <MaterialIcons name="assignment" size={44} color="#0D5175" />
-                                    <View className="flex-1 px-4">
-                                        <Text>{prescription.title}</Text>
-                                        <View className="flex-row items-center flex-wrap pt-2">
-                                            {prescription.doctors?.full_name ? (
-                                                <>
-                                                    <Text className="text-[#3C4D4D]">{prescription.doctors.full_name} </Text>
-                                                    <MaterialIcons name="circle" size={6} color="#3C4D4D" />
-                                                    <Text className="text-[#3C4D4D]"> </Text>
-                                                </>
-                                            ) : null}
-                                            <Text className="text-[#3C4D4D]">{formatDate(prescription.created_at)}</Text>
-                                        </View>
-                                    </View>
-                                    <View className="self-center">
-                                        {renderStatus(prescription)}
-                                    </View>
-                                </View>
-                            ))}
-                        </View>
-                    ))}
-
-                </View>
-
-            </ScrollView>
-
-        </View>
-    );
+        <AppIntroSlider
+            data={slides}
+            renderItem={({ item }) => {
+                return (
+                    <View style={{
+                        backgroundColor: Colors.bg2,
+                        flex: 1,
+                        alignItems: 'center',
+                        padding: Sizes.p3,
+                        paddingTop: 200,
+                    }}>
+                        <Image
+                            source={item.image}
+                            style={{
+                                marginBottom: Sizes.h2,
+                                width: Sizes.width - 80,
+                                height: 150,
+                            }}
+                            resizeMode="contain"
+                        />
+                        <Text style={{
+                            fontWeight: 500,
+                            color: Colors.text,
+                            fontSize: Sizes.h1,
+                        }}>
+                            {item.title}
+                        </Text>
+                        <Text
+                            style={{
+                                textAlign: 'center',
+                                fontWeight: 400,
+                                color: Colors.text,
+                                fontSize: Sizes.h4,
+                                paddingTop: Sizes.sm
+                            }}>
+                            {item.description}
+                        </Text>
+                    </View>
+                )
+            }}
+            activeDotStyle={{
+                backgroundColor: Colors.primary,
+                width: 30,
+            }}
+            renderNextButton={() => buttonLabel("Next")}
+            renderDoneButton={() => buttonLabel("Done")}
+            onDone={async () => {
+                try {
+                    await AsyncStorage.setItem('@OnboardingCompleted', 'true');
+                    router.replace({ pathname: "/choose-gp", params: { from: "onboarding" } });
+                } catch (e) {
+                    console.error("Failed to save Onboarding  status", e);
+                }
+            }}
+        />
+    )
 }
