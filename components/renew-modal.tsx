@@ -91,7 +91,7 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                             style={{
                                 marginTop: Sizes.h1,
                                 height: Buttons.height,
-                                borderRadius: Sizes.h4,
+                                borderRadius: Sizes.p3,
                                 borderWidth: Buttons.w2,
                                 borderColor: Colors.textMuted,
                                 backgroundColor: Colors.bg2,
@@ -106,8 +106,8 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                             onPress={() => setShowPicker((current) => current === "start" ? null : "start")}
                             style={{
                                 height: Buttons.height,
-                                width: 160,
-                                borderRadius: Sizes.h4,
+                                width: 150,
+                                borderRadius: Sizes.p3,
                                 borderWidth: Buttons.w2,
                                 borderColor: Colors.textMuted,
                                 backgroundColor: Colors.bg2,
@@ -123,8 +123,8 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                             onPress={() => setShowPicker((current) => current === "end" ? null : "end")}
                             style={{
                                 height: Buttons.height,
-                                width: 160,
-                                borderRadius: Sizes.h4,
+                                width: 150,
+                                borderRadius: Sizes.p3,
                                 borderWidth: Buttons.w2,
                                 borderColor: Colors.textMuted,
                                 backgroundColor: Colors.bg2,

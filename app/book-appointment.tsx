@@ -55,9 +55,6 @@ export default function Booking() {
         calendarWeekStart,
     );
 
-    const now = new Date();
-    const currentMonth = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
-
     // puts into split string YYYY-MM format the current date
     const [viewMonth, setViewMonth] = useState(() => {
         const date = new Date();
@@ -72,7 +69,6 @@ export default function Booking() {
         const [year, month] = viewMonth.split("-").map(Number);
         const nextMonth = new Date(year, month - 1 + delta, 1);
         const nextMonthValue = `${nextMonth.getFullYear()}-${pad(nextMonth.getMonth() + 1)}`;
-        if (nextMonthValue < currentMonth) return;
 
         setViewMonth(nextMonthValue);
         setSelectedDate(null);
@@ -173,10 +169,8 @@ export default function Booking() {
                     <View style={styles.month}>
                         <Pressable
                             accessibilityRole="button"
-                            disabled={viewMonth <= currentMonth}
                             onPress={() => changeMonth(-1)}
                             hitSlop={8}
-                            style={viewMonth <= currentMonth ? styles.disabledMonthArrow : undefined}
                         >
                             <MaterialIcons name="chevron-left" size={24} />
                         </Pressable>

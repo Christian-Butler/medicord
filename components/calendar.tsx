@@ -134,6 +134,21 @@ const getWeekDays = (baseDate: Date): DayItem[] => {
     });
 };
 
+const isUnavailableDay = (
+    day: DayItem,
+    workingDays?: string[] | null,
+    availableDates?: string[] | null,
+) => {
+    const isOffDay = workingDays
+        ? !workingDays.includes(WEEKDAY_LABELS[day.date.getDay()])
+        : false;
+    const notAvailable =
+        availableDates !== null &&
+        availableDates !== undefined &&
+        !availableDates.includes(day.iso);
+    return day.isPast || isOffDay || notAvailable;
+};
+
 const WeeklyCalendar = ({
     selectedDate,
     onSelectDate,
@@ -173,6 +188,22 @@ const WeeklyCalendar = ({
 
     const weekDays = useMemo(() => getWeekDays(currentDate), [currentDate]);
     const weekStart = weekDays[0]?.iso;
+
+    useEffect(() => {
+        const isPast = weekDays.some((day) => day.isPast);
+        const checkDays = weekDays.some((day) => !day.isPast);
+        const inactiveWeek = weekDays.every((day) =>
+            isUnavailableDay(day, workingDays, availableDates),
+        );
+
+        if (isPast && checkDays && inactiveWeek) {
+            setCurrentDate((prev) => {
+                const next = new Date(prev);
+                next.setDate(prev.getDate() + 7);
+                return next;
+            });
+        }
+    }, [weekDays, workingDays, availableDates]);
 
     useEffect(() => {
         if (weekStart) onWeekChange?.(weekStart);
@@ -225,15 +256,11 @@ const WeeklyCalendar = ({
             <View style={styles.weekRow}>
                 {weekDays.map((dayItem) => {
                     const isSelected = selectedDayIso === dayItem.iso;
-                    const isOffDay = workingDays
-                        ? !workingDays.includes(WEEKDAY_LABELS[dayItem.date.getDay()])
-                        : false;
-                    const notAvailable =
-                        availableDates !== null &&
-                        availableDates !== undefined &&
-                        !availableDates.includes(dayItem.iso);
-                    const isInactive =
-                        dayItem.isPast || isOffDay || notAvailable;
+                    const isInactive = isUnavailableDay(
+                        dayItem,
+                        workingDays,
+                        availableDates,
+                    );
 
                     return (
                         <Pressable
