@@ -1,4 +1,4 @@
-import { Buttons, Colors, Sizes } from "@/constants/theme";
+import { Buttons, Colors, Inputs, Sizes } from "@/constants/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import DateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import React, { useEffect, useState } from "react";
@@ -92,8 +92,8 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                                 marginTop: Sizes.h1,
                                 height: Buttons.height,
                                 borderRadius: Sizes.p3,
-                                borderWidth: Buttons.w2,
-                                borderColor: Colors.textMuted,
+                                borderWidth: Inputs.w0,
+                                borderColor: Colors.secondary,
                                 backgroundColor: Colors.bg2,
                                 paddingHorizontal: Sizes.h4,
                                 fontSize: Sizes.paragraph,
@@ -108,8 +108,8 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                                 height: Buttons.height,
                                 width: 150,
                                 borderRadius: Sizes.p3,
-                                borderWidth: Buttons.w2,
-                                borderColor: Colors.textMuted,
+                                borderWidth: Inputs.w0,
+                                borderColor: Colors.secondary,
                                 backgroundColor: Colors.bg2,
                                 paddingHorizontal: Sizes.h4,
                                 justifyContent: "center"
@@ -125,8 +125,8 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                                 height: Buttons.height,
                                 width: 150,
                                 borderRadius: Sizes.p3,
-                                borderWidth: Buttons.w2,
-                                borderColor: Colors.textMuted,
+                                borderWidth: Inputs.w0,
+                                borderColor: Colors.secondary,
                                 backgroundColor: Colors.bg2,
                                 paddingHorizontal: Sizes.h4,
                                 justifyContent: "center"
@@ -175,7 +175,7 @@ export default function RenewModal({ visible, loading, error, onConfirm, onClose
                         {loading ? (
                             <ActivityIndicator color={Colors.bg2} />
                         ) : (
-                            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "600", color: Colors.bg2 }}>{t("renew-modal.askDoctor")}</Text>
+                            <Text style={{ fontSize: Sizes.paragraph, fontWeight: "500", color: Colors.bg2 }}>{t("renew-modal.askDoctor")}</Text>
                         )}
                     </Pressable>
                 </View>
