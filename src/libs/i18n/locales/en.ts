@@ -875,16 +875,19 @@ export const en = {
     },
     "prescription-renewal": {
         title: "Prescription renewal",
-        privacy: "You’re the only one having access to the files and able to manage them.",
+        privacy: "You can privately ask your doctor for a prescription renewal.",
         prescription: "Medication prescription",
         ask: "Ask for renewal",
+        waiting: "Waiting...",
+        empty: "Import a prescption in Documents first before asking its renewal here!",
+        approved: "Approved"
     },
     "renew-modal": {
         question: "Why do you want to renew your prescription?",
         reason: "Reason",
         start: "Start",
         end: "End",
-        askDoctor: "Ask ",
+        askDoctor: "Ask",
     },
     "medication-instructions": {
         title: "Other instructions",

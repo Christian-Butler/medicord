@@ -314,6 +314,23 @@ export const fr = {
         info: "Le médecin vous a envoyé la prescription par email, veuillez vérifier votre boîte de réception!",
         confirm: "Je comprends"
     },
+    "prescription-renewal": {
+        title: "Renouvellement d'ordonnance",
+        privacy: "Vous pouvez demander un renouvellement d'ordonnance à votre médecin en privé. ",
+        prescription: "Ordonnance de médicament",
+        ask: "Demander",
+        waiting: "En attente...",
+        empty: "Importez une prescription dans Documents en premier avant de demander son renouvellement ici.",
+        approved: "Approuvé"
+
+    },
+    "renew-modal": {
+        question: "Pourquoi souhaitez-vous renouveler votre ordonnance ?",
+        reason: "Motif",
+        start: "Début",
+        end: "Fin",
+        askDoctor: "Demander à ",
+    },
     "cancel-appointment-overlay": {
         query: "Voulez-vous reporter ou annuler le rendez-vous?",
         post: "Reporter le rendez-vous",
@@ -860,19 +877,6 @@ export const fr = {
         conditions: "Conditions générales d'utilisation",
         privacy: "Politique de protection des données personnelles",
         legalNotices: "Mentions légales",
-    },
-    "prescription-renewal": {
-        title: "Renouvellement d'ordonnance",
-        privacy: "Vous êtes la seule personne à pouvoir accéder aux fichiers et à pouvoir les gérer.",
-        prescription: "Ordonnance de médicament",
-        ask: "Demander un renouvellement",
-    },
-    "renew-modal": {
-        question: "Pourquoi souhaitez-vous renouveler votre ordonnance ?",
-        reason: "Motif",
-        start: "Début",
-        end: "Fin",
-        askDoctor: "Demander à ",
     },
     "medication-instructions": {
         title: "Autres instructions",

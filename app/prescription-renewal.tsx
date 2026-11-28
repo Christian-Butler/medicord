@@ -59,7 +59,7 @@ export default function PrescriptionRenewal() {
         try {
             await request({
                 documentId: selected.id,
-                doctorId: selected.doctor_id,
+                doctorId: values.doctorId,
                 reason: values.reason,
                 periodStart: values.periodStart,
                 periodEnd: values.periodEnd,
